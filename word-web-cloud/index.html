@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>大华舅舅教英语 · 全页滚动版</title>
+    <style>
+        /* ===== 基础重置 ===== */
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        /* ===== 横屏/竖屏切换提示层 ===== */
+        .rotate-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1e3b4f;
+            color: white;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 2rem;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .rotate-message p {
+            margin: 20px 0;
+        }
+        .rotate-icon {
+            font-size: 4rem;
+            animation: rotate 1.5s infinite ease-in-out;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+            100% { transform: rotate(90deg); }
+        }
+        /* 竖屏时显示提示层，隐藏主卡片 */
+        @media (orientation: portrait) {
+            .rotate-message {
+                display: flex;
+            }
+            .card {
+                display: none;
+            }
+        }
+        /* ===== 主卡片（普通块级，不限制高度）===== */
+        .card {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0,20,40,0.2);
+            padding: 30px 25px;
+            margin: 0 auto; /* 居中 */
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #0b2b3c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h1 span {
+            background: #e5f0fa;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #1e587d;
+        }
+        .top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            background: #f0f5fa;
+            padding: 15px 20px;
+            border-radius: 24px;
+            margin: 15px 0 20px 0;
+            border: 1px solid #d9e5ee;
+        }
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 5px 15px 5px 12px;
+            border-radius: 40px;
+            border: 1px solid #b3cbd9;
+            cursor: pointer;
+        }
+        .file-upload:hover {
+            background: #eef5fc;
+        }
+        .file-upload input {
+            width: 140px;
+            font-size: 0.85rem;
+        }
+        button {
+            border: none;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #b3cbd9;
+            cursor: pointer;
+            transition: 0.1s ease;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.02);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .primary-btn {
+            background: #2b6c9e;
+            border-color: #1a4b70;
+            color: white;
+        }
+        .primary-btn:hover {
+            background: #1f587d;
+        }
+        .secondary-btn {
+            background: #eef3f8;
+            border-color: #9fbdd0;
+        }
+        .secondary-btn:hover {
+            background: #dde9f2;
+        }
+        /* 列显隐工具栏（sticky 固定在视口顶部） */
+        .toolbar {
+            background: #f0f5fa;
+            padding: 18px 20px;
+            border-radius: 24px;
+            margin: 5px 0 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 25px;
+            border: 1px solid #d9e5ee;
+            position: sticky;
+            top: 20px; /* 距离视口顶部20px，与body padding一致，避免紧贴边缘 */
+            z-index: 10;
+            background-color: #f0f5fa;
+        }
+        .col-toggles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            border: 1px solid #cbdae6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .toggle-item:hover {
+            border-color: #7f9eb5;
+            background: #fafdff;
+        }
+        .toggle-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2b6c9e;
+            margin: 0;
+            cursor: pointer;
+        }
+        .toggle-item label {
+            font-weight: 500;
+            color: #1e3b4f;
+            cursor: pointer;
+        }
+        .hint {
+            color: #456f88;
+            font-size: 0.9rem;
+            border-left: 2px solid #a0c0d4;
+            padding-left: 18px;
+        }
+        /* 表格容器（仅用于水平滚动） */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 20px;
+            border: 1px solid #deeaf2;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 20, 30, 0.05);
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 750px;
+            table-layout: auto;
+        }
+        th {
+            background: #e1ecf5;
+            color: #103544;
+            font-weight: 600;
+            padding: 16px 12px;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            text-align: left;
+            border-bottom: 2px solid #b7cfdf;
+        }
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #dde9f2;
+            vertical-align: middle;
+            background-color: inherit;
+            transition: background 0.1s;
+        }
+        /* 整行状态 */
+        tr.mastered {
+            background-color: #c5f0cb !important;
+        }
+        tr.mastered td {
+            background-color: transparent; 
+        }
+        tr.difficult {
+            color: #c23b3b !important;
+        }
+        tr.difficult td {
+            background-color: transparent;
+            color: inherit;
+        }
+        tr.difficult button {
+            color: #1f2a36;
+            background: #ffeaea;
+            border-color: #c27e7e;
+        }
+        tr.difficult button:hover {
+            background: #ffd7d7;
+        }
+        .action-cell {
+            white-space: nowrap;
+            width: 150px;
+            text-align: center;
+        }
+        th:last-child, td:last-child {
+            text-align: center;
+        }
+        td:nth-child(5) {
+            white-space: normal;
+            word-break: break-word;
+            max-width: 280px;
+        }
+        .phonetic {
+            font-family: 'Courier New', monospace;
+            color: #2f556b;
+        }
+        .hide {
+            display: none;
+        }
+        /* 解释列“点击看意思”样式 */
+        .peek-mode {
+            cursor: pointer;
+            user-select: none;
+            color: #2b6c9e;
+            font-weight: 500;
+        }
+        .peek-mode.revealed {
+            color: inherit;
+            font-weight: normal;
+        }
+        /* 底部按钮栏（sticky 固定在视口底部） */
+        .footer-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: white;
+            padding: 15px 0 10px 0;
+            position: sticky;
+            bottom: 20px; /* 距离视口底部20px，与body padding一致 */
+            z-index: 10;
+            background-color: white;
+            margin-top: 10px;
+        }
+        .footer-left, .footer-right {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+        .format-hint {
+            font-size: 0.8rem;
+            color: #577e9c;
+            background: #e9f0f6;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        footer {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #577e9c;
+            text-align: right;
+            padding-bottom: 10px;
+        }
+        .speak-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+            transition: transform 0.1s;
+        }
+        .speak-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- 竖屏提示层 -->
+    <div class="rotate-message">
+        <div class="rotate-icon">↻</div>
+        <p>请旋转设备至横屏使用</p>
+        <p style="font-size:1.2rem">This app is designed for landscape mode</p>
+    </div>
+
+    <div class="card">
+        <!-- 标题、上传栏会随页面滚动 -->
+        <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
+        <div class="top-bar">
+            <div class="file-upload"><span>📂 上传TXT</span><input type="file" id="uploadTxt" accept=".txt, text/plain"></div>
+            <button id="reloadConfigBtn" class="secondary-btn">🔄 从云端重载配置</button>
+            <button id="saveStateBtn" class="primary-btn">💾 保存当前状态</button>
+            <div class="format-hint">格式: 单词/音标/词性/解释/例句 (每行一个单词，音标不要加//，例句可用/)</div>
+        </div>
+
+        <!-- 列显隐工具栏（sticky，固定在视口顶部） -->
+        <div id="toolbar-container" class="toolbar"></div>
+
+        <!-- 表格容器（水平滚动，垂直随页面滚动） -->
+        <div id="table-container" class="table-wrapper"></div>
+
+        <!-- 底部按钮栏（sticky，固定在视口底部） -->
+        <div class="footer-bar">
+            <div class="footer-left">
+                <button id="showDifficultBtn" class="secondary-btn">🔴 只显示不会</button>
+                <button id="hideMasteredBtn" class="secondary-btn">🙈 隐藏会的</button>
+                <button id="showAllBtn" class="secondary-btn">🌐 显示全部</button>
+            </div>
+            <div class="footer-right">
+                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
+            </div>
+        </div>
+        <footer>点击🔊听发音 · 点击【会】整行变绿 · 点击【不会】文字变红 · 解释列可“点击看意思”</footer>
+    </div>
+
+<script>
+(function() {
+    const CONFIG_TXT_URL = 'words.txt';
+    const DEFAULT_WORDS = [
+        { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
+        { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
+        { word: 'Book', phonetic: 'bʊk', pos: 'n./v.', definition: '书；预订', example: 'She borrowed a book from the library.', status: '' },
+        { word: 'Pleasant', phonetic: 'ˈplez.ənt', pos: 'adj.', definition: '令人愉快的', example: 'The weather is pleasant today.', status: '' },
+        { word: 'Curious', phonetic: 'ˈkjʊə.ri.əs', pos: 'adj.', definition: '好奇的', example: 'Children are naturally curious about everything.', status: '' },
+        { word: 'Achieve', phonetic: 'əˈtʃiːv', pos: 'v.', definition: '实现；达到', example: 'You can achieve your goals with hard work.', status: '' }
+    ];
+    const columns = [
+        { label: '单词', field: 'word' },
+        { label: '音标', field: 'phonetic' },
+        { label: '词性', field: 'pos' },
+        { label: '解释', field: 'definition' },
+        { label: '例句', field: 'example' }
+    ];
+
+    let allWords = [];
+    let showOnlyDifficult = false;
+    let hideMastered = false;
+
+    function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function loadFromStorage() {
+        const saved = localStorage.getItem('dahuajiujiu_words');
+        if (saved) { try { const parsed = JSON.parse(saved); if (Array.isArray(parsed) && parsed.length) { allWords = parsed; return; } } catch (e) {} }
+        allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
+    }
+    loadFromStorage();
+
+    function saveToStorage() {
+        localStorage.setItem('dahuajiujiu_words', JSON.stringify(allWords));
+        alert('当前单词及标记已保存 💾');
+    }
+
+    function getWordKey(item) {
+        return [item.word || '', item.phonetic || '', item.pos || ''].join('|').toLowerCase();
+    }
+
+    function mergeStatusByKey(baseWords, previousWords) {
+        const statusMap = new Map();
+        previousWords.forEach(item => {
+            if (item && item.status) statusMap.set(getWordKey(item), item.status);
+        });
+        return baseWords.map(item => ({ ...item, status: statusMap.get(getWordKey(item)) || '' }));
+    }
+
+    function renderToolbar() {
+        const container = document.getElementById('toolbar-container');
+        container.innerHTML = '';
+        const togglesDiv = document.createElement('div'); togglesDiv.className = 'col-toggles';
+        columns.forEach((col, idx) => {
+            const item = document.createElement('div'); item.className = 'toggle-item';
+            const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = `col_${idx}`; checkbox.className = 'col-toggle'; checkbox.dataset.colindex = idx; checkbox.checked = true;
+            const label = document.createElement('label'); label.htmlFor = `col_${idx}`; label.textContent = col.label;
+            item.appendChild(checkbox); item.appendChild(label); togglesDiv.appendChild(item);
+        });
+        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
+        container.appendChild(togglesDiv); container.appendChild(hintSpan);
+    }
+
+    function renderTable() {
+        const container = document.getElementById('table-container');
+        container.innerHTML = '';
+
+        const defCheckbox = document.querySelector('.col-toggle[data-colindex="3"]');
+        const isDefNormal = defCheckbox ? defCheckbox.checked : true;
+
+        let displayedWords = allWords.filter(w => {
+            if (showOnlyDifficult && w.status !== 'difficult') return false;
+            if (hideMastered && w.status === 'mastered') return false;
+            return true;
+        });
+
+        const table = document.createElement('table'); table.id = 'word-table';
+        const thead = document.createElement('thead'); const headerRow = document.createElement('tr');
+        columns.forEach(col => { const th = document.createElement('th'); th.textContent = col.label; headerRow.appendChild(th); });
+        const actionTh = document.createElement('th'); actionTh.textContent = '操作'; headerRow.appendChild(actionTh);
+        thead.appendChild(headerRow); table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        displayedWords.forEach(item => {
+            const actualIndex = allWords.indexOf(item);
+            const row = document.createElement('tr'); row.dataset.index = actualIndex;
+            if (item.status === 'mastered') row.classList.add('mastered');
+            else if (item.status === 'difficult') row.classList.add('difficult');
+
+            const wordCell = document.createElement('td');
+            wordCell.innerHTML = `${escapeHtml(item.word)} <button class="speak-btn" data-text="${escapeHtml(item.word)}">🔊</button>`;
+            row.appendChild(wordCell);
+
+            const phoneticCell = document.createElement('td');
+            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ <button class="speak-btn" data-text="${escapeHtml(item.word)}">🔊</button>`;
+            phoneticCell.classList.add('phonetic');
+            row.appendChild(phoneticCell);
+
+            const posCell = document.createElement('td'); posCell.textContent = item.pos || '—'; row.appendChild(posCell);
+
+            const defCell = document.createElement('td');
+            defCell.dataset.definition = item.definition || '—';
+            if (isDefNormal) {
+                defCell.textContent = item.definition || '—';
+            } else {
+                defCell.textContent = '点击看意思';
+                defCell.classList.add('peek-mode');
+                defCell.dataset.revealed = 'false';
+            }
+            row.appendChild(defCell);
+
+            const exampleCell = document.createElement('td');
+            exampleCell.innerHTML = `${escapeHtml(item.example)} <button class="speak-btn" data-text="${escapeHtml(item.example)}">🔊</button>`;
+            row.appendChild(exampleCell);
+
+            const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
+            actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
+            row.appendChild(actionCell);
+
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody); container.appendChild(table);
+
+        updateColumnVisibility();
+    }
+
+    function updateColumnVisibility() {
+        const table = document.getElementById('word-table'); if (!table) return;
+        const checkboxes = document.querySelectorAll('.col-toggle'); if (!checkboxes.length) return;
+        const headerThs = table.querySelectorAll('thead tr th'); const bodyRows = table.querySelectorAll('tbody tr');
+
+        checkboxes.forEach((cb, idx) => {
+            if (idx === 3) return; // 解释列不参与隐藏
+            const isVisible = cb.checked;
+            if (idx < headerThs.length - 1) {
+                headerThs[idx].classList.toggle('hide', !isVisible);
+            }
+            bodyRows.forEach(row => {
+                const tds = row.querySelectorAll('td');
+                if (idx < tds.length - 1) {
+                    tds[idx].classList.toggle('hide', !isVisible);
+                }
+            });
+        });
+    }
+
+    function speakText(text) {
+        if (!window.speechSynthesis) {
+            alert('您的浏览器不支持语音合成');
+            return;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                voices = window.speechSynthesis.getVoices();
+                setEnglishVoice(utterance, voices);
+                window.speechSynthesis.speak(utterance);
+            };
+        } else {
+            setEnglishVoice(utterance, voices);
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function setEnglishVoice(utterance, voices) {
+        const englishVoice = voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Google')) ||
+                             voices.find(v => v.lang.startsWith('en-US')) ||
+                             voices.find(v => v.lang.startsWith('en-GB')) ||
+                             voices.find(v => v.lang.startsWith('en'));
+        if (englishVoice) utterance.voice = englishVoice;
+    }
+
+    function bindTableEvents() {
+        const container = document.getElementById('table-container');
+        if (!container) return;
+
+        container.addEventListener('click', (e) => {
+            const actionButton = e.target.closest('.btn-master, .btn-difficult');
+            if (actionButton) {
+                const row = actionButton.closest('tr');
+                if (!row) return;
+                const idx = parseInt(row.dataset.index, 10);
+                if (isNaN(idx) || idx < 0 || idx >= allWords.length) return;
+
+                if (actionButton.classList.contains('btn-master')) {
+                    allWords[idx].status = allWords[idx].status === 'mastered' ? '' : 'mastered';
+                } else {
+                    allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
+                }
+                renderTable();
+                return;
+            }
+
+            const speakBtn = e.target.closest('.speak-btn');
+            if (speakBtn) {
+                const text = speakBtn.getAttribute('data-text');
+                if (text) speakText(text);
+                return;
+            }
+
+            const defCell = e.target.closest('td');
+            if (!defCell || !defCell.classList.contains('peek-mode')) return;
+
+            const isRevealed = defCell.dataset.revealed === 'true';
+            const definition = defCell.dataset.definition;
+
+            if (isRevealed) {
+                defCell.textContent = '点击看意思';
+                defCell.dataset.revealed = 'false';
+                defCell.classList.remove('revealed');
+            } else {
+                defCell.textContent = definition;
+                defCell.dataset.revealed = 'true';
+                defCell.classList.add('revealed');
+            }
+        });
+    }
+
+    function parseTxtToWords(text) {
+        const lines = text.split(/\r?\n/); const newWords = [];
+        lines.forEach(line => {
+            line = line.trim(); if (line === '' || line.startsWith('#')) return;
+            const parts = line.split(/\s*\/\s*/);
+            if (parts.length >= 5) {
+                const word = parts[0].trim(); let phonetic = parts[1].trim(); const pos = parts[2].trim(); const definition = parts[3].trim(); const example = parts.slice(4).join('/').trim();
+                phonetic = phonetic.replace(/^\/+|\/+$/g, '');
+                newWords.push({ word: word || '?', phonetic: phonetic || '?', pos: pos || '?', definition: definition || '?', example: example || '?', status: '' });
+            }
+        });
+        return newWords;
+    }
+
+    async function loadRemoteConfig() {
+        try {
+            const response = await fetch(CONFIG_TXT_URL, { cache: 'no-store' });
+            if (!response.ok) return;
+            const text = await response.text();
+            const words = parseTxtToWords(text);
+            if (!words.length) return;
+            allWords = mergeStatusByKey(words, allWords);
+        } catch (e) {
+            // 本地 file:// 打开或配置文件不存在时，静默回退到已保存数据/默认数据
+        }
+    }
+
+    function bindControls() {
+        document.getElementById('uploadTxt').addEventListener('change', (e) => {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const words = parseTxtToWords(ev.target.result);
+                if (words.length) { 
+                    allWords = words; 
+                    showOnlyDifficult = false; 
+                    hideMastered = false; 
+                    renderTable(); 
+                }
+                else alert('未解析到任何单词，请检查格式。');
+                e.target.value = '';
+            };
+            reader.readAsText(file, 'UTF-8');
+        });
+
+        document.getElementById('saveStateBtn').addEventListener('click', saveToStorage);
+        document.getElementById('reloadConfigBtn').addEventListener('click', async () => {
+            await loadRemoteConfig();
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已尝试从云端重载 words.txt');
+        });
+
+        document.getElementById('showDifficultBtn').addEventListener('click', () => { 
+            showOnlyDifficult = true; 
+            hideMastered = false; 
+            renderTable(); 
+        });
+
+        document.getElementById('hideMasteredBtn').addEventListener('click', () => {
+            hideMastered = !hideMastered;
+            if (hideMastered && showOnlyDifficult) showOnlyDifficult = false;
+            renderTable();
+        });
+
+        document.getElementById('showAllBtn').addEventListener('click', () => { 
+            showOnlyDifficult = false; 
+            hideMastered = false; 
+            renderTable(); 
+        });
+
+        document.getElementById('exportDifficultBtn').addEventListener('click', () => {
+            const difficultWords = allWords.filter(w => w.status === 'difficult');
+            if (difficultWords.length === 0) { alert('当前没有标记为“不会”的单词'); return; }
+            const lines = difficultWords.map(w => `${w.word}/${w.phonetic}/${w.pos}/${w.definition}/${w.example}`);
+            const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'difficult_words.txt'; link.click(); URL.revokeObjectURL(link.href);
+        });
+    }
+
+    async function initApp() {
+        renderToolbar();
+        await loadRemoteConfig();
+        renderTable();
+        bindTableEvents();
+        bindControls();
+
+        document.querySelectorAll('.col-toggle').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.colindex, 10);
+                if (idx === 3) {
+                    renderTable();
+                } else {
+                    updateColumnVisibility();
+                }
+            });
+        });
+    }
+
+    initApp();
+})();
+</script>
+</body>
+</html>
