@@ -383,6 +383,8 @@
         junior: 'words_junior.txt',
         senior: 'words_senior.txt'
     };
+    const STORAGE_KEY_STATE = 'dahuajiujiu_state_v2';
+    const LEGACY_STORAGE_KEY = 'dahuajiujiu_words';
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
         { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
@@ -399,7 +401,7 @@
         { label: '例句', field: 'example' }
     ];
 
-    let allWords = [];
+    let allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
     let showOnlyDifficult = false;
     let hideMastered = false;
     let currentLevel = 'primary';
@@ -409,28 +411,77 @@
         return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    function loadFromStorage() {
-        const saved = localStorage.getItem('dahuajiujiu_words');
-        if (saved) { try { const parsed = JSON.parse(saved); if (Array.isArray(parsed) && parsed.length) { allWords = parsed; return; } } catch (e) {} }
-        allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
-    }
-    loadFromStorage();
-
-    function saveToStorage() {
-        localStorage.setItem('dahuajiujiu_words', JSON.stringify(allWords));
-        alert('当前单词及标记已保存 💾');
-    }
-
     function getWordKey(item) {
         return [item.word || '', item.phonetic || '', item.pos || ''].join('|').toLowerCase();
     }
 
-    function mergeStatusByKey(baseWords, previousWords) {
-        const statusMap = new Map();
-        previousWords.forEach(item => {
-            if (item && item.status) statusMap.set(getWordKey(item), item.status);
+    function emptyStatuses() {
+        return { primary: {}, junior: {}, senior: {} };
+    }
+
+    function normalizeStoredState(parsed) {
+        const safe = parsed && typeof parsed === 'object' ? parsed : {};
+        const statuses = safe.statuses && typeof safe.statuses === 'object' ? safe.statuses : {};
+        return {
+            currentLevel: CONFIG_FILES[safe.currentLevel] ? safe.currentLevel : 'primary',
+            statuses: {
+                primary: statuses.primary && typeof statuses.primary === 'object' ? statuses.primary : {},
+                junior: statuses.junior && typeof statuses.junior === 'object' ? statuses.junior : {},
+                senior: statuses.senior && typeof statuses.senior === 'object' ? statuses.senior : {}
+            }
+        };
+    }
+
+    function buildStatusMapFromWords(words) {
+        const map = {};
+        words.forEach(item => {
+            if (item && item.status) map[getWordKey(item)] = item.status;
         });
-        return baseWords.map(item => ({ ...item, status: statusMap.get(getWordKey(item)) || '' }));
+        return map;
+    }
+
+    function applyStatusMap(baseWords, statusMap) {
+        return baseWords.map(item => ({ ...item, status: statusMap[getWordKey(item)] || '' }));
+    }
+
+    function getStoredState() {
+        const raw = localStorage.getItem(STORAGE_KEY_STATE);
+        if (raw) {
+            try {
+                return normalizeStoredState(JSON.parse(raw));
+            } catch (e) {}
+        }
+
+        // 兼容旧版：旧版只存了单一词表数组，这里迁移到小学词库状态
+        const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
+        if (legacyRaw) {
+            try {
+                const legacyWords = JSON.parse(legacyRaw);
+                if (Array.isArray(legacyWords)) {
+                    const migrated = {
+                        currentLevel: 'primary',
+                        statuses: emptyStatuses()
+                    };
+                    migrated.statuses.primary = buildStatusMapFromWords(legacyWords);
+                    localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(migrated));
+                    return migrated;
+                }
+            } catch (e) {}
+        }
+
+        return { currentLevel: 'primary', statuses: emptyStatuses() };
+    }
+
+    function saveStoredState(state) {
+        localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(normalizeStoredState(state)));
+    }
+
+    function saveToStorage() {
+        const stored = getStoredState();
+        stored.currentLevel = currentLevel;
+        stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
+        saveStoredState(stored);
+        alert('当前单词及标记已保存到本地浏览器 💾');
     }
 
     function renderToolbar() {
@@ -650,7 +701,10 @@
             const text = await response.text();
             const words = parseTxtToWords(text);
             if (!words.length) return;
-            allWords = mergeStatusByKey(words, allWords);
+            const stored = getStoredState();
+            allWords = applyStatusMap(words, stored.statuses[level] || {});
+            stored.currentLevel = level;
+            saveStoredState(stored);
             setLevelButtonStyle();
         } catch (e) {
             // 本地 file:// 打开或配置文件不存在时，静默回退到已保存数据/默认数据
@@ -726,9 +780,11 @@
     }
 
     async function initApp() {
+        const stored = getStoredState();
+        currentLevel = CONFIG_FILES[stored.currentLevel] ? stored.currentLevel : 'primary';
         renderToolbar();
         setLevelButtonStyle();
-        await loadRemoteConfig('primary');
+        await loadRemoteConfig(currentLevel);
         renderTable();
         bindTableEvents();
         bindControls();
