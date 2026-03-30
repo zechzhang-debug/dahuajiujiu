@@ -505,10 +505,11 @@
         const defCheckbox = document.querySelector('.col-toggle[data-colindex="3"]');
         const isDefNormal = defCheckbox ? defCheckbox.checked : true;
 
-        let displayedWords = allWords.filter(w => {
-            if (showOnlyDifficult && w.status !== 'difficult') return false;
-            if (hideMastered && w.status === 'mastered') return false;
-            return true;
+        const displayedWords = [];
+        allWords.forEach((item, index) => {
+            if (showOnlyDifficult && item.status !== 'difficult') return;
+            if (hideMastered && item.status === 'mastered') return;
+            displayedWords.push({ item, index });
         });
 
         const table = document.createElement('table'); table.id = 'word-table';
@@ -518,9 +519,9 @@
         thead.appendChild(headerRow); table.appendChild(thead);
 
         const tbody = document.createElement('tbody');
-        displayedWords.forEach(item => {
-            const actualIndex = allWords.indexOf(item);
-            const row = document.createElement('tr'); row.dataset.index = actualIndex;
+        const fragment = document.createDocumentFragment();
+        displayedWords.forEach(({ item, index }) => {
+            const row = document.createElement('tr'); row.dataset.index = index;
             if (item.status === 'mastered') row.classList.add('mastered');
             else if (item.status === 'difficult') row.classList.add('difficult');
 
@@ -554,8 +555,9 @@
             actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
             row.appendChild(actionCell);
 
-            tbody.appendChild(row);
+            fragment.appendChild(row);
         });
+        tbody.appendChild(fragment);
         table.appendChild(tbody); container.appendChild(table);
 
         updateColumnVisibility();
@@ -630,7 +632,15 @@
                 } else {
                     allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
                 }
-                renderTable();
+                const currentStatus = allWords[idx].status;
+                const shouldHide = (showOnlyDifficult && currentStatus !== 'difficult') || (hideMastered && currentStatus === 'mastered');
+                if (shouldHide) {
+                    row.remove();
+                } else {
+                    row.classList.remove('mastered', 'difficult');
+                    if (currentStatus === 'mastered') row.classList.add('mastered');
+                    else if (currentStatus === 'difficult') row.classList.add('difficult');
+                }
                 return;
             }
 
