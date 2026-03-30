@@ -349,7 +349,9 @@
         <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
             <div class="file-upload"><span>📂 上传TXT</span><input type="file" id="uploadTxt" accept=".txt, text/plain"></div>
-            <button id="reloadConfigBtn" class="secondary-btn">🔄 从云端重载配置</button>
+            <button id="loadPrimaryBtn" class="secondary-btn">📘 小学</button>
+            <button id="loadJuniorBtn" class="secondary-btn">📗 初中</button>
+            <button id="loadSeniorBtn" class="secondary-btn">📙 高中</button>
             <button id="saveStateBtn" class="primary-btn">💾 保存当前状态</button>
             <div class="format-hint">格式: 单词/音标/词性/解释/例句 (每行一个单词，音标不要加//，例句可用/)</div>
         </div>
@@ -376,7 +378,11 @@
 
 <script>
 (function() {
-    const CONFIG_TXT_URL = 'words.txt';
+    const CONFIG_FILES = {
+        primary: 'words_primary.txt',
+        junior: 'words_junior.txt',
+        senior: 'words_senior.txt'
+    };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
         { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
@@ -396,6 +402,7 @@
     let allWords = [];
     let showOnlyDifficult = false;
     let hideMastered = false;
+    let currentLevel = 'primary';
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
@@ -615,14 +622,36 @@
         return newWords;
     }
 
-    async function loadRemoteConfig() {
+    function setLevelButtonStyle() {
+        const buttonMap = {
+            primary: document.getElementById('loadPrimaryBtn'),
+            junior: document.getElementById('loadJuniorBtn'),
+            senior: document.getElementById('loadSeniorBtn')
+        };
+        Object.entries(buttonMap).forEach(([level, button]) => {
+            if (!button) return;
+            if (level === currentLevel) {
+                button.classList.remove('secondary-btn');
+                button.classList.add('primary-btn');
+            } else {
+                button.classList.remove('primary-btn');
+                button.classList.add('secondary-btn');
+            }
+        });
+    }
+
+    async function loadRemoteConfig(level = currentLevel) {
+        const file = CONFIG_FILES[level];
+        if (!file) return;
         try {
-            const response = await fetch(CONFIG_TXT_URL, { cache: 'no-store' });
+            currentLevel = level;
+            const response = await fetch(file, { cache: 'no-store' });
             if (!response.ok) return;
             const text = await response.text();
             const words = parseTxtToWords(text);
             if (!words.length) return;
             allWords = mergeStatusByKey(words, allWords);
+            setLevelButtonStyle();
         } catch (e) {
             // 本地 file:// 打开或配置文件不存在时，静默回退到已保存数据/默认数据
         }
@@ -647,12 +676,26 @@
         });
 
         document.getElementById('saveStateBtn').addEventListener('click', saveToStorage);
-        document.getElementById('reloadConfigBtn').addEventListener('click', async () => {
-            await loadRemoteConfig();
+        document.getElementById('loadPrimaryBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('primary');
             showOnlyDifficult = false;
             hideMastered = false;
             renderTable();
-            alert('已尝试从云端重载 words.txt');
+            alert('已加载小学词库');
+        });
+        document.getElementById('loadJuniorBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('junior');
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已加载初中词库');
+        });
+        document.getElementById('loadSeniorBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('senior');
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已加载高中词库');
         });
 
         document.getElementById('showDifficultBtn').addEventListener('click', () => { 
@@ -684,7 +727,8 @@
 
     async function initApp() {
         renderToolbar();
-        await loadRemoteConfig();
+        setLevelButtonStyle();
+        await loadRemoteConfig('primary');
         renderTable();
         bindTableEvents();
         bindControls();
