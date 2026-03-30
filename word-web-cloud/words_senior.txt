@@ -1,40 +1,1090 @@
-desire/dɪˈzaɪə(r)/n./渴望；欲望/She has a strong desire to succeed.
-mention/ˈmenʃn/v./提到；提及/She didn’t mention your name at all.
-device/dɪˈvaɪs/n./装置；设备/A smartphone is a multifunctional device.
-potential/pəˈtenʃl/n./潜力；潜能/She has great potential as a musician.
-individual/ˌɪndɪˈvɪdʒuəl/n./个人；个体/Each individual has unique talents.
-recommend/ˌrekəˈmend/v./推荐；建议/I recommend this book to all students.
-response/rɪˈspɒns/n./回应；反应/The public response to the policy was negative.
-appreciate/əˈpriːʃieɪt/v./欣赏；感激/I really appreciate your help.
-predict/prɪˈdɪkt/v./预测；预言/Experts predict a rise in global temperatures.
-settle/ˈsetl/v./定居；解决/They settled in Canada after the war.
-reputation/ˌrepjuˈteɪʃn/n./声誉；名声/He has a reputation for honesty.
-estimate/ˈestɪmeɪt/v./估计；估算/Experts estimate the cost at around $1 million.
-reveal/rɪˈviːl/v./揭示；透露/The investigation revealed new facts.
-presence/ˈprezns/n./存在；出席/His presence calmed everyone down.
-stewardship/ˈstjuːədʃɪp/n./管理；监护/Environmental stewardship is everyone’s duty.
-secure/sɪˈkjʊə(r)/v./获得；使安全/They secured funding for the project.
-privilege/ˈprɪvəlɪdʒ/n./特权；优待/Education is a privilege, not a right.
-tease/tiːz/v./取笑；戏弄/Don’t tease him about his accent.
-modest/ˈmɒdɪst/adj./谦虚的；适中的/She gave a modest account of her achievements.
-assessment/əˈsesmənt/n./评估；评定/The teacher’s assessment was fair and thorough.
-apparent/əˈpærənt/adj./明显的；显然的/His talent was apparent from an early age.
-polish/ˈpɒlɪʃ/v./擦亮；润色/She polished her essay before submitting it.
-arise/əˈraɪz/v./出现；产生/Problems may arise during implementation.
-judgement/ˈdʒʌdʒmənt/n./判断；裁决/Use your best judgement in this matter.
-profitable/ˈprɒfɪtəbl/adj./有利可图的/The business became profitable within a year.
-investigate/ɪnˈvestɪɡeɪt/v./调查；研究/The police are investigating the incident.
-slight/slaɪt/adj./轻微的；微小的/There was a slight delay in delivery.
-vice/vaɪs/n./恶习；缺点/Greed is a dangerous vice.
-melancholy/ˈmelənkəli/n./忧郁；悲伤/A sense of melancholy filled the room.
-majority/məˈdʒɒrəti/n./大多数/The majority voted in favor of the proposal.
-dynamic/daɪˈnæmɪk/adj./有活力的；动态的/She’s a dynamic leader with bold ideas.
-splendid/ˈsplendɪd/adj./极好的；辉煌的/They had a splendid time at the concert.
-continent/ˈkɒntɪnənt/n./大陆/Australia is both a country and a continent.
-congress/ˈkɒŋɡres/n./国会；代表大会/The U.S. Congress passed the new law.
-interactive/ˌɪntərˈæktɪv/adj./互动的/This museum has interactive exhibits.
-recreation/ˌrekriˈeɪʃn/n./娱乐；消遣/Parks provide space for outdoor recreation.
-occasionally/əˈkeɪʒənəli/adv./偶尔；有时/I occasionally visit my hometown.
-spray/spreɪ/v./喷；喷雾/Spray the plants with insecticide.
-comprehension/ˌkɒmprɪˈhenʃn/n./理解； comprehension/Reading improves language comprehension.
-automatic/ˌɔːtəˈmætɪk/adj./自动的/The door opens automatically when you approach.
+require/rɪˈkwaɪə(r)/v. /需要；要求/The project requires careful planning.
+numb/nʌm/adj. /麻木的；失去感觉的/His leg felt numb after sitting too long.
+quality/ˈkwɒləti/n. /质量；品质/This restaurant is known for the quality of its food.
+concern/kənˈsɜːn/n. /担忧；关心/Climate change is a global concern.
+tend/tend/v. /倾向于；照料/Plants tend to grow faster in warm weather.
+approach/əˈprəʊtʃ/v. /接近；处理/We should approach the issue with an open mind.
+promote/prəˈməʊt/v. /促进；提升/The government promotes renewable energy.
+desire/dɪˈzaɪə(r)/n. /渴望；欲望/She has a strong desire to succeed.
+inspire/ɪnˈspaɪə(r)/v. /激励；启发/His speech inspired the whole team.
+concept/ˈkɒnsept/n. /概念；观念/The concept of fairness is culturally relative.
+decline/dɪˈklaɪn/v. /拒绝；下降/He declined the invitation politely.
+mention/ˈmenʃn/v. /提到；提及/She didn’t mention your name at all.
+throughout/θruːˈaʊt/prep. /遍及；贯穿/There were celebrations throughout the country.
+limit/ˈlɪmɪt/n. /限制；限度/There’s a speed limit of 50 km/h here.
+involve/ɪnˈvɒlv/v. /包含；涉及/The job involves frequent travel.
+device/dɪˈvaɪs/n. /装置；设备/A smartphone is a multifunctional device.
+depend/dɪˈpend/v. /依赖；取决于/Success depends on hard work.
+potential/pəˈtenʃl/n. /潜力；潜能/She has great potential as a musician.
+infer/ɪnˈfɜː(r)/v. /推断；推论/From his silence, I inferred he disagreed.
+replace/rɪˈpleɪs/v. /取代；替换/Robots may replace some human workers.
+individual/ˌɪndɪˈvɪdʒuəl/n. /个人；个体/Each individual has unique talents.
+recent/ˈriːsnt/adj. /最近的；近来的/Recent studies show a rise in online learning.
+recommend/ˌrekəˈmend/v. /推荐；建议/I recommend this book to all students.
+interview/ˈɪntəvjuː/n. /面试；采访/She had a job interview yesterday.
+central/ˈsentrəl/adj. /中心的；主要的/Education is central to social development.
+prevent/prɪˈvent/v. /防止；预防/Wearing a helmet can prevent head injuries.
+technique/tekˈniːk/n. /技术；技巧/He mastered the painting technique quickly.
+select/sɪˈlekt/v. /选择；挑选/Customers can select their preferred delivery time.
+trend/trend/n. /趋势；潮流/Fast fashion is a growing environmental trend.
+determine/dɪˈtɜːmɪn/v. /决定；确定/Your attitude will determine your success.
+various/ˈveəriəs/adj. /各种各样的/She has various interests, from music to hiking.
+nuclear/ˈnjuːkliə(r)/adj. /核能的；核心的/Nuclear energy remains controversial.
+observe/əbˈzɜːv/v. /观察；遵守/Scientists observe animal behavior in the wild.
+recently/ˈriːsntli/adv. /最近；不久前/I recently moved to a new city.
+response/rɪˈspɒns/n. /回应；反应/The public response to the policy was negative.
+specific/spəˈsɪfɪk/adj. /具体的；特定的/Do you have any specific questions?
+significant/sɪɡˈnɪfɪkənt/adj. /重要的；显著的/There has been a significant increase in sales.
+function/ˈfʌŋkʃn/n. /功能；作用/The main function of the heart is to pump blood.
+register/ˈredʒɪstə(r)/v. /注册；登记/You must register your car with the authorities.
+gallery/ˈɡæləri/n. /美术馆；画廊/The new exhibition opened at the city gallery.
+ecosystem/ˈiːkəʊsɪstəm/n. /生态系统/A forest is a complex ecosystem.
+academic/ˌækəˈdemɪk/adj. /学术的；学业的/She has an excellent academic record.
+confirm/kənˈfɜːm/v. /确认；证实/Please confirm your attendance by email.
+link/lɪŋk/n. /联系；链接/Social media creates a link between people worldwide.
+motivation/ˌməʊtɪˈveɪʃn/n. /动机；动力/Her motivation for studying is to help others.
+struggle/ˈstrʌɡl/n. /斗争；努力/Many families struggle to make ends meet.
+collapse/kəˈlæps/v. /倒塌；崩溃/The bridge collapsed after the flood.
+contribute/kənˈtrɪbjuːt/v. /贡献；捐助/He contributed money to the charity.
+awareness/əˈweənəs/n. /意识；认识/Public awareness of climate change is growing.
+delay/dɪˈleɪ/n. /延迟；耽搁/The flight was delayed by two hours.
+grocery/ˈɡrəʊsəri/n. /杂货；食品杂货/I need to buy some grocery on the way home.
+deliver/dɪˈlɪvə(r)/v. /递送；发表/The postman delivers letters every morning.
+consume/kənˈsjuːm/v. /消耗；消费/This appliance consumes less electricity.
+unwilling/ʌnˈwɪlɪŋ/adj. /不情愿的/He was unwilling to accept the offer.
+evaluation/ɪˌvæljuˈeɪʃn/n. /评估；评价/The teacher gave us a detailed evaluation.
+principle/ˈprɪnsəpl/n. /原则；原理/Honesty is a basic moral principle.
+appreciate/əˈpriːʃieɪt/v. /欣赏；感激/I really appreciate your help.
+respond/rɪˈspɒnd/v. /回应；作出反应/She responded quickly to the emergency.
+predict/prɪˈdɪkt/v. /预测；预言/Experts predict a rise in global temperatures.
+scene/siːn/n. /场景；现场/The accident scene was blocked off by police.
+submit/səbˈmɪt/v. /提交；屈服/You must submit your report by Friday.
+gather/ˈɡæðə(r)/v. /收集；聚集/People gathered in the square to celebrate.
+evaluate/ɪˈvæljueɪt/v. /评估；评价/We need to evaluate the effectiveness of this method.
+wallet/ˈwɒlɪt/n. /钱包/He lost his wallet on the bus.
+award/əˈwɔːd/n. /奖；奖励/She won an award for her scientific research.
+motivate/ˈməʊtɪveɪt/v. /激励；激发/Good teachers motivate students to learn.
+purchase/ˈpɜːtʃəs/n. /购买；采购/The company made a large purchase of raw materials.
+independent/ˌɪndɪˈpendənt/adj. /独立的；自主的/She is financially independent.
+option/ˈɒpʃn/n. /选项；选择/You have the option to pay in installments.
+vital/ˈvaɪtl/adj. /至关重要的/Regular exercise is vital for good health.
+statement/ˈsteɪtmənt/n. /陈述；声明/The witness gave a clear statement to the police.
+presentation/ˌpreznˈteɪʃn/n. /展示；演示/His presentation impressed the investors.
+failure/ˈfeɪljə(r)/n. /失败；故障/The engine failure caused the plane to land early.
+distinguish/dɪˈstɪŋɡwɪʃ/v. /区分；辨别/It’s hard to distinguish real gold from fake.
+diverse/daɪˈvɜːs/adj. /多样的；不同的/Our team is culturally diverse.
+switch/swɪtʃ/v. /切换；转换/She switched careers from law to teaching.
+predator/ˈpredətə(r)/n. /捕食者；掠夺者/Lions are apex predators in the savanna.
+intention/ɪnˈtenʃn/n. /意图；目的/His intention was to help, not to offend.
+frequently/ˈfriːkwəntli/adv. /频繁地；经常地/She frequently visits her grandparents.
+otherwise/ˈʌðəwaɪz/adv. /否则；另外/You should leave now; otherwise, you’ll miss the train.
+expose/ɪkˈspəʊz/v. /暴露；揭露/The report exposed corruption in the government.
+significantly/sɪɡˈnɪfɪkəntli/adv. /显著地；重大地/Prices have significantly increased this year.
+wander/ˈwɒndə(r)/v. /徘徊；漫游/He likes to wander through old bookshops.
+settle/ˈsetl/v. /定居；解决/They settled in Canada after the war.
+philosophy/fəˈlɒsəfi/n. /哲学；人生观/His philosophy is to live simply and kindly.
+outcome/ˈaʊtkʌm/n. /结果；结局/The outcome of the election surprised everyone.
+category/ˈkætəɡəri/n. /类别；种类/Fruits and vegetables belong to different food categories.
+beneficial/ˌbenɪˈfɪʃl/adj. /有益的；有利的/Sleep is beneficial to mental health.
+evolution/ˌiːvəˈluːʃn/n. /进化；演变/The evolution of language is fascinating.
+expand/ɪkˈspænd/v. /扩大；扩展/The company plans to expand into Asian markets.
+particularly/pəˈtɪkjələli/adv. /特别；尤其/I enjoy classical music, particularly Mozart.
+conference/ˈkɒnfərəns/n. /会议；研讨会/The international conference starts next Monday.
+reputation/ˌrepjuˈteɪʃn/n. /声誉；名声/He has a reputation for honesty.
+encounter/ɪnˈkaʊntə(r)/v. /遭遇；遇到/Travelers may encounter wild animals on the trail.
+entirely/ɪnˈtaɪəli/adv. /完全地；彻底地/The project was entirely her idea.
+occur/əˈkɜː(r)/v. /发生；出现/Earthquakes frequently occur along fault lines.
+evidence/ˈevɪdəns/n. /证据；证明/There is strong evidence supporting the theory.
+zone/zəʊn/n. /区域；地带/The city has a pedestrian-only zone downtown.
+estimate/ˈestɪmeɪt/v. /估计；估算/Experts estimate the cost at around $1 million.
+assume/əˈsjuːm/v. /假设；假定/Let’s assume the meeting starts at 9 a.m.
+generate/ˈdʒenəreɪt/v. /产生；生成/Solar panels generate clean electricity.
+universe/ˈjuːnɪvɜːs/n. /宇宙；天地万物/The universe is vast and mysterious.
+campaign/kæmˈpeɪn/n. /运动；活动/The charity launched a fundraising campaign.
+restore/rɪˈstɔː(r)/v. /恢复；修复/They restored the old building to its former glory.
+preserve/prɪˈzɜːv/v. /保护；保存/We must preserve natural habitats for future generations.
+combine/kəmˈbaɪn/v. /结合；联合/Combine flour and water to make dough.
+commercial/kəˈmɜːʃl/adj. /商业的；营利的/The film was a huge commercial success.
+kindergarten/ˈkɪndəɡɑːtn/n. /幼儿园/My son started kindergarten last September.
+awkward/ˈɔːkwəd/adj. /尴尬的；笨拙的/He felt awkward at the formal dinner.
+urge/ɜːdʒ/v. /强烈建议；催促/I urge you to reconsider your decision.
+obtain/əbˈteɪn/v. /获得；取得/Students must obtain a visa before studying abroad.
+general/ˈdʒenrəl/adj. /普遍的；总体的/In general, people prefer convenience.
+reveal/rɪˈviːl/v. /揭示；透露/The investigation revealed new facts.
+consumption/kənˈsʌmpʃn/n. /消费；消耗/Energy consumption has doubled in ten years.
+impression/ɪmˈpreʃn/n. /印象；感想/He made a good impression during the interview.
+strike/straɪk/v. /打击；罢工/The workers plan to strike for higher wages.
+contemporary/kənˈtemprəri/adj. /当代的；同时代的/She studies contemporary art history.
+volcano/vɒlˈkeɪnəʊ/n. /火山/The volcano erupted after 50 years of silence.
+visual/ˈvɪʒuəl/adj. /视觉的；看得见的/This software provides visual data analysis.
+annual/ˈænjuəl/adj. /每年的；年度的/The company holds an annual shareholders’ meeting.
+supportive/səˈpɔːtɪv/adj. /支持的；给予帮助的/Her parents were very supportive of her dreams.
+adequate/ˈædɪkwət/adj. /足够的；适当的/We have adequate supplies for the trip.
+qualify/ˈkwɒlɪfaɪ/v. /使具备资格；符合条件/You must pass the test to qualify for the job.
+brief/briːf/adj. /简短的；简洁的/He gave a brief summary of the report.
+acceptable/əkˈseptəbl/adj. /可接受的/His behavior was not socially acceptable.
+seaside/ˈsiːsaɪd/n. /海滨；海边/We spent our holiday at a quiet seaside town.
+presence/ˈprezns/n. /存在；出席/His presence calmed everyone down.
+ancestor/ˈænsestə(r)/n. /祖先；先辈/My ancestors came from Ireland.
+rough/rʌf/adj. /粗糙的；艰难的/The road was rough and bumpy.
+delicate/ˈdelɪkət/adj. /精致的；脆弱的/Handle this glass—it’s very delicate.
+weed/wiːd/n. /杂草；野草/Gardeners pulled weeds from the flower beds.
+arrangement/əˈreɪndʒmənt/n. /安排；布置/The flowers were in a beautiful arrangement.
+license/ˈlaɪsns/n. /许可证；执照/You need a license to drive a car.
+berry/ˈberi/n. /浆果/Strawberries and blueberries are nutritious berries.
+virtue/ˈvɜːtʃuː/n. /美德；优点/Honesty is a great virtue.
+trial/ˈtraɪəl/n. /审判；试验/The new drug is undergoing clinical trials.
+skeptical/ˈskeptɪkl/adj. /怀疑的/She was skeptical about his promises.
+graph/ɡrɑːf/n. /图表；曲线图/The report includes a graph showing population growth.
+remotely/rɪˈməʊtli/adv. /远程地；微弱地/I can’t operate this device remotely.
+stewardship/ˈstjuːədʃɪp/n. /管理；监护/Environmental stewardship is everyone’s duty.
+settler/ˈsetlə(r)/n. /移民；殖民者/Early settlers built log cabins in the forest.
+vision/ˈvɪʒn/n. /视力；远见/His vision for the future inspired many.
+discount/ˈdɪskaʊnt/n. /折扣；打折/They offered a 20% discount on all items.
+foster/ˈfɒstə(r)/v. /促进；培养/The program fosters creativity in children.
+federal/ˈfedrəl/adj. /联邦的；中央的/The federal government passed a new law.
+aggressive/əˈɡresɪv/adj. /好斗的；咄咄逼人的/The dog showed aggressive behavior.
+secure/sɪˈkjʊə(r)/v. /获得；使安全/They secured funding for the project.
+traditionally/trəˈdɪʃənəli/adv. /传统上/This dish is traditionally served at weddings.
+remark/rɪˈmɑːk/n. /评论；话语/His rude remark offended several guests.
+wax/wæks/n. /蜡；蜂蜡/Candles are made from beeswax or paraffin wax.
+burden/ˈbɜːdn/n. /负担；重担/Medical bills became a heavy burden.
+reject/rɪˈdʒekt/v. /拒绝；排斥/The proposal was rejected by the committee.
+chain/tʃeɪn/n. /链条；连锁店/A mountain chain runs through the country.
+adequately/ˈædɪkwətli/adv. /充分地；足够地/The room was adequately lit for reading.
+gentle/ˈdʒentl/adj. /温和的；轻柔的/She spoke in a gentle voice to the child.
+ecology/iˈkɒlədʒi/n. /生态学/The course covers marine and forest ecology.
+ministry/ˈmɪnɪstri/n. /（政府的）部/The Ministry of Education announced new reforms.
+contrast/ˈkɒntrɑːst/n. /对比；对照/There’s a sharp contrast between light and dark.
+privilege/ˈprɪvəlɪdʒ/n. /特权；优待/Education is a privilege, not a right.
+graduation/ˌɡrædʒuˈeɪʃn/n. /毕业；毕业典礼/Her graduation ceremony was held in June.
+abstract/ˈæbstrækt/adj. /抽象的/The painting is highly abstract and symbolic.
+receptionist/rɪˈsepʃənɪst/n. /接待员/The receptionist greeted visitors warmly.
+shallow/ˈʃæləʊ/adj. /浅的；肤浅的/The river is too shallow for boats.
+tease/tiːz/v. /取笑；戏弄/Don’t tease him about his accent.
+distinction/dɪˈstɪŋkʃn/n. /区别；优秀/There’s a clear distinction between right and wrong.
+modest/ˈmɒdɪst/adj. /谦虚的；适中的/She gave a modest account of her achievements.
+mineral/ˈmɪnərəl/n. /矿物；矿物质/Water contains essential minerals like calcium.
+Captain/ˈkæptɪn/n. /船长；队长/The Captain navigated the ship safely.
+assessment/əˈsesmənt/n. /评估；评定/The teacher’s assessment was fair and thorough.
+reaction/riˈækʃn/n. /反应；回应/His reaction to the news was shock.
+farmland/ˈfɑːmlænd/n. /农田/Urban expansion is reducing farmland.
+apparent/əˈpærənt/adj. /明显的；显然的/His talent was apparent from an early age.
+polish/ˈpɒlɪʃ/v. /擦亮；润色/She polished her essay before submitting it.
+slide/slaɪd/v. /滑动；滑落/The child slid down the playground slide.
+oral/ˈɔːrəl/adj. /口头的；口述的/He passed the oral exam with flying colors.
+reform/rɪˈfɔːm/n. /改革；改良/The education reform aims to reduce inequality.
+enthusiasm/ɪnˈθjuːziæzəm/n. /热情；热忱/She spoke with great enthusiasm about her work.
+slim/slɪm/adj. /苗条的；微小的/He has a slim chance of winning the race.
+setting/ˈsetɪŋ/n. /环境；背景/The story is set in a coastal village.
+wipe/waɪp/v. /擦；抹/Wipe the table with a damp cloth.
+arise/əˈraɪz/v. /出现；产生/Problems may arise during implementation.
+minister/ˈmɪnɪstə(r)/n. /部长；牧师/The finance minister announced new taxes.
+severe/sɪˈvɪə(r)/adj. /严重的；严厉的/The region suffered severe flooding.
+injure/ˈɪndʒə(r)/v. /伤害；使受伤/Three people were injured in the crash.
+currently/ˈkʌrəntli/adv. /目前；当前/He is currently working on a new novel.
+optional/ˈɒpʃənl/adj. /可选的；非强制的/The tour includes optional activities.
+substitute/ˈsʌbstɪtjuːt/n. /替代品；代替者/Milk can be a substitute for cream in recipes.
+widespread/ˈwaɪdspred/adj. /广泛的；普遍的/Widespread protests occurred across the country.
+analyst/ˈænəlɪst/n. /分析师/Financial analysts predicted a market drop.
+appetite/ˈæpɪtaɪt/n. /食欲；欲望/Exercise can increase your appetite.
+meaningless/ˈmiːnɪŋləs/adj. /无意义的；空洞的/The argument was full of meaningless phrases.
+format/ˈfɔːmæt/n. /格式；版式/Save the document in PDF format.
+squeeze/skwiːz/v. /挤压；挤出/Squeeze the lemon juice into the bowl.
+cupboard/ˈkʌbəd/n. /橱柜；碗柜/The plates are in the kitchen cupboard.
+senior/ˈsiːniə(r)/adj. /年长的；高级的/She holds a senior position in the company.
+accountant/əˈkaʊntənt/n. /会计师/He hired an accountant to manage his taxes.
+nutritional/ˌnjuːtrɪˈʃənl/adj. /营养的/This cereal is high in nutritional value.
+pollinate/ˈpɒlɪneɪt/v. /授粉/Bees pollinate many flowering plants.
+collar/ˈkɒlə(r)/n. /衣领；项圈/He turned up his collar against the wind.
+alike/əˈlaɪk/adj. /相似的/They look very much alike.
+bush/bʊʃ/n. /灌木；丛林/The garden is full of flowering bushes.
+judgement/ˈdʒʌdʒmənt/n. /判断；裁决/Use your best judgement in this matter.
+fluency/ˈfluːənsi/n. /流利；流畅/Her fluency in Spanish impressed the interviewer.
+profitable/ˈprɒfɪtəbl/adj. /有利可图的/The business became profitable within a year.
+whoever/huːˈevə(r)/pron. /无论谁/Whoever finishes first can leave early.
+notification/ˌnəʊtɪfɪˈkeɪʃn/n. /通知；通告/You’ll receive a notification when the order ships.
+percentage/pəˈsentɪdʒ/n. /百分比/A large percentage of voters supported the bill.
+handful/ˈhændfʊl/n. /一把；少数/A handful of students stayed after class.
+investigate/ɪnˈvestɪɡeɪt/v. /调查；研究/The police are investigating the incident.
+comeback/ˈkʌmbæk/n. /回归；复出/His musical comeback was a huge success.
+slight/slaɪt/adj. /轻微的；微小的/There was a slight delay in delivery.
+systematic/ˌsɪstəˈmætɪk/adj. /系统的；有条理的/She took a systematic approach to problem-solving.
+scan/scæn/v. /扫描；浏览/He scanned the newspaper for job ads.
+vice/vaɪs/n. /恶习；缺点/Greed is a dangerous vice.
+approximately/əˈprɒksɪmətli/adv. /大约；大概/The journey takes approximately three hours.
+interdependence/ˌɪntədɪˈpendəns/n. /相互依赖/Economic interdependence links nations together.
+distant/ˈdɪstənt/adj. /遥远的；疏远的/She has distant relatives in Australia.
+foundation/faʊnˈdeɪʃn/n. /基础；基金会/The house was built on solid foundations.
+allergic/əˈlɜːdʒɪk/adj. /过敏的/I’m allergic to peanuts.
+grand/ɡrænd/adj. /宏伟的；盛大的/The palace has a grand staircase.
+melancholy/ˈmelənkəli/n. /忧郁；悲伤/A sense of melancholy filled the room.
+bunch/bʌntʃ/n. /一束；一群/She bought a bunch of fresh flowers.
+except/ɪkˈsept/prep. /除……之外/Everyone attended except John.
+majority/məˈdʒɒrəti/n. /大多数/The majority voted in favor of the proposal.
+avenue/ˈævənjuː/n. /大街；途径/Maple Avenue is lined with tall trees.
+coast/kəʊst/n. /海岸；海滨/We drove along the scenic coast.
+dynamic/daɪˈnæmɪk/adj. /有活力的；动态的/She’s a dynamic leader with bold ideas.
+splendid/ˈsplendɪd/adj. /极好的；辉煌的/They had a splendid time at the concert.
+bowl/bəʊl/n. /碗；盆/He ate cereal from a large ceramic bowl.
+subscription/səbˈskrɪpʃn/n. /订阅；订购/My magazine subscription expires next month.
+receipt/rɪˈsiːt/n. /收据；收到/Keep the receipt in case you need to return it.
+kingdom/ˈkɪŋdəm/n. /王国；领域/The animal kingdom includes mammals and birds.
+depart/dɪˈpɑːt/v. /离开；启程/The train departs at 6 p.m. sharp.
+garage/ˈɡærɑːʒ/n. /车库；汽车修理厂/He parks his car in the garage.
+fundamental/ˌfʌndəˈmentl/adj. /基本的；根本的/Honesty is a fundamental value.
+advancement/ədˈvɑːnsmənt/n. /进步；晋升/Technological advancement changes our lives.
+incident/ˈɪnsɪdənt/n. /事件；事变/A minor traffic incident caused a delay.
+globe/ɡləʊb/n. /地球；世界/The company operates in over 50 countries across the globe.
+refund/ˈriːfʌnd/n. /退款/You can request a full refund within 30 days.
+newcomer/ˈnjuːkʌmə(r)/n. /新来者；新手/She’s a newcomer to the field of journalism.
+polite/pəˈlaɪt/adj. /有礼貌的/It’s polite to say “thank you.”
+continent/ˈkɒntɪnənt/n. /大陆/Australia is both a country and a continent.
+canal/kəˈnæl/n. /运河/The Panama Canal connects two oceans.
+congress/ˈkɒŋɡres/n. /国会；代表大会/The U.S. Congress passed the new law.
+inventor/ɪnˈventə(r)/n. /发明家/Thomas Edison was a famous inventor.
+honour/ˈɒnə(r)/n. /荣誉；尊敬/He received an honour for his service.
+possibly/ˈpɒsəbli/adv. /可能地/It will possibly rain tomorrow.
+interactive/ˌɪntərˈæktɪv/adj. /互动的/This museum has interactive exhibits.
+realistic/ˌriːəˈlɪstɪk/adj. /现实的；逼真的/His goals are realistic and achievable.
+sorrow/ˈsɒrəʊ/n. /悲伤；悲痛/She expressed deep sorrow at the loss.
+dismiss/dɪsˈmɪs/v. /解雇；不予考虑/The manager dismissed the employee.
+significance/sɪɡˈnɪfɪkəns/n. /重要性；意义/The discovery has great scientific significance.
+wrongly/ˈrɒŋli/adv. /错误地/He was wrongly accused of theft.
+exceed/ɪkˈsiːd/v. /超过；超出/Speeding exceeds the legal limit.
+hunch/hʌntʃ/n. /预感；直觉/I have a hunch that she’ll win.
+overweight/ˌəʊvəˈweɪt/adj. /超重的/Being overweight increases health risks.
+recreation/ˌrekriˈeɪʃn/n. /娱乐；消遣/Parks provide space for outdoor recreation.
+regardless/rɪˈɡɑːdləs/adv. /不管怎样；无论如何/He continued regardless of the danger.
+explanation/ˌekspləˈneɪʃn/n. /解释；说明/Can you give a clear explanation?
+scanner/ˈskænə(r)/n. /扫描仪/The office bought a new document scanner.
+crucial/ˈkruːʃl/adj. /至关重要的/Water is crucial for survival.
+casually/ˈkæʒuəli/adv. /随意地/He dressed casually for the weekend.
+industrial/ɪnˈdʌstriəl/adj. /工业的/The city has a strong industrial base.
+ship/ʃɪp/v. /运送；发货/We ship orders within 24 hours.
+insurance/ɪnˈʃʊərəns/n. /保险/Car insurance is legally required.
+tailor/ˈteɪlə(r)/v. /定制；裁缝/They tailored the suit to fit perfectly.
+reservation/ˌrezəˈveɪʃn/n. /预订；保留意见/I made a hotel reservation online.
+engine/ˈendʒɪn/n. /发动机；引擎/The car’s engine makes a strange noise.
+Victorian/vɪkˈtɔːriən/adj. /维多利亚时代的/Victorian architecture is ornate and elegant.
+occasionally/əˈkeɪʒənəli/adv. /偶尔；有时/I occasionally visit my hometown.
+cognitive/ˈkɒɡnətɪv/adj. /认知的/Cognitive development begins in infancy.
+recognition/ˌrekəɡˈnɪʃn/n. /认可；识别/She received international recognition for her work.
+proposal/prəˈpəʊzl/n. /提议；求婚/He made a business proposal to the board.
+restriction/rɪˈstrɪkʃn/n. /限制；约束/There are travel restrictions in place.
+innovation/ˌɪnəˈveɪʃn/n. /创新；革新/Technological innovation drives progress.
+lean/liːn/v. /倾斜；倚靠/He leaned against the wall while waiting.
+consult/kənˈsʌlt/v. /咨询；请教/Always consult a doctor before taking medicine.
+swing/swɪŋ/v. /摇摆； swing/She swung the bat and hit the ball.
+elementary/ˌelɪˈmentri/adj. /基本的；初级的/This is an elementary math problem.
+appreciation/əˌpriːʃiˈeɪʃn/n. /欣赏；感激/I’d like to express my appreciation for your help.
+hardship/ˈhɑːdʃɪp/n. /艰难；困苦/They endured great hardship during the war.
+activist/ˈæktɪvɪst/n. /积极分子；活动家/She is a human rights activist.
+seize/siːz/v. /抓住； seize/Police seized illegal goods at the border.
+mature/məˈtʃʊə(r)/adj. /成熟的/He showed mature judgment in the crisis.
+dominant/ˈdɒmɪnənt/adj. /占主导地位的/English is the dominant language in business.
+coastal/ˈkəʊstl/adj. /沿海的/Coastal areas are vulnerable to storms.
+undergraduate/ˌʌndəˈɡrædʒuət/n. /本科生/She is an undergraduate studying biology.
+discontent/ˌdɪskənˈtent/n. /不满/There is growing discontent among workers.
+friendliness/ˈfrendlinəs/n. /友好/Her friendliness made everyone feel welcome.
+permit/pəˈmɪt/v. /允许；许可/Smoking is not permitted here.
+spray/spreɪ/v. /喷；喷雾/Spray the plants with insecticide.
+upper/ˈʌpə(r)/adj. /上面的；上层的/The upper floor has three bedrooms.
+comprehension/ˌkɒmprɪˈhenʃn/n. /理解； comprehension/Reading improves language comprehension.
+automatic/ˌɔːtəˈmætɪk/adj. /自动的/The door opens automatically when you approach.
+hostess/ˈhəʊstəs/n. /女主人；空姐/The hostess welcomed guests at the party.
+scale/skeɪl/n. /规模；比例/The project is large in scale and complexity.
+interrupt/ˌɪntəˈrʌpt/v. /打断；中断/Sorry to interrupt, but there’s an emergency.
+convey/kənˈveɪ/v. /传达；运输/The letter conveys her deepest apologies.
+flexible/ˈfleksəbl/adj. /灵活的；柔韧的/She has a flexible work schedule.
+orchestra/ˈɔːkɪstrə/n. /管弦乐队/The orchestra played Beethoven’s symphony.
+withdraw/wɪðˈdrɔː/v. /撤回；取款/He withdrew cash from the ATM.
+representative/ˌreprɪˈzentətɪv/n. /代表/She is the company’s sales representative.
+gorilla/ɡəˈrɪlə/n. /大猩猩/Gorillas are endangered due to habitat loss.
+universal/ˌjuːnɪˈvɜːsl/adj. /普遍的；通用的/Smiles are a universal sign of happiness.
+version/ˈvɜːʃn/n. /版本；说法/This is the latest version of the software.
+flexibility/ˌfleksəˈbɪləti/n. /灵活性/Job flexibility improves employee satisfaction.
+digest/daɪˈdʒest/v. /消化；理解/It takes time to digest complex information.
+violent/ˈvaɪələnt/adj. /暴力的；猛烈的/The storm caused violent winds.
+ambiguous/æmˈbɪɡjuəs/adj. /模棱两可的/His answer was deliberately ambiguous.
+blossom/ˈblɒsəm/v. /开花；繁荣/The cherry trees blossom in spring.
+illegal/ɪˈliːɡl/adj. /非法的/It’s illegal to park here.
+brake/breɪk/n. /刹车/Apply the brake gently when stopping.
+eligible/ˈelɪdʒəbl/adj. /符合条件的/Only eligible voters can participate.
+shelter/ˈʃeltə(r)/n. /庇护所；遮蔽处/The shelter provides food and beds for the homeless.
+authority/ɔːˈθɒrəti/n. /权威；当局/The local authority approved the plan.
+threaten/ˈθretən/v. /威胁；恐吓/Climate change threatens coastal cities.
+whisper/ˈwɪspə(r)/v. /低语；耳语/She whispered a secret in his ear.
+sincerely/sɪnˈsɪəli/adv. /真诚地/I sincerely hope you recover soon.
+tolerate/ˈtɒləreɪt/v. /容忍；忍受/I can’t tolerate loud noise while studying.
+possession/pəˈzeʃn/n. /拥有；财产/His only possession was a small suitcase.
+influential/ˌɪnfluˈenʃl/adj. /有影响力的/She is an influential figure in politics.
+finance/faɪˈnæns/n. /财政；金融/Public finance affects national stability.
+initial/ɪˈnɪʃl/adj. /最初的/Initial results show promise.
+accommodation/əˌkɒməˈdeɪʃn/n. /住宿；住处/The hotel offers comfortable accommodation.
+glance/ɡlɑːns/n. /一瞥/He took a quick glance at his watch.
+violinist/ˌvaɪəˈlɪnɪst/n. /小提琴家/She is a world-famous violinist.
+approval/əˈpruːvl/n. /批准；赞成/The plan needs official approval.
+affection/əˈfekʃn/n. /喜爱；感情/He showed great affection for his dog.
+relevant/ˈreləvənt/adj. /相关的/Your experience is relevant to this job.
+split/splɪt/v. /分裂；劈开/They split the cost evenly.
+worthwhile/ˌwɜːθˈwaɪl/adj. /值得的/It’s a worthwhile investment of time.
+boulevard/ˈbuːlvəd/n. /林荫大道/The café is on a busy boulevard.
+bless/bles/v. /祝福；保佑/She blessed the meal before eating.
+explosion/ɪkˈspləʊʒn/n. /爆炸/The explosion damaged nearby buildings.
+lap/læp/n. /大腿；一圈/The cat curled up on her lap.
+chalk/tʃɔːk/n. /粉笔/He wrote the equation in white chalk.
+unwise/ʌnˈwaɪz/adj. /不明智的/It would be unwise to ignore the warning.
+effectively/ɪˈfektɪvli/adv. /有效地/She managed the team effectively.
+remarkably/rɪˈmɑːkəbli/adv. /显著地；非凡地/He recovered remarkably quickly.
+architectural/ˌɑːkɪˈtektʃərəl/adj. /建筑的/The city is known for its architectural beauty.
+straightforward/ˌstreɪtˈfɔːwəd/adj. /简单的；直接的/The instructions are straightforward.
+tremble/ˈtrembl/v. /颤抖/Her hands trembled with fear.
+immigrant/ˈɪmɪɡrənt/n. /移民/Many immigrants seek better opportunities.
+discrimination/ˌdɪskrɪmɪˈneɪʃn/n. /歧视/Racial discrimination is illegal.
+modular/ˈmɒdʒələ(r)/adj. /模块化的/This furniture has a modular design.
+compromise/ˈkɒmprəmaɪz/n. /妥协；折中/They reached a compromise after long talks.
+alcohol/ˈælkəhɒl/n. /酒精/Excessive alcohol consumption is harmful.
+criterion/kraɪˈtɪəriən/n. /标准（单数）/Accuracy is a key criterion for this job.
+companion/kəmˈpæniən/n. /同伴；伴侣/Her dog is her constant companion.
+pioneer/ˌpaɪəˈnɪə(r)/n. /先驱；开拓者/He was a pioneer in computer science.
+deliberately/dɪˈlɪbərətli/adv. /故意地/He deliberately ignored her question.
+existence/ɪɡˈzɪstəns/n. /存在/Life in extreme environments challenges existence.
+satellite/ˈsætəlaɪt/n. /卫星/Weather satellites monitor storms from space.
+urgent/ˈɜːdʒənt/adj. /紧急的/This is an urgent matter requiring action.
+locally/ˈləʊkəli/adv. /在当地/The fruit is grown locally and sold fresh.
+imitate/ˈɪmɪteɪt/v. /模仿/Children often imitate their parents.
+fancy/ˈfænsi/adj. /花哨的；昂贵的/She wore a fancy dress to the gala.
+caldera/kælˈdɪərə/n. /破火山口/The lake fills a volcanic caldera.
+abundant/əˈbʌndənt/adj. /丰富的；充裕的/The region has abundant natural resources.
+settlement/ˈsetlmənt/n. /定居点；解决/The dispute ended with a financial settlement.
+software/ˈsɒftweə(r)/n. /软件/This software helps manage your finances.
+authentic/ɔːˈθentɪk/adj. /真实的；正宗的/This restaurant serves authentic Italian food.
+recite/rɪˈsaɪt/v. /背诵/Students recited poems in class.
+rapid/ˈræpɪd/adj. /快速的/Rapid urbanization brings challenges.
+permanent/ˈpɜːmənənt/adj. /永久的/They sought permanent residency.
+grasp/ɡrɑːsp/v. /抓住；理解/It took me a while to grasp the concept.
+dull/dʌl/adj. /枯燥的；迟钝的/The lecture was dull and uninspiring.
+victim/ˈvɪktɪm/n. /受害者/He was a victim of identity theft.
+hesitation/ˌhezɪˈteɪʃn/n. /犹豫/She accepted the offer without hesitation.
+insist/ɪnˈsɪst/v. /坚持/He insisted on paying for dinner.
+conventional/kənˈvenʃənl/adj. /传统的/Conventional medicine is widely used.
+weaken/ˈwiːkən/v. /削弱/The illness weakened his immune system.
+bonus/ˈbəʊnəs/n. /奖金；额外好处/Employees received a year-end bonus.
+gesture/ˈdʒestʃə(r)/n. /手势；姿态/A simple gesture of kindness meant a lot.
+guarantee/ˌɡærənˈtiː/v. /保证/This product is guaranteed for two years.
+aside/əˈsaɪd/adv. /在旁边； aside/Set your doubts aside and trust me.
+monument/ˈmɒnjumənt/n. /纪念碑；历史遗迹/The monument honors war heroes.
+obviously/ˈɒbviəsli/adv. /显然地/He was obviously upset by the news.
+trap/træp/n. /陷阱；困境/The mouse was caught in a trap.
+studio/ˈstjuːdiəʊ/n. /工作室；录音室/She records music in her home studio.
+barrier/ˈbæriə(r)/n. /障碍；屏障/Language can be a barrier to communication.
+security/sɪˈkjʊərəti/n. /安全；保安/Airport security checked all luggage.
+technical/ˈteknɪkl/adj. /技术的/He has strong technical skills.
+comparison/kəmˈpærɪsn/n. /比较/In comparison, her solution is more efficient.
+sympathetic/ˌsɪmpəˈθetɪk/adj. /同情的；赞同的/She gave a sympathetic smile.
+spell/spel/v. /拼写；咒语/How do you spell “necessary”?
+psychology/saɪˈkɒlədʒi/n. /心理学/He studies cognitive psychology at university.
+upright/ˈʌpraɪt/adj. /直立的；正直的/Sit upright to avoid back pain.
+evolve/ɪˈvɒlv/v. /进化；发展/Birds evolved from dinosaurs.
+biodiversity/ˌbaɪəʊdaɪˈvɜːsəti/n. /生物多样性/Protecting biodiversity is crucial for ecosystems.
+persuade/pəˈsweɪd/v. /说服/She persuaded him to apply for the job.
+vast/vɑːst/adj. /巨大的/They crossed a vast desert.
+currency/ˈkʌrənsi/n. /货币/Foreign currency exchange is available here.
+surround/səˈraʊnd/v. /包围；环绕/Mountains surround the valley.
+property/ˈprɒpəti/n. /财产；特性/Intellectual property is protected by law.
+impressive/ɪmˈpresɪv/adj. /令人印象深刻的/Her performance was truly impressive.
+definition/ˌdefɪˈnɪʃn/n. /定义；清晰度/The dictionary gives a clear definition.
+indeed/ɪnˈdiːd/adv. /确实；实际上/It was indeed a remarkable achievement.
+panic/ˈpænɪk/n. /恐慌/There was panic when the fire alarm rang.
+publisher/ˈpʌblɪʃə(r)/n. /出版商/The publisher accepted her manuscript.
+optimistic/ˌɒptɪˈmɪstɪk/adj. /乐观的/She remains optimistic about the future.
+mathematical/ˌmæθəˈmætɪkl/adj. /数学的/He solved the problem with mathematical precision.
+site/saɪt/n. /地点；网站/The construction site is closed to visitors.
+amuse/əˈmjuːz/v. /逗乐；使发笑/He amused the children with magic tricks.
+household/ˈhaʊshəʊld/n. /家庭；户/A typical household has two cars.
+precious/ˈpreʃəs/adj. /珍贵的/Time is a precious resource.
+crane/kreɪn/n. /起重机；鹤/The crane lifted heavy steel beams.
+massive/ˈmæsɪv/adj. /巨大的； massive/The earthquake caused massive damage.
+accompany/əˈkʌmpəni/v. /陪伴；伴随/She accompanied him to the airport.
+broadcast/ˈbrɔːdkɑːst/v. /广播；播送/The game will be broadcast live tonight.
+prevention/prɪˈvenʃn/n. /预防/Prevention is better than cure.
+constantly/ˈkɒnstəntli/adv. /不断地/He is constantly checking his phone.
+reflection/rɪˈflekʃn/n. /反射；思考/The lake showed a clear reflection of the sky.
+claim/kleɪm/v. /声称；索取/He claimed he saw a UFO.
+expectation/ˌekspekˈteɪʃn/n. /期望/The movie exceeded all expectations.
+wine/waɪn/n. /葡萄酒/They served red wine with dinner.
+overcome/ˌəʊvəˈkʌm/v. /克服/She overcame her fear of public speaking.
+random/ˈrændəm/adj. /随机的/He picked a random number between 1 and 10.
+newly/ˈnjuːli/adv. /新近地/They moved into a newly built house.
+imply/ɪmˈplaɪ/v. /暗示/His silence implied disagreement.
+complain/kəmˈpleɪn/v. /抱怨/Customers complained about poor service.
+investment/ɪnˈvestmənt/n. /投资/Real estate is a popular investment.
+commitment/kəˈmɪtmənt/n. /承诺；投入/Success requires total commitment.
+portly/ˈpɔːtli/adj. /肥胖的（尤指男性）/The portly gentleman wore a bow tie.
+analysis/əˈnæləsɪs/n. /分析/Statistical analysis revealed a trend.
+circumstance/ˈsɜːkəmstəns/n. /情况；环境/Under no circumstances should you open it.
+inspiration/ˌɪnspɪˈreɪʃn/n. /灵感；鼓舞/Her life story is an inspiration to many.
+sprint/sprɪnt/v. /冲刺/He sprinted to catch the bus.
+thoughtful/ˈθɔːtfʊl/adj. /体贴的；深思的/She gave a thoughtful gift.
+conflict/ˈkɒnflɪkt/n. /冲突/Religious conflict has caused unrest.
+specialist/ˈspeʃəlɪst/n. /专家/He consulted a heart specialist.
+determination/dɪˌtɜːmɪˈneɪʃn/n. /决心/Her determination led to success.
+secondary/ˈsekəndri/adj. /次要的；中学的/English is a secondary language here.
+advocate/ˈædvəkeɪt/v. /提倡；拥护/She advocates for animal rights.
+scenery/ˈsiːnəri/n. /风景/The mountain scenery is breathtaking.
+alternative/ɔːlˈtɜːnətɪv/n. /替代方案/Solar power is a clean alternative to coal.
+surplus/ˈsɜːpləs/n. /剩余；盈余/The farm produced a grain surplus.
+phenomenon/fəˈnɒmɪnən/n. /现象/Global warming is a complex phenomenon.
+psychological/ˌsaɪkəˈlɒdʒɪkl/adj. /心理的/Stress can cause psychological problems.
+profit/ˈprɒfɪt/n. /利润/The company reported a healthy profit.
+facility/fəˈsɪləti/n. /设施；便利/This gym has excellent facilities.
+rescue/ˈreskjuː/v. /营救/Firefighters rescued people from the burning building.
+reliable/rɪˈlaɪəbl/adj. /可靠的/He’s a reliable friend who keeps promises.
+calculate/ˈkælkjuleɪt/v. /计算/Engineers calculated the load capacity.
+extend/ɪkˈstend/v. /延长；扩展/They extended the deadline by one week.
+sustainable/səˈsteɪnəbl/adj. /可持续的/Sustainable farming protects the soil.
+injury/ˈɪndʒəri/n. /伤害；损伤/He suffered a serious knee injury.
+pronunciation/prəˌnʌnsiˈeɪʃn/n. /发音/Her pronunciation is excellent.
+randomly/ˈrændəmli/adv. /随机地/Names were selected randomly from a hat.
+consequence/ˈkɒnsɪkwəns/n. /后果/Smoking has serious health consequences.
+originally/əˈrɪdʒənəli/adv. /最初/Originally, the plan was to leave in May.
+temporary/ˈtemprəri/adj. /临时的/He has a temporary job for the summer.
+bacterium/bækˈtɪəriəm/n. /细菌（单数）/One bacterium can multiply rapidly.
+react/rɪˈækt/v. /反应/She reacted angrily to the accusation.
+contribution/ˌkɒntrɪˈbjuːʃn/n. /贡献/His contribution to science was groundbreaking.
+editor/ˈedɪtə(r)/n. /编辑/The editor revised the article for clarity.
+constant/ˈkɒnstənt/adj. /持续的；不变的/She faced constant pressure at work.
+moreover/mɔːˈrəʊvə(r)/adv. /此外；而且/He’s qualified; moreover, he’s experienced.
+ecological/ˌiːkəˈlɒdʒɪkl/adj. /生态的/We need ecological solutions to pollution.
+suspect/səˈspekt/v. /怀疑/The police suspect him of theft.
+pioneer/ˌpaɪəˈnɪə(r)/v. /开创；先锋/The team pioneered a new treatment method.
+accurate/ˈækjərət/adj. /准确的/Her measurements were highly accurate.
+relieve/rɪˈliːv/v. /缓解；减轻/Medicine relieved his pain.
+spatial/ˈspeɪʃl/adj. /空间的/Children develop spatial awareness through play.
+payment/ˈpeɪmənt/n. /支付；付款/Full payment is due upon delivery.
+independence/ˌɪndɪˈpendəns/n. /独立/Independence Day is celebrated on July 4th.
+observation/ˌɒbzəˈveɪʃn/n. /观察/The scientist recorded her observations carefully.
+lock/lɒk/v. /锁上/Please lock the door when you leave.
+excellence/ˈeksələns/n. /优秀；卓越/The school strives for academic excellence.
+assumption/əˈsʌmpʃn/n. /假设/That conclusion is based on a false assumption.
+facial/ˈfeɪʃl/adj. /面部的/She uses a facial cleanser every night.
+alongside/əˌlɒŋˈsaɪd/prep. /在……旁边/He stood alongside his teammates.
+vain/veɪn/adj. /徒劳的；自负的/All his efforts were in vain.
+enthusiastic/ɪnˌθjuːziˈæstɪk/adj. /热情的/She’s enthusiastic about learning French.
+institute/ˈɪnstɪtjuːt/n. /学院；研究所/He works at a medical research institute.
+disturb/dɪˈstɜːb/v. /打扰；扰乱/Please don’t disturb me while I’m working.
+extinguisher/ɪkˈstɪŋɡwɪʃə(r)/n. /灭火器/There’s a fire extinguisher in the kitchen.
+disadvantage/ˌdɪsədˈvɑːntɪdʒ/n. /劣势；不利条件/Lack of experience is a disadvantage.
+update/ˌʌpˈdeɪt/v. /更新/Please update your software regularly.
+destiny/ˈdestəni/n. /命运/He believed it was his destiny to become a writer.
+sensitive/ˈsensətɪv/adj. /敏感的；灵敏的/Her skin is sensitive to sunlight.
+regain/rɪˈɡeɪn/v. /重新获得/He regained consciousness after the accident.
+ashamed/əˈʃeɪmd/adj. /羞愧的/She felt ashamed of her behavior.
+delivery/dɪˈlɪvəri/n. /递送；分娩/Food delivery arrived in 30 minutes.
+trainee/ˌtreɪˈniː/n. /受训者/She’s a management trainee at the bank.
+pretend/prɪˈtend/v. /假装/Children love to pretend they’re superheroes.
+productive/prəˈdʌktɪv/adj. /富有成效的/We had a productive meeting today.
+shortage/ˈʃɔːtɪdʒ/n. /短缺/There’s a shortage of skilled workers.
+meanwhile/ˈmiːnwaɪl/adv. /与此同时/Meanwhile, the police were searching for clues.
+adjustment/əˈdʒʌstmənt/n. /调整；适应/Moving to a new city requires adjustment.
+purse/pɜːs/n./钱包； purse/She kept her money in a small purse.
+republic/rɪˈpʌblk/n./共和国/France is a republic.
+absurd/əbˈsɜːd/adj./荒谬的；可笑的/That idea is absurd.
+house-warming/ˈhaʊswɔːmɪŋ/n./乔迁庆宴/They invited us to their house-warming party.
+bell/bel/n./铃；钟/The school bell rang at noon.
+unsafe/ʌnˈseɪf/adj./不安全的；危险的/It is unsafe to swim here.
+resign/rɪˈzaɪn/v./辞职；放弃/He decided to resign from his job.
+ample/ˈæmpl/adj./充足的；丰富的/There is ample space for everyone.
+steel/stiːl/n./钢；钢铁/The bridge is made of steel.
+pension/ˈpenʃn/n./养老金；退休金/He lives on his pension.
+labour/ˈleɪbə(r)/n./劳动；劳工/Manual labour is hard work.
+buffet/ˈbʊfeɪ/n./自助餐； buffet/We had a buffet dinner.
+rose/rəʊz/n./玫瑰；蔷薇/She gave me a red rose.
+kilo/ˈkiːləʊ/n./公斤；千克/I bought two kilos of apples.
+unconscious/ʌnˈknʃəs/adj./无意识的；昏迷的/He was unconscious after the accident.
+threat/θret/n./威胁；恐吓/He made a threat against them.
+yell/jel/v./大叫；呼喊/Don't yell at me!
+neck/nek/n./脖子；颈项/She wore a scarf around her neck.
+abortion/əˈbɔːʃn/n./流产；堕胎/Abortion is a sensitive topic.
+terminal/ˈtɜːmɪnl/n./终端；终点站/We arrived at the bus terminal.
+league/liːɡ/n./联盟；联赛/They play in the top league.
+politics/ˈpɒlətks/n./政治；政见/Politics can be divisive.
+onion/ˈʌnjən/n./洋葱/Cut the onion finely.
+academy/əˈkædəmi/n./学院；研究院/He studied at the military academy.
+caution/ˈkɔːn/n./小心；谨慎/Proceed with caution.
+maid/meɪd/n./女仆；侍女/The maid cleaned the room.
+revision/rɪˈvɪʒn/n./复习；修订/She did revision for the exam.
+litre/ˈliːtə(r)/n./升/This bottle holds one litre.
+cuisine/kwɪˈziːn/n./烹饪；菜肴/French cuisine is famous.
+fork/fɔːk/n./叉子；岔路/Use a fork to eat salad.
+headmistress/ˌhedˈmɪstrəs/n./女校长/The headmistress gave a speech.
+dash/dæʃ/v./猛冲；短跑/He made a dash for the door.
+lab/læb/n./实验室/Scientists work in the lab.
+hen/hen/n./母鸡/The hen laid an egg.
+feast/fiːst/n./盛宴；节日/We enjoyed a feast together.
+circus/ˈsɜːkəs/n./马戏团/Children love going to the circus.
+miss/mɪs/v./想念；错过/I miss my family.
+birthplace/ˈbɜːθples/n./出生地/His birthplace is London.
+merry/ˈmeri/adj./快乐的；愉快的/Merry Christmas!
+microscope/ˈmaɪkrəskəʊp/n./显微镜/Look at the cell under a microscope.
+defence/dɪˈfens/n./防御；辩护/The team played good defence.
+battery/ˈbætəri/n./电池；蓄电池/The phone battery is dead.
+parrot/ˈpærət/n./鹦鹉/The parrot can talk.
+paddle/ˈpædl/v./划桨；涉水/We paddled across the lake.
+needle/ˈniːdl/n./针； needle/Thread the needle carefully.
+mine/maɪn/pron./我的（名词性物主代词）/This book is mine.
+attain/əˈteɪn/v./达到；获得/He attained his goal.
+insert/ɪnˈsɜːt/v./插入；嵌入/Insert the key into the lock.
+performer/pəˈfɔːmə(r)/n./表演者/The performer sang beautifully.
+cartoon/kɑːˈtuːn/n./卡通；漫画/Children watch cartoons on TV.
+abnormal/æbˈnɔːml/adj./异常的；反常的/His behavior is abnormal.
+prescription/prɪˈskrɪpʃn/n./处方；药方/The doctor wrote a prescription.
+bakery/ˈbeɪkəri/n./面包店/We bought bread at the bakery.
+mailbox/ˈmeɪlbɒks/n./邮箱/Check the mailbox for letters.
+melon/ˈmelən/n./瓜；甜瓜/Watermelon is a type of melon.
+religion/rɪˈlɪdʒən/n./宗教；信仰/Religion plays an important role.
+correspond/ˌkɒrəspɒnd/v./通信；符合/We correspond by email.
+astronomy/əˈstrɒnəmi/n./天文学/Astronomy studies stars and planets.
+holy/ˈhəʊli/adj./神圣的；圣洁的/This is a holy place.
+chairman/ˈtʃeəmən/n./主席；董事长/The chairman led the meeting.
+ant/ænt/n./蚂蚁/Ants live in colonies.
+greedy/ˈɡriːdi/adj./贪婪的；贪吃的/Don't be greedy.
+popcorn/ˈpɒpkɔːn/n./爆米花/We ate popcorn at the cinema.
+fog/fɒɡ/n./雾；迷雾/The fog was thick this morning.
+fax/fæks/n./传真机；传真/Send the document by fax.
+fibre/ˈfaɪbə(r)/n./纤维；光纤/Eat more fibre for digestion.
+circuit/ˈsɜːkɪt/n./电路；回路/The electric circuit is broken.
+certificate/səˈtɪfɪkət/n./证书；证明/She received a certificate.
+content/ˈkɒntent/n./内容；目录/The content of the book is interesting.
+ink/ɪŋk/n./墨水；油墨/The pen ran out of ink.
+contradict/ˌkɒntrəˈdɪkt/v./反驳；与...矛盾/His words contradict his actions.
+fountain/ˈfaʊntən/n./喷泉；水源/The fountain sprays water high.
+funeral/ˈfjuːnərəl/n./葬礼；丧礼/Many people attended the funeral.
+ferry/ˈferi/n./渡船；渡口/We took the ferry across the river.
+grocer/ˈɡrəʊsə(r)/n./杂货商/My father is a grocer.
+Atlantic/ətˈlæntɪk/adj./大西洋的/They sailed across the Atlantic Ocean.
+nationality/ˌnæʃəˈnæləti/n./国籍；民族/What is your nationality?
+ham/hæm/n./火腿/I like ham sandwiches.
+outline/ˈaʊtlaɪn/n./大纲；轮廓/Write an outline before writing.
+botany/ˈbɒtəni/n./植物学/Botany is the study of plants.
+riddle/ˈrɪdl/n./谜语；谜题/Can you solve this riddle?
+mend/mend/v./修理；修补/He mended the broken chair.
+interpreter/ɪnˈtɜːprətə(r)/n./口译员/The interpreter translated the speech.
+porridge/ˈpɒrɪdʒ/n./粥；麦片粥/He eats porridge for breakfast.
+herb/hɜːb/n./草药；香草/Add some fresh herb to the dish.
+bathtub/ˈbɑːθtʌb/n./浴缸/She relaxed in the bathtub.
+arrest/əˈrest/v./逮捕；拘留/The police arrested the suspect.
+minority/maɪˈnɒrəti/n./少数；少数民族/They are a minority group.
+jaw/dʒɔː/n./颌；下巴/He hurt his jaw.
+questionnaire/ˌkwestʃəˈneə(r)/n./调查问卷/Fill out this questionnaire.
+handwriting/ˈhændraɪtɪŋ/n./ handwriting/Her handwriting is neat.
+drum/drʌm/n./鼓； drum/He plays the drum.
+chaos/ˈkeɪɒs/n./混乱；混沌/The room was in chaos.
+garlic/ˈɡɑːlɪk/n./大蒜/Add garlic to the sauce.
+grain/ɡreɪn/n./谷物；颗粒/Rice is a grain.
+elect/ɪˈlekt/v./选举；选择/They elected him as president.
+quilt/kwɪlt/n./被子； quilt/She sewed a quilt.
+fault/fɔːlt/n./错误；缺点/It's not my fault.
+premier/ˈpremɪə(r)/n./总理；首相/The premier gave a speech.
+alcoholic/ˌælkəˈhɒlɪk/adj./含酒精的；酗酒的/He is an alcoholic.
+Arctic/ˈɑːktɪk/adj./北极的/The Arctic is very cold.
+flat/flæt/adj./平坦的；公寓/The road is flat.
+jeans/dʒiːnz/n./牛仔裤/He wears blue jeans.
+carve/kɑːv/v./雕刻；切开/Carve the turkey carefully.
+jungle/ˈdʒʌŋɡl/n./丛林；密林/Animals live in the jungle.
+lamb/læm/n./羔羊；羊肉/The lamb bleated softly.
+enlarge/ɪnˈlɑːdʒ/v./扩大；放大/Enlarge the photo.
+rigid/ˈrɪdʒɪd/adj./严格的；僵硬的/The rules are rigid.
+southwest/ˌsaʊθˈwest/n./西南方向/We traveled southwest.
+outwards/ˈaʊtwədz/adv./向外；朝外/Turn your palms outwards.
+cafe/ˈkæfeɪ/n./咖啡馆/Let's meet at the cafe.
+potato/pəˈteɪtəʊ/n./土豆/Potatoes are versatile.
+energise/ˈenədʒaɪz/v./使充满活力/Exercise will energise you.
+powder/ˈpaʊdə(r)/n./粉末；粉状物/Add powder to the mixture.
+sailor/ˈseɪlə(r)/n./水手；船员/The sailor sailed the ship.
+pill/pɪl/n./药丸；药片/Take this pill for pain.
+pork/pɔːk/n./猪肉/Pork is delicious.
+pole/pəʊl/n./杆；极/The flagpole is tall.
+pedestrian/pəˈdestriən/n./行人/Pedestrians should use the crosswalk.
+modification/ˌmɒdɪfɪˈkeɪʃn/n./修改；改良/The car needs modification.
+herd/hɜːd/n./兽群；牧群/The herd of cattle moved slowly.
+confusing/kənˈfjuːzɪŋ/adj./令人困惑的/The instructions are confusing.
+disadvantaged/ˌdɪsədvɑːntɪdʒd/adj./处于不利地位的/Help the disadvantaged.
+investigation/ɪnˌvestɪˈɡeɪʃn/n./调查；研究/The police started an investigation.
+fascinated/ˈfæsɪneɪtɪd/adj./着迷的；被吸引的/She was fascinated by the story.
+relay/ˈriːleɪ/v./转播；接力/They relayed the message.
+hard-working/ˌhɑːdˈwɜːkɪŋ/adj./勤奋的/He is a hard-working student.
+punctual/ˈpʌŋktʃuəl/adj./准时的/Be punctual for the meeting.
+lantern/ˈlæntən/n./灯笼；提灯/Carry a lantern in the dark.
+justice/ˈdʒʌstɪs/n./正义；公正/Justice must be served.
+overcoat/ˈəʊvəkəʊt/n./大衣；外套/Wear an overcoat in winter.
+referee/ˌrefəˈriː/n./裁判员；仲裁者/The referee blew the whistle.
+pea/piː/n./豌豆/Peas are green vegetables.
+bureaucratic/ˌbjʊərəˈkrætɪk/adj./官僚的；繁琐的/The process is bureaucratic.
+enquiry/ɪnˈkwaəri/n./询问；调查/Make an enquiry about the course.
+pineapple/ˈpaɪnæpl/n./菠萝/Pineapple is sweet and sour.
+appendix/əˈpendɪks/n./附录；阑尾/Read the appendix for details.
+boating/ˈbəʊtɪŋ/n./划船/Boating is fun on the lake.
+contract/ˈkɒntrækt/n./合同；契约/Sign the contract carefully.
+astonishing/əˈstɒnɪʃŋ/adj./令人惊讶的/The news was astonishing.
+boyhood/ˈbɔhʊd/n./童年；少年时代/He remembered his boyhood fondly.
+poverty/ˈpɒvəti/n./贫穷；贫困/Poverty affects many people.
+guilt/ɡɪlt/n./内疚；罪行/He felt guilt for his mistake.
+separation/ˌsepəˈreɪʃn/n./分离；分开/Separation from family is hard.
+packet/ˈpækɪt/n./小包；包裹/Open the packet carefully.
+sleeve/sliːv/n./袖子；袖套/His sleeve was torn.
+primitive/ˈprɪmətv/adj./原始的；简陋的/Primitive tools were used.
+mutton/ˈmʌtn/n./羊肉/Mutton is tasty.
+dusk/dʌsk/n./黄昏；薄暮/We walked home at dusk.
+merciful/ˈmɜːsɪfl/adj./仁慈的；宽大的/The judge was merciful.
+baggage/ˈbæɡɪdʒ/n./行李/Check your baggage at the airport.
+corrupt/kəˈrʌpt/adj./腐败的；堕落的/Corrupt officials were punished.
+centigrade/ˈsentɪɡreɪd/adj./摄氏温度的/The temperature is 25 centigrade.
+hydrogen/ˈhaɪdrədʒən/n./氢/Hydrogen is the lightest element.
+communism/ˈkɒmjənzəm/n./共产主义/Communism is a political ideology.
+pyramid/ˈpɪrəmɪd/n./金字塔/The pyramid is ancient.
+goose/ɡuːs/n./鹅； goose/Geese fly south in winter.
+radiation/ˌreɪdiˈeɪʃn/n./辐射；放射线/Radiation can be harmful.
+accuse/əˈkjuːz/v./指控；谴责/He was accused of lying.
+biochemistry/ˌbaɪəˈkemɪstri/n./生物化学/Biochemistry studies life processes.
+fragrant/ˈfreɪɡrənt/adj./芳香的；香的/The flowers are fragrant.
+nephew/ˈnefjuː/n./侄子；外甥/My nephew visited yesterday.
+breathless/ˈbreθləs/adj./气喘吁吁的；屏息的/She was breathless after running.
+arithmetic/əˈrɪθmətɪk/n./算术；计算/Arithmetic is basic math.
+northwest/ˌnɔːθˈwest/n./西北方向/We drove northwest.
+acid/ˈæsɪd/n./酸；酸性物质/Lemon juice contains acid.
+marble/ˈmɑːbl/n./大理石；弹珠/The statue is made of marble.
+geometry/dʒiˈɒmətri/n./几何学/Geometry deals with shapes.
+acute/əˈkjuːt/adj./急性的；敏锐的/He has acute hearing.
+liberation/ˌlɪbəˈreɪʃn/n./解放；释放/Liberation came after war.
+plug/plʌɡ/n./插头；塞子/Plug in the charger.
+brewery/ˈbruəri/n./啤酒厂/We toured the brewery.
+diagram/ˈdaɪəɡræm/n./图表；示意图/Draw a diagram to explain.
+cube/kjuːb/n./立方体；冰块/The sugar cube dissolved.
+rewind/ˌriːˈwaɪnd/v./倒回；重绕/Rewind the tape.
+oval/ˈəʊvl/adj./椭圆的；卵形的/The table is oval.
+hormone/ˈhɔːməʊn/n./激素；荷尔蒙/Hormones affect mood.
+pavement/ˈpeɪvmənt/n./人行道；路面/Walk on the pavement.
+sightseeing/ˈsaɪtsiːɪŋ/n./观光；游览/Sightseeing is fun in Paris.
+sparrow/ˈspærəʊ/n./麻雀/A sparrow flew by.
+fatigue/fəˈtiːɡ/n./疲劳；疲倦/He suffered from fatigue.
+poison/ˈpɔɪzn/n./毒药；毒物/Do not touch the poison.
+drivel/ˈdrɪvl/n./胡言乱语；废话/Stop talking drivel.
+cannery/ˈkænəri/n./罐头工厂/Workers pack fish at the cannery.
+immunity/ɪˈmjunəti/n./免疫力；豁免权/Vaccines build immunity.
+championship/ˈtʃæmpiənʃɪp/n./锦标赛；冠军称号/They won the championship.
+displace/dɪsˈpleɪs/v./取代； displacing/Technology may displace jobs.
+independently/ˌɪndɪˈpendəntli/adv./独立地/She works independently.
+breeze/briːz/n./微风；和风/A gentle breeze blew.
+racial/ˈreɪʃl/adj./种族的；人种的/Racial equality is important.
+coal/kəʊl/n./煤；煤炭/Coal is used for energy.
+lightning/ˈlaɪtnɪŋ/n./闪电；雷电/Lightning struck the tree.
+handsome/ˈhænsəm/adj./英俊的；帅气的/He is a handsome man.
+kangaroo/ˌkæŋɡəˈruː/n./袋鼠/Kangaroos jump high.
+mushroom/ˈmʌʃrʊm/n./蘑菇/Mushrooms grow in damp places.
+golf/ɡɒlf/n./高尔夫球/He plays golf on weekends.
+correction/kəˈrekʃn/n./改正；修正/Make corrections to the essay.
+brunch/brʌntʃ/n./早午餐/We had brunch at noon.
+bridegroom/ˈbraɪdɡruːm/n./新郎/The bridegroom waited nervously.
+cassette/kəˈset/n./盒式磁带/Play the cassette.
+gymnastics/dʒɪmˈnæstɪks/n./体操/Gymnastics requires flexibility.
+breast/brest/n./胸部；乳房/She held the baby to her breast.
+jewellery/ˈdʒuːəlri/n./珠宝；首饰/She loves wearing jewellery.
+bound/baʊnd/adj./必定的；受约束的/He is bound to succeed.
+bowling/ˈbəʊlɪŋ/n./保龄球/We went bowling last night.
+lounge/laʊndʒ/n./休息室；躺椅/Relax in the lounge.
+belly/ˈbeli/n./肚子；腹部/His belly was full.
+consensus/kənˈsensəs/n./共识；一致意见/There was consensus on the plan.
+loaf/ləʊf/n./一条面包/She baked a loaf of bread.
+radioactive/ˌreɪdiəʊˈæktɪv/adj./放射性的/Radioactive materials are dangerous.
+rectangle/ˈrektæŋɡl/n./矩形；长方形/Draw a rectangle.
+anyhow/ˈenihaʊ/adv./无论如何；总之/Anyhow, we finished the task.
+bean curd/biːn kɜːd/n./豆腐/Bean curd is healthy.
+punctuation/ˌpʌŋktʃuˈeɪʃn/n./标点符号/Check your punctuation.
+choir/kwaɪə(r)/n./合唱团/The choir sang beautifully.
+haircut/ˈheəkʌt/n./理发；发型/Get a new haircut.
+lemonade/ˌleməˈneɪd/n./柠檬水/Drink lemonade on a hot day.
+boxing/ˈbɒksɪŋ/n./拳击运动/Boxing is a tough sport.
+divorce/dɪˈvɔːs/n./离婚；离异/Divorce rates are rising.
+outspoken/aʊtˈspəkən/adj./直言不讳的/She is outspoken about her views.
+dial/ˈdaɪəl/v./拨号； dial/Dial the number.
+leather/ˈleðə(r)/n./皮革；皮制品/This jacket is made of leather.
+howl/haʊl/v./嚎叫；呼啸/The wind howled outside.
+abolish/əˈbɒlɪʃ/v./废除；取消/Slavery was abolished.
+bungalow/ˈbʌŋɡələʊ/n./平房；小屋/They live in a bungalow.
+formulate/ˈfɔːmjuleɪt/v./制定；构想/Formulate a plan.
+caffeine/ˈkæfiːn/n./咖啡因/Caffeine keeps you awake.
+gossip/ˈɡɒsɪp/n./闲话；八卦/Don't spread gossip.
+seminar/ˈsemɪnɑː(r)/n./研讨会； seminar/Attend the seminar.
+reintroduce/ˌriːntrəˈdjuːs/v./重新引入/Reintroduce the species.
+providence/ˈprɒvdəns/n./天意； Providence/Providence guided them.
+intensive/ɪnˈtensɪv/adj./密集的；加强的/An intensive course.
+fridge/frɪdʒ/n./冰箱/Keep milk in the fridge.
+passive/ˈpæsɪv/adj./被动的；消极的/Be passive in class.
+sob/sɒb/v./抽泣；呜咽/She began to sob.
+pardon/ˈpɑːdn/v./原谅；宽恕/Pardon me for being late.
+seashell/ˈsiːʃel/n./贝壳/Collect seashells on the beach.
+sickness/ˈsɪknəs/n./疾病；恶心/Sickness kept him home.
+prayer/preə(r)/n./祈祷；祷告/Say a prayer.
+souvenir/ˌsuːvəˈnɪə(r)/n./纪念品/Buy a souvenir.
+sour/ˈsaʊə(r)/adj./酸的； sour/The milk turned sour.
+bow/bəʊ/n./弓；蝴蝶结/Tie a bow.
+goat/ɡəʊt/n./山羊/Goats eat grass.
+missile/ˈmɪsl/n./导弹；投掷物/The missile was launched.
+drunk/drʌŋk/adj./醉的； drunken/He was drunk.
+freeway/ˈfriːweɪ/n./高速公路/Drive on the freeway.
+paperwork/ˈpeɪpəwɜːk/n./文书工作/Paperwork takes time.
+conscience/ˈkɒnʃəns/n./良心；良知/Listen to your conscience.
+passer-by/ˈpɑːsəbaɪ/n./过路人/A passer-by helped.
+disk/dɪsk/n./磁盘；圆盘/Save the file on disk.
+oilfield/ˈɔɪlfiːld/n./油田/Oilfields produce oil.
+razor/ˈreɪzə(r)/n./剃刀；刮胡刀/Shave with a razor.
+gram/ɡræm/n./克/Weigh it in grams.
+homeland/ˈhəmlænd/n./祖国；家乡/He loves his homeland.
+idiom/ˈɪdiəm/n./习语；成语/Learn English idioms.
+cocoa/ˈkəʊkəʊ/n./可可粉；热可可/Drink cocoa.
+minus/ˈmaɪnəs/prep./减去；负数/Ten minus five is five.
+headline/ˈhedlaɪn/n./头条新闻/Read the headline.
+framework/ˈfreɪmwɜːk/n./框架；结构/Build a framework.
+ox/ɒks/n./公牛/Oxen pull carts.
+chant/tʃɑːnt/v./吟唱； chanting/They chanted a song.
+greengrocer/ˈɡriːnɡrəʊsə(r)/n./蔬菜水果商/Buy fruit from the greengrocer.
+dam/dæm/n./水坝；堤坝/The dam holds back water.
+bedding/ˈbedɪŋ/n./寝具；卧具/Change the bedding.
+motorcycle/ˈməʊtəsaɪkl/n./摩托车/Ride a motorcycle.
+quake/kweɪk/n./地震；震动/An earthquake occurred.
+crossroads/ˈkrɒsrəʊdz/n./十字路口/Turn left at the crossroads.
+handkerchief/ˈhæŋkətʃɪf/n./手帕/Wipe your nose with a handkerchief.
+fingernail/ˈfɪŋɡəneɪl/n./指甲/Trim your fingernails.
+Christian/ˈkrɪstʃən/n./基督徒/Christians believe in Jesus.
+apron/ˈeɪprən/n./围裙/Wear an apron when cooking.
+cheque/tʃek/n./支票/Write a cheque.
+receiver/rɪˈsiːvə(r)/n./接收器；听筒/Pick up the receiver.
+chick/tʃɪk/n./小鸡/The chick hatched.
+courier/ˈkʊriə(r)/n./快递员；信使/The courier delivered the package.
+chore/tʃɔː(r)/n./家务杂事/Do your chores.
+pat/pæt/v./轻拍；抚摸/Pat the dog gently.
+involvement/ɪnˈvɒlvmənt/n./参与；卷入/His involvement was minimal.
+dormitory/ˈdɔːmətri/n./宿舍/Students live in the dormitory.
+scratch/skrætʃ/v./抓；搔/Don't scratch the itch.
+deny/dɪˈnaɪ/v./否认；拒绝/He denied the accusation.
+porter/ˈpɔːtə(r)/n./搬运工；门房/The porter carried the bags.
+scold/skəʊld/v./责骂；训斥/She scolded the child.
+poster/ˈpəʊstə(r)/n./海报；招贴/Put up a poster.
+pregnant/ˈpreɡnənt/adj./怀孕的/She is pregnant.
+fever/ˈfiːvə(r)/n./发烧；狂热/He has a fever.
+badminton/ˈbædmɪntən/n./羽毛球/Play badminton.
+pancake/ˈpænkeɪk/n./煎饼/Eat pancakes for breakfast.
+cheek/tʃiːk/n./脸颊； cheek/She kissed his cheek.
+alley/ˈæli/n./小巷；胡同/Walk down the alley.
+broom/bruːm/n./扫帚/Sweep with a broom.
+embassy/ˈembəsi/n./大使馆/Visit the embassy.
+constitution/ˌkɒnstɪˈtjuːʃn/n./宪法；构成/The constitution protects rights.
+civilian/sɪˈvɪliən/n./平民；百姓/Civilians were harmed.
+carpenter/ˈkɑːpəntə(r)/n./木匠/The carpenter built the table.
+franc/fræŋk/n./法郎（货币单位）/Pay in francs.
+armchair/ˈɑːmtʃeə(r)/n./扶手椅/Sit in the armchair.
+barber/ˈbɑːbə(r)/n./理发师/Go to the barber.
+algebra/ˈældʒɪbrə/n./代数/Study algebra.
+motherland/ˈmʌðəlænd/n./祖国/Love your motherland.
+hammer/ˈhæmə(r)/n./锤子；锤击/Use a hammer to nail.
+reception/rɪˈsepʃn/n./接待； reception/Welcome to the reception.
+garment/ˈɡɑːmənt/n./服装；衣服/This garment is expensive.
+lorry/ˈlɒri/n./卡车；货车/The lorry carried goods.
+acquaintance/əˈkweɪntəns/n./熟人；相识/He is an acquaintance.
+mat/mæt/n./垫子；席子/Wipe your feet on the mat.
+mustard/ˈmʌstəd/n./芥末； mustard/Add mustard to the sandwich.
+diploma/dɪˈpləʊmə/n./文凭；毕业证书/She earned a diploma.
+pint/paɪnt/n./品脱（容量单位）/Order a pint of beer.
+postage/ˈpəʊstɪdʒ/n./邮资； postage/Pay the postage.
+rhyme/raɪm/n./韵；押韵/Find a rhyme.
+moustache/məˈstɑːʃ/n./胡子/He has a moustache.
+abuse/əˈbjuːs/v./滥用；虐待/Do not abuse power.
+offshore/ˌɒfˈɔː(r)/adj./近海的；离岸的/Offshore drilling.
+claw/klɔː/n./爪；爪子/The cat has sharp claws.
+rating/ˈreɪtɪŋ/n./评级；收视率/The show has high ratings.
+escalator/ˈeskəleɪtə(r)/n./自动扶梯/Take the escalator.
+embarrassed/ɪmˈbærəst/adj./尴尬的；窘迫的/He felt embarrassed.
+plaza/ˈplɑːzə/n./广场；购物中心/Meet at the plaza.
+disappointing/ˌdɪsəpɔɪntŋ/adj./令人失望的/The result was disappointing.
+frightened/ˈfraɪtnd/adj./害怕的；受惊的/The child was frightened.
+rented/ˈrentɪd/adj./租用的； rented/They lived in a rented house.
+astonished/əˈstɒnɪʃt/adj./震惊的；惊讶的/She was astonished.
+organically/ɔːɡænɪkli/adv./有机地；自然地/Grown organically.
+attacker/əˈtækə(r)/n./攻击者；袭击者/The attacker fled.
+firewall/ˈfaɪəwɔːl/n./防火墙/Install a firewall.
+embryonic/ˌembrɪˈɒnɪk/adj./胚胎的；初期的/Embryonic development.
+leafy/ˈliːfi/adj./多叶的；绿叶的/Leafy vegetables.
+extent/ɪkˈstent/n./程度；范围/To what extent?
+perfume/ˈpɜːfjuːm/n./香水；香味/She wore perfume.
+poisonous/ˈpɔɪzənəs/adj./有毒的；有害的/Poisonous snakes.
+grey/greɪ/adj./灰色的；灰暗的/The sky is grey.
+bandage/ˈbændɪdʒ/n./绷带；包扎/Apply a bandage.
+ice cream/aɪs kriːm/n./冰淇淋/Eat ice cream.
+jeep/dʒiːp/n./吉普车/Drive a jeep.
+bacon/ˈbeɪkən/n./培根；熏肉/Eat bacon and eggs.
+cosy/ˈkəʊzi/adj./舒适的；温馨的/A cosy room.
+dictation/dɪkˈteɪʃn/n./听写；口授/Take dictation.
+arch/ɑːtʃ/n./拱门；拱形/The arch is old.
+foresee/fɔːˈsiː/v./预见；预知/Can you foresee the future?
+enterprise/ˈentəpraɪz/n./企业；事业/Start an enterprise.
+quiz/kwɪz/n./测验；问答比赛/Take a quiz.
+compass/ˈkmpəs/n./指南针；圆规/Use a compass.
+fortnight/ˈfɔːtnaɪt/n./两星期/See you in a fortnight.
+beast/biːst/n./野兽；畜生/The beast roared.
+downstairs/ˌdaʊnˈsteəz/adv./在楼下/Go downstairs.
+mosquito/məˈskiːtəʊ/n./蚊子/Mosquitoes bite.
+forehead/ˈfɔːhed/n./前额；额头/Wipe your forehead.
+pest/pest/n./害虫；讨厌的人/Get rid of pests.
+friction/ˈfrɪkʃn/n./摩擦；冲突/Friction between groups.
+Buddhism/ˈbʊdɪzəm/n./佛教/Buddhism teaches peace.
+retell/ˌriːˈtel/v./复述；再讲/Retell the story.
+motto/ˈmɒtəʊ/n./座右铭；格言/His motto is "Never give up".
+directory/dəˈrektəri/n./目录；名录/Check the directory.
+conductor/kənˈdʌktə(r)/n./ conductor; 指挥/The conductor led the orchestra.
+pulse/pʌls/n./脉搏；脉冲/Feel your pulse.
+dustbin/ˈdʌstbn/n./垃圾桶/Throw trash in the dustbin.
+burglar/ˈbɜːɡlə(r)/n./窃贼；夜盗/The burglar broke in.
+disgusting/dɪsˈɡstɪŋ/adj./令人厌恶的；恶心的/That smell is disgusting.
+frost/frɒst/n./霜；冰冻/There was frost on the ground.
+pine/paɪn/n./松树；松木/The forest is full of tall pines.
+tutor/ˈtjuːtə(r)/n./导师；家庭教师/She hired a tutor to help her with math.
+wedding/ˈwedɪŋ/n./婚礼；结婚/They invited us to their wedding.
+pizza/ˈpiːtsə/n./比萨饼/Let's order a pizza for dinner.
+awesome/ˈɔːsəm/adj./令人敬畏的；极好的/The view from the top was awesome.
+voluntary/ˈvɒləntəri/adj./自愿的；志愿的/He did voluntary work at the hospital.
+troublesome/ˈtrʌblsəm/adj./麻烦的；讨厌的/The broken machine is very troublesome.
+tube/tjuːb/n./管子； tube/She squeezed toothpaste from the tube.
+mask/mɑːsk/n./面具；口罩/Wear a mask in public places.
+shopkeeper/ˈʃɒpkiːpə(r)/n./店主/The shopkeeper greeted us warmly.
+dilemma/dɪˈlemə/n./困境；进退两难/He faced a moral dilemma.
+found/faʊnd/v./建立；创立/They decided to found a new company.
+scary/ˈskeəri/adj./可怕的；吓人的/The movie was too scary for children.
+pronounce/prəˈnaʊns/v./发音；宣布/How do you pronounce this word?
+maple/ˈmeɪpl/n./枫树；槭树/The leaves of the maple turn red in autumn.
+homelessness/ˈhəʊmləsnəs/n./无家可归/Homelessness is a serious social problem.
+harbour/ˈhɑːbə(r)/n./港口；海港/The ships returned to the harbour.
+pleased/pliːzd/adj./高兴的；满意的/I am pleased with your progress.
+canteen/kænˈtiːn/n./食堂；小卖部/We eat lunch in the school canteen.
+amazing/əˈmeɪzɪŋ/adj./令人惊奇的/Her singing voice is amazing.
+circulate/ˈsɜːkjuleɪt/v./循环；流通/Blood circulates through the body.
+sighting/ˈsaɪtɪŋ/n./看见；目击/There was a sighting of a rare bird.
+bored/bɔːd/adj./无聊的；厌烦的/I was bored during the long meeting.
+catalogue/ˈkætəlɒɡ/n./目录；产品目录/She ordered clothes from a catalogue.
+ridiculous/rɪˈdɪkjələs/adj./荒谬的；可笑的/That idea is ridiculous.
+nail/neɪl/n./指甲；钉子/She painted her nails red.
+fluffy/ˈflʌfi/adj./绒毛般的；蓬松的/The kitten is soft and fluffy.
+envy/ˈenvi/v./羡慕；嫉妒/I envy your success.
+consistent/kənˈsɪstənt/adj./一致的；连续的/His story is not consistent with the facts.
+dip/dɪp/v./蘸；浸/Dip the chip in the sauce.
+refrigerator/rɪˈfrɪdʒəreɪtə(r)/n./冰箱/Keep the milk in the refrigerator.
+orbit/ˈɔːbɪt/n./轨道/The moon moves in orbit around the earth.
+careless/ˈkeələs/adj./粗心的；疏忽的/Be careful, don't be careless.
+ambassador/æmˈbæsədə(r)/n./大使/The ambassador met with the president.
+satisfactory/ˌsætsˈfæktəri/adj./令人满意的/The result was satisfactory.
+cyclist/ˈsaɪklɪst/n./骑自行车的人/The cyclist wore a helmet.
+bargain/ˈbɑːɡɪn/n./便宜货；交易/This dress is a real bargain.
+spin/spɪn/v./旋转；纺纱/The earth spins on its axis.
+congratulation/kənˌɡrætʃuˈleɪʃn/n./祝贺；恭喜/Send him my congratulations.
+adore/əˈdɔː(r)/v./爱慕；崇拜/Children adore their parents.
+softball/ˈsɒftbɔːl/n./垒球/They play softball on weekends.
+dimension/dɪˈmenʃn/n./尺寸；维度/What are the dimensions of the room?
+opera/ˈɒprə/n./歌剧/We went to see an opera last night.
+literary/ˈlɪtrəri/adj./文学的/He has a literary talent.
+cousin/ˈkʌzn/n./堂兄弟；表兄弟/My cousin lives in London.
+sandwich/ˈsænwɪtʃ/n./三明治/I had a ham sandwich for lunch.
+pub/pʌb/n./酒吧；酒馆/They met at the local pub.
+recognise/ˈrekəɡnaɪz/v./认出；认可/I didn't recognise him with his new haircut.
+throwaway/ˈθrəʊəweɪ/adj./一次性的；丢弃的/Don't use throwaway plastic bags.
+parcel/ˈpɑːsl/n./包裹/She sent a parcel to her friend.
+amusement/əˈmjuːzmənt/n./娱乐；消遣/The amusement park is crowded.
+occupation/ˌɒkjuˈpeɪʃn/n./职业；占领/What is your occupation?
+detective/dɪˈtektɪv/n./侦探/The detective solved the case.
+neighbourhood/ˈneɪbəhʊd/n./邻居；街区/It is a quiet neighbourhood.
+litter/ˈlɪtə(r)/n./垃圾；废弃物/Please do not litter in the park.
+means/miːnz/n./方法；手段/Transport means include buses and trains.
+honourable/ˈɒnərəbl/adj./光荣的；可敬的/He is an honourable man.
+coordinator/kəʊˈɔdɪneɪtə(r)/n./协调者；统筹者/She works as a project coordinator.
+interval/ˈɪntəvl/n./间隔；幕间休息/There was a short interval between the acts.
+jacket/ˈdʒækɪt/n./夹克衫；上衣/Put on your jacket; it's cold outside.
+qualification/ˌkwɒlɪfɪˈkeɪʃn/n./资格；学历/You need the right qualifications for the job.
+cotton/ˈkɒtn/n./棉花；棉布/This shirt is made of cotton.
+cater/ˈkeɪtə(r)/v./提供饮食；迎合/The restaurant caters for vegetarians.
+strictly/ˈstrɪktli/adv./严格地；严厉地/Smoking is strictly prohibited here.
+flee/fliː/v./逃跑；逃避/The thief tried to flee from the police.
+doorstep/ˈdɔːstep/n./门阶；门口/There was a package on the doorstep.
+deadly/ˈdedli/adj./致命的；致死的/The snake has deadly venom.
+wound/wuːnd/n./伤口；创伤/He suffered a serious wound in the leg.
+acceptance/əkˈseptəns/n./接受；承认/His acceptance of the award was brief.
+disappointed/ˌdɪsəˈpɔɪntɪd/adj./失望的；沮丧的/She was disappointed with the result.
+laboratory/ləˈbɒrətri/n./实验室/Scientists work in the laboratory.
+cow/kaʊ/n./母牛；奶牛/The farmer milked the cow.
+rainfall/ˈreɪnfɔːl/n./降雨量/The rainfall was heavy last night.
+wheat/wiːt/n./小麦/Farmers grow wheat in the fields.
+voyage/vɔɪɪdʒ/n./航行；航海/The voyage across the ocean took weeks.
+surprising/səˈpraɪzɪŋ/adj./令人惊讶的/The news was surprising.
+sew/səʊ/v./缝制；缝纫/She learned to sew when she was young.
+accumulate/əˈkjuːmjəleɪt/v./积累；积聚/Dust tends to accumulate quickly.
+shadow/ˈʃædəʊ/n./影子；阴影/The tree cast a long shadow.
+nest/nest/n./巢；窝/The bird built a nest in the tree.
+Coke/kəʊk/n./可口可乐/Do you want a Coke?
+cancer/ˈkænsə(r)/n./癌症/Early detection of cancer is important.
+immigration/ˌɪmɪˈɡreɪʃn/n./移民；入境/Immigration rules have changed.
+vest/vest/n./背心；马甲/He wore a warm vest under his coat.
+foreigner/ˈfɒrənə(r)/n./外国人/He is a foreigner in this country.
+carrier/ˈkæriə(r)/n./搬运人；载体/Mosquitoes are carriers of disease.
+hopeless/ˈhəʊpləs/adj./绝望的；无望的/The situation seemed hopeless.
+politician/ˌpɒləˈtɪʃn/n./政治家；政客/The politician gave a speech.
+unbearable/ʌnˈbeərəbl/adj./难以忍受的/The heat was unbearable.
+overhead/ˌəʊvəˈhed/adv./在头顶上/The plane flew overhead.
+rob/rɒb/v./抢劫；掠夺/Thieves tried to rob the bank.
+left/left/adj./左边的；剩下的/Turn left at the corner.
+rubbish/ˈrʌbɪʃ/n./垃圾；废话/Throw the rubbish in the bin.
+rag/ræɡ/n./破布；抹布/Clean the floor with a rag.
+mountainous/ˈmaʊntənəs/adj./多山的/The region is mountainous.
+cigarette/ˌsɪɡəˈret/n./香烟/Smoking cigarettes is bad for health.
+pump/pʌmp/n./泵；抽水机/Use the pump to fill the tire.
+alphabet/ˈælfəbet/n./字母表/Children learn the alphabet at school.
+organise/ˈɔːɡənaɪz/v./组织；安排/We need to organise the event.
+curriculum/kəˈrɪkjələm/n./课程；全部课程/The school updated its curriculum.
+nursery/ˈnɜːsəri/n./托儿所；苗圃/The children play in the nursery.
+eagerness/ˈiːɡənəs/n./渴望；热心/He showed eagerness to learn.
+bleed/bliːd/v./流血；出血/His nose began to bleed.
+statue/ˈstætʃuː/n./雕像；塑像/There is a statue of the hero in the square.
+mourn/mɔːn/v./哀悼；悲痛/The nation mourned the loss of the leader.
+physics/ˈfɪzɪks/n./物理学/Physics is my favorite subject.
+thorough/ˈθrə/adj./彻底的；详尽的/Give the room a thorough clean.
+minibus/ˈmɪnibʌs/n./小型公共汽车/We traveled by minibus.
+beard/bɪəd/n./胡须/He has a long beard.
+goods/ɡʊdz/n./商品；货物/The store sells various goods.
+broken/ˈbrəʊkən/adj./破碎的；坏掉的/The window is broken.
+adolescence/ˌædəˈlesns/n./青春期/Adolescence is a time of change.
+starvation/stɑːˈveɪʃn/n./饥饿；饿死/Many people suffer from starvation.
+flame/fleɪm/n./火焰；光辉/The candle flame flickered.
+drawing/ˈdrɔːŋ/n./绘画；图画/She is good at drawing.
+skilful/ˈsklfl/adj./熟练的；灵巧的/He is a skilful driver.
+fruitful/ˈfruːtfl/adj./富有成效的；多产的/The meeting was fruitful.
+collector/kəˈlektə(r)/n./收藏家；收集者/He is a stamp collector.
+chemist/ˈkemɪst/n./化学家；药剂师/The chemist mixed the chemicals.
+analyse/ˈænəlaɪz/v./分析；解析/We need to analyse the data.
+forecast/ˈfɔːkɑːst/n./预测；预报/The weather forecast says it will rain.
+recorder/rɪˈkɔːdə(r)/n./录音机；记录员/Use a recorder to save the interview.
+ripen/ˈraɪpən/v./成熟；使成熟/The fruit will ripen in a few days.
+fetch/fetʃ/v./取来；接来/Please fetch me a glass of water.
+rainbow/ˈreɪnbə/n./彩虹/A rainbow appeared after the storm.
+pray/preɪ/v./祈祷；祈求/They pray for peace.
+amazed/əˈmeɪzd/adj./吃惊的；惊奇的/I was amazed by the magic show.
+favour/ˈfeɪvə(r)/n./恩惠；喜爱/Can you do me a favour?
+bare/beə(r)/adj./赤裸的；光秃的/The trees were bare in winter.
+package/ˈpækɪdʒ/n./包裹；包装/Sign for the package, please.
+negotiation/nɪˌɡəʊʃiˈeɪʃn/n./谈判；协商/The negotiation was successful.
+waist/weɪst/n./腰；腰部/She tied a belt around her waist.
+insure/ɪnˈʃː(r)/v./保险；确保/You should insure your car.
+prisoner/ˈprɪznə(r)/n./囚犯；俘虏/The prisoner escaped from jail.
+vague/veɪɡ/adj./模糊的；含糊的/His explanation was vague.
+import/ˈɪmpɔːt/v./进口；输入/The country imports oil.
+cushion/ˈkʊʃn/n./垫子；缓冲/She sat on a soft cushion.
+multiply/ˈmʌltɪplaɪ/v./乘；增加/Rabbits multiply quickly.
+confused/kənˈfjuːzd/adj./困惑的；混乱的/I was confused by the instructions.
+punish/ˈpʌnʃ/v./惩罚；处罚/Parents should not punish children too harshly.
+mathematics/ˌmæθəˈmætks/n./数学/Mathematics is a difficult subject.
+scarf/skɑːf/n./围巾；头巾/She wore a wool scarf.
+booth/buːθ/n./摊位；隔间/We talked in a phone booth.
+click/klɪk/v./点击；发出咔哒声/Click the button to start.
+unkind/ʌnˈkaɪnd/adj./不友善的；刻薄的/It was unkind of him to say that.
+mouse/maʊs/n./老鼠；鼠标/The cat chased the mouse.
+pie/paɪ/n./馅饼；派/We ate apple pie for dessert.
+liberty/ˈlɪbəti/n./自由； liberty/Freedom and liberty are important.
+unbelievable/ˌnbɪˈliːvəbl/adj./难以置信的/The story sounds unbelievable.
+clothing/ˈkləʊðɪŋ/n./衣服；服装/Protective clothing is required.
+cooperate/kəʊˈɒpəreɪt/v./合作；协作/We must cooperate to succeed.
+strategy/ˈstrætədʒi/n./策略；战略/They developed a new marketing strategy.
+wrinkle/ˈrɪŋkl/n./皱纹；褶皱/He has wrinkles on his forehead.
+schoolmate/ˈskuːlmeɪt/n./同学/She is my old schoolmate.
+advertisement/ədˈvɜːtɪsmənt/n./广告/There is an advertisement on TV.
+hook/hʊk/n./钩；挂钩/Hang your coat on the hook.
+cabbage/ˈkæbɪdʒ/n./卷心菜；洋白菜/Add cabbage to the salad.
+contradictory/ˌkɒntrəˈdɪktəri/adj./矛盾的；对立的/The statements are contradictory.
+spoon/spuːn/n./勺子；匙/Stir the soup with a spoon.
+businesswoman/ˈbɪznəswʊmən/n./女商人/She is a successful businesswoman.
+patent/ˈpætnt/n./专利；专利权/He applied for a patent.
+bedtime/ˈbedtaɪm/n./就寝时间/It is bedtime for the children.
+butter/ˈbʌtə(r)/n./黄油；奶油/Spread butter on the bread.
+saying/ˈseɪɪ/n./谚语；格言/As the saying goes, time is money.
+messy/ˈmesi/adj./凌乱的；肮脏的/Your room is messy.
+inconvenient/ˌɪnkənˈviːniənt/adj./不方便的；打扰的/It is inconvenient to travel now.
+cute/kjuːt/adj./可爱的；聪明的/The puppy is very cute.
+inactive/ɪnˈæktɪv/adj./不活动的；怠惰的/He has been inactive lately.
+prejudice/ˈpredʒudɪs/n./偏见；成见/We should fight against prejudice.
+unhappy/ʌnˈhæpi/adj./不快乐的；不幸的/She looked unhappy.
+depth/depθ/n./深度；深处/The depth of the pool is two meters.
+fool/fuːl/n./傻瓜；愚人/Don't be a fool.
+flashlight/ˈflæʃlaɪt/n./手电筒/Use a flashlight in the dark.
+noon/nuːn/n./正午；中午/We meet at noon.
+fairy/ˈfeəri/n./仙女；小精灵/The fairy waved her wand.
+instinctive/ɪnˈstɪŋktɪv/adj./本能的；直觉的/His reaction was instinctive.
+pale/peɪl/adj./苍白的；淡的/She looked pale and sick.
+challenging/ˈtʃælɪndʒɪ/adj./挑战性的；困难的/The task was challenging.
+flu/fluː/n./流行性感冒/He caught the flu last week.
+invasive/ɪnˈveɪsɪv/adj./侵入的；入侵的/The plant is invasive.
+simplify/ˈsɪmplɪfaɪ/v./简化；使单纯/Simplify the instructions.
+handbag/ˈhændbæɡ/n./手提包/She carries a leather handbag.
+component/kəmˈpəʊnənt/n./成分；组件/Each component is important.
+intellectual/ˌɪntəˈlektʃuəl/adj./智力的；知识的/He is an intellectual person.
+smog/smɒɡ/n./烟雾/The city was covered in smog.
+restart/ˌriːˈstɑːt/v./重新开始；重启/Restart the computer.
+mop/mɒp/n./拖把/Clean the floor with a mop.
+frozen/ˈfrəzn/adj./冻结的；冰冷的/The lake is frozen.
+daytime/ˈdeɪtaɪm/n./白天；日间/Animals sleep at night and hunt in the daytime.
+stubborn/ˈstʌbən/adj./固执的；顽强的/He is as stubborn as a mule.
+confidential/ˌkɒnfˈdenʃl/adj./机密的；保密的/This document is confidential.
+violence/ˈvaɪələns/n./暴力；暴行/Violence is not the answer.
+sadness/ˈsædnəs/n./悲伤；悲哀/Her eyes were full of sadness.
+allocate/ˈæləkeɪt/v./分配；拨给/Allocate resources wisely.
+roommate/ˈruːmmeɪt/n./室友/My roommate is very tidy.
+output/ˈaʊtpʊt/n./产量；输出/The factory increased its output.
+knife/naɪf/n./刀；餐刀/Cut the meat with a knife.
+cinema/ˈsɪnəmə/n./电影院；电影/Let's go to the cinema.
+physicist/ˈfɪzɪsɪst/n./物理学家/Einstein was a famous physicist.
+elephant/ˈelɪfənt/n./大象/The elephant has a long trunk.
+thankful/ˈθæŋkfl/adj./感激的；感谢的/I am thankful for your help.
+portable/ˈpɔːtəbl/adj./便携的；手提的/This laptop is portable.
+competitiveness/kəmˈpetətɪvnəs/n./竞争力；好胜心/Competitiveness drives innovation.
+stem/stem/n./茎；干/The flower has a long stem.
+pillow/ˈpɪləʊ/n./枕头/Rest your head on the pillow.
+seal/siːl/n./海豹；印章/The letter had a wax seal.
+clumsy/ˈklʌmzi/adj./笨拙的；粗陋的/He is clumsy with his hands.
+spokeswoman/ˈspəʊkswʊmən/n./女发言人/The spokeswoman gave a statement.
+favourable/ˈfeɪvərəbl/adj./有利的；赞同的/The review was favourable.
+bomb/bɒm/n./炸弹/The bomb exploded.
+niece/niːs/n./侄女；外甥女/She is my niece.
+coat/kəʊt/n./外套；大衣/Put on your coat.
+frog/frɒɡ/n./青蛙/The frog jumped into the pond.
+roundabout/ˈraʊndəbaʊt/n./环形交叉路；旋转木马/Take the second exit at the roundabout.
+civilization/ˌsɪvəlaɪˈzeɪʃn/n./文明；文化/Ancient civilization is fascinating.
+mercy/ˈmɜːsi/n./仁慈；宽恕/Show mercy to the poor.
+singer/ˈsɪŋə(r)/n./歌手；歌唱家/The singer performed on stage.
+fist/fɪst/n./拳头/He clenched his fist.
+acquisition/ˌækwɪˈzɪʃn/n./获得；收购/The acquisition was successful.
+owe/əʊ/v./欠；应给予/I owe you an apology.
+amateur/ˈæmətə(r)/n./业余爱好者/He is an amateur photographer.
+parental/pəˈrentl/adj./父母的；双亲的/Parental guidance is suggested.
+grill/ɡrɪl/n./烤架；烧烤肉/Grill the fish for ten minutes.
+signature/ˈsɪɡnətʃə(r)/n./签名；署名/Sign your signature here.
+identification/aɪˌdentfɪˈkeʃn/n./鉴定；身份证明/Show your identification.
+catastrophe/kəˈtæstrəfi/n./大灾难；惨剧/The earthquake was a catastrophe.
+aircraft/ˈeəkrɑːft/n./飞机；航空器/The aircraft landed safely.
+throat/θrəʊt/n./喉咙；咽喉/My throat hurts.
+bossy/ˈbɒsi/adj./专横的；爱指挥人的/Don't be so bossy.
+swallow/ˈswɒləʊ/v./吞下；咽下/Swallow the pill with water.
+deed/diːd/n./行为；契约/Good deeds are rewarded.
+daylight/ˈdeɪlaɪt/n./日光；黎明/We woke up at daylight.
+shrink/ʃrɪŋk/v./收缩；萎缩/The sweater shrank in the wash.
+steep/stiːp/adj./陡峭的；急剧的/The hill is too steep to climb.
+bitter/ˈbɪtə(r)/adj./苦的；痛苦的/The medicine tastes bitter.
+foolish/ˈfuːlɪʃ/adj./愚蠢的；傻的/It was a foolish mistake.
+transition/trænˈzɪʃn/n./过渡；转变/The transition was smooth.
+frightening/ˈfraɪtnɪŋ/adj./令人恐惧的；骇人的/The noise was frightening.
+complicated/ˈkɒmplɪkeɪtɪd/adj./复杂的；难懂的/The machine is complicated.
+abrupt/əˈbrʌpt/adj./突然的；唐突的/The meeting came to an abrupt end.
