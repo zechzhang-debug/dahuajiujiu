@@ -1,40 +1,1201 @@
-desire/dɪˈzaɪə(r)/n./渴望；欲望/She has a strong desire to succeed.
-mention/ˈmenʃn/v./提到；提及/She didn’t mention your name at all.
-device/dɪˈvaɪs/n./装置；设备/A smartphone is a multifunctional device.
-potential/pəˈtenʃl/n./潜力；潜能/She has great potential as a musician.
-individual/ˌɪndɪˈvɪdʒuəl/n./个人；个体/Each individual has unique talents.
-recommend/ˌrekəˈmend/v./推荐；建议/I recommend this book to all students.
-response/rɪˈspɒns/n./回应；反应/The public response to the policy was negative.
-appreciate/əˈpriːʃieɪt/v./欣赏；感激/I really appreciate your help.
-predict/prɪˈdɪkt/v./预测；预言/Experts predict a rise in global temperatures.
-settle/ˈsetl/v./定居；解决/They settled in Canada after the war.
-reputation/ˌrepjuˈteɪʃn/n./声誉；名声/He has a reputation for honesty.
-estimate/ˈestɪmeɪt/v./估计；估算/Experts estimate the cost at around $1 million.
-reveal/rɪˈviːl/v./揭示；透露/The investigation revealed new facts.
-presence/ˈprezns/n./存在；出席/His presence calmed everyone down.
-stewardship/ˈstjuːədʃɪp/n./管理；监护/Environmental stewardship is everyone’s duty.
-secure/sɪˈkjʊə(r)/v./获得；使安全/They secured funding for the project.
-privilege/ˈprɪvəlɪdʒ/n./特权；优待/Education is a privilege, not a right.
-tease/tiːz/v./取笑；戏弄/Don’t tease him about his accent.
-modest/ˈmɒdɪst/adj./谦虚的；适中的/She gave a modest account of her achievements.
-assessment/əˈsesmənt/n./评估；评定/The teacher’s assessment was fair and thorough.
-apparent/əˈpærənt/adj./明显的；显然的/His talent was apparent from an early age.
-polish/ˈpɒlɪʃ/v./擦亮；润色/She polished her essay before submitting it.
-arise/əˈraɪz/v./出现；产生/Problems may arise during implementation.
-judgement/ˈdʒʌdʒmənt/n./判断；裁决/Use your best judgement in this matter.
-profitable/ˈprɒfɪtəbl/adj./有利可图的/The business became profitable within a year.
-investigate/ɪnˈvestɪɡeɪt/v./调查；研究/The police are investigating the incident.
-slight/slaɪt/adj./轻微的；微小的/There was a slight delay in delivery.
-vice/vaɪs/n./恶习；缺点/Greed is a dangerous vice.
-melancholy/ˈmelənkəli/n./忧郁；悲伤/A sense of melancholy filled the room.
-majority/məˈdʒɒrəti/n./大多数/The majority voted in favor of the proposal.
-dynamic/daɪˈnæmɪk/adj./有活力的；动态的/She’s a dynamic leader with bold ideas.
-splendid/ˈsplendɪd/adj./极好的；辉煌的/They had a splendid time at the concert.
-continent/ˈkɒntɪnənt/n./大陆/Australia is both a country and a continent.
-congress/ˈkɒŋɡres/n./国会；代表大会/The U.S. Congress passed the new law.
-interactive/ˌɪntərˈæktɪv/adj./互动的/This museum has interactive exhibits.
-recreation/ˌrekriˈeɪʃn/n./娱乐；消遣/Parks provide space for outdoor recreation.
-occasionally/əˈkeɪʒənəli/adv./偶尔；有时/I occasionally visit my hometown.
-spray/spreɪ/v./喷；喷雾/Spray the plants with insecticide.
-comprehension/ˌkɒmprɪˈhenʃn/n./理解； comprehension/Reading improves language comprehension.
-automatic/ˌɔːtəˈmætɪk/adj./自动的/The door opens automatically when you approach.
+a/ə/art./一个/I see a cat.
+about/əˈbaʊt/prep./关于；大约/We talk about the story.
+above/əˈbʌv/prep./在……上面/The picture is above the bed.
+act/ækt/v./表演/Act like a monkey.
+active/ˈæktɪv/adj./活跃的/He is an active boy.
+activity/ækˈtɪvəti/n./活动/My favourite activity is swimming.
+after/ˈɑːftə(r)/prep./在……之后/We play after school.
+afternoon/ˌɑːftəˈnuːn/n./下午/Good afternoon, teacher.
+again/əˈɡen/adv./再；又/Can I have it again?
+age/eɪdʒ/n./年龄/What is your age?
+ago/əˈɡəʊ/adv./以前/Long time ago.
+air/eə(r)/n./空气/Fresh air is good.
+all/ɔːl/adj./全部/All done!
+also/ˈɔːlsəʊ/adv./也/I also like apples.
+always/ˈɔːlweɪz/adv./总是/He is always happy.
+am/æm/v./是（I am）/I am a student.
+America/əˈmerɪkə/n./美国/I live in America.
+American/əˈmerɪkən/adj./美国的；美国人/He is an American boy.
+and/ænd/conj./和/You and me.
+angry/ˈæŋɡri/adj./生气的/Don't be angry.
+animal/ˈænɪml/n./动物/The panda is a cute animal.
+answer/ˈɑːnsə(r)/n./回答；答案/What is the answer?
+any/ˈeni/det./任何/Is there any milk?
+apple/ˈæpl/n./苹果/I eat an apple.
+April/ˈeɪprəl/n./四月/April is spring.
+are/ɑː(r)/v./是（you/we/they）/We are friends.
+arm/ɑːm/n./胳膊/He has strong arms.
+art/ɑːt/n./美术/Art is fun.
+as/æz/adv./如同；作为/He works as a teacher.
+ask/ɑːsk/v./问/Ask me a question.
+at/æt/prep./在（地点或时间）/Look at me.
+autumn/ˈɔːtəm/n./秋天/Leaves fall in autumn.
+aunt/ɑːnt/n./姑姑；阿姨/My aunt is kind.
+baby/ˈbeɪbi/n./婴儿/The baby sleeps.
+back/bæk/n./后面；背部/My back hurts.
+bad/bæd/adj./坏的/That is a bad dream.
+bag/bæɡ/n./书包；袋子/My bag is heavy.
+ball/bɔːl/n./球/Play with the ball.
+banana/bəˈnɑːnə/n./香蕉/Peel the banana.
+band/bænd/n./乐队/The band plays music.
+bank/bæŋk/n./银行/Go to the bank.
+baseball/ˈbeɪsbɔːl/n./棒球/Play baseball.
+basket/ˈbɑːskɪt/n./篮子/In the basket.
+basketball/ˈbɑːskɪtbɔːl/n./篮球/Play basketball.
+bathroom/ˈbɑːθruːm/n./浴室/Go to the bathroom.
+be/biː/v./是/Let it be.
+bear/beə(r)/n./熊/The bear is big.
+beautiful/ˈbjuːtɪfl/adj./美丽的/She is beautiful.
+because/bɪˈkɒz/conj./因为/I like it because it is fun.
+bed/bed/n./床/Good night, go to bed.
+bedroom/ˈbedruːm/n./卧室/My bedroom is clean.
+bee/biː/n./蜜蜂/The bee buzzes.
+beef/biːf/n./牛肉/Eat some beef.
+before/bɪˈfɔː(r)/prep./在……之前/Brush teeth before bed.
+begin/bɪˈɡɪn/v./开始/Let's begin.
+behind/bɪˈhaɪnd/prep./在……后面/The cat is behind the door.
+bell/bel/n./铃铛/Ring the bell.
+below/bɪˈləʊ/prep./在……下面/Sit below the tree.
+beside/bɪˈsaɪd/prep./在……旁边/Sit beside me.
+best/best/adj./最好的/You are the best!
+better/ˈbetə(r)/adj./更好的/Feeling better.
+between/bɪˈtwiːn/prep./在……之间/Sit between us.
+big/bɪɡ/adj./大的/A big elephant.
+bike/baɪk/n./自行车/Ride a bike.
+bill/bɪl/n./账单/Here is the bill.
+bird/bɜːd/n./鸟/The bird flies.
+birthday/ˈbɜːθdeɪ/n./生日/Happy birthday!
+biscuit/ˈbɪskɪt/n./饼干/Eat a biscuit.
+black/blæk/adj./黑色（的）/Black cat.
+blackboard/ˈblækbɔːd/n./黑板/Write on the blackboard.
+blonde/blɒnd/adj./金色头发的/She has blonde hair.
+blue/bluː/adj./蓝色（的）/Blue sky.
+boat/bəʊt/n./小船/Sail a boat.
+body/ˈbɒdi/n./身体/Wash your body.
+book/bʊk/n./书/Read a book.
+boot/buːt/n./靴子/Wear boots.
+bored/ɔːd/adj./无聊的/I am bored.
+born/bɔːn/v./出生/I was born in Beijing.
+borrow/ˈbɒrəʊ/v./借入/Borrow a pen.
+boss/bɒs/n./老板/The boss is nice.
+both/bəʊθ/det./两者都/Both are good.
+bottle/ˈbɒtl/n./瓶子/Drink from the bottle.
+bowl/bəʊl/n./碗/In the bowl.
+box/bɒks/n./盒子/Open the box.
+boy/bɔɪ/n./男孩/The boy runs.
+bread/bred/n./面包/Eat bread.
+breakfast/ˈbrekfəst/n./早餐/Have breakfast.
+bridge/brɪdʒ/n./桥/Cross the bridge.
+bright/braɪt/adj./明亮的/A bright light.
+bring/brɪŋ/v./带来/Bring your book.
+brother/ˈbrʌðə(r)/n./兄弟/My brother is tall.
+brown/braʊn/adj./棕色（的）/Brown bear.
+brush/brʌʃ/v./刷子；刷/Brush your teeth.
+build/bɪld/v./建造/Build a house.
+building/ˈbɪldɪŋ/n./建筑物/Tall building.
+burn/ɜːn/v./燃烧/Fire burns.
+bus/bʌs/n./公共汽车/By bus.
+business/ˈbɪznəs/n./商业/Go to business.
+busy/ˈbɪzi/adj./忙碌的/I am busy.
+but/bʌt/conj./但是/I like it, but it is expensive.
+butterfly/ˈbʌtəflaɪ/n./蝴蝶/The butterfly is beautiful.
+buy/baɪ/v./买/Buy a gift.
+by/baɪ/prep./由；乘（交通工具）/Go by car.
+cake/keɪk/n./蛋糕/Eat cake.
+call/kɔːl/v./打电话；称呼/Call me Tom.
+camera/ˈkæmərə/n./照相机/Use the camera.
+camp/kæmp/n./露营/Go camping.
+can/kæn/modal v./能；可以/I can swim.
+Canada/ˈkænədə/n./加拿大/From Canada.
+Canadian/ˌkænəˈdeɪniən/adj./加拿大的；加拿大人/Canadian friend.
+candle/ˈkændl/n./蜡烛/Blow the candle.
+candy/ˈkændi/n./糖果/Sweet candy.
+cap/kæp/n./帽子/Wear a cap.
+car/kɑː(r)/n./小汽车/Drive a car.
+card/kɑːd/n./卡片/Birthday card.
+careful/ˈkeəfl/adj./小心的/Be careful!
+carry/ˈkæri/v./携带/Carry the bag.
+cartoon/ɑːˈtuːn/n./动画片/Watch cartoon.
+cat/kæt/n./猫/The cat says meow.
+catch/kætʃ/v./抓住/Catch the ball.
+CD/ˌsiː ˈdiː/n./激光唱片/Listen to CD.
+cent/sent/n./分（货币单位）/One cent.
+chair/tʃeə(r)/n./椅子/Sit on the chair.
+chalk/tʃɔːk/n./粉笔/Use chalk.
+chance/tʃɑːns/n./机会/Have a chance.
+change/tʃeɪndʒ/v./改变；零钱/Change money.
+cheap/tʃiːp/adj./便宜的/It is cheap.
+cheat/tʃiːt/v./作弊/Don't cheat.
+check/tʃek/v./检查/Check the answer.
+cheer/tʃɪə(r)/v./欢呼/Cheer for the team.
+cheese/tʃiːz/n./奶酪/Eat cheese.
+cherry/ˈtʃeri/n./樱桃/Pick a cherry.
+chess/tʃes/n./国际象棋/Play chess.
+chicken/ˈtʃɪkɪn/n./鸡肉；小鸡/Eat chicken.
+child/tʃaɪld/n./孩子/A happy child.
+children/ˈtʃɪldrən/n./孩子们/Good children.
+China/ˈtʃaɪnə/n./中国/From China.
+Chinese/ˌtʃaɪˈniːz/adj./中文；中国的；中国人/Chinese food.
+chocolate/ˈtʃɒklət/n./巧克力/Chocolate is sweet.
+choose/tʃuːz/v./选择/Choose one.
+Christmas/ˈkrɪsməs/n./圣诞节/Merry Christmas.
+cinema/ˈsɪnəmə/n./电影院/Go to cinema.
+circle/ˈsɜːkl/n./圆圈/Draw a circle.
+city/ˈsɪti/n./城市/Big city.
+class/klɑːs/n./班级；课/English class.
+classroom/ˈklɑːsruːm/n./教室/In the classroom.
+clean/kliːn/adj./干净的；打扫/Keep clean.
+clear/klɪə(r)/adj./清晰的/A clear voice.
+clever/ˈklevə(r)/adj./聪明的/You are clever.
+climb/klaɪm/v./爬/Climb the tree.
+clock/klɒk/n./时钟/What time is the clock?
+close/kləʊz/v./关闭/Close the door.
+clothes/kləʊðz/n./衣服/Wear clothes.
+cloud/klaʊd/n./云/White cloud.
+cloudy/ˈklaʊdi/adj./多云的/It is cloudy.
+coat/kəʊt/n./外套/Wear a coat.
+coffee/ˈkɒfi/n./咖啡/Drink coffee.
+coin/kɔɪn/n./硬币/Find a coin.
+cold/kəʊld/adj./冷的；感冒/I am cold.
+collect/kəˈlekt/v./收集/Collect stamps.
+colour/ˈkʌlə(r)/n./颜色/What colour?
+come/kʌm/v./来/Come here.
+computer/kəmˈpjuːtə(r)/n./电脑/Use computer.
+concert/ˈkɒnsət/n./音乐会/Go to concert.
+cook/kʊk/v./烹饪；厨师/Cook dinner.
+cool/kuːl/adj./凉爽的；酷/So cool!
+copy/ˈkɒpi/v./复制；抄写/Copy the word.
+corner/ˈkɔːnə(r)/n./角落/In the corner.
+correct/kəˈrekt/adj./正确的/The answer is correct.
+cost/kɒst/v./花费/How much does it cost?
+cotton/ˈkɒtn/n./棉花/Cotton is soft.
+could/kʊd/modal v./可以（can的过去式）/Could you help me?
+count/kaʊnt/v./数数/Count to ten.
+country/ˈkʌntri/n./国家/My country.
+course/kɔːs/n./课程/Driving course.
+cousin/ˈkʌzn/n./堂（表）兄弟姐妹/My cousin.
+cow/kaʊ/n./奶牛/Moo like a cow.
+crayon/ˈkreɪən/n./蜡笔/Use a crayon.
+cry/kraɪ/v./哭/Don't cry.
+cup/kʌp/n./杯子/Drink from cup.
+curtain/ˈkɜːtn/n./窗帘/Open the curtain.
+cut/kʌt/v./切；剪/Cut the paper.
+dad/dæd/n./爸爸/Dad is home.
+dance/dɑːns/v./跳舞/Dance with me.
+dangerous/ˈdeɪndʒərəs/adj./危险的/It is dangerous.
+dark/dɑːk/adj./黑暗的/It is dark.
+date/deɪt/n./日期；约会/What is the date?
+daughter/ˈdɔːtə(r)/n./女儿/My daughter.
+day/deɪ/n./天；白天/Good day.
+dear/dɪə(r)/adj./亲爱的/Dear friend.
+December/dɪˈsembə(r)/n./十二月/In December.
+deep/diːp/adj./深的/A deep hole.
+delicious/dɪˈlɪʃəs/adj./美味的/It is delicious.
+desk/desk/n./书桌/My desk.
+dictionary/ˈdɪkʃənri/n./字典/Use a dictionary.
+did/dɪd/v./do的过去式/Did you go?
+die/daɪ/v./死亡/Plants die.
+different/ˈdɪfrənt/adj./不同的/We are different.
+difficult/ˈdɪfɪkəlt/adj./困难的/It is difficult.
+dinner/ˈdɪnə(r)/n./晚餐/Have dinner.
+dirty/ˈdɜːti/adj./脏的/Dirty hands.
+dish/dɪʃ/n./盘子；菜肴/Wash the dish.
+do/duː/v./做/Do it.
+doctor/ˈdɒktə(r)/n./医生/See a doctor.
+dog/dɒɡ/n./狗/Woof woof.
+doll/dɒl/n./洋娃娃/Play with doll.
+door/dɔː(r)/n./门/Open the door.
+down/daʊn/adv./向下/Sit down.
+draw/drɔː/v./画画/Draw a picture.
+dream/driːm/n./梦想/My dream.
+dress/dres/v./连衣裙；穿衣服/Wear a dress.
+drink/drɪŋk/v./喝/Drink water.
+drive/draɪv/v./驾驶/Drive a car.
+driver/ˈdraɪvə(r)/n./司机/The driver drives.
+drop/drɒp/v./掉下/Drop the ball.
+dry/draɪ/adj./干的/Keep dry.
+duck/dʌk/n./鸭子/Quack quack.
+dumpling/ˈdʌmplɪŋ/n./饺子/Eat dumplings.
+during/ˈdjʊərɪŋ/prep./在……期间/During the day.
+duty/ˈdjuːti/n./责任/On duty.
+ear/ɪə(r)/n./耳朵/Listen with ears.
+early/ˈɜːli/adv./早的/Get up early.
+earth/ɜːθ/n./地球；土地/Planet Earth.
+east/iːst/n./东方/The sun rises in the east.
+easy/ˈiːzi/adj./容易的/So easy.
+eat/iːt/v./吃/Eat food.
+egg/eɡ/n./鸡蛋/Eat an egg.
+eight/eɪt/num./八/Eight apples.
+eighteen/ˌeɪˈtiːn/num./十八/Eighteen years.
+eighty/ˈeɪti/num./八十/Eighty cents.
+either/ˈaɪðə(r)/adv./也（用于否定句）/Me either.
+elephant/ˈelɪfənt/n./大象/Big elephant.
+eleven/ɪˈlevn/num./十一/Eleven pens.
+email/ˈiːmeɪl/n./电子邮件/Send email.
+empty/ˈempti/adj./空的/An empty box.
+end/end/n./结束/The end.
+England/ˈɪŋɡlənd/n./英格兰/From England.
+English/ˈɪŋɡlɪʃ/adj./英语；英国的/English book.
+enjoy/ɪnˈdʒɔɪ/v./喜欢；享受/Enjoy the meal.
+enough/ɪˈnʌf/adj./足够的/Enough sleep.
+eraser/ɪˈreɪzə(r)/n./橡皮/Use an eraser.
+Europe/ˈjʊərəp/n./欧洲/From Europe.
+evening/ˈiːvnɪŋ/n./晚上/Good evening.
+every/ˈevri/det./每一个/Every day.
+everyone/ˈevriwʌn/pron./每个人/Everyone here.
+everything/ˈevriθɪŋ/pron./一切/Everything is good.
+everywhere/ˈevriweə(r)/adv./到处/Go everywhere.
+excited/ɪkˈsaɪtɪd/adj./兴奋的/I am excited.
+exercise/ˈeksəsaɪz/n./锻炼/Do exercise.
+eye/aɪ/n./眼睛/Big eyes.
+face/feɪs/n./脸/Wash your face.
+fact/fækt/n./事实/A true fact.
+factory/ˈfæktri/n./工厂/Work in a factory.
+fail/feɪl/v./失败/Don't fail.
+fair/feə(r)/adj./公平的；集市/Be fair.
+fall/fɔːl/v./落下；秋天（美式）/Leaves fall.
+family/ˈfæməli/n./家庭/Family love.
+famous/ˈfeɪməs/adj./著名的/A famous star.
+fan/fæn/n./风扇；粉丝/Cool fan.
+far/fɑː(r)/adj./远的/Far away.
+farm/fɑːm/n./农场/On the farm.
+farmer/ˈfɑːmə(r)/n./农民/The farmer works.
+fast/fɑːst/adj./快的/Run fast.
+fat/fæt/adj./胖的/Fat cat.
+father/ˈfɑːðə(r)/n./父亲/My father.
+favourite/ˈfeɪvərɪt/adj./最喜欢的/My favourite colour.
+February/ˈfebruəri/n./二月/In February.
+feel/fiːl/v./感觉/How do you feel?
+feet/fiːt/n./脚（foot的复数）/My feet hurt.
+ferry/ˈferi/n./渡船/Take the ferry.
+festival/ˈfestɪvl/n./节日/Happy festival.
+few/fjuː/det./很少的/A few books.
+field/fiːld/n./田野/In the field.
+fifteen/ˌfɪfˈtiːn/num./十五/Fifteen days.
+fifth/fɪfθ/num./第五/The fifth one.
+fifty/ˈfɪfti/num./五十/Fifty yuan.
+fight/faɪt/v./打架/No fighting.
+film/fɪlm/n./电影/Watch a film.
+find/faɪnd/v./找到/Find the key.
+fine/faɪn/adj./好的；晴朗的/I am fine.
+finger/ˈfɪŋɡə(r)/n./手指/Point your finger.
+finish/ˈfɪnɪʃ/v./完成/Finish homework.
+fire/ˈfaɪə(r)/n./火/Fire is hot.
+firefighter/ˈfaɪəfaɪtə(r)/n./消防员/The firefighter saves.
+first/fɜːst/adj./第一/First place.
+fish/fɪʃ/n./鱼；钓鱼/Catch a fish.
+five/faɪv/num./五/Five fingers.
+flag/flæɡ/n./旗帜/Wave the flag.
+flat/flæt/n./公寓/A small flat.
+floor/flɔː(r)/n./地板/On the floor.
+flower/ˈflaʊə(r)/n./花/Smell the flower.
+fly/flaɪ/v./飞；苍蝇/Fly a kite.
+food/fuːd/n./食物/Yummy food.
+foot/fʊt/n./脚/One foot.
+football/ˈfʊtbɔːl/n./足球/Play football.
+for/fɔː(r)/prep./为了；对于/For you.
+forest/ˈfɒrɪst/n./森林/In the forest.
+forget/fəˈɡet/v./忘记/Don't forget.
+fork/fɔːk/n./叉子/Use a fork.
+forty/ˈfɔːti/num./四十/Forty years.
+four/fɔː(r)/num./四/Four legs.
+fourteen/ˌfɔːˈtiːn/num./十四/Fourteen books.
+fox/fɒks/n./狐狸/Smart fox.
+France/frɑːns/n./法国/From France.
+free/friː/adj./自由的；空闲的/I am free.
+French/frentʃ/adj./法语；法国的/French fries.
+Friday/ˈfraɪdeɪ/n./星期五/It is Friday.
+friend/frend/n./朋友/Best friend.
+friendly/ˈfrendli/adj./友好的/Be friendly.
+frog/frɒɡ/n./青蛙/Jump like a frog.
+from/frɒm/prep./从……来/From here.
+front/frʌnt/n./前面/In front.
+fruit/fruːt/n./水果/Eat fruit.
+fun/fʌn/n./有趣的；乐趣/Have fun.
+funny/ˈfʌni/adj./滑稽的/A funny joke.
+future/ˈfjuːtʃə(r)/n./未来/In the future.
+game/ɡeɪm/n./游戏/Play a game.
+garden/ˈɡɑːdn/n./花园/Flowers in garden.
+gate/ɡeɪt/n./大门/Open the gate.
+get/ɡet/v./得到/Get up.
+gift/ɡɪft/n./礼物/Open the gift.
+girl/ɡɜːl/n./女孩/A pretty girl.
+give/ɡɪv/v./给/Give me a book.
+glass/ɡlɑːs/n./玻璃杯；眼镜/A glass of water.
+glove/ɡlʌv/n./手套/Wear gloves.
+go/ɡəʊ/v./去/Go away.
+goal/ɡəʊl/n./球门；目标/Score a goal.
+goat/ɡəʊt/n./山羊/Farm a goat.
+good/ɡʊd/adj./好的/A good boy.
+goodbye/ˌɡʊdˈbaɪ/int./再见/Goodbye, friends.
+grade/ɡreɪd/n./年级/In Grade 3.
+grandfather/ˈɡrænfɑːðə(r)/n./爷爷/My grandfather.
+grandmother/ˈɡrænmʌðə(r)/n./奶奶/My grandmother.
+grape/ɡreɪp/n./葡萄/Eat grapes.
+grass/ɡrɑːs/n./草/Green grass.
+great/ɡreɪt/adj./伟大的；太好了/Great job!
+green/ɡriːn/adj./绿色（的）/Green light.
+grey/ɡreɪ/adj./灰色（的）/Grey sky.
+ground/ɡraʊnd/n./地面/On the ground.
+group/ɡruːp/n./小组/In a group.
+grow/ɡrəʊ/v./生长/Plants grow.
+guess/ɡes/v./猜/Guess what?
+guest/ɡest/n./客人/A dinner guest.
+guide/ɡaɪd/n./向导/A tour guide.
+guitar/ɡɪˈtɑː(r)/n./吉他/Play guitar.
+hair/heə(r)/n./头发/Long hair.
+half/hɑːf/n./一半/Half an apple.
+hall/hɔːl/n./大厅/School hall.
+ham/hæm/n./火腿/Eat ham.
+hamburger/ˈhæmbɜːɡə(r)/n./汉堡包/A hamburger.
+hand/hænd/n./手/Shake hands.
+happy/ˈhæpi/adj./开心的/Be happy.
+hard/hɑːd/adj./努力的；硬的/Work hard.
+hat/hæt/n./帽子/Wear a hat.
+have/hæv/v./有/Have a pen.
+he/hiː/pron./他/He runs.
+head/hed/n./头/My head.
+headache/ˈhedeɪk/n./头痛/I have a headache.
+health/helθ/n./健康/Good health.
+healthy/ˈhelθi/adj./健康的/Eat healthy food.
+hear/hɪə(r)/v./听见；听说/I hear music.
+heart/hɑːt/n./心脏/Heart beats.
+heavy/ˈhevi/adj./重的/A heavy box.
+hello/həˈləʊ/int./你好/Hello, Tom!
+help/help/v./帮助/Help me.
+her/hɜː(r)/pron./她的；她（宾格）/I see her.
+here/hɪə(r)/adv./这里/Come here.
+hero/ˈhɪərəʊ/n./英雄/A hero saves.
+hers/hɜːz/pron./她的（名词性物主代词）/The book is hers.
+hi/haɪ/int./嗨/Hi, Lily!
+hide/haɪd/v./躲藏/Hide and seek.
+high/haɪ/adj./高的/High jump.
+hill/hɪl/n./小山/Climb a hill.
+him/hɪm/pron./他（宾格）/Help him.
+his/hɪz/pron./他的/His book.
+history/ˈhɪstri/n./历史/History class.
+hit/hɪt/v./打/Hit the ball.
+hobby/ˈhɒbi/n./爱好/My hobby.
+hold/həʊld/v./握住/Hold my hand.
+hole/həʊl/n./洞/A deep hole.
+holiday/ˈhɒlədeɪ/n./假期/Summer holiday.
+home/həʊm/n./家/Go home.
+homework/ˈhəʊmwɜːk/n./家庭作业/Do homework.
+honey/ˈhʌni/n./蜂蜜/Sweet honey.
+hope/həʊp/v./希望/I hope so.
+horse/hɔːs/n./马/Ride a horse.
+hospital/ˈhɒspɪtl/n./医院/Go to hospital.
+hot/hɒt/adj./热的/Hot soup.
+hotel/həʊˈtel/n./旅馆/Stay in a hotel.
+hour/ˈaʊə(r)/n./小时/One hour.
+house/haʊs/n./房子/A big house.
+how/haʊ/adv./如何/How are you?
+however/haʊˈevə(r)/adv./然而/However, I agree.
+huge/hjuːdʒ/adj./巨大的/A huge elephant.
+human/ˈhjuːmən/n./人类/A human being.
+hundred/ˈhʌndrəd/num./百/One hundred.
+hungry/ˈhʌŋɡri/adj./饿的/I am hungry.
+hurry/ˈhʌri/v./匆忙/Hurry up!
+hurt/ɜːt/v./受伤；疼痛/It hurts.
+husband/ˈhʌzbənd/n./丈夫/My husband.
+I/aɪ/pron./我/I am here.
+ice/aɪs/n./冰/On the ice.
+ice cream/ˈaɪs kriːm/n./冰淇淋/Eat ice cream.
+idea/aɪˈdɪə(r)/n./主意/Good idea!
+if/ɪf/conj./如果/If you can.
+ill/ɪl/adj./生病的/I am ill.
+important/ɪmˈpɔːtnt/adj./重要的/An important call.
+in/ɪn/prep./在……里面/In the box.
+include/ɪnˈkluːd/v./包括/Include me.
+India/ˈɪndiə/n./印度/From India.
+Indian/ˈɪndiən/adj./印度的；印度人/Indian food.
+information/ˌɪnfəˈmeɪʃn/n./信息/Get information.
+ink/ɪŋk/n./墨水/Blue ink.
+insect/ˈɪnsekt/n./昆虫/A small insect.
+inside/ˌɪnˈsaɪd/prep./在……里面/Inside the house.
+interest/ˈɪntrəst/n./兴趣/My interest.
+interesting/ˈɪntrəstɪŋ/adj./有趣的/An interesting book.
+Internet/ˈɪntənet/n./互联网/On the Internet.
+into/ˈɪntuː/prep./进入/Go into.
+invite/ɪnˈvaɪt/v./邀请/Invite friends.
+is/ɪz/v./是（he/she/it）/She is here.
+island/ˈaɪlənd/n./岛屿/On an island.
+it/ɪt/pron./它/It is big.
+its/ɪts/pron./它的/Its tail.
+jacket/ˈdʒækɪt/n./夹克衫/Wear a jacket.
+jam/dʒæm/n./果酱/Bread and jam.
+January/ˈdʒænjuəri/n./一月/In January.
+Japan/dʒəˈpæn/n./日本/From Japan.
+Japanese/ˌdʒæpəˈniːz/adj./日语；日本的；日本人/Japanese food.
+jeans/dʒiːnz/n./牛仔裤/Wear jeans.
+job/dʒɒb/n./工作/My job.
+join/dʒɔɪn/v./参加/Join us.
+joke/dʒəʊk/n./笑话/Tell a joke.
+juice/dʒuːs/n./果汁/Orange juice.
+July/dʒuˈlaɪ/n./七月/In July.
+jump/dʒʌmp/v./跳/Jump high.
+June/dʒuːn/n./六月/In June.
+just/dʒʌst/adv./刚刚；正好/Just now.
+keep/kiːp/v./保持/Keep quiet.
+key/kiː/n./钥匙/Lost key.
+keyboard/ˈkiːbɔːd/n./键盘/Play keyboard.
+kick/kɪk/v./踢/Kick the ball.
+kid/kɪd/n./小孩/A little kid.
+kill/kɪl/v./杀死/Don't kill.
+kind/kaɪnd/n./种类；善良的/A kind person.
+king/kɪŋ/n./国王/The king rules.
+kiss/kɪs/v./亲吻/Give a kiss.
+kitchen/ˈkɪtʃɪn/n./厨房/In the kitchen.
+kite/kaɪt/n./风筝/Fly a kite.
+knee/niː/n./膝盖/Bend your knee.
+knife/naɪf/n./刀/Use a knife.
+knock/nɒk/v./敲/Knock the door.
+know/nəʊ/v./知道/I know.
+lady/ˈleɪdi/n./女士/A nice lady.
+lake/leɪk/n./湖/By the lake.
+lamp/læmp/n./台灯/Read by lamp.
+land/lænd/n./陆地/On land.
+language/ˈlæŋɡwɪdʒ/n./语言/My language.
+last/lɑːst/adj./最后的；上一次/Last time.
+late/leɪt/adj./迟的；晚的/Be late.
+laugh/ɑːf/v./笑/Don't laugh.
+lawyer/ˈlɔːjə(r)/n./律师/A good lawyer.
+lay/leɪ/v./放置/Lay the book.
+lazy/ˈleɪzi/adj./懒惰的/A lazy cat.
+lead/liːd/v./领导/Lead the way.
+leaf/liːf/n./叶子/A green leaf.
+learn/lɜːn/v./学习/Learn English.
+leave/liːv/v./离开/Leave now.
+left/left/adj./左边/Left hand.
+leg/leɡ/n./腿/My leg.
+lemon/ˈlemən/n./柠檬/Yellow lemon.
+lesson/ˈlesn/n./课/My lesson.
+let/let/v./让/Let me see.
+letter/ˈletə(r)/n./信；字母/A letter.
+library/ˈlaɪbrəri/n./图书馆/Go to library.
+life/laɪf/n./生命；生活/My life.
+lift/lɪft/v./举起；电梯/Lift up.
+light/laɪt/n./轻的；光；灯/Turn on the light.
+like/laɪk/v./喜欢；像/I like you.
+line/laɪn/n./线；队/Stand in line.
+lion/ˈlaɪən/n./狮子/The lion roars.
+list/lɪst/n./名单/On the list.
+listen/ˈlɪsn/v./听/Listen carefully.
+little/ˈlɪtl/adj./小的；少许/A little water.
+live/lɪv/v./居住/Where do you live?
+lively/ˈlaɪvli/adj./活泼的/A lively party.
+lock/lɒk/v./锁/Lock the door.
+London/ˈlʌndən/n./伦敦/From London.
+long/lɒŋ/adj./长的/Long hair.
+look/lʊk/v./看；看起来/Look here.
+lose/luːz/v./丢失/Lose a game.
+lot/lɒt/n./许多/A lot.
+loud/laʊd/adj./大声的/Be loud.
+love/lʌv/v./爱/I love you.
+low/ləʊ/adj./低的/Low voice.
+luck/lʌk/n./运气/Good luck!
+lunch/lʌntʃ/n./午餐/Eat lunch.
+machine/məˈʃiːn/n./机器/Use a machine.
+madam/ˈmædəm/n./女士（礼貌称呼）/Yes, madam.
+magazine/ˌmæɡəˈziːn/n./杂志/Read a magazine.
+magic/ˈmædʒɪk/n./魔法/A magic trick.
+mail/meɪl/n./邮件/Send mail.
+main/meɪn/adj./主要的/The main road.
+make/meɪk/v./制作；使/Make a cake.
+man/mæn/n./男人/A good man.
+manage/ˈmænɪdʒ/v./管理/Manage time.
+many/ˈmeni/det./许多/Many books.
+map/mæp/n./地图/Read a map.
+March/mɑːtʃ/n./三月/In March.
+mark/mɑːk/n./分数；标记/Get a mark.
+market/ˈmɑːkɪt/n./市场/Go to market.
+marry/ˈmæri/v./结婚/Marry me.
+match/mætʃ/n./比赛；火柴/A football match.
+maths/mæθs/n./数学（英式）/Maths class.
+matter/ˈmætə(r)/n./事情；问题/No matter.
+May/meɪ/n./五月/In May.
+maybe/ˈmeɪbi/adv./也许/Maybe yes.
+me/miː/pron./我（宾格）/Call me.
+meal/miːl/n./一餐/Breakfast meal.
+mean/miːn/v./意思是/What do you mean?
+meat/miːt/n./肉/Eat meat.
+medicine/ˈmedsn/n./药/Take medicine.
+meet/miːt/v./遇见/Meet friends.
+meeting/ˈmiːtɪŋ/n./会议/Have a meeting.
+melon/ˈmelən/n./瓜/Eat melon.
+member/ˈmembə(r)/n./成员/A team member.
+memory/ˈmeməri/n./记忆/Good memory.
+menu/ˈmenjuː/n./菜单/See the menu.
+mess/mes/n./脏乱/What a mess!
+message/ˈmesɪdʒ/n./消息/Get a message.
+metal/ˈmetl/n./金属/Strong metal.
+meter/ˈmiːtə(r)/n./米（长度单位）/One meter.
+method/ˈmeθəd/n./方法/A good method.
+middle/ˈmɪdl/n./中间的/The middle.
+midnight/ˈmɪdnaɪt/n./午夜/At midnight.
+might/maɪt/v./可能（may的过去式）/He might go.
+mile/maɪl/n./英里/One mile.
+milk/mɪlk/n./牛奶/Drink milk.
+million/ˈmɪljən/num./百万/One million.
+mind/maɪnd/v./介意；想法/Do you mind?
+mine/maɪn/pron./我的（名词性物主代词）/The book is mine.
+minute/ˈmɪnɪt/n./分钟/One minute.
+mirror/ˈmɪrə(r)/n./镜子/Look in mirror.
+miss/mɪs/v./想念；错过/I miss you.
+mistake/mɪˈsteɪk/n./错误/Make a mistake.
+mix/mɪks/v./混合/Mix it.
+model/ˈmɒdl/n./模型/A car model.
+modern/ˈmɒdn/adj./现代的/Modern art.
+moment/ˈməʊmənt/n./片刻/One moment.
+Monday/ˈmʌndeɪ/n./星期一/On Monday.
+money/ˈmʌni/n./钱/No money.
+monitor/ˈmɒnɪtə(r)/n./班长；显示器/A monitor.
+monkey/ˈmʌŋki/n./猴子/Jump like a monkey.
+month/mʌnθ/n./月/One month.
+moon/muːn/n./月亮/Full moon.
+more/mɔː(r)/det./更多的/More please.
+morning/ˈmɔːnɪŋ/n./早晨/Good morning.
+most/məʊst/det./最多的/The most.
+mother/ˈmʌðə(r)/n./母亲/My mother.
+motorbike/ˈməʊtəbaɪk/n./摩托车/Ride a motorbike.
+mountain/ˈmaʊntən/n./山/High mountain.
+mouse/maʊs/n./老鼠；鼠标/A small mouse.
+mouth/maʊθ/n./嘴/Open mouth.
+move/muːv/v./移动/Move here.
+movie/ˈmuːvi/n./电影（美式）/Watch a movie.
+Mr/ˈmɪstə(r)/n./先生/Mr Smith.
+Mrs/ˈmɪsɪz/n./夫人/Mrs Brown.
+Ms/mɪz/n./女士/Ms Green.
+much/mʌtʃ/det./许多（修饰不可数名词）/Too much.
+mum/mʌm/n./妈妈（英式）/Mum is here.
+music/ˈmjuːzɪk/n./音乐/Listen to music.
+must/mʌst/v./必须/You must go.
+my/maɪ/det./我的/My book.
+myself/maɪˈself/pron./我自己/By myself.
+nail/neɪl/n./指甲；钉子/Nail polish.
+name/neɪm/n./名字/My name.
+national/ˈnæʃnəl/adj./国家的/National day.
+nature/ˈneɪtʃə(r)/n./自然/In nature.
+near/nɪə(r)/prep./在……附近/Near the park.
+neck/nek/n./脖子/My neck.
+need/niːd/v./需要/I need help.
+needle/ˈniːdl/n./针/A sewing needle.
+neighbour/ˈneɪbə(r)/n./邻居（英式）/My neighbour.
+neither/ˈnaɪðə(r)/conj./也不/Neither do I.
+nephew/ˈnefjuː/n./侄子/My nephew.
+nervous/ˈnɜːvəs/adj./紧张的/I am nervous.
+nest/nest/n./鸟巢/Bird's nest.
+net/net/n./网/On the net.
+never/ˈnevə(r)/adv./从不/Never give up.
+new/njuː/adj./新的/A new car.
+news/njuːz/n./新闻/Watch news.
+newspaper/ˈnjuːzpeɪpə(r)/n./报纸/Read newspaper.
+next/nekst/adj./下一个/Next time.
+nice/naɪs/adj./好的/A nice day.
+night/naɪt/n./夜晚/Good night.
+nine/naɪn/num./九/Nine cats.
+nineteen/ˌnaɪnˈtiːn/num./十九/Nineteen years.
+ninety/ˈnaɪnti/num./九十/Ninety days.
+no/nəʊ/adv./不/No smoking.
+nobody/ˈnəʊbədi/pron./没有人/Nobody here.
+noise/nɔɪz/n./噪音/Make noise.
+none/nʌn/pron./没有/None left.
+noon/nuːn/n./中午/At noon.
+nor/nɔː(r)/conj./也不/Neither nor.
+north/nɔːθ/n./北方/Go north.
+nose/nəʊz/n./鼻子/My nose.
+not/nɒt/adv./不/Not bad.
+note/nəʊt/n./笔记；便条/Write a note.
+nothing/ˈnʌθɪŋ/pron./没有什么/Nothing to do.
+November/nəʊˈvembə(r)/n./十一月/In November.
+now/naʊ/adv./现在/Right now.
+number/ˈnʌmbə(r)/n./数字；号码/Phone number.
+nurse/nɜːs/n./护士/A nurse helps.
+o’clock/əˈklɒk/adv./……点钟/At ten o’clock.
+October/ɒkˈtəʊbə(r)/n./十月/In October.
+of/ɒv/prep./……的/Kind of you.
+off/ɒf/adv./离开；关闭/Turn off.
+offer/ˈɒfə(r)/v./提供/Make an offer.
+office/ˈɒfɪs/n./办公室/Go to office.
+often/ˈɒfn/adv./经常/I often go.
+oh/əʊ/int./哦/Oh no!
+OK/ˌəʊ ˈkeɪ/adj./好的/I am OK.
+old/əʊld/adj./年老的；旧的/An old man.
+on/ɒn/prep./在……上/On the table.
+once/wʌns/adv./一次/Once again.
+one/wʌn/num./一/One apple.
+only/ˈəʊnli/adv./仅仅/Only one.
+open/ˈəʊpən/v./打开；开放的/Open the box.
+or/ɔː(r)/conj./或者/Yes or no?
+orange/ˈɒrɪndʒ/adj./橙子；橙色的/An orange.
+order/ˈɔːdə(r)/n./命令；点菜/Take an order.
+other/ˈʌðə(r)/det./其他的/Other people.
+our/ˈaʊə(r)/det./我们的/Our house.
+ours/ˈaʊəz/pron./我们的（名词性物主代词）/The book is ours.
+out/aʊt/adv./在外面/Go out.
+outside/ˌaʊtˈsaɪd/prep./在……外面/Outside the door.
+over/ˈəʊvə(r)/prep./在……上方；超过/Over there.
+own/əʊn/v./自己的/My own room.
+page/peɪdʒ/n./页/On page one.
+paint/peɪnt/v./油漆；绘画/Paint a picture.
+pair/peə(r)/n./一双；一对/A pair of shoes.
+palace/ˈpæləs/n./宫殿/A big palace.
+panda/ˈpændə/n./熊猫/The panda eats.
+paper/ˈpeɪpə(r)/n./纸；试卷/Write on paper.
+parent/ˈpeərənt/n./父母之一/My parent.
+park/pɑːk/n./公园/In the park.
+parrot/ˈpærət/n./鹦鹉/The parrot talks.
+part/pɑːt/n./部分/A small part.
+party/ˈpɑːti/n./聚会；政党/A birthday party.
+pass/pɑːs/v./传递；通过/Pass the ball.
+passport/ˈpɑːspɔːt/n./护照/Show passport.
+past/pɑːst/prep./过去；经过/In the past.
+path/pɑːθ/n./小路/On the path.
+pay/peɪ/v./支付/Can I pay?
+PE/ˌpiː ˈiː/n./体育/PE class.
+peace/piːs/n./和平/World peace.
+peach/piːtʃ/n./桃子/Eat a peach.
+pear/peə(r)/n./梨/A green pear.
+pen/pen/n./钢笔/Write with pen.
+pencil box/ˈpensl bɒks/n./铅笔盒/My pencil box.
+penguin/ˈpeŋɡwɪn/n./企鹅/The penguin walks.
+people/ˈpiːpl/n./人们/Many people.
+pepper/ˈpepə(r)/n./胡椒/Black pepper.
+percent/pəˈsent/n./百分之……/Fifty percent.
+perfect/ˈpɜːfɪkt/adj./完美的/A perfect day.
+perhaps/pəˈhæps/adv./也许/Perhaps tomorrow.
+person/ˈpɜːsn/n./人/One person.
+pet/pet/n./宠物/My pet dog.
+phone/fəʊn/n./电话/Answer the phone.
+photo/ˈfəʊtəʊ/n./照片/Take a photo.
+physics/ˈfɪzɪks/n./物理/Study physics.
+pick/pɪk/v./挑选；摘/Pick flowers.
+picnic/ˈpɪknɪk/n./野餐/Go on a picnic.
+picture/ˈpɪktʃə(r)/n./图画/Draw a picture.
+pie/paɪ/n./馅饼/Eat pie.
+piece/piːs/n./一块/A piece of cake.
+pig/pɪɡ/n./猪/The pig oinks.
+pilot/ˈpaɪlət/n./飞行员/A pilot flies.
+pink/pɪŋk/adj./粉红色（的）/Pink flower.
+pioneer/ˌpaɪəˈnɪə(r)/n./先驱/A pioneer.
+pipe/paɪp/n./管子/Water pipe.
+place/pleɪs/n./地方/My place.
+plan/plæn/n./计划/Make a plan.
+plane/pleɪn/n./飞机/By plane.
+plant/plɑːnt/v./植物；种植/Plant a tree.
+plastic/ˈplæstɪk/n./塑料/Plastic bag.
+plate/pleɪt/n./盘子/On the plate.
+play/pleɪ/v./玩；演奏/Play football.
+player/ˈpleɪə(r)/n./运动员；播放器/A player.
+please/pliːz/int./请/Please sit.
+pleasure/ˈpleʒə(r)/n./高兴；愉快/My pleasure.
+plenty/ˈplenti/n./大量/Plenty of time.
+pocket/ˈpɒkɪt/n./口袋/In my pocket.
+point/pɔɪnt/v./指；点/Point here.
+police/pəˈliːs/n./警察/Call the police.
+policeman/pəˈliːsmən/n./男警察/A policeman.
+policewoman/pəˈliːswʊmən/n./女警察/A policewoman.
+pool/puːl/n./水池/In the pool.
+poor/pɔː(r)/adj./贫穷的/A poor man.
+pop/pɒp/n./流行音乐/Listen to pop.
+popular/ˈpɒpjələ(r)/adj./受欢迎的/A popular song.
+pork/pɔːk/n./猪肉/Eat pork.
+port/pɔːt/n./港口/At the port.
+post/pəʊst/v./邮寄；邮件/Send a post.
+postcard/ˈpəʊstkɑːd/n./明信片/A postcard.
+potato/pəˈteɪtəʊ/n./土豆/Eat potatoes.
+pound/paʊnd/n./英镑；磅/One pound.
+power/ˈpaʊə(r)/n./力量；电力/Power on.
+practice/ˈpræktɪs/n./练习/Practice makes perfect.
+praise/preɪz/v./表扬/Get praise.
+prepare/prɪˈpeə(r)/v./准备/Prepare food.
+present/ˈpreznt/n./礼物；目前的/A birthday present.
+pretty/ˈprɪti/adj./漂亮的/A pretty girl.
+price/praɪs/n./价格/High price.
+primary/ˈpraɪməri/adj./初级的/Primary school.
+prince/prɪns/n./王子/The prince.
+princess/ˈprɪnses/n./公主/The princess.
+print/prɪnt/v./打印/Print the page.
+problem/ˈprɒbləm/n./问题/A big problem.
+produce/prəˈdjuːs/v./生产/Produce cars.
+product/ˈprɒdʌkt/n./产品/A new product.
+programme/ˈprəʊɡræm/n./节目（英式）/TV programme.
+project/ˈprɒdʒekt/n./项目/A school project.
+promise/ˈprɒmɪs/v./承诺/Keep a promise.
+pronounce/prəˈnaʊns/v./发音/How to pronounce?
+protect/prəˈtekt/v./保护/Protect nature.
+proud/praʊd/adj./自豪的/Be proud.
+prove/pruːv/v./证明/Prove it.
+public/ˈpʌblɪk/n./公共的/Public place.
+pull/pʊl/v./拉/Pull hard.
+pumpkin/ˈpʌmpkɪn/n./南瓜/A big pumpkin.
+punish/ˈpʌnɪʃ/v./惩罚/Punish bad kids.
+pupil/ˈpjuːpl/n./小学生/A pupil learns.
+purple/ˈpɜːpl/adj./紫色（的）/Purple sky.
+purpose/ˈpɜːpəs/n./目的/For what purpose?
+push/pʊʃ/v./推/Push the door.
+put/pʊt/v./放/Put down.
+quarter/ˈkwɔːtə(r)/n./四分之一；一刻钟/A quarter.
+queen/kwiːn/n./女王/The queen.
+question/ˈkwestʃən/n./问题/Answer the question.
+quick/kwɪk/adj./快的/Be quick.
+quiet/ˈkwaɪət/adj./安静的/Be quiet.
+rabbit/ˈræbɪt/n./兔子/The rabbit hops.
+race/reɪs/n./赛跑；种族/A race.
+radio/ˈreɪdiəʊ/n./收音机/Listen to radio.
+rain/reɪn/n./雨/It rains.
+rainbow/ˈreɪnbəʊ/n./彩虹/See a rainbow.
+rainy/ˈreɪni/adj./下雨的/A rainy day.
+raise/reɪz/v./举起；筹集/Raise your hand.
+ran/ræn/v./跑（run的过去式）/He ran fast.
+range/reɪndʒ/n./范围/A wide range.
+rapid/ˈræpɪd/adj./快速的/Rapid fire.
+rather/ˈrɑːðə(r)/adv./宁愿/I would rather.
+reach/riːtʃ/v./到达/Reach the top.
+read/riːd/v./读/Read a book.
+ready/ˈredi/adj./准备好的/Get ready.
+real/ˈriːəl/adj./真的/A real dog.
+really/ˈriːəli/adv./真正地/Really? Yes.
+reason/ˈriːzn/n./原因/For a reason.
+receive/rɪˈsiːv/v./收到/Receive a gift.
+record/ˈrekɔːd/n./唱片；记录/Break a record.
+red/red/adj./红色（的）/Red light.
+refuse/rɪˈfjuːz/v./拒绝/I refuse.
+regret/rɪˈɡret/v./后悔/No regret.
+regular/ˈreɡjələ(r)/adj./规律的/Regular time.
+relax/rɪˈlæks/v./放松/Just relax.
+remember/rɪˈmembə(r)/v./记得/Remember me.
+remind/rɪˈmaɪnd/v./提醒/Remind me.
+repair/rɪˈpeə(r)/v./修理/Repair the car.
+repeat/rɪˈpiːt/v./重复/Repeat after me.
+reply/rɪˈplaɪ/n./回答/No reply.
+report/rɪˈpɔːt/n./报告/Write a report.
+rest/rest/n./休息/Have a rest.
+restaurant/ˈrestərɒnt/n./餐厅/Go to restaurant.
+result/rɪˈzʌlt/n./结果/The result.
+return/rɪˈtɜːn/v./返回/Return home.
+review/rɪˈvjuː/v./复习/Review notes.
+rice/raɪs/n./米饭/Eat rice.
+rich/rɪtʃ/adj./富有的/A rich man.
+ride/raɪd/v./骑；乘坐/Ride a bike.
+right/raɪt/adj./正确的；右边/Right answer.
+ring/rɪŋ/n./戒指；铃声/A gold ring.
+rise/raɪz/v./上升/The sun rises.
+river/ˈrɪvə(r)/n./河流/Cross the river.
+road/rəʊd/n./道路/On the road.
+robot/ˈrəʊbɒt/n./机器人/A robot.
+rock/rɒk/n./岩石；摇滚乐/Throw a rock.
+role/rəʊl/n./角色/Play a role.
+roll/rəʊl/v./滚动/Roll the ball.
+roof/ruːf/n./屋顶/On the roof.
+room/ruːm/n./房间/My room.
+rope/rəʊp/n./绳子/Use a rope.
+rose/rəʊz/n./玫瑰/A red rose.
+round/raʊnd/adj./圆的/A round ball.
+row/rəʊ/v./一排；划船/Row a boat.
+royal/ˈrɔɪəl/adj./皇家的/Royal family.
+rubber/ˈrʌbə(r)/n./橡皮（英式）/Use a rubber.
+rubbish/ˈrʌbɪʃ/n./垃圾/Throw rubbish.
+rude/ruːd/adj./粗鲁的/Be rude.
+rule/ruːl/n./规则/Make a rule.
+run/rʌn/v./跑/Run fast.
+runner/ˈrʌnə(r)/n./跑步者/A fast runner.
+Russia/ˈrʌʃə/n./俄罗斯/From Russia.
+Russian/ˈrʌʃn/adj./俄语；俄罗斯的/Russian food.
+sad/sæd/adj./伤心的/Feeling sad.
+safe/seɪf/adj./安全的/Be safe.
+safety/ˈseɪfti/n./安全/Safety first.
+salad/ˈsæləd/n./沙拉/Eat salad.
+sale/seɪl/n./出售/On sale.
+salt/sɔːlt/n./盐/Add salt.
+same/seɪm/adj./相同的/The same.
+sand/sænd/n./沙子/Play with sand.
+sandwich/ˈsænwɪdʒ/n./三明治/Eat a sandwich.
+Saturday/ˈsætədeɪ/n./星期六/On Saturday.
+save/seɪv/v./节省；拯救/Save money.
+say/seɪ/v./说/Say it.
+school/skuːl/n./学校/Go to school.
+science/ˈsaɪəns/n./科学/Science class.
+scientist/ˈsaɪəntɪst/n./科学家/A scientist.
+scissors/ˈsɪzəz/n./剪刀/Use scissors.
+score/skɔː(r)/n./得分/High score.
+sea/siː/n./海/By the sea.
+search/sɜːtʃ/v./搜索/Search online.
+season/ˈsiːzn/n./季节/Four seasons.
+seat/siːt/n./座位/My seat.
+second/ˈsekənd/adj./第二；秒/Second place.
+secret/ˈsiːkrət/n./秘密/A secret.
+see/siː/v./看见/I see you.
+seed/siːd/n./种子/Plant a seed.
+seem/siːm/v./似乎/Seem happy.
+sell/sel/v./卖/Sell a car.
+send/send/v./发送/Send a message.
+September/sepˈtembə(r)/n./九月/In September.
+serious/ˈsɪəriəs/adj./严肃的/A serious face.
+serve/sɜːv/v./服务/Can I serve you?
+service/ˈsɜːvɪs/n./服务/Good service.
+set/set/v./设置/Set the table.
+seven/ˈsevn/num./七/Seven days.
+seventeen/ˌsevnˈtiːn/num./十七/Seventeen years.
+seventy/ˈsevnti/num./七十/Seventy books.
+several/ˈsevrəl/det./几个/Several times.
+shake/ʃeɪk/v./摇动/Shake hands.
+shall/ʃæl/v./将要（用于第一人称）/Shall we go?
+shame/ʃeɪm/n./羞愧/What a shame.
+shape/ʃeɪp/n./形状/What shape?
+share/ʃeə(r)/v./分享/Share with me.
+sharp/ʃɑːp/adj./锋利的/A sharp knife.
+she/ʃiː/pron./她/She runs.
+sheep/ʃiːp/n./绵羊/A white sheep.
+sheet/ʃiːt/n./床单；纸张/A sheet.
+shelf/ʃelf/n./架子/On the shelf.
+shine/ʃaɪn/v./发光/The sun shines.
+ship/ʃɪp/n./船/Sail a ship.
+shirt/ʃɜːt/n./衬衫/Wear a shirt.
+shoe/ʃuː/n./鞋子/My shoes.
+shoot/ʃuːt/v./射击/Shoot the ball.
+shop/ʃɒp/n./商店；购物/Go shopping.
+short/ʃɔːt/adj./短的/Short hair.
+should/ʃʊd/v./应该/You should go.
+shoulder/ˈʃəʊldə(r)/n./肩膀/My shoulder.
+shout/ʃaʊt/v./喊叫/Don't shout.
+show/ʃəʊ/v./展示；演出/Show me.
+shower/ˈʃaʊə(r)/n./淋浴/Have a shower.
+shut/ʃʌt/v./关闭/Shut up.
+sick/sɪk/adj./生病的/I am sick.
+side/saɪd/n./边；侧面/On the side.
+sight/saɪt/n./视力；景象/A beautiful sight.
+sign/saɪn/n./标志；签名/No sign.
+silent/ˈsaɪlənt/adj./安静的/Be silent.
+silk/sɪlk/n./丝绸/Wear silk.
+silly/ˈsɪli/adj./愚蠢的/A silly joke.
+silver/ˈsɪlvə(r)/adj./银色的；银/Silver medal.
+similar/ˈsɪmələ(r)/adj./相似的/Similar to.
+simple/ˈsɪmpl/adj./简单的/A simple task.
+since/sɪns/conj./自从/Since then.
+sing/sɪŋ/v./唱歌/Sing a song.
+singer/ˈsɪŋə(r)/n./歌手/A famous singer.
+sister/ˈsɪstə(r)/n./姐妹/My sister.
+sit/sɪt/v./坐/Sit down.
+six/sɪks/num./六/Six pens.
+sixteen/ˌsɪksˈtiːn/num./十六/Sixteen years.
+sixty/ˈsɪksti/num./六十/Sixty minutes.
+size/saɪz/n./尺寸/What size?
+skate/skeɪt/v./滑冰/Go skating.
+ski/skiː/v./滑雪/Go skiing.
+skill/skɪl/n./技能/A skill.
+skin/skɪn/n./皮肤/Soft skin.
+skirt/skɜːt/n./裙子/Wear a skirt.
+sky/skaɪ/n./天空/Blue sky.
+sleep/sliːp/v./睡觉/Go to sleep.
+slow/sləʊ/adj./慢的/Be slow.
+small/smɔːl/adj./小的/Small size.
+smart/smɑːt/adj./聪明的；时髦的/A smart boy.
+smell/smel/v./闻起来/Smell good.
+smile/smaɪl/n./微笑/A smile.
+smoke/sməʊk/v./烟；吸烟/No smoking.
+snake/sneɪk/n./蛇/A long snake.
+snow/snəʊ/n./雪/White snow.
+snowy/ˈsnəʊi/adj./下雪的/A snowy day.
+so/səʊ/adv./如此；所以/So big.
+soap/səʊp/n./肥皂/Use soap.
+soccer/ˈsɒkə(r)/n./足球（美式）/Play soccer.
+social/ˈsəʊʃl/adj./社会的/Social media.
+sock/sɒk/n./短袜/Wear socks.
+soft/sɒft/adj./柔软的/Soft toy.
+soil/sɔɪl/n./土壤/In the soil.
+soldier/ˈsəʊldʒə(r)/n./士兵/A soldier.
+solid/ˈsɒlɪd/adj./固体的/Solid rock.
+solve/sɒlv/v./解决/Solve a problem.
+some/sʌm/det./一些/Some water.
+somebody/ˈsʌmbədi/pron./某人/Somebody help.
+someone/ˈsʌmwʌn/pron./某人/Someone comes.
+something/ˈsʌmθɪŋ/pron./某事/Something wrong.
+sometimes/ˈsʌmtaɪmz/adv./有时/Sometimes I do.
+somewhere/ˈsʌmweə(r)/adv./某处/Go somewhere.
+son/sʌn/n./儿子/My son.
+song/sɒŋ/n./歌曲/A happy song.
+soon/suːn/adv./不久/See you soon.
+sorry/ˈsɒri/adj./对不起/I am sorry.
+sort/sɔːt/n./种类/What sort?
+sound/saʊnd/n./声音/Make a sound.
+soup/suːp/n./汤/Eat soup.
+south/saʊθ/n./南方/Go south.
+space/speɪs/n./空间；太空/In space.
+spare/speə(r)/adj./空闲的/Spare time.
+speak/spiːk/v./说话/Speak English.
+speaker/ˈspiːkə(r)/n./说话者；扬声器/A speaker.
+special/ˈspeʃl/adj./特别的/A special gift.
+speech/spiːtʃ/n./演讲/Give a speech.
+speed/spiːd/n./速度/High speed.
+spell/spel/v./拼写/Spell the word.
+spend/spend/v./花费（时间/钱）/Spend money.
+spider/ˈspaɪdə(r)/n./蜘蛛/A spider.
+spirit/ˈspɪrɪt/n./精神/School spirit.
+spoon/spuːn/n./勺子/Use a spoon.
+sport/spɔːt/n./运动/Play sport.
+spot/spɒt/n./斑点；地点/A spot.
+spring/sprɪŋ/n./春天/In spring.
+square/skweə(r)/n./平方；广场/A square.
+stamp/stæmp/n./邮票/A stamp.
+stand/stænd/v./站立/Stand up.
+star/stɑː(r)/n./星星/Bright star.
+start/stɑːt/v./开始/Start now.
+state/steɪt/n./州；状态/State of mind.
+station/ˈsteɪʃn/n./车站/Train station.
+stay/steɪ/v./停留/Stay here.
+steal/stiːl/v./偷/Don't steal.
+steam/stiːm/n./蒸汽/Hot steam.
+steel/stiːl/n./钢/Strong steel.
+step/step/n./步；台阶/One step.
+stick/stɪk/n./棍子；粘住/A stick.
+still/stɪl/adv./仍然/I still do.
+stomach/ˈstʌmək/n./胃/My stomach.
+stone/stəʊn/n./石头/A stone.
+stop/stɒp/v./停止/Stop here.
+store/stɔː(r)/n./商店（美式）/Go to store.
+storm/stɔːm/n./风暴/A big storm.
+story/ˈstɔːri/n./故事/Tell a story.
+straight/streɪt/adj./直的/Go straight.
+strange/streɪndʒ/adj./奇怪的/A strange man.
+street/striːt/n./街道/On the street.
+strict/strɪkt/adj./严格的/A strict teacher.
+strong/strɒŋ/adj./强壮的/A strong man.
+student/ˈstjuːdnt/n./学生/A good student.
+study/ˈstʌdi/v./学习；书房/Study hard.
+stuff/stʌf/n./东西/Just stuff.
+stupid/ˈstjuːpɪd/adj./愚蠢的/A stupid idea.
+subject/ˈsʌbdʒɪkt/n./科目/My subject.
+succeed/səkˈsiːd/v./成功/Succeed in.
+such/sʌtʃ/det./这样的/Such a day.
+sudden/ˈsʌdn/adj./突然的/A sudden stop.
+sugar/ˈʃʊɡə(r)/n./糖/Add sugar.
+suggest/səˈdʒest/v./建议/Suggest a plan.
+suit/suːt/n./西装/Wear a suit.
+summer/ˈsʌmə(r)/n./夏天/Hot summer.
+sun/sʌn/n./太阳/See the sun.
+Sunday/ˈsʌndeɪ/n./星期日/On Sunday.
+sunny/ˈsʌni/adj./晴朗的/A sunny day.
+sunshine/ˈsʌnʃaɪn/n./阳光/Sunshine.
+super/ˈsuːpə(r)/adj./超级的/Super man.
+supermarket/ˈsuːpəmɑːkɪt/n./超市/Go to supermarket.
+supper/ˈsʌpə(r)/n./晚餐（较正式）/Have supper.
+supply/səˈplaɪ/v./供应/Supply food.
+sure/ʃʊə(r)/adv./当然；确信/Sure, I can.
+surface/ˈsɜːfɪs/n./表面/On the surface.
+surprise/səˈpraɪz/n./惊喜/A surprise.
+surround/səˈraʊnd/v./围绕/Surround by.
+survey/ˈsɜːveɪ/n./调查/A survey.
+sweet/swiːt/adj./甜的；糖果/A sweet candy.
+swim/swɪm/v./游泳/Go swimming.
+symbol/ˈsɪmbəl/n./象征/A symbol.
+system/ˈsɪstəm/n./系统/A system.
+table/ˈteɪbl/n./桌子/On the table.
+tail/teɪl/n./尾巴/A long tail.
+take/teɪk/v./拿；带走/Can I take it?
+talent/ˈtælənt/n./才能/A talent.
+talk/tɔːk/v./谈话/Talk to me.
+tall/tɔːl/adj./高的/A tall man.
+tape/teɪp/n./磁带；胶带/A tape.
+task/tɑːsk/n./任务/A hard task.
+taste/teɪst/n./味道；口味/Good taste.
+taxi/tæksi/n./出租车/Take a taxi.
+tea/tiː/n./茶/Drink tea.
+teach/tiːtʃ/v./教/Teach English.
+teacher/ˈtiːtʃə(r)/n./老师/A good teacher.
+team/tiːm/n./团队/Join a team.
+telephone/ˈtelɪfəʊ/n./电话/Use the telephone.
+television/ˈtelɪvɪʒn/n./电视/Watch TV.
+tell/tel/v./告诉/Tell me.
+temperature/ˈtemprətʃə(r)/n./温度/High temperature.
+ten/ten/num./十/Ten fingers.
+tennis/ˈtenɪs/n./网球/Play tennis.
+tent/tent/n./帐篷/A tent.
+term/tɜːm/n./学期；术语/School term.
+terrible/ˈterəbl/adj./糟糕的/A terrible day.
+test/test/n./测试/Take a test.
+text/tekst/n./课文；文本/Read the text.
+than/ðæn/conj./比/Bigger than.
+thank/θæŋk/v./感谢/Thank you.
+that/ðæt/det./那个/That book.
+the/ðə/def art./这（那）个；这（那）些/Read the book.
+their/ðeə(r)/pron./他（她/它）们的/Their house.
+them/ðəm/pron./他（她/它）们（宾格）/I see them.
+then/ðen/adv./然后/Then we go.
+there/ðeə(r)/adv./那里/Over there.
+these/ðiːz/det./这些/These books.
+they/ðeɪ/pron./他们/They run.
+thick/θɪk/adj./厚的/A thick book.
+thin/θɪn/adj./瘦的；薄的/A thin man.
+thing/θɪŋ/n./东西；事情/A thing.
+think/θɪŋk/v./想；认为/Think so.
+third/θɜːd/adj./第三/Third place.
+thirsty/ˈθɜːsti/adj./渴的/I am thirsty.
+thirteen/ˌθɜːˈtiːn/num./十三/Thirteen years.
+thirty/ˈθɜːti/num./三十/Thirty days.
+this/ðɪs/det./这个/This book.
+those/ðəʊz/det./那些/Those books.
+though/ðəʊ/conj./虽然/Though I can.
+thought/θɔːt/n./想法；思想/A thought.
+thousand/ˈθaʊzənd/num./千/One thousand.
+three/θriː/num./三/Three pens.
+through/θruː/prep./穿过/Go through.
+throw/θrəʊ/v./扔/Throw a ball.
+Thursday/ˈθɜːzdeɪ/n./星期四/On Thursday.
+ticket/ˈtɪkɪt/n./票/Get a ticket.
+tidy/ˈtaɪdi/adj./整洁的/Keep tidy.
+tie/taɪ/v./系；领带/Tie a tie.
+tiger/ˈtaɪɡə(r)/n./老虎/A tiger.
+till/tɪl/conj./直到/Till now.
+time/taɪm/n./时间；次数/What time?
+tiny/ˈtaɪni/adj./极小的/A tiny ant.
+tired/ˈtaɪəd/adj./累的/I am tired.
+to/tuː/prep./到；向；给/Go to.
+today/təˈdeɪ/adv./今天/Today is good.
+toe/təʊ/n./脚趾/My toe.
+together/təˈɡeðə(r)/adv./一起/Play together.
+toilet/ˈtɔɪlət/n./厕所/Go to toilet.
+tomato/təˈmɑːtəʊ/n./西红柿/Eat tomatoes.
+tomorrow/təˈmɒrəʊ/adv./明天/Tomorrow is fine.
+tonight/təˈnaɪt/adv./今晚/Tonight we dance.
+too/tuː/adv./也；太/Too big.
+tooth/tuːθ/n./牙齿/My tooth.
+toothache/ˈtuːθeɪk/n./牙痛/I have a toothache.
+toothbrush/ˈtuːθbrʌʃ/n./牙刷/Use a toothbrush.
+toothpaste/ˈtuːθpeɪst/n./牙膏/Use toothpaste.
+top/tɒp/n./顶部/On the top.
+total/ˈtəʊtl/adj./总的/The total.
+touch/ˈtʌtʃ/v./触摸/Don't touch.
+tour/tʊə(r)/n./旅行/Go on a tour.
+tourist/ˈtʊərɪst/n./游客/A tourist.
+toward/təˈwɔːd/prep./朝向/Toward the sun.
+towel/ˈtaʊəl/n./毛巾/Use a towel.
+town/taʊn/n./城镇/In the town.
+toy/tɔɪ/n./玩具/A toy.
+trade/treɪd/v./贸易；交换/Trade goods.
+traffic/ˈtræfɪk/n./交通/Traffic jam.
+train/treɪn/v./火车；训练/By train.
+training/ˈtreɪnɪŋ/n./训练/Training time.
+translate/trænzˈleɪt/v./翻译/Translate it.
+travel/ˈtrævl/v./旅行/Travel far.
+tree/triː/n./树/Under the tree.
+trip/trɪp/n./旅行/A trip.
+trouble/ˈtrʌbl/n./麻烦/In trouble.
+trousers/ˈtraʊzəz/n./裤子/Wear trousers.
+truck/trʌk/n./卡车（美式）/A big truck.
+true/truː/adj./真的/A true story.
+try/traɪ/v./尝试/Try again.
+T-shirt/ˈtiː ʃɜːt/n./T恤/A T-shirt.
+Tuesday/ˈtjuːzdeɪ/n./星期二/On Tuesday.
+turn/tɜːn/v./转动；轮流/Your turn.
+twelve/twelv/num./十二/Twelve months.
+twenty/ˈtwenti/num./二十/Twenty books.
+twice/twaɪs/adv./两次/Twice a day.
+two/tuː/num./二/Two pens.
+ugly/ˈʌɡli/adj./丑陋的/An ugly duck.
+umbrella/ʌmˈbrelə/n./雨伞/Use an umbrella.
+uncle/ˈʌŋkl/n./叔叔/My uncle.
+under/ˈʌndə(r)/prep./在……下面/Under the bed.
+underground/ˌʌndəˈɡraʊnd/n./地铁（英式）/Take the underground.
+understand/ˌʌndəˈstænd/v./理解/I understand.
+unit/ˈjuːnɪt/n./单元/Unit 1.
+university/ˌjuːnɪˈvɜːsəti/n./大学/A university.
+unless/ənˈles/conj./除非/Unless you do.
+until/ənˈtɪl/conj./直到/Until tomorrow.
+up/ʌp/adv./向上/Up high.
+upon/əˈpɒn/prep./在……之上/Once upon a time.
+us/ʌs/pron./我们（宾格）/Help us.
+use/juːz/v./使用/Use it.
+useful/ˈjuːsfl/adj./有用的/A useful tool.
+usual/ˈjuːʒuəl/adj./通常的/As usual.
+usually/ˈjuːʒuəli/adv./通常/Usually I do.
+vacation/vəˈkeɪʃn/n./假期（美式）/Summer vacation.
+value/ˈvæljuː/n./价值/The value.
+vegetable/ˈvedʒtəbl/n./蔬菜/Eat vegetables.
+very/ˈveri/adv./非常/Very good.
+village/ˈvɪlɪdʒ/n./村庄/A small village.
+visit/ˈvɪzɪt/v./参观；拜访/Visit friends.
+visitor/ˈvɪzɪtə(r)/n./参观者/A visitor.
+voice/vɔɪs/n./声音/A loud voice.
+volleyball/ˈvɒlibɔːl/n./排球/Play volleyball.
+wait/weɪt/v./等待/Wait here.
+walk/wɔːk/v./散步；走/Go for a walk.
+wall/wɔːl/n./墙/On the wall.
+wallet/ˈwɒlɪt/n./钱包/My wallet.
+want/wɒnt/v./想要/I want it.
+war/wɔː(r)/n./战争/No war.
+warm/wɔːm/adj./温暖的；热情的/Warm heart.
+wash/wɒʃ/v./洗/Wash hands.
+waste/weɪst/v./浪费/Don't waste.
+watch/wɒtʃ/v./观看；手表/Watch TV.
+water/ˈwɔːtə(r)/n./水/Drink water.
+watermelon/ˈwɔːtəmelən/n./西瓜/Eat watermelon.
+way/weɪ/n./路；方式/My way.
+we/wiː/pron./我们/We go.
+weak/wiːk/adj./弱的/A weak point.
+wear/weə(r)/v./穿；戴/Wear a hat.
+weather/ˈweðə(r)/n./天气/Good weather.
+Wednesday/ˈwenzdeɪ/n./星期三/On Wednesday.
+week/wiːk/n./星期/A week.
+weekday/ˈwiːkdeɪ/n./工作日/On a weekday.
+weekend/ˈwiːkend/n./周末/At the weekend.
+weigh/weɪ/v./称重/Weigh it.
+welcome/welkəm/int./欢迎/Welcome!
+well/wel/adv./好/Do well.
+west/west/n./西/Go west.
+wet/wet/adj./湿的/A wet dog.
+what/wɒt/adv./什么/What is it?
+whatever/wɒtˈevə(r)/pron./无论什么/Whatever you say.
+wheel/wiːl/n./轮子/A wheel.
+when/wen/adv./什么时候/When now?
+whenever/wenˈevə(r)/adv./无论何时/Whenever you like.
+where/weə(r)/adv./哪里/Where is it?
+whether/ˈweðə(r)/conj./是否/Whether you do.
+which/wɪtʃ/pron./哪一个/Which one?
+while/waɪl/conj./当……时候/While I sleep.
+white/waɪt/adj./白色的/White snow.
+who/huː/pron./谁/Who is it?
+whole/həʊl/adj./整个的/The whole.
+whom/huːm/pron./谁（宾格）/To whom it may concern.
+whose/huːz/pron./谁的/Whose book?
+why/waɪ/adv./为什么/Why so?
+wide/waɪd/adj./宽的/A wide road.
+wife/waɪf/n./妻子/My wife.
+will/wɪl/v./将；愿意/I will go.
+win/wɪn/v./赢/Win a game.
+wind/wɪnd/n./风/Feel the wind.
+window/ˈwɪndəʊ/n./窗户/Close the window.
+wine/waɪn/n./酒/Drink wine.
+wing/wɪŋ/n./翅膀/A bird's wing.
+winner/ˈwɪnə(r)/n./赢家/The winner.
+winter/ˈwɪntə(r)/n./冬天/Cold winter.
+wish/wɪʃ/v./希望；愿望/Make a wish.
+with/wɪð/prep./和；带有/Play with me.
+without/wɪˈðaʊt/prep./没有/Without you.
+woman/ˈwʊmən/n./女人/A woman.
+wonder/ˈwʌndə(r)/v./想知道/I wonder.
+wonderful/ˈwʌndəfl/adj./精彩的/A wonderful day.
+wood/wʊd/n./木头/On the wood.
+word/wɜːd/n./单词；话语/A word.
+work/wɜːk/v./工作；起作用/Work hard.
+worker/ˈwɜːkə(r)/n./工人/A worker.
+world/wɜːld/n./世界/The world.
+worry/ˈwʌri/v./担心/Don't worry.
+worse/wɜːs/adj./更差的（bad的比较级）/Much worse.
+worst/wɜːst/adj./最差的（bad的最高级）/The worst.
+would/wʊd/v./将（will的过去式）/I would go.
+write/raɪt/v./写/Write a book.
+wrong/rɒŋ/adj./错误的/A wrong answer.
+yard/jɑːd/n./院子/In the yard.
+year/jɪə(r)/n./年/One year.
+yellow/ˈjeləʊ/adj./黄色（的）/Yellow sun.
+yes/jes/int./是的/Yes, please.
+yet/jet/adv./还；但是/Not yet.
+you/juː/pron./你；你们/You go.
+young/jʌŋ/adj./年轻的/A young man.
+your/jɔː(r)/pron./你的；你们的/Your book.
+yours/jɔːz/pron./你的（名词性物主代词）/The book is yours.
+yourself/jɔːˈself/pron./你自己/Help yourself.
+youth/juːθ/n./青年时期/In my youth.
+zero/ˈzɪərəʊ/n./零/Number zero.
+zoo/zuː/n./动物园/Go to the zoo.
