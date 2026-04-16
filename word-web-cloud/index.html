@@ -59,6 +59,7 @@
         }
         /* ===== 主卡片（普通块级，不限制高度）===== */
         .card {
+            position: relative;
             max-width: 1300px;
             width: 100%;
             background: white;
@@ -66,6 +67,19 @@
             box-shadow: 0 20px 40px -10px rgba(0,20,40,0.2);
             padding: 30px 25px;
             margin: 0 auto; /* 居中 */
+        }
+        .version-badge {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 0.72rem;
+            color: #6f8697;
+            letter-spacing: 0.04em;
+            background: rgba(229, 240, 250, 0.72);
+            border: 1px solid #d6e4ef;
+            border-radius: 999px;
+            padding: 4px 10px;
+            line-height: 1;
         }
         h1 {
             font-size: 2rem;
@@ -345,6 +359,7 @@
     </div>
 
     <div class="card">
+        <div class="version-badge">1.0.2</div>
         <!-- 标题、上传栏会随页面滚动 -->
         <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
