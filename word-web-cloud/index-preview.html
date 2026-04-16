@@ -661,6 +661,10 @@
     let currentLevel = 'primary';
     let toastTimer = null;
     let currentAudio = null;
+    let preloadTimer = null;
+    const audioCache = new Map();
+    const audioLoadPromises = new Map();
+    const missingAudioCache = new Set();
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
@@ -769,6 +773,92 @@
 
     function getAudioPath(word, level = currentLevel) {
         return `audio/${level}/${sanitizeWordForFilename(word)}.mp3`;
+    }
+
+    function createCachedAudio(src) {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = src;
+        return audio;
+    }
+
+    function primeAudio(word, level = currentLevel) {
+        const src = getAudioPath(word, level);
+        if (missingAudioCache.has(src)) {
+            return Promise.reject(new Error(`missing audio: ${src}`));
+        }
+        if (audioLoadPromises.has(src)) {
+            return audioLoadPromises.get(src);
+        }
+
+        let audio = audioCache.get(src);
+        if (!audio) {
+            audio = createCachedAudio(src);
+            audioCache.set(src, audio);
+        }
+
+        const promise = new Promise((resolve, reject) => {
+            const cleanup = () => {
+                audio.removeEventListener('canplaythrough', onReady);
+                audio.removeEventListener('loadeddata', onReady);
+                audio.removeEventListener('error', onError);
+            };
+            const onReady = () => {
+                cleanup();
+                audioLoadPromises.delete(src);
+                resolve(audio);
+            };
+            const onError = () => {
+                cleanup();
+                audioLoadPromises.delete(src);
+                missingAudioCache.add(src);
+                reject(new Error(`failed to load audio: ${src}`));
+            };
+
+            audio.addEventListener('canplaythrough', onReady, { once: true });
+            audio.addEventListener('loadeddata', onReady, { once: true });
+            audio.addEventListener('error', onError, { once: true });
+            audio.load();
+        });
+
+        audioLoadPromises.set(src, promise);
+        return promise;
+    }
+
+    function scheduleAudioPreload(words, level = currentLevel) {
+        const uniqueWords = [];
+        const seen = new Set();
+        words.forEach((word) => {
+            const normalized = (word || '').trim();
+            if (!normalized || seen.has(normalized)) return;
+            seen.add(normalized);
+            uniqueWords.push(normalized);
+        });
+        if (!uniqueWords.length) return;
+
+        const preloadTask = () => {
+            uniqueWords.forEach((word) => {
+                primeAudio(word, level).catch(() => {});
+            });
+        };
+
+        if (preloadTimer) clearTimeout(preloadTimer);
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(preloadTask, { timeout: 1200 });
+        } else {
+            preloadTimer = setTimeout(preloadTask, 80);
+        }
+    }
+
+    function preloadAroundIndex(index, radius = 8) {
+        if (Number.isNaN(index)) return;
+        const words = [];
+        const start = Math.max(0, index - radius);
+        const end = Math.min(allWords.length, index + radius + 1);
+        for (let i = start; i < end; i += 1) {
+            if (allWords[i] && allWords[i].word) words.push(allWords[i].word);
+        }
+        scheduleAudioPreload(words, currentLevel);
     }
 
     function createSpeakButton(text, kind, audioWord) {
@@ -912,6 +1002,7 @@
 
         updateColumnVisibility();
         renderSummary();
+        scheduleAudioPreload(displayedWords.slice(0, 24).map(({ item }) => item.word), currentLevel);
     }
 
     function updateColumnVisibility() {
@@ -935,12 +1026,12 @@
     }
 
     async function playAudioFile(word, level = currentLevel) {
-        const src = getAudioPath(word, level);
         if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
         }
-        const audio = new Audio(src);
+        const audio = await primeAudio(word, level);
+        audio.currentTime = 0;
         currentAudio = audio;
         await audio.play();
     }
@@ -1006,6 +1097,7 @@
                     if (currentStatus === 'mastered') row.classList.add('mastered');
                     else if (currentStatus === 'difficult') row.classList.add('difficult');
                 }
+                preloadAroundIndex(idx);
                 return;
             }
 
@@ -1015,6 +1107,10 @@
                 const kind = speakBtn.getAttribute('data-kind');
                 const audioWord = speakBtn.getAttribute('data-audio-word');
                 if (kind === 'word' && audioWord) {
+                    const hostRow = speakBtn.closest('tr, article');
+                    if (hostRow && hostRow.dataset.index) {
+                        preloadAroundIndex(parseInt(hostRow.dataset.index, 10));
+                    }
                     playAudioFile(audioWord).catch(() => {
                         if (text) speakText(text);
                     });
