@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 import argparse
 import hashlib
+import json
+import os
 import re
 import sys
 import time
+import urllib.error
+import urllib.request
 from pathlib import Path
-
-try:
-    from openai import OpenAI
-except ImportError:
-    print("Missing dependency: openai. Run: pip install openai", file=sys.stderr)
-    sys.exit(1)
 
 
 ROOT = Path(__file__).resolve().parent
@@ -20,11 +18,12 @@ DEFAULT_SOURCES = {
     "junior": WEB_DIR / "words_junior.txt",
     "senior": WEB_DIR / "words_senior.txt",
 }
+DEFAULT_ENDPOINT = "https://dashscope.aliyuncs.com/api/v1/services/audio/tts/SpeechSynthesizer"
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate word pronunciation mp3 files from txt vocabulary lists."
+        description="Generate word pronunciation mp3 files from txt vocabulary lists with Alibaba Bailian CosyVoice."
     )
     parser.add_argument(
         "--levels",
@@ -40,19 +39,42 @@ def parse_args():
     )
     parser.add_argument(
         "--model",
-        default="gpt-4o-mini-tts",
-        help="TTS model to use.",
+        default="cosyvoice-v2",
+        help="CosyVoice model to use.",
     )
     parser.add_argument(
         "--voice",
-        default="alloy",
-        help="TTS voice to use.",
+        default="longxiaochun_v2",
+        help="CosyVoice voice to use.",
+    )
+    parser.add_argument(
+        "--format",
+        default="mp3",
+        choices=["mp3", "wav", "opus", "pcm"],
+        help="Output audio format.",
+    )
+    parser.add_argument(
+        "--sample-rate",
+        type=int,
+        default=22050,
+        help="Output sample rate.",
+    )
+    parser.add_argument(
+        "--text-template",
+        default="{word}",
+        help="Template used for TTS input text. Use {word} as the placeholder.",
     )
     parser.add_argument(
         "--limit",
         type=int,
         default=0,
         help="Only generate the first N words per level. 0 means no limit.",
+    )
+    parser.add_argument(
+        "--words",
+        nargs="+",
+        default=[],
+        help="Only generate the specified words within the selected levels.",
     )
     parser.add_argument(
         "--overwrite",
@@ -69,6 +91,12 @@ def parse_args():
         "--dry-run",
         action="store_true",
         help="Preview which files would be generated without calling the API.",
+    )
+    parser.add_argument(
+        "--retries",
+        type=int,
+        default=3,
+        help="Retry attempts for transient API or download failures.",
     )
     return parser.parse_args()
 
@@ -100,7 +128,7 @@ def parse_word_list(path: Path):
     return words
 
 
-def build_jobs(levels, limit: int, outdir: Path):
+def build_jobs(levels, limit: int, outdir: Path, ext: str):
     jobs = []
     for level in levels:
         source = DEFAULT_SOURCES[level]
@@ -109,26 +137,93 @@ def build_jobs(levels, limit: int, outdir: Path):
             words = words[:limit]
         level_dir = outdir / level
         for word in words:
-            filename = sanitize_filename(word) + ".mp3"
+            filename = sanitize_filename(word) + f".{ext}"
             jobs.append((level, word, level_dir / filename))
     return jobs
 
 
-def generate_audio(client: OpenAI, model: str, voice: str, word: str, outfile: Path):
-    outfile.parent.mkdir(parents=True, exist_ok=True)
-    response = client.audio.speech.create(
-        model=model,
-        voice=voice,
-        input=word,
-        response_format="mp3",
+def filter_jobs_by_words(jobs, selected_words):
+    if not selected_words:
+        return jobs
+    selected = {word.strip().lower() for word in selected_words if word.strip()}
+    return [job for job in jobs if job[1].strip().lower() in selected]
+
+
+def get_api_key():
+    return os.environ.get("DASHSCOPE_API_KEY") or os.environ.get("BAILIAN_API_KEY")
+
+
+def bailian_tts(api_key: str, model: str, voice: str, text: str, fmt: str, sample_rate: int):
+    payload = {
+        "model": model,
+        "input": {
+            "text": text,
+            "voice": voice,
+            "format": fmt,
+            "sample_rate": sample_rate,
+            "language_hints": ["en"],
+        },
+    }
+    request = urllib.request.Request(
+        DEFAULT_ENDPOINT,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
     )
-    response.stream_to_file(outfile)
+    with urllib.request.urlopen(request, timeout=120) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    try:
+        return result["output"]["audio"]["url"]
+    except Exception as exc:
+        raise RuntimeError(f"Unexpected Bailian response: {result}") from exc
+
+
+def download_file(url: str, outfile: Path):
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+    with urllib.request.urlopen(url, timeout=120) as response:
+        data = response.read()
+    outfile.write_bytes(data)
+
+
+def generate_with_retry(api_key: str, args, word: str, outfile: Path):
+    last_error = None
+    text = args.text_template.format(word=word)
+    for attempt in range(1, args.retries + 1):
+        try:
+            audio_url = bailian_tts(
+                api_key=api_key,
+                model=args.model,
+                voice=args.voice,
+                text=text,
+                fmt=args.format,
+                sample_rate=args.sample_rate,
+            )
+            download_file(audio_url, outfile)
+            return
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="ignore")
+            last_error = f"HTTP {exc.code}: {body}"
+        except Exception as exc:
+            last_error = str(exc)
+
+        if attempt < args.retries:
+            time.sleep(1.2 * attempt)
+    raise RuntimeError(last_error or "Unknown generation failure")
 
 
 def main():
     args = parse_args()
+    api_key = get_api_key()
+    if not args.dry_run and not api_key:
+        print("Missing DASHSCOPE_API_KEY (or BAILIAN_API_KEY).", file=sys.stderr)
+        sys.exit(1)
+
     outdir = Path(args.outdir).resolve()
-    jobs = build_jobs(args.levels, args.limit, outdir)
+    jobs = build_jobs(args.levels, args.limit, outdir, args.format)
+    jobs = filter_jobs_by_words(jobs, args.words)
     print(f"Planned jobs: {len(jobs)}")
 
     skipped_existing = 0
@@ -149,14 +244,13 @@ def main():
             print(f"... and {len(queued) - 20} more")
         return
 
-    client = OpenAI()
     failures = []
     started = time.time()
 
     for idx, (level, word, outfile) in enumerate(queued, start=1):
         print(f"[{idx}/{len(queued)}] {level:<7} {word} -> {outfile.name}")
         try:
-            generate_audio(client, args.model, args.voice, word, outfile)
+            generate_with_retry(api_key, args, word, outfile)
         except Exception as exc:
             failures.append((level, word, str(exc)))
             print(f"  failed: {exc}", file=sys.stderr)
