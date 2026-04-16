@@ -368,6 +368,7 @@
                 <button id="showDifficultBtn" class="secondary-btn">🔴 只显示不会</button>
                 <button id="hideMasteredBtn" class="secondary-btn">🙈 隐藏会的</button>
                 <button id="showAllBtn" class="secondary-btn">🌐 显示全部</button>
+                <button id="saveStateBottomBtn" class="primary-btn">💾 保存当前状态</button>
             </div>
             <div class="footer-right">
                 <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
@@ -872,6 +873,7 @@
         });
 
         document.getElementById('saveStateBtn').addEventListener('click', saveToStorage);
+        document.getElementById('saveStateBottomBtn').addEventListener('click', saveToStorage);
         document.getElementById('loadPrimaryBtn').addEventListener('click', async () => {
             await loadRemoteConfig('primary');
             showOnlyDifficult = false;
