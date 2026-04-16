@@ -42,3 +42,37 @@ python3 -m http.server 8080
 ```
 
 然后打开：`http://localhost:8080`
+
+## 批量生成单词音频
+项目根目录里有脚本：
+
+[`generate_word_audio.py`](</Users/xinhua/Documents/New project/generate_word_audio.py>)
+
+先安装依赖：
+
+```bash
+pip install openai
+```
+
+临时设置 OpenAI key 后运行：
+
+```bash
+cd '/Users/xinhua/Documents/New project'
+export OPENAI_API_KEY='你的key'
+python3 generate_word_audio.py --dry-run
+python3 generate_word_audio.py
+```
+
+生成结果默认会放到：
+
+- `word-web-cloud/audio/primary`
+- `word-web-cloud/audio/junior`
+- `word-web-cloud/audio/senior`
+
+常用参数：
+
+```bash
+python3 generate_word_audio.py --levels primary junior --limit 20
+python3 generate_word_audio.py --overwrite
+python3 generate_word_audio.py --voice alloy --model gpt-4o-mini-tts
+```

@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>大华舅舅背单词 · 预览版</title>
+    <style>
+        :root {
+            --bg: #f6f1e7;
+            --bg-soft: #fdf9f1;
+            --card: rgba(255, 252, 247, 0.88);
+            --line: rgba(19, 58, 71, 0.12);
+            --ink: #18333d;
+            --muted: #5f7880;
+            --brand: #0f5d5c;
+            --brand-strong: #0a4544;
+            --accent: #cc7a32;
+            --good: #dff1c9;
+            --bad: #ffe3df;
+            --shadow: 0 22px 60px rgba(30, 47, 61, 0.14);
+        }
+        * {
+            box-sizing: border-box;
+            font-family: "Avenir Next", "PingFang SC", "Noto Sans SC", sans-serif;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(212, 167, 103, 0.25), transparent 28%),
+                radial-gradient(circle at top right, rgba(15, 93, 92, 0.18), transparent 24%),
+                linear-gradient(180deg, #f4efe5 0%, #f7f4ed 36%, #fbfaf6 100%);
+            padding: 24px;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(24, 51, 61, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(24, 51, 61, 0.03) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
+        }
+        .rotate-message {
+            display: none;
+        }
+        .card {
+            position: relative;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 32px;
+            border-radius: 36px;
+            border: 1px solid rgba(255,255,255,0.7);
+            background: linear-gradient(180deg, rgba(255,252,247,0.94), rgba(255,249,240,0.86));
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+        .card::after {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(204, 122, 50, 0.18), transparent 68%);
+            pointer-events: none;
+        }
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+        .hero-main, .hero-side, .toolbar, .table-shell, .footer-bar {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-main {
+            border-radius: 28px;
+            padding: 26px;
+            background:
+                linear-gradient(135deg, rgba(10, 69, 68, 0.95), rgba(20, 96, 95, 0.9)),
+                linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+            color: #eff8f5;
+            overflow: hidden;
+        }
+        .hero-main::after {
+            content: "";
+            position: absolute;
+            inset: auto -40px -80px auto;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+            border-radius: 50%;
+        }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.18);
+            font-size: 13px;
+            letter-spacing: 0.06em;
+        }
+        h1 {
+            margin: 18px 0 12px;
+            font-family: "Georgia", "Songti SC", serif;
+            font-size: clamp(32px, 4vw, 52px);
+            line-height: 1.06;
+            letter-spacing: 0.02em;
+        }
+        .hero-subtitle {
+            max-width: 720px;
+            margin: 0;
+            color: rgba(239, 248, 245, 0.82);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+        .hero-side {
+            display: grid;
+            gap: 14px;
+        }
+        .promo-card, .summary-card {
+            border-radius: 26px;
+            padding: 22px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 28px rgba(26, 46, 54, 0.06);
+        }
+        .promo-title, .summary-title {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+        .promo-card strong {
+            display: block;
+            font-size: 26px;
+            font-family: "Georgia", "Songti SC", serif;
+            margin-bottom: 8px;
+            color: var(--ink);
+        }
+        .promo-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .stat-box {
+            border-radius: 20px;
+            padding: 16px;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(19, 58, 71, 0.08);
+        }
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 28px;
+            line-height: 1;
+            font-weight: 700;
+            color: var(--brand-strong);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(19, 58, 71, 0.08);
+            overflow: hidden;
+            margin-top: 12px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), #e4b16f);
+            transition: width 0.25s ease;
+        }
+        .top-bar, .toolbar, .footer-bar {
+            border-radius: 26px;
+            border: 1px solid var(--line);
+            background: var(--card);
+            box-shadow: 0 10px 26px rgba(22, 41, 48, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        .top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+        .file-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid var(--line);
+            cursor: pointer;
+        }
+        .file-upload input {
+            width: 140px;
+            font-size: 13px;
+        }
+        button {
+            appearance: none;
+            border: 1px solid rgba(15, 93, 92, 0.18);
+            padding: 11px 18px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 14px rgba(21, 43, 49, 0.08);
+        }
+        button:hover {
+            transform: translateY(-1px);
+        }
+        .primary-btn {
+            color: #fffdf9;
+            background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+        }
+        .secondary-btn {
+            color: var(--brand-strong);
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(246, 244, 239, 0.92));
+        }
+        .ghost-btn {
+            color: #eff8f5;
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            box-shadow: none;
+        }
+        .format-hint {
+            padding: 10px 14px;
+            border-radius: 18px;
+            background: rgba(15, 93, 92, 0.08);
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .toolbar {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            z-index: 5;
+        }
+        .col-toggles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.74);
+            border: 1px solid rgba(19, 58, 71, 0.08);
+        }
+        .toggle-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brand);
+            margin: 0;
+        }
+        .hint {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .table-shell {
+            border-radius: 28px;
+            border: 1px solid var(--line);
+            background: rgba(255,252,247,0.86);
+            box-shadow: 0 12px 36px rgba(23, 42, 50, 0.06);
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,248,236,0.6));
+        }
+        .table-header h2 {
+            margin: 0;
+            font-size: 22px;
+            font-family: "Georgia", "Songti SC", serif;
+        }
+        .table-header p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 98px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(15, 93, 92, 0.1);
+            color: var(--brand-strong);
+            font-weight: 700;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 860px;
+        }
+        th {
+            text-align: left;
+            padding: 18px 16px;
+            color: #35535c;
+            background: rgba(15, 93, 92, 0.08);
+            font-size: 14px;
+            letter-spacing: 0.03em;
+        }
+        td {
+            padding: 18px 16px;
+            border-top: 1px solid rgba(19, 58, 71, 0.08);
+            vertical-align: top;
+        }
+        tr {
+            transition: background 0.18s ease;
+        }
+        tr.mastered {
+            background: linear-gradient(90deg, rgba(223, 241, 201, 0.75), rgba(255,252,247,0.92));
+        }
+        tr.difficult {
+            background: linear-gradient(90deg, rgba(255, 227, 223, 0.75), rgba(255,252,247,0.92));
+        }
+        .word-cell {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.1;
+            font-family: "Georgia", serif;
+        }
+        .phonetic {
+            font-family: "Menlo", "SFMono-Regular", monospace;
+            color: #47656c;
+        }
+        .example-text {
+            color: #5e747b;
+            line-height: 1.65;
+            max-width: 360px;
+        }
+        .action-cell {
+            white-space: nowrap;
+            width: 170px;
+        }
+        .action-group {
+            display: inline-flex;
+            gap: 10px;
+        }
+        .action-chip {
+            min-width: 72px;
+            box-shadow: none;
+        }
+        .master-chip {
+            background: rgba(223, 241, 201, 0.98);
+            border-color: rgba(97, 143, 77, 0.22);
+            color: #2f5b27;
+        }
+        .difficult-chip {
+            background: rgba(255, 227, 223, 0.98);
+            border-color: rgba(176, 88, 88, 0.22);
+            color: #8f3434;
+        }
+        .hide {
+            display: none;
+        }
+        .peek-mode {
+            cursor: pointer;
+            user-select: none;
+            color: var(--brand);
+            font-weight: 700;
+        }
+        .peek-mode.revealed {
+            color: inherit;
+            font-weight: 500;
+        }
+        .card-grid {
+            display: none;
+            padding: 18px;
+            gap: 16px;
+        }
+        .word-card {
+            border-radius: 24px;
+            border: 1px solid rgba(19, 58, 71, 0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,249,242,0.94));
+            box-shadow: 0 10px 24px rgba(24, 43, 52, 0.06);
+            padding: 18px;
+        }
+        .word-card.mastered {
+            background: linear-gradient(180deg, rgba(228, 245, 210, 0.96), rgba(255, 252, 247, 0.96));
+        }
+        .word-card.difficult {
+            background: linear-gradient(180deg, rgba(255, 233, 229, 0.96), rgba(255, 252, 247, 0.96));
+        }
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .card-word {
+            margin: 0;
+            font-size: 30px;
+            font-family: "Georgia", serif;
+            line-height: 1.05;
+        }
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        .meta-pill {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(15, 93, 92, 0.08);
+        }
+        .card-section {
+            margin-top: 14px;
+        }
+        .card-label {
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.06em;
+        }
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .footer-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px;
+        }
+        .footer-left, .footer-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        footer {
+            margin-top: 14px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 13px;
+        }
+        .speak-btn {
+            padding: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            font-size: 18px;
+        }
+        .toast {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: rgba(17, 41, 49, 0.94);
+            color: white;
+            box-shadow: 0 16px 30px rgba(0,0,0,0.18);
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 30;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (max-width: 860px) {
+            body {
+                padding: 14px;
+            }
+            .card {
+                padding: 16px;
+                border-radius: 24px;
+            }
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .toolbar {
+                position: static;
+            }
+            .table-wrapper {
+                display: none;
+            }
+            .card-grid {
+                display: grid;
+            }
+            .footer-bar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <section class="hero">
+            <div class="hero-main">
+                <div class="eyebrow">PREVIEW VERSION · 本地视觉升级稿</div>
+                <h1>大华舅舅背单词</h1>
+                <p class="hero-subtitle">把它做成更像教育产品的样子：更有品牌感的头部，更清晰的学习进度，更友好的手机卡片学习体验。</p>
+                <div class="hero-actions">
+                    <button id="heroContinueBtn" class="ghost-btn" type="button">继续上次学习</button>
+                    <button id="heroMemberBtn" class="ghost-btn" type="button">会员功能预留位</button>
+                </div>
+            </div>
+            <div class="hero-side">
+                <div class="summary-card">
+                    <div class="summary-title">今日学习仪表板</div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">当前词库</span>
+                            <span class="stat-value" id="levelName">小学</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">总词数</span>
+                            <span class="stat-value" id="totalCount">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">已掌握</span>
+                            <span class="stat-value" id="masteredCount">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">未掌握</span>
+                            <span class="stat-value" id="difficultCount">0</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+                </div>
+                <div class="promo-card">
+                    <div class="promo-title">引导区预留</div>
+                    <strong>关注抖音 / 会员入口</strong>
+                    <p>这里适合放抖音号、会员权益、活动词包或口令入口，既自然又不会打断学习流程。</p>
+                </div>
+            </div>
+        </section>
+        <div class="top-bar">
+            <div class="file-upload"><span>📂 上传TXT</span><input type="file" id="uploadTxt" accept=".txt, text/plain"></div>
+            <button id="loadPrimaryBtn" class="secondary-btn">📘 小学</button>
+            <button id="loadJuniorBtn" class="secondary-btn">📗 初中</button>
+            <button id="loadSeniorBtn" class="secondary-btn">📙 高中</button>
+            <button id="saveStateBtn" class="primary-btn">💾 保存当前状态</button>
+            <div class="format-hint">格式: 单词/音标/词性/解释/例句 (每行一个单词，音标不要加//，例句可用/)</div>
+        </div>
+
+        <div id="toolbar-container" class="toolbar"></div>
+
+        <section class="table-shell">
+            <div class="table-header">
+                <div>
+                    <h2>单词总览</h2>
+                    <p>桌面端保持表格效率，手机端自动切成卡片视图。</p>
+                </div>
+                <div id="levelBadge" class="level-badge">小学词库</div>
+            </div>
+            <div id="table-container" class="table-wrapper"></div>
+        </section>
+
+        <div class="footer-bar">
+            <div class="footer-left">
+                <button id="showDifficultBtn" class="secondary-btn">🔴 只显示不会</button>
+                <button id="hideMasteredBtn" class="secondary-btn">🙈 隐藏会的</button>
+                <button id="showAllBtn" class="secondary-btn">🌐 显示全部</button>
+            </div>
+            <div class="footer-right">
+                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
+            </div>
+        </div>
+        <footer>预览版说明：这份文件只用于本地看视觉升级效果，不会同步到云端。</footer>
+    </div>
+    <div id="toast" class="toast"></div>
+
+<script>
+(function() {
+    const CONFIG_FILES = {
+        primary: 'words_primary.txt',
+        junior: 'words_junior.txt',
+        senior: 'words_senior.txt'
+    };
+    const STORAGE_KEY_STATE = 'dahuajiujiu_state_v2';
+    const LEGACY_STORAGE_KEY = 'dahuajiujiu_words';
+    const DEFAULT_WORDS = [
+        { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
+        { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
+        { word: 'Book', phonetic: 'bʊk', pos: 'n./v.', definition: '书；预订', example: 'She borrowed a book from the library.', status: '' },
+        { word: 'Pleasant', phonetic: 'ˈplez.ənt', pos: 'adj.', definition: '令人愉快的', example: 'The weather is pleasant today.', status: '' },
+        { word: 'Curious', phonetic: 'ˈkjʊə.ri.əs', pos: 'adj.', definition: '好奇的', example: 'Children are naturally curious about everything.', status: '' },
+        { word: 'Achieve', phonetic: 'əˈtʃiːv', pos: 'v.', definition: '实现；达到', example: 'You can achieve your goals with hard work.', status: '' }
+    ];
+    const columns = [
+        { label: '单词', field: 'word' },
+        { label: '音标', field: 'phonetic' },
+        { label: '词性', field: 'pos' },
+        { label: '解释', field: 'definition' },
+        { label: '例句', field: 'example' }
+    ];
+    const LEVEL_LABELS = {
+        primary: '小学',
+        junior: '初中',
+        senior: '高中'
+    };
+
+    let allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
+    let showOnlyDifficult = false;
+    let hideMastered = false;
+    let currentLevel = 'primary';
+    let toastTimer = null;
+    let currentAudio = null;
+
+    function escapeHtml(unsafe) {
+        if (!unsafe) return '';
+        return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function getWordKey(item) {
+        return [item.word || '', item.phonetic || '', item.pos || ''].join('|').toLowerCase();
+    }
+
+    function emptyStatuses() {
+        return { primary: {}, junior: {}, senior: {} };
+    }
+
+    function normalizeStoredState(parsed) {
+        const safe = parsed && typeof parsed === 'object' ? parsed : {};
+        const statuses = safe.statuses && typeof safe.statuses === 'object' ? safe.statuses : {};
+        return {
+            currentLevel: CONFIG_FILES[safe.currentLevel] ? safe.currentLevel : 'primary',
+            statuses: {
+                primary: statuses.primary && typeof statuses.primary === 'object' ? statuses.primary : {},
+                junior: statuses.junior && typeof statuses.junior === 'object' ? statuses.junior : {},
+                senior: statuses.senior && typeof statuses.senior === 'object' ? statuses.senior : {}
+            }
+        };
+    }
+
+    function buildStatusMapFromWords(words) {
+        const map = {};
+        words.forEach(item => {
+            if (item && item.status) map[getWordKey(item)] = item.status;
+        });
+        return map;
+    }
+
+    function applyStatusMap(baseWords, statusMap) {
+        return baseWords.map(item => ({ ...item, status: statusMap[getWordKey(item)] || '' }));
+    }
+
+    function getStoredState() {
+        const raw = localStorage.getItem(STORAGE_KEY_STATE);
+        if (raw) {
+            try {
+                return normalizeStoredState(JSON.parse(raw));
+            } catch (e) {}
+        }
+
+        // 兼容旧版：旧版只存了单一词表数组，这里迁移到小学词库状态
+        const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
+        if (legacyRaw) {
+            try {
+                const legacyWords = JSON.parse(legacyRaw);
+                if (Array.isArray(legacyWords)) {
+                    const migrated = {
+                        currentLevel: 'primary',
+                        statuses: emptyStatuses()
+                    };
+                    migrated.statuses.primary = buildStatusMapFromWords(legacyWords);
+                    localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(migrated));
+                    return migrated;
+                }
+            } catch (e) {}
+        }
+
+        return { currentLevel: 'primary', statuses: emptyStatuses() };
+    }
+
+    function saveStoredState(state) {
+        localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(normalizeStoredState(state)));
+    }
+
+    function saveToStorage() {
+        const stored = getStoredState();
+        stored.currentLevel = currentLevel;
+        stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
+        saveStoredState(stored);
+        showToast('当前单词及标记已保存到本地浏览器');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('show');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 1800);
+    }
+
+    function getLevelLabel(level = currentLevel) {
+        return LEVEL_LABELS[level] || '词库';
+    }
+
+    function sanitizeWordForFilename(word) {
+        const cleaned = (word || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+        if (cleaned) return cleaned;
+        let hash = 0;
+        const source = word || '';
+        for (let i = 0; i < source.length; i += 1) {
+            hash = ((hash << 5) - hash) + source.charCodeAt(i);
+            hash |= 0;
+        }
+        return `word_${Math.abs(hash)}`;
+    }
+
+    function getAudioPath(word, level = currentLevel) {
+        return `audio/${level}/${sanitizeWordForFilename(word)}.mp3`;
+    }
+
+    function createSpeakButton(text, kind, audioWord) {
+        const audioAttr = audioWord ? ` data-audio-word="${escapeHtml(audioWord)}"` : '';
+        return `<button class="speak-btn" data-text="${escapeHtml(text)}" data-kind="${escapeHtml(kind)}"${audioAttr}>🔊</button>`;
+    }
+
+    function renderSummary() {
+        const total = allWords.length;
+        const mastered = allWords.filter(item => item.status === 'mastered').length;
+        const difficult = allWords.filter(item => item.status === 'difficult').length;
+        const progress = total ? Math.round((mastered / total) * 100) : 0;
+        const levelName = document.getElementById('levelName');
+        const levelBadge = document.getElementById('levelBadge');
+        const totalCount = document.getElementById('totalCount');
+        const masteredCount = document.getElementById('masteredCount');
+        const difficultCount = document.getElementById('difficultCount');
+        const progressFill = document.getElementById('progressFill');
+        if (levelName) levelName.textContent = getLevelLabel();
+        if (levelBadge) levelBadge.textContent = `${getLevelLabel()}词库`;
+        if (totalCount) totalCount.textContent = total;
+        if (masteredCount) masteredCount.textContent = mastered;
+        if (difficultCount) difficultCount.textContent = difficult;
+        if (progressFill) progressFill.style.width = `${progress}%`;
+    }
+
+    function renderToolbar() {
+        const container = document.getElementById('toolbar-container');
+        container.innerHTML = '';
+        const togglesDiv = document.createElement('div'); togglesDiv.className = 'col-toggles';
+        columns.forEach((col, idx) => {
+            const item = document.createElement('div'); item.className = 'toggle-item';
+            const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = `col_${idx}`; checkbox.className = 'col-toggle'; checkbox.dataset.colindex = idx; checkbox.checked = true;
+            const label = document.createElement('label'); label.htmlFor = `col_${idx}`; label.textContent = col.label;
+            item.appendChild(checkbox); item.appendChild(label); togglesDiv.appendChild(item);
+        });
+        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
+        container.appendChild(togglesDiv); container.appendChild(hintSpan);
+    }
+
+    function renderTable() {
+        const container = document.getElementById('table-container');
+        container.innerHTML = '';
+
+        const defCheckbox = document.querySelector('.col-toggle[data-colindex="3"]');
+        const isDefNormal = defCheckbox ? defCheckbox.checked : true;
+
+        const displayedWords = [];
+        allWords.forEach((item, index) => {
+            if (showOnlyDifficult && item.status !== 'difficult') return;
+            if (hideMastered && item.status === 'mastered') return;
+            displayedWords.push({ item, index });
+        });
+
+        const cardGrid = document.createElement('div');
+        cardGrid.className = 'card-grid';
+
+        const table = document.createElement('table'); table.id = 'word-table';
+        const thead = document.createElement('thead'); const headerRow = document.createElement('tr');
+        columns.forEach(col => { const th = document.createElement('th'); th.textContent = col.label; headerRow.appendChild(th); });
+        const actionTh = document.createElement('th'); actionTh.textContent = '操作'; headerRow.appendChild(actionTh);
+        thead.appendChild(headerRow); table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        const fragment = document.createDocumentFragment();
+        const cardFragment = document.createDocumentFragment();
+        displayedWords.forEach(({ item, index }) => {
+            const row = document.createElement('tr'); row.dataset.index = index;
+            if (item.status === 'mastered') row.classList.add('mastered');
+            else if (item.status === 'difficult') row.classList.add('difficult');
+
+            const wordCell = document.createElement('td');
+            wordCell.className = 'word-cell';
+            wordCell.innerHTML = `${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}`;
+            row.appendChild(wordCell);
+
+            const phoneticCell = document.createElement('td');
+            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ ${createSpeakButton(item.word, 'word', item.word)}`;
+            phoneticCell.classList.add('phonetic');
+            row.appendChild(phoneticCell);
+
+            const posCell = document.createElement('td'); posCell.textContent = item.pos || '—'; row.appendChild(posCell);
+
+            const defCell = document.createElement('td');
+            defCell.dataset.definition = item.definition || '—';
+            if (isDefNormal) {
+                defCell.textContent = item.definition || '—';
+            } else {
+                defCell.textContent = '点击看意思';
+                defCell.classList.add('peek-mode');
+                defCell.dataset.revealed = 'false';
+            }
+            row.appendChild(defCell);
+
+            const exampleCell = document.createElement('td');
+            exampleCell.className = 'example-text';
+            exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
+            row.appendChild(exampleCell);
+
+            const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
+            actionCell.innerHTML = `<div class="action-group"><button class="action-chip master-chip btn-master">会</button><button class="action-chip difficult-chip btn-difficult">不会</button></div>`;
+            row.appendChild(actionCell);
+
+            fragment.appendChild(row);
+
+            const card = document.createElement('article');
+            card.className = 'word-card';
+            card.dataset.index = index;
+            if (item.status === 'mastered') card.classList.add('mastered');
+            else if (item.status === 'difficult') card.classList.add('difficult');
+            card.innerHTML = `
+                <div class="card-top">
+                    <div>
+                        <h3 class="card-word">${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}</h3>
+                        <div class="card-meta">
+                            <span class="meta-pill">/${escapeHtml(item.phonetic || '')}/</span>
+                            <span class="meta-pill">${escapeHtml(item.pos || '—')}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div class="card-label">释义</div>
+                    <div class="${isDefNormal ? '' : 'peek-mode'}" data-definition="${escapeHtml(item.definition || '—')}" data-revealed="false">${isDefNormal ? escapeHtml(item.definition || '—') : '点击看意思'}</div>
+                </div>
+                <div class="card-section">
+                    <div class="card-label">例句</div>
+                    <div class="example-text">${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}</div>
+                </div>
+                <div class="card-actions">
+                    <button class="action-chip master-chip btn-master">会</button>
+                    <button class="action-chip difficult-chip btn-difficult">不会</button>
+                </div>
+            `;
+            cardFragment.appendChild(card);
+        });
+        tbody.appendChild(fragment);
+        cardGrid.appendChild(cardFragment);
+        table.appendChild(tbody);
+        container.appendChild(cardGrid);
+        container.appendChild(table);
+
+        updateColumnVisibility();
+        renderSummary();
+    }
+
+    function updateColumnVisibility() {
+        const table = document.getElementById('word-table'); if (!table) return;
+        const checkboxes = document.querySelectorAll('.col-toggle'); if (!checkboxes.length) return;
+        const headerThs = table.querySelectorAll('thead tr th'); const bodyRows = table.querySelectorAll('tbody tr');
+
+        checkboxes.forEach((cb, idx) => {
+            if (idx === 3) return; // 解释列不参与隐藏
+            const isVisible = cb.checked;
+            if (idx < headerThs.length - 1) {
+                headerThs[idx].classList.toggle('hide', !isVisible);
+            }
+            bodyRows.forEach(row => {
+                const tds = row.querySelectorAll('td');
+                if (idx < tds.length - 1) {
+                    tds[idx].classList.toggle('hide', !isVisible);
+                }
+            });
+        });
+    }
+
+    async function playAudioFile(word, level = currentLevel) {
+        const src = getAudioPath(word, level);
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        const audio = new Audio(src);
+        currentAudio = audio;
+        await audio.play();
+    }
+
+    function speakText(text) {
+        if (!window.speechSynthesis) {
+            showToast('当前浏览器不支持内置发音');
+            return;
+        }
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.onend = () => {
+            window.speechSynthesis.cancel();
+        };
+
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                voices = window.speechSynthesis.getVoices();
+                setEnglishVoice(utterance, voices);
+                window.speechSynthesis.speak(utterance);
+            };
+        } else {
+            setEnglishVoice(utterance, voices);
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function setEnglishVoice(utterance, voices) {
+        const englishVoice = voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Google')) ||
+                             voices.find(v => v.lang.startsWith('en-US')) ||
+                             voices.find(v => v.lang.startsWith('en-GB')) ||
+                             voices.find(v => v.lang.startsWith('en'));
+        if (englishVoice) utterance.voice = englishVoice;
+    }
+
+    function bindTableEvents() {
+        const container = document.getElementById('table-container');
+        if (!container) return;
+
+        container.addEventListener('click', (e) => {
+            const actionButton = e.target.closest('.btn-master, .btn-difficult');
+            if (actionButton) {
+                const row = actionButton.closest('tr');
+                if (!row) return;
+                const idx = parseInt(row.dataset.index, 10);
+                if (isNaN(idx) || idx < 0 || idx >= allWords.length) return;
+
+                if (actionButton.classList.contains('btn-master')) {
+                    allWords[idx].status = allWords[idx].status === 'mastered' ? '' : 'mastered';
+                } else {
+                    allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
+                }
+                const currentStatus = allWords[idx].status;
+                const shouldHide = (showOnlyDifficult && currentStatus !== 'difficult') || (hideMastered && currentStatus === 'mastered');
+                if (shouldHide) {
+                    row.remove();
+                } else {
+                    row.classList.remove('mastered', 'difficult');
+                    if (currentStatus === 'mastered') row.classList.add('mastered');
+                    else if (currentStatus === 'difficult') row.classList.add('difficult');
+                }
+                return;
+            }
+
+            const speakBtn = e.target.closest('.speak-btn');
+            if (speakBtn) {
+                const text = speakBtn.getAttribute('data-text');
+                const kind = speakBtn.getAttribute('data-kind');
+                const audioWord = speakBtn.getAttribute('data-audio-word');
+                if (kind === 'word' && audioWord) {
+                    playAudioFile(audioWord).catch(() => {
+                        if (text) speakText(text);
+                    });
+                } else if (text) {
+                    speakText(text);
+                }
+                return;
+            }
+
+            const defCell = e.target.closest('td');
+            if (!defCell || !defCell.classList.contains('peek-mode')) return;
+
+            const isRevealed = defCell.dataset.revealed === 'true';
+            const definition = defCell.dataset.definition;
+
+            if (isRevealed) {
+                defCell.textContent = '点击看意思';
+                defCell.dataset.revealed = 'false';
+                defCell.classList.remove('revealed');
+            } else {
+                defCell.textContent = definition;
+                defCell.dataset.revealed = 'true';
+                defCell.classList.add('revealed');
+            }
+        });
+    }
+
+    function parseTxtToWords(text) {
+        const lines = text.split(/\r?\n/); const newWords = [];
+        lines.forEach(line => {
+            line = line.trim(); if (line === '' || line.startsWith('#')) return;
+            const parts = line.split(/\s*\/\s*/);
+            if (parts.length >= 5) {
+                const word = parts[0].trim(); let phonetic = parts[1].trim(); const pos = parts[2].trim(); const definition = parts[3].trim(); const example = parts.slice(4).join('/').trim();
+                phonetic = phonetic.replace(/^\/+|\/+$/g, '');
+                newWords.push({ word: word || '?', phonetic: phonetic || '?', pos: pos || '?', definition: definition || '?', example: example || '?', status: '' });
+            }
+        });
+        return newWords;
+    }
+
+    function setLevelButtonStyle() {
+        const buttonMap = {
+            primary: document.getElementById('loadPrimaryBtn'),
+            junior: document.getElementById('loadJuniorBtn'),
+            senior: document.getElementById('loadSeniorBtn')
+        };
+        Object.entries(buttonMap).forEach(([level, button]) => {
+            if (!button) return;
+            if (level === currentLevel) {
+                button.classList.remove('secondary-btn');
+                button.classList.add('primary-btn');
+            } else {
+                button.classList.remove('primary-btn');
+                button.classList.add('secondary-btn');
+            }
+        });
+    }
+
+    async function loadRemoteConfig(level = currentLevel) {
+        const file = CONFIG_FILES[level];
+        if (!file) return;
+        try {
+            currentLevel = level;
+            const response = await fetch(file, { cache: 'no-store' });
+            if (!response.ok) return;
+            const text = await response.text();
+            const words = parseTxtToWords(text);
+            if (!words.length) return;
+            const stored = getStoredState();
+            allWords = applyStatusMap(words, stored.statuses[level] || {});
+            stored.currentLevel = level;
+            saveStoredState(stored);
+            setLevelButtonStyle();
+        } catch (e) {
+            // 本地 file:// 打开或配置文件不存在时，静默回退到已保存数据/默认数据
+        }
+    }
+
+    function bindControls() {
+        document.getElementById('uploadTxt').addEventListener('change', (e) => {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const words = parseTxtToWords(ev.target.result);
+                if (words.length) { 
+                    allWords = words; 
+                    showOnlyDifficult = false; 
+                    hideMastered = false; 
+                    renderTable(); 
+                }
+                else alert('未解析到任何单词，请检查格式。');
+                e.target.value = '';
+            };
+            reader.readAsText(file, 'UTF-8');
+        });
+
+        document.getElementById('saveStateBtn').addEventListener('click', saveToStorage);
+        document.getElementById('loadPrimaryBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('primary');
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已加载小学词库');
+        });
+        document.getElementById('loadJuniorBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('junior');
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已加载初中词库');
+        });
+        document.getElementById('loadSeniorBtn').addEventListener('click', async () => {
+            await loadRemoteConfig('senior');
+            showOnlyDifficult = false;
+            hideMastered = false;
+            renderTable();
+            alert('已加载高中词库');
+        });
+
+        document.getElementById('showDifficultBtn').addEventListener('click', () => { 
+            showOnlyDifficult = true; 
+            hideMastered = false; 
+            renderTable(); 
+        });
+
+        document.getElementById('hideMasteredBtn').addEventListener('click', () => {
+            hideMastered = !hideMastered;
+            if (hideMastered && showOnlyDifficult) showOnlyDifficult = false;
+            renderTable();
+        });
+
+        document.getElementById('showAllBtn').addEventListener('click', () => { 
+            showOnlyDifficult = false; 
+            hideMastered = false; 
+            renderTable(); 
+        });
+
+        document.getElementById('exportDifficultBtn').addEventListener('click', () => {
+            const difficultWords = allWords.filter(w => w.status === 'difficult');
+            if (difficultWords.length === 0) { alert('当前没有标记为“不会”的单词'); return; }
+            const lines = difficultWords.map(w => `${w.word}/${w.phonetic}/${w.pos}/${w.definition}/${w.example}`);
+            const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'difficult_words.txt'; link.click(); URL.revokeObjectURL(link.href);
+        });
+    }
+
+    async function initApp() {
+        const stored = getStoredState();
+        currentLevel = CONFIG_FILES[stored.currentLevel] ? stored.currentLevel : 'primary';
+        renderToolbar();
+        setLevelButtonStyle();
+        await loadRemoteConfig(currentLevel);
+        renderTable();
+        bindTableEvents();
+        bindControls();
+
+        document.querySelectorAll('.col-toggle').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.colindex, 10);
+                if (idx === 3) {
+                    renderTable();
+                } else {
+                    updateColumnVisibility();
+                }
+            });
+        });
+    }
+
+    initApp();
+})();
+</script>
+</body>
+</html>
