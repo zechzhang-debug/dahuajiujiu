@@ -3,592 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>大华舅舅背单词 · 预览版</title>
+    <title>大华舅舅教英语 · 全页滚动版</title>
     <style>
-        :root {
-            --bg: #f6f1e7;
-            --bg-soft: #fdf9f1;
-            --card: rgba(255, 252, 247, 0.88);
-            --line: rgba(19, 58, 71, 0.12);
-            --ink: #18333d;
-            --muted: #5f7880;
-            --brand: #0f5d5c;
-            --brand-strong: #0a4544;
-            --accent: #cc7a32;
-            --good: #dff1c9;
-            --bad: #ffe3df;
-            --shadow: 0 22px 60px rgba(30, 47, 61, 0.14);
-        }
+        /* ===== 基础重置 ===== */
         * {
             box-sizing: border-box;
-            font-family: "Avenir Next", "PingFang SC", "Noto Sans SC", sans-serif;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
         body {
+            background: #f4f7fb;
             margin: 0;
             min-height: 100vh;
-            color: var(--ink);
-            background:
-                radial-gradient(circle at top left, rgba(212, 167, 103, 0.25), transparent 28%),
-                radial-gradient(circle at top right, rgba(15, 93, 92, 0.18), transparent 24%),
-                linear-gradient(180deg, #f4efe5 0%, #f7f4ed 36%, #fbfaf6 100%);
-            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(24, 51, 61, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(24, 51, 61, 0.03) 1px, transparent 1px);
-            background-size: 28px 28px;
-            mask-image: linear-gradient(180deg, rgba(0,0,0,0.7), transparent 85%);
-        }
+        /* ===== 横屏/竖屏切换提示层 ===== */
         .rotate-message {
             display: none;
-        }
-        .card {
-            position: relative;
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 32px;
-            border-radius: 36px;
-            border: 1px solid rgba(255,255,255,0.7);
-            background: linear-gradient(180deg, rgba(255,252,247,0.94), rgba(255,249,240,0.86));
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(18px);
-            overflow: hidden;
-        }
-        .card::after {
-            content: "";
-            position: absolute;
-            top: -80px;
-            right: -80px;
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(204, 122, 50, 0.18), transparent 68%);
-            pointer-events: none;
-        }
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
-            gap: 22px;
-            margin-bottom: 22px;
-        }
-        .hero-main, .hero-side, .toolbar, .table-shell, .footer-bar {
-            position: relative;
-            z-index: 1;
-        }
-        .hero-main {
-            border-radius: 28px;
-            padding: 26px;
-            background:
-                linear-gradient(135deg, rgba(10, 69, 68, 0.95), rgba(20, 96, 95, 0.9)),
-                linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
-            color: #eff8f5;
-            overflow: hidden;
-        }
-        .hero-main::after {
-            content: "";
-            position: absolute;
-            inset: auto -40px -80px auto;
-            width: 220px;
-            height: 220px;
-            background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
-            border-radius: 50%;
-        }
-        .eyebrow {
-            display: inline-flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1e3b4f;
+            color: white;
+            z-index: 9999;
+            justify-content: center;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.14);
-            border: 1px solid rgba(255,255,255,0.18);
-            font-size: 13px;
-            letter-spacing: 0.06em;
+            text-align: center;
+            font-size: 2rem;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .rotate-message p {
+            margin: 20px 0;
+        }
+        .rotate-icon {
+            font-size: 4rem;
+            animation: rotate 1.5s infinite ease-in-out;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+            100% { transform: rotate(90deg); }
+        }
+        /* 竖屏时显示提示层，隐藏主卡片 */
+        @media (orientation: portrait) {
+            .rotate-message {
+                display: flex;
+            }
+            .card {
+                display: none;
+            }
+        }
+        /* ===== 主卡片（普通块级，不限制高度）===== */
+        .card {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0,20,40,0.2);
+            padding: 30px 25px;
+            margin: 0 auto; /* 居中 */
         }
         h1 {
-            margin: 18px 0 12px;
-            font-family: "Georgia", "Songti SC", serif;
-            font-size: clamp(32px, 4vw, 52px);
-            line-height: 1.06;
-            letter-spacing: 0.02em;
-        }
-        .hero-subtitle {
-            max-width: 720px;
-            margin: 0;
-            color: rgba(239, 248, 245, 0.82);
-            font-size: 16px;
-            line-height: 1.7;
-        }
-        .hero-actions {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #0b2b3c;
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 22px;
+            align-items: center;
+            gap: 8px;
         }
-        .hero-side {
-            display: grid;
-            gap: 14px;
-        }
-        .promo-card, .summary-card {
-            border-radius: 26px;
-            padding: 22px;
-            background: var(--card);
-            border: 1px solid var(--line);
-            box-shadow: 0 10px 28px rgba(26, 46, 54, 0.06);
-        }
-        .promo-title, .summary-title {
-            margin: 0 0 8px;
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--muted);
-            letter-spacing: 0.04em;
-        }
-        .promo-card strong {
-            display: block;
-            font-size: 26px;
-            font-family: "Georgia", "Songti SC", serif;
-            margin-bottom: 8px;
-            color: var(--ink);
-        }
-        .promo-card p {
-            margin: 0;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            margin-top: 14px;
-        }
-        .stat-box {
-            border-radius: 20px;
-            padding: 16px;
-            background: rgba(255,255,255,0.72);
-            border: 1px solid rgba(19, 58, 71, 0.08);
-        }
-        .stat-label {
-            display: block;
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 8px;
-        }
-        .stat-value {
-            font-size: 28px;
-            line-height: 1;
-            font-weight: 700;
-            color: var(--brand-strong);
-        }
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            border-radius: 999px;
-            background: rgba(19, 58, 71, 0.08);
-            overflow: hidden;
-            margin-top: 12px;
-        }
-        .progress-fill {
-            height: 100%;
-            width: 0;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--accent), #e4b16f);
-            transition: width 0.25s ease;
-        }
-        .top-bar, .toolbar, .footer-bar {
-            border-radius: 26px;
-            border: 1px solid var(--line);
-            background: var(--card);
-            box-shadow: 0 10px 26px rgba(22, 41, 48, 0.05);
-            backdrop-filter: blur(10px);
+        h1 span {
+            background: #e5f0fa;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #1e587d;
         }
         .top-bar {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 12px;
-            padding: 16px;
-            margin-bottom: 18px;
+            gap: 20px;
+            background: #f0f5fa;
+            padding: 15px 20px;
+            border-radius: 24px;
+            margin: 15px 0 20px 0;
+            border: 1px solid #d9e5ee;
         }
         .file-upload {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid var(--line);
+            gap: 8px;
+            background: white;
+            padding: 5px 15px 5px 12px;
+            border-radius: 40px;
+            border: 1px solid #b3cbd9;
             cursor: pointer;
+        }
+        .file-upload:hover {
+            background: #eef5fc;
         }
         .file-upload input {
             width: 140px;
-            font-size: 13px;
+            font-size: 0.85rem;
         }
         button {
-            appearance: none;
-            border: 1px solid rgba(15, 93, 92, 0.18);
-            padding: 11px 18px;
-            border-radius: 999px;
-            font-size: 14px;
-            font-weight: 700;
+            border: none;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid #b3cbd9;
             cursor: pointer;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+            transition: 0.1s ease;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.02);
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 14px rgba(21, 43, 49, 0.08);
-        }
-        button:hover {
-            transform: translateY(-1px);
+            gap: 6px;
         }
         .primary-btn {
-            color: #fffdf9;
-            background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+            background: #2b6c9e;
+            border-color: #1a4b70;
+            color: white;
+        }
+        .primary-btn:hover {
+            background: #1f587d;
         }
         .secondary-btn {
-            color: var(--brand-strong);
-            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(246, 244, 239, 0.92));
+            background: #eef3f8;
+            border-color: #9fbdd0;
         }
-        .ghost-btn {
-            color: #eff8f5;
-            border-color: rgba(255,255,255,0.2);
-            background: rgba(255,255,255,0.08);
-            box-shadow: none;
+        .secondary-btn:hover {
+            background: #dde9f2;
         }
-        .format-hint {
-            padding: 10px 14px;
-            border-radius: 18px;
-            background: rgba(15, 93, 92, 0.08);
-            color: var(--muted);
-            font-size: 13px;
-        }
+        /* 列显隐工具栏（sticky 固定在视口顶部） */
         .toolbar {
-            position: sticky;
-            top: 20px;
+            background: #f0f5fa;
+            padding: 18px 20px;
+            border-radius: 24px;
+            margin: 5px 0 20px 0;
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
             align-items: center;
-            padding: 18px 20px;
-            margin-bottom: 18px;
-            z-index: 5;
+            gap: 25px;
+            border: 1px solid #d9e5ee;
+            position: sticky;
+            top: 20px; /* 距离视口顶部20px，与body padding一致，避免紧贴边缘 */
+            z-index: 10;
+            background-color: #f0f5fa;
         }
         .col-toggles {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
+            align-items: center;
         }
         .toggle-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.74);
-            border: 1px solid rgba(19, 58, 71, 0.08);
+            gap: 6px;
+            background: white;
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            border: 1px solid #cbdae6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .toggle-item:hover {
+            border-color: #7f9eb5;
+            background: #fafdff;
         }
         .toggle-item input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: var(--brand);
+            accent-color: #2b6c9e;
             margin: 0;
+            cursor: pointer;
+        }
+        .toggle-item label {
+            font-weight: 500;
+            color: #1e3b4f;
+            cursor: pointer;
         }
         .hint {
-            color: var(--muted);
-            font-size: 14px;
+            color: #456f88;
+            font-size: 0.9rem;
+            border-left: 2px solid #a0c0d4;
+            padding-left: 18px;
         }
-        .table-shell {
-            border-radius: 28px;
-            border: 1px solid var(--line);
-            background: rgba(255,252,247,0.86);
-            box-shadow: 0 12px 36px rgba(23, 42, 50, 0.06);
-            overflow: hidden;
-            margin-bottom: 18px;
-        }
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--line);
-            background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,248,236,0.6));
-        }
-        .table-header h2 {
-            margin: 0;
-            font-size: 22px;
-            font-family: "Georgia", "Songti SC", serif;
-        }
-        .table-header p {
-            margin: 4px 0 0;
-            color: var(--muted);
-            font-size: 14px;
-        }
-        .level-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 98px;
-            padding: 10px 14px;
-            border-radius: 999px;
-            background: rgba(15, 93, 92, 0.1);
-            color: var(--brand-strong);
-            font-weight: 700;
-        }
+        /* 表格容器（仅用于水平滚动） */
         .table-wrapper {
             overflow-x: auto;
+            border-radius: 20px;
+            border: 1px solid #deeaf2;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 20, 30, 0.05);
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 860px;
+            font-size: 0.95rem;
+            min-width: 750px;
+            table-layout: auto;
         }
         th {
+            background: #e1ecf5;
+            color: #103544;
+            font-weight: 600;
+            padding: 16px 12px;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
             text-align: left;
-            padding: 18px 16px;
-            color: #35535c;
-            background: rgba(15, 93, 92, 0.08);
-            font-size: 14px;
-            letter-spacing: 0.03em;
+            border-bottom: 2px solid #b7cfdf;
         }
         td {
-            padding: 18px 16px;
-            border-top: 1px solid rgba(19, 58, 71, 0.08);
-            vertical-align: top;
+            padding: 14px 12px;
+            border-bottom: 1px solid #dde9f2;
+            vertical-align: middle;
+            background-color: inherit;
+            transition: background 0.1s;
         }
-        tr {
-            transition: background 0.18s ease;
-        }
+        /* 整行状态 */
         tr.mastered {
-            background: linear-gradient(90deg, rgba(223, 241, 201, 0.75), rgba(255,252,247,0.92));
+            background-color: #c5f0cb !important;
+        }
+        tr.mastered td {
+            background-color: transparent; 
         }
         tr.difficult {
-            background: linear-gradient(90deg, rgba(255, 227, 223, 0.75), rgba(255,252,247,0.92));
+            color: #c23b3b !important;
         }
-        .word-cell {
-            font-size: 30px;
-            font-weight: 700;
-            line-height: 1.1;
-            font-family: "Georgia", serif;
+        tr.difficult td {
+            background-color: transparent;
+            color: inherit;
         }
-        .phonetic {
-            font-family: "Menlo", "SFMono-Regular", monospace;
-            color: #47656c;
+        tr.difficult button {
+            color: #1f2a36;
+            background: #ffeaea;
+            border-color: #c27e7e;
         }
-        .example-text {
-            color: #5e747b;
-            line-height: 1.65;
-            max-width: 360px;
+        tr.difficult button:hover {
+            background: #ffd7d7;
         }
         .action-cell {
             white-space: nowrap;
-            width: 170px;
+            width: 150px;
+            text-align: center;
         }
-        .action-group {
-            display: inline-flex;
-            gap: 10px;
+        th:last-child, td:last-child {
+            text-align: center;
         }
-        .action-chip {
-            min-width: 72px;
-            box-shadow: none;
+        td:nth-child(5) {
+            white-space: normal;
+            word-break: break-word;
+            max-width: 280px;
         }
-        .master-chip {
-            background: rgba(223, 241, 201, 0.98);
-            border-color: rgba(97, 143, 77, 0.22);
-            color: #2f5b27;
-        }
-        .difficult-chip {
-            background: rgba(255, 227, 223, 0.98);
-            border-color: rgba(176, 88, 88, 0.22);
-            color: #8f3434;
+        .phonetic {
+            font-family: 'Courier New', monospace;
+            color: #2f556b;
         }
         .hide {
             display: none;
         }
+        /* 解释列“点击看意思”样式 */
         .peek-mode {
             cursor: pointer;
             user-select: none;
-            color: var(--brand);
-            font-weight: 700;
+            color: #2b6c9e;
+            font-weight: 500;
         }
         .peek-mode.revealed {
             color: inherit;
-            font-weight: 500;
+            font-weight: normal;
         }
-        .card-grid {
-            display: none;
-            padding: 18px;
-            gap: 16px;
-        }
-        .word-card {
-            border-radius: 24px;
-            border: 1px solid rgba(19, 58, 71, 0.08);
-            background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,249,242,0.94));
-            box-shadow: 0 10px 24px rgba(24, 43, 52, 0.06);
-            padding: 18px;
-        }
-        .word-card.mastered {
-            background: linear-gradient(180deg, rgba(228, 245, 210, 0.96), rgba(255, 252, 247, 0.96));
-        }
-        .word-card.difficult {
-            background: linear-gradient(180deg, rgba(255, 233, 229, 0.96), rgba(255, 252, 247, 0.96));
-        }
-        .card-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-        .card-word {
-            margin: 0;
-            font-size: 30px;
-            font-family: "Georgia", serif;
-            line-height: 1.05;
-        }
-        .card-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 10px 0 0;
-            color: var(--muted);
-            font-size: 13px;
-        }
-        .meta-pill {
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: rgba(15, 93, 92, 0.08);
-        }
-        .card-section {
-            margin-top: 14px;
-        }
-        .card-label {
-            margin-bottom: 6px;
-            color: var(--muted);
-            font-size: 12px;
-            letter-spacing: 0.06em;
-        }
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
+        /* 底部按钮栏（sticky 固定在视口底部） */
         .footer-bar {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             justify-content: space-between;
-            gap: 16px;
-            padding: 16px;
+            gap: 15px;
+            background: white;
+            padding: 15px 0 10px 0;
+            position: sticky;
+            bottom: 20px; /* 距离视口底部20px，与body padding一致 */
+            z-index: 10;
+            background-color: white;
+            margin-top: 10px;
         }
         .footer-left, .footer-right {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            align-items: center;
+            gap: 15px;
+        }
+        .format-hint {
+            font-size: 0.8rem;
+            color: #577e9c;
+            background: #e9f0f6;
+            padding: 4px 12px;
+            border-radius: 30px;
         }
         footer {
-            margin-top: 14px;
-            color: var(--muted);
-            text-align: center;
-            font-size: 13px;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #577e9c;
+            text-align: right;
+            padding-bottom: 10px;
         }
         .speak-btn {
-            padding: 0;
+            background: none;
             border: none;
-            background: transparent;
-            box-shadow: none;
-            font-size: 18px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0 4px;
+            margin-left: 5px;
+            vertical-align: middle;
+            transition: transform 0.1s;
         }
-        .toast {
-            position: fixed;
-            right: 24px;
-            bottom: 24px;
-            padding: 14px 18px;
-            border-radius: 18px;
-            background: rgba(17, 41, 49, 0.94);
-            color: white;
-            box-shadow: 0 16px 30px rgba(0,0,0,0.18);
-            opacity: 0;
-            transform: translateY(10px);
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 30;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        @media (max-width: 860px) {
-            body {
-                padding: 14px;
-            }
-            .card {
-                padding: 16px;
-                border-radius: 24px;
-            }
-            .hero {
-                grid-template-columns: 1fr;
-            }
-            .toolbar {
-                position: static;
-            }
-            .table-wrapper {
-                display: none;
-            }
-            .card-grid {
-                display: grid;
-            }
-            .footer-bar {
-                position: static;
-            }
+        .speak-btn:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
+    <!-- 竖屏提示层 -->
+    <div class="rotate-message">
+        <div class="rotate-icon">↻</div>
+        <p>请旋转设备至横屏使用</p>
+        <p style="font-size:1.2rem">This app is designed for landscape mode</p>
+    </div>
+
     <div class="card">
-        <section class="hero">
-            <div class="hero-main">
-                <div class="eyebrow">PREVIEW VERSION · 本地视觉升级稿</div>
-                <h1>大华舅舅背单词</h1>
-                <p class="hero-subtitle">把它做成更像教育产品的样子：更有品牌感的头部，更清晰的学习进度，更友好的手机卡片学习体验。</p>
-                <div class="hero-actions">
-                    <button id="heroContinueBtn" class="ghost-btn" type="button">继续上次学习</button>
-                    <button id="heroMemberBtn" class="ghost-btn" type="button">会员功能预留位</button>
-                </div>
-            </div>
-            <div class="hero-side">
-                <div class="summary-card">
-                    <div class="summary-title">今日学习仪表板</div>
-                    <div class="stats-grid">
-                        <div class="stat-box">
-                            <span class="stat-label">当前词库</span>
-                            <span class="stat-value" id="levelName">小学</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">总词数</span>
-                            <span class="stat-value" id="totalCount">0</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">已掌握</span>
-                            <span class="stat-value" id="masteredCount">0</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-label">未掌握</span>
-                            <span class="stat-value" id="difficultCount">0</span>
-                        </div>
-                    </div>
-                    <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
-                </div>
-                <div class="promo-card">
-                    <div class="promo-title">引导区预留</div>
-                    <strong>关注抖音 / 会员入口</strong>
-                    <p>这里适合放抖音号、会员权益、活动词包或口令入口，既自然又不会打断学习流程。</p>
-                </div>
-            </div>
-        </section>
+        <!-- 标题、上传栏会随页面滚动 -->
+        <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
             <div class="file-upload"><span>📂 上传TXT</span><input type="file" id="uploadTxt" accept=".txt, text/plain"></div>
             <button id="loadPrimaryBtn" class="secondary-btn">📘 小学</button>
@@ -598,19 +356,13 @@
             <div class="format-hint">格式: 单词/音标/词性/解释/例句 (每行一个单词，音标不要加//，例句可用/)</div>
         </div>
 
+        <!-- 列显隐工具栏（sticky，固定在视口顶部） -->
         <div id="toolbar-container" class="toolbar"></div>
 
-        <section class="table-shell">
-            <div class="table-header">
-                <div>
-                    <h2>单词总览</h2>
-                    <p>桌面端保持表格效率，手机端自动切成卡片视图。</p>
-                </div>
-                <div id="levelBadge" class="level-badge">小学词库</div>
-            </div>
-            <div id="table-container" class="table-wrapper"></div>
-        </section>
+        <!-- 表格容器（水平滚动，垂直随页面滚动） -->
+        <div id="table-container" class="table-wrapper"></div>
 
+        <!-- 底部按钮栏（sticky，固定在视口底部） -->
         <div class="footer-bar">
             <div class="footer-left">
                 <button id="showDifficultBtn" class="secondary-btn">🔴 只显示不会</button>
@@ -621,9 +373,8 @@
                 <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
             </div>
         </div>
-        <footer>预览版说明：这份文件只用于本地看视觉升级效果，不会同步到云端。</footer>
+        <footer>点击🔊听发音 · 点击【会】整行变绿 · 点击【不会】文字变红 · 解释列可“点击看意思”</footer>
     </div>
-    <div id="toast" class="toast"></div>
 
 <script>
 (function() {
@@ -649,17 +400,11 @@
         { label: '解释', field: 'definition' },
         { label: '例句', field: 'example' }
     ];
-    const LEVEL_LABELS = {
-        primary: '小学',
-        junior: '初中',
-        senior: '高中'
-    };
 
     let allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
     let showOnlyDifficult = false;
     let hideMastered = false;
     let currentLevel = 'primary';
-    let toastTimer = null;
     let currentAudio = null;
     let preloadTimer = null;
     const audioCache = new Map();
@@ -741,22 +486,7 @@
         stored.currentLevel = currentLevel;
         stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
         saveStoredState(stored);
-        showToast('当前单词及标记已保存到本地浏览器');
-    }
-
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        if (!toast) return;
-        toast.textContent = message;
-        toast.classList.add('show');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 1800);
-    }
-
-    function getLevelLabel(level = currentLevel) {
-        return LEVEL_LABELS[level] || '词库';
+        alert('当前单词及标记已保存到本地浏览器 💾');
     }
 
     function sanitizeWordForFilename(word) {
@@ -775,6 +505,11 @@
         return `audio/${level}/${sanitizeWordForFilename(word)}.mp3`;
     }
 
+    function createSpeakButton(text, kind, audioWord) {
+        const audioAttr = audioWord ? ` data-audio-word="${escapeHtml(audioWord)}"` : '';
+        return `<button class="speak-btn" data-text="${escapeHtml(text)}" data-kind="${escapeHtml(kind)}"${audioAttr}>🔊</button>`;
+    }
+
     function createCachedAudio(src) {
         const audio = new Audio();
         audio.preload = 'auto';
@@ -784,12 +519,8 @@
 
     function primeAudio(word, level = currentLevel) {
         const src = getAudioPath(word, level);
-        if (missingAudioCache.has(src)) {
-            return Promise.reject(new Error(`missing audio: ${src}`));
-        }
-        if (audioLoadPromises.has(src)) {
-            return audioLoadPromises.get(src);
-        }
+        if (missingAudioCache.has(src)) return Promise.reject(new Error(`missing audio: ${src}`));
+        if (audioLoadPromises.has(src)) return audioLoadPromises.get(src);
 
         let audio = audioCache.get(src);
         if (!audio) {
@@ -814,7 +545,6 @@
                 missingAudioCache.add(src);
                 reject(new Error(`failed to load audio: ${src}`));
             };
-
             audio.addEventListener('canplaythrough', onReady, { once: true });
             audio.addEventListener('loadeddata', onReady, { once: true });
             audio.addEventListener('error', onError, { once: true });
@@ -861,30 +591,6 @@
         scheduleAudioPreload(words, currentLevel);
     }
 
-    function createSpeakButton(text, kind, audioWord) {
-        const audioAttr = audioWord ? ` data-audio-word="${escapeHtml(audioWord)}"` : '';
-        return `<button class="speak-btn" data-text="${escapeHtml(text)}" data-kind="${escapeHtml(kind)}"${audioAttr}>🔊</button>`;
-    }
-
-    function renderSummary() {
-        const total = allWords.length;
-        const mastered = allWords.filter(item => item.status === 'mastered').length;
-        const difficult = allWords.filter(item => item.status === 'difficult').length;
-        const progress = total ? Math.round((mastered / total) * 100) : 0;
-        const levelName = document.getElementById('levelName');
-        const levelBadge = document.getElementById('levelBadge');
-        const totalCount = document.getElementById('totalCount');
-        const masteredCount = document.getElementById('masteredCount');
-        const difficultCount = document.getElementById('difficultCount');
-        const progressFill = document.getElementById('progressFill');
-        if (levelName) levelName.textContent = getLevelLabel();
-        if (levelBadge) levelBadge.textContent = `${getLevelLabel()}词库`;
-        if (totalCount) totalCount.textContent = total;
-        if (masteredCount) masteredCount.textContent = mastered;
-        if (difficultCount) difficultCount.textContent = difficult;
-        if (progressFill) progressFill.style.width = `${progress}%`;
-    }
-
     function renderToolbar() {
         const container = document.getElementById('toolbar-container');
         container.innerHTML = '';
@@ -913,9 +619,6 @@
             displayedWords.push({ item, index });
         });
 
-        const cardGrid = document.createElement('div');
-        cardGrid.className = 'card-grid';
-
         const table = document.createElement('table'); table.id = 'word-table';
         const thead = document.createElement('thead'); const headerRow = document.createElement('tr');
         columns.forEach(col => { const th = document.createElement('th'); th.textContent = col.label; headerRow.appendChild(th); });
@@ -924,14 +627,12 @@
 
         const tbody = document.createElement('tbody');
         const fragment = document.createDocumentFragment();
-        const cardFragment = document.createDocumentFragment();
         displayedWords.forEach(({ item, index }) => {
             const row = document.createElement('tr'); row.dataset.index = index;
             if (item.status === 'mastered') row.classList.add('mastered');
             else if (item.status === 'difficult') row.classList.add('difficult');
 
             const wordCell = document.createElement('td');
-            wordCell.className = 'word-cell';
             wordCell.innerHTML = `${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}`;
             row.appendChild(wordCell);
 
@@ -954,54 +655,19 @@
             row.appendChild(defCell);
 
             const exampleCell = document.createElement('td');
-            exampleCell.className = 'example-text';
             exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
             row.appendChild(exampleCell);
 
             const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
-            actionCell.innerHTML = `<div class="action-group"><button class="action-chip master-chip btn-master">会</button><button class="action-chip difficult-chip btn-difficult">不会</button></div>`;
+            actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
             row.appendChild(actionCell);
 
             fragment.appendChild(row);
-
-            const card = document.createElement('article');
-            card.className = 'word-card';
-            card.dataset.index = index;
-            if (item.status === 'mastered') card.classList.add('mastered');
-            else if (item.status === 'difficult') card.classList.add('difficult');
-            card.innerHTML = `
-                <div class="card-top">
-                    <div>
-                        <h3 class="card-word">${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}</h3>
-                        <div class="card-meta">
-                            <span class="meta-pill">/${escapeHtml(item.phonetic || '')}/</span>
-                            <span class="meta-pill">${escapeHtml(item.pos || '—')}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-section">
-                    <div class="card-label">释义</div>
-                    <div class="${isDefNormal ? '' : 'peek-mode'}" data-definition="${escapeHtml(item.definition || '—')}" data-revealed="false">${isDefNormal ? escapeHtml(item.definition || '—') : '点击看意思'}</div>
-                </div>
-                <div class="card-section">
-                    <div class="card-label">例句</div>
-                    <div class="example-text">${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}</div>
-                </div>
-                <div class="card-actions">
-                    <button class="action-chip master-chip btn-master">会</button>
-                    <button class="action-chip difficult-chip btn-difficult">不会</button>
-                </div>
-            `;
-            cardFragment.appendChild(card);
         });
         tbody.appendChild(fragment);
-        cardGrid.appendChild(cardFragment);
-        table.appendChild(tbody);
-        container.appendChild(cardGrid);
-        container.appendChild(table);
+        table.appendChild(tbody); container.appendChild(table);
 
         updateColumnVisibility();
-        renderSummary();
         scheduleAudioPreload(displayedWords.slice(0, 24).map(({ item }) => item.word), currentLevel);
     }
 
@@ -1038,7 +704,7 @@
 
     function speakText(text) {
         if (!window.speechSynthesis) {
-            showToast('当前浏览器不支持内置发音');
+            alert('您的浏览器不支持语音合成');
             return;
         }
         window.speechSynthesis.cancel();
@@ -1046,9 +712,6 @@
         utterance.lang = 'en-US';
         utterance.rate = 0.9;
         utterance.pitch = 1;
-        utterance.onend = () => {
-            window.speechSynthesis.cancel();
-        };
 
         let voices = window.speechSynthesis.getVoices();
         if (voices.length === 0) {
@@ -1107,7 +770,7 @@
                 const kind = speakBtn.getAttribute('data-kind');
                 const audioWord = speakBtn.getAttribute('data-audio-word');
                 if (kind === 'word' && audioWord) {
-                    const hostRow = speakBtn.closest('tr, article');
+                    const hostRow = speakBtn.closest('tr');
                     if (hostRow && hostRow.dataset.index) {
                         preloadAroundIndex(parseInt(hostRow.dataset.index, 10));
                     }
