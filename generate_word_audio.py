@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 import argparse
 import hashlib
 import json
@@ -23,7 +24,7 @@ DEFAULT_ENDPOINT = "https://dashscope.aliyuncs.com/api/v1/services/audio/tts/Spe
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate word pronunciation mp3 files from txt vocabulary lists with Alibaba Bailian CosyVoice."
+        description="Generate word pronunciation mp3 files from txt vocabulary lists with Bailian or edge-tts."
     )
     parser.add_argument(
         "--levels",
@@ -38,14 +39,20 @@ def parse_args():
         help="Output base directory for generated audio files.",
     )
     parser.add_argument(
+        "--provider",
+        choices=["bailian", "edge"],
+        default="bailian",
+        help="Which TTS provider to use.",
+    )
+    parser.add_argument(
         "--model",
         default="cosyvoice-v2",
-        help="CosyVoice model to use.",
+        help="Bailian CosyVoice model to use.",
     )
     parser.add_argument(
         "--voice",
         default="longxiaochun_v2",
-        help="CosyVoice voice to use.",
+        help="Voice to use. For edge-tts, examples include en-US-EmmaNeural or en-US-AndrewNeural.",
     )
     parser.add_argument(
         "--format",
@@ -97,6 +104,12 @@ def parse_args():
         type=int,
         default=3,
         help="Retry attempts for transient API or download failures.",
+    )
+    parser.add_argument(
+        "--concurrency",
+        type=int,
+        default=6,
+        help="Concurrent requests when using edge-tts.",
     )
     return parser.parse_args()
 
@@ -214,10 +227,72 @@ def generate_with_retry(api_key: str, args, word: str, outfile: Path):
     raise RuntimeError(last_error or "Unknown generation failure")
 
 
+def import_edge_tts():
+    try:
+        import edge_tts  # type: ignore
+    except ImportError as exc:
+        raise RuntimeError(
+            "edge-tts is not installed. Install it first, or run with PYTHONPATH pointing to the edge-tts package."
+        ) from exc
+    return edge_tts
+
+
+async def edge_generate_with_retry(args, edge_tts_module, word: str, outfile: Path):
+    last_error = None
+    text = args.text_template.format(word=word)
+    outfile.parent.mkdir(parents=True, exist_ok=True)
+    tmpfile = outfile.with_suffix(outfile.suffix + ".tmp")
+
+    for attempt in range(1, args.retries + 1):
+        try:
+            communicate = edge_tts_module.Communicate(text=text, voice=args.voice)
+            await communicate.save(str(tmpfile))
+            tmpfile.replace(outfile)
+            return
+        except Exception as exc:
+            last_error = str(exc)
+            if tmpfile.exists():
+                tmpfile.unlink(missing_ok=True)
+            if attempt < args.retries:
+                await asyncio.sleep(1.2 * attempt)
+    raise RuntimeError(last_error or "Unknown generation failure")
+
+
+async def run_edge_jobs(args, queued):
+    edge_tts_module = import_edge_tts()
+    failures = []
+    started = time.time()
+    semaphore = asyncio.Semaphore(max(1, args.concurrency))
+
+    async def worker(idx, level, word, outfile):
+        print(f"[{idx}/{len(queued)}] {level:<7} {word} -> {outfile.name}")
+        async with semaphore:
+            try:
+                await edge_generate_with_retry(args, edge_tts_module, word, outfile)
+            except Exception as exc:
+                failures.append((level, word, str(exc)))
+                print(f"  failed: {exc}", file=sys.stderr)
+            if args.sleep > 0:
+                await asyncio.sleep(args.sleep)
+
+    await asyncio.gather(*(worker(idx, level, word, outfile) for idx, (level, word, outfile) in enumerate(queued, start=1)))
+
+    elapsed = time.time() - started
+    print(f"Done in {elapsed:.1f}s")
+    print(f"Success: {len(queued) - len(failures)}")
+    print(f"Failed: {len(failures)}")
+
+    if failures:
+        print("\nFailures:", file=sys.stderr)
+        for level, word, error in failures[:30]:
+            print(f"- {level} / {word}: {error}", file=sys.stderr)
+        raise RuntimeError("Some edge-tts jobs failed")
+
+
 def main():
     args = parse_args()
     api_key = get_api_key()
-    if not args.dry_run and not api_key:
+    if not args.dry_run and args.provider == "bailian" and not api_key:
         print("Missing DASHSCOPE_API_KEY (or BAILIAN_API_KEY).", file=sys.stderr)
         sys.exit(1)
 
@@ -242,6 +317,13 @@ def main():
             print(f"[dry-run] {level:<7} {word:<24} -> {outfile}")
         if len(queued) > 20:
             print(f"... and {len(queued) - 20} more")
+        return
+
+    if args.provider == "edge":
+        try:
+            asyncio.run(run_edge_jobs(args, queued))
+        except RuntimeError:
+            sys.exit(1)
         return
 
     failures = []
