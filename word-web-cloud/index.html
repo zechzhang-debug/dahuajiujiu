@@ -405,6 +405,11 @@
     let showOnlyDifficult = false;
     let hideMastered = false;
     let currentLevel = 'primary';
+    let currentAudio = null;
+    let preloadTimer = null;
+    const audioCache = new Map();
+    const audioLoadPromises = new Map();
+    const missingAudioCache = new Set();
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
@@ -484,6 +489,108 @@
         alert('当前单词及标记已保存到本地浏览器 💾');
     }
 
+    function sanitizeWordForFilename(word) {
+        const cleaned = (word || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+        if (cleaned) return cleaned;
+        let hash = 0;
+        const source = word || '';
+        for (let i = 0; i < source.length; i += 1) {
+            hash = ((hash << 5) - hash) + source.charCodeAt(i);
+            hash |= 0;
+        }
+        return `word_${Math.abs(hash)}`;
+    }
+
+    function getAudioPath(word, level = currentLevel) {
+        return `audio/${level}/${sanitizeWordForFilename(word)}.mp3`;
+    }
+
+    function createSpeakButton(text, kind, audioWord) {
+        const audioAttr = audioWord ? ` data-audio-word="${escapeHtml(audioWord)}"` : '';
+        return `<button class="speak-btn" data-text="${escapeHtml(text)}" data-kind="${escapeHtml(kind)}"${audioAttr}>🔊</button>`;
+    }
+
+    function createCachedAudio(src) {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = src;
+        return audio;
+    }
+
+    function primeAudio(word, level = currentLevel) {
+        const src = getAudioPath(word, level);
+        if (missingAudioCache.has(src)) return Promise.reject(new Error(`missing audio: ${src}`));
+        if (audioLoadPromises.has(src)) return audioLoadPromises.get(src);
+
+        let audio = audioCache.get(src);
+        if (!audio) {
+            audio = createCachedAudio(src);
+            audioCache.set(src, audio);
+        }
+
+        const promise = new Promise((resolve, reject) => {
+            const cleanup = () => {
+                audio.removeEventListener('canplaythrough', onReady);
+                audio.removeEventListener('loadeddata', onReady);
+                audio.removeEventListener('error', onError);
+            };
+            const onReady = () => {
+                cleanup();
+                audioLoadPromises.delete(src);
+                resolve(audio);
+            };
+            const onError = () => {
+                cleanup();
+                audioLoadPromises.delete(src);
+                missingAudioCache.add(src);
+                reject(new Error(`failed to load audio: ${src}`));
+            };
+            audio.addEventListener('canplaythrough', onReady, { once: true });
+            audio.addEventListener('loadeddata', onReady, { once: true });
+            audio.addEventListener('error', onError, { once: true });
+            audio.load();
+        });
+
+        audioLoadPromises.set(src, promise);
+        return promise;
+    }
+
+    function scheduleAudioPreload(words, level = currentLevel) {
+        const uniqueWords = [];
+        const seen = new Set();
+        words.forEach((word) => {
+            const normalized = (word || '').trim();
+            if (!normalized || seen.has(normalized)) return;
+            seen.add(normalized);
+            uniqueWords.push(normalized);
+        });
+        if (!uniqueWords.length) return;
+
+        const preloadTask = () => {
+            uniqueWords.forEach((word) => {
+                primeAudio(word, level).catch(() => {});
+            });
+        };
+
+        if (preloadTimer) clearTimeout(preloadTimer);
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(preloadTask, { timeout: 1200 });
+        } else {
+            preloadTimer = setTimeout(preloadTask, 80);
+        }
+    }
+
+    function preloadAroundIndex(index, radius = 8) {
+        if (Number.isNaN(index)) return;
+        const words = [];
+        const start = Math.max(0, index - radius);
+        const end = Math.min(allWords.length, index + radius + 1);
+        for (let i = start; i < end; i += 1) {
+            if (allWords[i] && allWords[i].word) words.push(allWords[i].word);
+        }
+        scheduleAudioPreload(words, currentLevel);
+    }
+
     function renderToolbar() {
         const container = document.getElementById('toolbar-container');
         container.innerHTML = '';
@@ -526,11 +633,11 @@
             else if (item.status === 'difficult') row.classList.add('difficult');
 
             const wordCell = document.createElement('td');
-            wordCell.innerHTML = `${escapeHtml(item.word)} <button class="speak-btn" data-text="${escapeHtml(item.word)}">🔊</button>`;
+            wordCell.innerHTML = `${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}`;
             row.appendChild(wordCell);
 
             const phoneticCell = document.createElement('td');
-            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ <button class="speak-btn" data-text="${escapeHtml(item.word)}">🔊</button>`;
+            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ ${createSpeakButton(item.word, 'word', item.word)}`;
             phoneticCell.classList.add('phonetic');
             row.appendChild(phoneticCell);
 
@@ -548,7 +655,7 @@
             row.appendChild(defCell);
 
             const exampleCell = document.createElement('td');
-            exampleCell.innerHTML = `${escapeHtml(item.example)} <button class="speak-btn" data-text="${escapeHtml(item.example)}">🔊</button>`;
+            exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
             row.appendChild(exampleCell);
 
             const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
@@ -561,6 +668,7 @@
         table.appendChild(tbody); container.appendChild(table);
 
         updateColumnVisibility();
+        scheduleAudioPreload(displayedWords.slice(0, 24).map(({ item }) => item.word), currentLevel);
     }
 
     function updateColumnVisibility() {
@@ -581,6 +689,17 @@
                 }
             });
         });
+    }
+
+    async function playAudioFile(word, level = currentLevel) {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        const audio = await primeAudio(word, level);
+        audio.currentTime = 0;
+        currentAudio = audio;
+        await audio.play();
     }
 
     function speakText(text) {
@@ -641,13 +760,26 @@
                     if (currentStatus === 'mastered') row.classList.add('mastered');
                     else if (currentStatus === 'difficult') row.classList.add('difficult');
                 }
+                preloadAroundIndex(idx);
                 return;
             }
 
             const speakBtn = e.target.closest('.speak-btn');
             if (speakBtn) {
                 const text = speakBtn.getAttribute('data-text');
-                if (text) speakText(text);
+                const kind = speakBtn.getAttribute('data-kind');
+                const audioWord = speakBtn.getAttribute('data-audio-word');
+                if (kind === 'word' && audioWord) {
+                    const hostRow = speakBtn.closest('tr');
+                    if (hostRow && hostRow.dataset.index) {
+                        preloadAroundIndex(parseInt(hostRow.dataset.index, 10));
+                    }
+                    playAudioFile(audioWord).catch(() => {
+                        if (text) speakText(text);
+                    });
+                } else if (text) {
+                    speakText(text);
+                }
                 return;
             }
 
