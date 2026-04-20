@@ -372,6 +372,8 @@
             max-height: inherit;
             object-fit: contain;
             display: block;
+        }
+        .motivation-image.is-soft-edge {
             -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.68) 76%, rgba(0, 0, 0, 0.18) 90%, transparent 100%);
             mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.68) 76%, rgba(0, 0, 0, 0.18) 90%, transparent 100%);
         }
@@ -527,7 +529,11 @@
     const audioCache = new Map();
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
-    const MOTIVATION_IMAGES = ['images/motivation-1.jpg'];
+    const MOTIVATION_IMAGES = [
+        { src: 'images/motivation-1.jpg', softEdge: true },
+        { src: 'images/motivation-2.png', softEdge: false },
+        { src: 'images/motivation-3.png', softEdge: false }
+    ];
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
@@ -540,7 +546,8 @@
         if (!overlay || !image) return;
 
         const randomImage = MOTIVATION_IMAGES[Math.floor(Math.random() * MOTIVATION_IMAGES.length)];
-        image.src = randomImage;
+        image.src = randomImage.src;
+        image.classList.toggle('is-soft-edge', Boolean(randomImage.softEdge));
 
         overlay.addEventListener('click', () => {
             overlay.classList.add('is-hidden');
