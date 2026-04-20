@@ -338,6 +338,65 @@
             transform: scale(1.1);
             opacity: 0.8;
         }
+        .motivation-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 20px 120px;
+            background: radial-gradient(circle at center, rgba(8, 12, 18, 0.12), rgba(8, 12, 18, 0.44));
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .motivation-overlay.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .motivation-image-wrap {
+            position: relative;
+            width: min(86vw, 520px);
+            max-height: min(72vh, 860px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.45));
+        }
+        .motivation-image {
+            width: 100%;
+            height: auto;
+            max-height: inherit;
+            object-fit: contain;
+            display: block;
+            -webkit-mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.68) 76%, rgba(0, 0, 0, 0.18) 90%, transparent 100%);
+            mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1) 58%, rgba(0, 0, 0, 0.68) 76%, rgba(0, 0, 0, 0.18) 90%, transparent 100%);
+        }
+        .motivation-dismiss {
+            position: fixed;
+            left: 50%;
+            bottom: max(22px, env(safe-area-inset-bottom));
+            transform: translateX(-50%);
+            z-index: 121;
+            min-width: 96px;
+            min-height: 56px;
+            padding: 10px 26px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 238, 193, 0.72);
+            background: linear-gradient(180deg, rgba(117, 13, 13, 0.94), rgba(74, 8, 8, 0.94));
+            color: #f6deb0;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+            font-family: "STKaiti", "KaiTi", "Songti SC", cursive;
+            font-size: 2rem;
+            line-height: 1;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 14px rgba(255, 224, 160, 0.35);
+        }
+        .motivation-dismiss:hover {
+            background: linear-gradient(180deg, rgba(136, 20, 20, 0.96), rgba(92, 12, 12, 0.96));
+        }
         @media (max-width: 900px) {
             body {
                 padding: 12px;
@@ -400,10 +459,28 @@
             footer {
                 padding-bottom: 2px;
             }
+            .motivation-overlay {
+                padding: 18px 14px 108px;
+            }
+            .motivation-image-wrap {
+                width: min(92vw, 460px);
+                max-height: min(68vh, 760px);
+            }
+            .motivation-dismiss {
+                min-width: 88px;
+                min-height: 52px;
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="motivationOverlay" class="motivation-overlay">
+        <div class="motivation-image-wrap">
+            <img id="motivationImage" class="motivation-image" alt="大华舅舅鼓励图">
+        </div>
+        <button id="motivationDismissBtn" class="motivation-dismiss" type="button">行</button>
+    </div>
     <!-- 竖屏提示层 -->
     <div class="rotate-message">
         <div class="rotate-icon">↻</div>
@@ -478,10 +555,28 @@
     const audioCache = new Map();
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
+    const MOTIVATION_IMAGES = [
+        'images/motivation-1.jpg',
+        'images/motivation-2.jpg'
+    ];
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
         return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function initMotivationOverlay() {
+        const overlay = document.getElementById('motivationOverlay');
+        const image = document.getElementById('motivationImage');
+        const dismissBtn = document.getElementById('motivationDismissBtn');
+        if (!overlay || !image || !dismissBtn) return;
+
+        const randomImage = MOTIVATION_IMAGES[Math.floor(Math.random() * MOTIVATION_IMAGES.length)];
+        image.src = randomImage;
+
+        dismissBtn.addEventListener('click', () => {
+            overlay.classList.add('is-hidden');
+        });
     }
 
     function getWordKey(item) {
@@ -1007,6 +1102,7 @@
     }
 
     async function initApp() {
+        initMotivationOverlay();
         const stored = getStoredState();
         currentLevel = CONFIG_FILES[stored.currentLevel] ? stored.currentLevel : 'primary';
         renderToolbar();
