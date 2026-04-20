@@ -436,6 +436,7 @@
                 <button id="showAllBtn" class="secondary-btn">🌐 显示全部</button>
             </div>
             <div class="footer-right">
+                <button id="saveStateBottomBtn" class="primary-btn">💾 保存当前状态</button>
                 <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
             </div>
         </div>
@@ -955,6 +956,7 @@
         });
 
         document.getElementById('saveStateBtn').addEventListener('click', saveToStorage);
+        document.getElementById('saveStateBottomBtn').addEventListener('click', saveToStorage);
         document.getElementById('loadPrimaryBtn').addEventListener('click', async () => {
             await loadRemoteConfig('primary');
             showOnlyDifficult = false;
