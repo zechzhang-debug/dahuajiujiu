@@ -374,19 +374,6 @@
             object-fit: contain;
             display: block;
         }
-        .motivation-image.is-gold {
-            filter:
-                brightness(0)
-                saturate(100%)
-                invert(78%)
-                sepia(43%)
-                saturate(1046%)
-                hue-rotate(358deg)
-                brightness(104%)
-                contrast(102%)
-                drop-shadow(0 0 18px rgba(255, 216, 128, 0.26))
-                drop-shadow(0 0 36px rgba(255, 201, 79, 0.18));
-        }
         @media (max-width: 900px) {
             body {
                 padding: 12px;
@@ -540,9 +527,9 @@
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
     const MOTIVATION_IMAGES = [
-        { src: 'images/motivation-2.png', gold: true },
-        { src: 'images/motivation-3.png', gold: true },
-        { src: 'images/motivation-4.png', gold: true }
+        { src: 'images/motivation-2.png' },
+        { src: 'images/motivation-3.png' },
+        { src: 'images/motivation-4.png' }
     ];
 
     function escapeHtml(unsafe) {
@@ -557,7 +544,6 @@
 
         const randomImage = MOTIVATION_IMAGES[Math.floor(Math.random() * MOTIVATION_IMAGES.length)];
         image.src = randomImage.src;
-        image.classList.toggle('is-gold', Boolean(randomImage.gold));
 
         overlay.addEventListener('click', () => {
             overlay.classList.add('is-hidden');
