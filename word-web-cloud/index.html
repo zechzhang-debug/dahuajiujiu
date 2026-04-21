@@ -420,9 +420,11 @@
     let allWords = DEFAULT_WORDS.map(w => ({ ...w, status: w.status || '' }));
     let showOnlyDifficult = false;
     let hideMastered = false;
+    let shuffleMode = false;
     let currentLevel = 'primary';
     let currentAudio = null;
     let preloadTimer = null;
+    let shuffleState = null;
     const audioCache = new Map();
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
@@ -607,6 +609,46 @@
         scheduleAudioPreload(words, currentLevel);
     }
 
+    function shuffleArray(items) {
+        const copy = items.slice();
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    }
+
+    function buildDisplayedWords() {
+        const displayedWords = [];
+        allWords.forEach((item, index) => {
+            if (showOnlyDifficult && item.status !== 'difficult') return;
+            if (hideMastered && item.status === 'mastered') return;
+            displayedWords.push({ item, index });
+        });
+
+        if (!shuffleMode) {
+            shuffleState = null;
+            return displayedWords;
+        }
+
+        const sourceIndexes = displayedWords.map(({ index }) => index);
+        const isReusable = shuffleState &&
+            shuffleState.sourceIndexes.length === sourceIndexes.length &&
+            shuffleState.sourceIndexes.every((value, idx) => value === sourceIndexes[idx]);
+
+        if (!isReusable) {
+            shuffleState = {
+                sourceIndexes,
+                orderedIndexes: shuffleArray(sourceIndexes)
+            };
+        }
+
+        const itemMap = new Map(displayedWords.map(entry => [entry.index, entry]));
+        return shuffleState.orderedIndexes
+            .map(index => itemMap.get(index))
+            .filter(Boolean);
+    }
+
     function renderToolbar() {
         const container = document.getElementById('toolbar-container');
         container.innerHTML = '';
@@ -617,6 +659,10 @@
             const label = document.createElement('label'); label.htmlFor = `col_${idx}`; label.textContent = col.label;
             item.appendChild(checkbox); item.appendChild(label); togglesDiv.appendChild(item);
         });
+        const shuffleItem = document.createElement('div'); shuffleItem.className = 'toggle-item';
+        const shuffleCheckbox = document.createElement('input'); shuffleCheckbox.type = 'checkbox'; shuffleCheckbox.id = 'shuffleToggle'; shuffleCheckbox.checked = shuffleMode;
+        const shuffleLabel = document.createElement('label'); shuffleLabel.htmlFor = 'shuffleToggle'; shuffleLabel.textContent = '乱序';
+        shuffleItem.appendChild(shuffleCheckbox); shuffleItem.appendChild(shuffleLabel); togglesDiv.appendChild(shuffleItem);
         const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
         container.appendChild(togglesDiv); container.appendChild(hintSpan);
     }
@@ -628,12 +674,7 @@
         const defCheckbox = document.querySelector('.col-toggle[data-colindex="3"]');
         const isDefNormal = defCheckbox ? defCheckbox.checked : true;
 
-        const displayedWords = [];
-        allWords.forEach((item, index) => {
-            if (showOnlyDifficult && item.status !== 'difficult') return;
-            if (hideMastered && item.status === 'mastered') return;
-            displayedWords.push({ item, index });
-        });
+        const displayedWords = buildDisplayedWords();
 
         const table = document.createElement('table'); table.id = 'word-table';
         const thead = document.createElement('thead'); const headerRow = document.createElement('tr');
@@ -879,6 +920,7 @@
                     allWords = words; 
                     showOnlyDifficult = false; 
                     hideMastered = false; 
+                    shuffleState = null;
                     renderTable(); 
                 }
                 else alert('未解析到任何单词，请检查格式。');
@@ -927,6 +969,12 @@
             showOnlyDifficult = false; 
             hideMastered = false; 
             renderTable(); 
+        });
+
+        document.getElementById('shuffleToggle').addEventListener('change', (e) => {
+            shuffleMode = e.target.checked;
+            shuffleState = null;
+            renderTable();
         });
 
         document.getElementById('exportDifficultBtn').addEventListener('click', () => {
