@@ -211,6 +211,10 @@
             font-size: 0.9rem;
             border-left: 2px solid #a0c0d4;
             padding-left: 18px;
+            transition: max-height 0.18s ease, opacity 0.18s ease, margin 0.18s ease, padding 0.18s ease, border-color 0.18s ease;
+            max-height: 72px;
+            opacity: 1;
+            overflow: hidden;
         }
         /* 表格容器（仅用于水平滚动） */
         .table-wrapper {
@@ -347,6 +351,76 @@
         .speak-btn:hover {
             transform: scale(1.1);
             opacity: 0.8;
+        }
+        @media (max-width: 900px) {
+            .toolbar {
+                gap: 12px;
+                padding: 14px 16px;
+            }
+            .toolbar.is-compact .hint {
+                max-height: 0;
+                opacity: 0;
+                margin: 0;
+                padding: 0;
+                border-left-color: transparent;
+            }
+            .col-toggles {
+                gap: 10px;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                width: 100%;
+                padding-bottom: 2px;
+                scrollbar-width: none;
+            }
+            .col-toggles::-webkit-scrollbar {
+                display: none;
+            }
+            .toggle-item {
+                flex: 0 0 auto;
+                padding: 6px 12px 6px 10px;
+            }
+            .table-wrapper {
+                overflow-x: auto;
+            }
+            table {
+                table-layout: fixed;
+                min-width: 780px;
+            }
+            th:nth-child(2), td:nth-child(2) {
+                width: 110px;
+            }
+            th:nth-child(3), td:nth-child(3) {
+                width: 70px;
+            }
+            th:nth-child(5), td:nth-child(5) {
+                width: 320px;
+                max-width: 320px;
+            }
+            .action-cell {
+                width: 132px;
+            }
+            .footer-bar {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: 10px;
+                overflow-x: auto;
+                padding: 8px 0 6px;
+                scrollbar-width: none;
+            }
+            .footer-bar::-webkit-scrollbar {
+                display: none;
+            }
+            .footer-left, .footer-right {
+                flex-wrap: nowrap;
+                gap: 10px;
+                flex: 0 0 auto;
+            }
+            .footer-bar button {
+                flex: 0 0 auto;
+                white-space: nowrap;
+                padding: 8px 14px;
+                font-size: 0.82rem;
+            }
         }
     </style>
 </head>
@@ -667,6 +741,21 @@
         container.appendChild(togglesDiv); container.appendChild(hintSpan);
     }
 
+    function syncToolbarHintVisibility() {
+        const toolbar = document.getElementById('toolbar-container');
+        const tableContainer = document.getElementById('table-container');
+        if (!toolbar || !tableContainer) return;
+
+        if (window.innerWidth > 900) {
+            toolbar.classList.remove('is-compact');
+            return;
+        }
+
+        const tableTop = tableContainer.getBoundingClientRect().top;
+        const shouldCompact = tableTop <= toolbar.offsetHeight + 16;
+        toolbar.classList.toggle('is-compact', shouldCompact);
+    }
+
     function renderTable() {
         const container = document.getElementById('table-container');
         container.innerHTML = '';
@@ -694,7 +783,7 @@
             row.appendChild(wordCell);
 
             const phoneticCell = document.createElement('td');
-            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ ${createSpeakButton(item.word, 'word', item.word)}`;
+            phoneticCell.textContent = `/${item.phonetic || ''}/`;
             phoneticCell.classList.add('phonetic');
             row.appendChild(phoneticCell);
 
@@ -726,6 +815,7 @@
 
         updateColumnVisibility();
         scheduleAudioPreload(displayedWords.slice(0, 24).map(({ item }) => item.word), currentLevel);
+        syncToolbarHintVisibility();
     }
 
     function updateColumnVisibility() {
@@ -1006,6 +1096,10 @@
                 }
             });
         });
+
+        window.addEventListener('scroll', syncToolbarHintVisibility, { passive: true });
+        window.addEventListener('resize', syncToolbarHintVisibility, { passive: true });
+        syncToolbarHintVisibility();
     }
 
     initApp();
