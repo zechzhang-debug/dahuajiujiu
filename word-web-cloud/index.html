@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>大华舅舅教英语 · 全页滚动版</title>
     <style>
         /* ===== 基础重置 ===== */
@@ -353,9 +353,44 @@
             opacity: 0.8;
         }
         @media (max-width: 900px) {
+            body {
+                padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+            }
+            .card {
+                max-width: none;
+                width: 100%;
+                border-radius: 20px;
+                padding: 16px 10px 12px;
+            }
+            h1 {
+                font-size: 1.55rem;
+                gap: 6px;
+                margin-bottom: 8px;
+            }
+            h1 span {
+                font-size: 0.86rem;
+                padding: 4px 10px;
+            }
+            .top-bar {
+                gap: 10px;
+                padding: 10px 12px;
+                margin: 10px 0 14px 0;
+                border-radius: 18px;
+            }
+            .file-upload {
+                padding: 4px 10px 4px 8px;
+            }
+            button {
+                font-size: 0.82rem;
+                padding: 7px 12px;
+                gap: 4px;
+            }
             .toolbar {
-                gap: 12px;
-                padding: 14px 16px;
+                top: 6px;
+                gap: 10px;
+                padding: 12px 10px;
+                margin: 0 0 14px 0;
+                border-radius: 18px;
             }
             .toolbar.is-compact .hint {
                 max-height: 0;
@@ -365,7 +400,7 @@
                 border-left-color: transparent;
             }
             .col-toggles {
-                gap: 10px;
+                gap: 8px;
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 width: 100%;
@@ -377,34 +412,53 @@
             }
             .toggle-item {
                 flex: 0 0 auto;
-                padding: 6px 12px 6px 10px;
+                padding: 5px 10px 5px 8px;
+            }
+            .toggle-item input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
+            .toggle-item label {
+                font-size: 0.82rem;
             }
             .table-wrapper {
                 overflow-x: auto;
+                border-radius: 16px;
             }
             table {
                 table-layout: fixed;
-                min-width: 780px;
+                min-width: 690px;
+                font-size: 0.86rem;
+            }
+            th, td {
+                padding: 10px 8px;
+            }
+            th:nth-child(1), td:nth-child(1) {
+                width: 92px;
             }
             th:nth-child(2), td:nth-child(2) {
-                width: 110px;
+                width: 96px;
             }
             th:nth-child(3), td:nth-child(3) {
-                width: 70px;
+                width: 56px;
+            }
+            th:nth-child(4), td:nth-child(4) {
+                width: 126px;
             }
             th:nth-child(5), td:nth-child(5) {
-                width: 320px;
-                max-width: 320px;
+                width: 250px;
+                max-width: 250px;
             }
             .action-cell {
-                width: 132px;
+                width: 116px;
             }
             .footer-bar {
                 flex-wrap: nowrap;
                 justify-content: flex-start;
-                gap: 10px;
+                gap: 8px;
                 overflow-x: auto;
-                padding: 8px 0 6px;
+                padding: 8px 0 4px;
+                bottom: 6px;
                 scrollbar-width: none;
             }
             .footer-bar::-webkit-scrollbar {
@@ -412,14 +466,17 @@
             }
             .footer-left, .footer-right {
                 flex-wrap: nowrap;
-                gap: 10px;
+                gap: 8px;
                 flex: 0 0 auto;
             }
             .footer-bar button {
                 flex: 0 0 auto;
                 white-space: nowrap;
-                padding: 8px 14px;
-                font-size: 0.82rem;
+                padding: 7px 12px;
+                font-size: 0.78rem;
+            }
+            footer {
+                padding-bottom: 2px;
             }
         }
     </style>
