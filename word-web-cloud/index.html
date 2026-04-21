@@ -800,16 +800,14 @@
 
     function syncToolbarHintVisibility() {
         const toolbar = document.getElementById('toolbar-container');
-        const tableContainer = document.getElementById('table-container');
-        if (!toolbar || !tableContainer) return;
+        if (!toolbar) return;
 
         if (window.innerWidth > 900) {
             toolbar.classList.remove('is-compact');
             return;
         }
 
-        const tableTop = tableContainer.getBoundingClientRect().top;
-        const shouldCompact = tableTop <= toolbar.offsetHeight + 16;
+        const shouldCompact = window.scrollY > 12;
         toolbar.classList.toggle('is-compact', shouldCompact);
     }
 
