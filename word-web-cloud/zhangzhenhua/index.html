@@ -49,7 +49,7 @@
       .warn { background: #a42020; color: #fff; }
       .message { min-height: 24px; margin-top: 10px; font-family: "PingFang SC", sans-serif; }
 
-      .ai-panel {
+      .sync-panel {
         margin-top: 10px;
         padding: 10px;
         border-radius: 12px;
@@ -131,15 +131,6 @@
     </style>
   </head>
   <body>
-    <script>
-      (function passwordGate() {
-        const expected = "190828";
-        const input = window.prompt("请输入访问密码");
-        if (input !== expected) {
-          document.documentElement.innerHTML = "<head><meta charset='UTF-8'><title>访问受限</title></head><body style='font-family:PingFang SC,sans-serif;padding:24px;'>密码错误，无法访问此页面。</body>";
-        }
-      })();
-    </script>
     <main class="page">
       <div class="brand">大华舅舅的日历</div>
       <p class="subtitle">你说一句，我帮你存进这个网页日历（本地保存）</p>
@@ -151,28 +142,28 @@
         <div class="actions">
           <button class="primary" id="saveBtn">添加到网页日历</button>
           <button class="ghost" id="micBtn">开始语音输入</button>
-          <button class="ghost" id="exportBtn">导出 .ics（可选）</button>
+          <button class="ghost" id="syncBtn">保存到 GitHub</button>
           <button class="ghost" id="clearBtn">清空输入</button>
           <button class="ghost" id="wipeBtn">清空全部提醒</button>
         </div>
 
-        <div class="ai-panel">
-          <div class="ai-title">智能解析增强（可选）</div>
-          <div class="ai-inline">
-            <input type="checkbox" id="aiEnabled" />
-            <label for="aiEnabled">启用 AI 解析兜底（规则解析失败时调用）</label>
+        <div class="sync-panel">
+          <div class="ai-title">GitHub 同步设置</div>
+          <div class="ai-row">
+            <label for="ghRepo">仓库</label>
+            <input id="ghRepo" placeholder="zechzhang-debug/dahuajiujiu" />
           </div>
           <div class="ai-row">
-            <label for="apiBase">API Base</label>
-            <input id="apiBase" placeholder="https://openrouter.ai/api/v1" />
+            <label for="ghBranch">分支</label>
+            <input id="ghBranch" placeholder="main" />
           </div>
           <div class="ai-row">
-            <label for="apiModel">模型名</label>
-            <input id="apiModel" placeholder="qwen/qwen-2.5-7b-instruct:free" />
+            <label for="ghPath">文件路径</label>
+            <input id="ghPath" placeholder="data/dahua-calendar-reminders.json" />
           </div>
           <div class="ai-row">
-            <label for="apiKey">API Key</label>
-            <input id="apiKey" type="password" placeholder="填入兼容 OpenAI 的 Key" />
+            <label for="ghToken">GitHub Token</label>
+            <input id="ghToken" type="password" placeholder="填入有 repo 权限的 token" />
           </div>
         </div>
 
@@ -202,12 +193,12 @@
 
     <script>
       const STORAGE_KEY = "dahua.daily.reminders.v2";
-      const CFG_KEY = "dahua.ai.config.v1";
+      const GITHUB_CFG_KEY = "dahua.github.sync.v1";
 
       const inputEl = document.getElementById("input");
       const saveBtn = document.getElementById("saveBtn");
       const micBtn = document.getElementById("micBtn");
-      const exportBtn = document.getElementById("exportBtn");
+      const syncBtn = document.getElementById("syncBtn");
       const clearBtn = document.getElementById("clearBtn");
       const wipeBtn = document.getElementById("wipeBtn");
       const messageEl = document.getElementById("message");
@@ -218,10 +209,10 @@
       const prevMonthBtn = document.getElementById("prevMonth");
       const nextMonthBtn = document.getElementById("nextMonth");
 
-      const aiEnabledEl = document.getElementById("aiEnabled");
-      const apiBaseEl = document.getElementById("apiBase");
-      const apiModelEl = document.getElementById("apiModel");
-      const apiKeyEl = document.getElementById("apiKey");
+      const ghRepoEl = document.getElementById("ghRepo");
+      const ghBranchEl = document.getElementById("ghBranch");
+      const ghPathEl = document.getElementById("ghPath");
+      const ghTokenEl = document.getElementById("ghToken");
 
       let recognition = null;
       let listening = false;
@@ -348,69 +339,9 @@
         };
       }
 
-      async function parseReminderAI(raw) {
-        const cfg = loadAIConfig();
-        if (!cfg.enabled || !cfg.apiKey || !cfg.apiBase || !cfg.model) return null;
-
-        const base = cfg.apiBase.replace(/\/$/, "");
-        const endpoint = `${base}/chat/completions`;
-        const system = "你是中文日程解析器。输出严格JSON，字段：title(string),hour(0-23),minute(0-59),repeat('once'|'daily'|'weekly'),date('YYYY-MM-DD'|null),weekdays(number[],周日=0周一=1),confidence(0-1)。禁止输出额外文本。";
-        const user = `请解析这句话: ${raw}`;
-
-        const resp = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${cfg.apiKey}`
-          },
-          body: JSON.stringify({
-            model: cfg.model,
-            temperature: 0.1,
-            messages: [
-              { role: "system", content: system },
-              { role: "user", content: user }
-            ],
-            response_format: { type: "json_object" }
-          })
-        });
-
-        if (!resp.ok) {
-          throw new Error(`AI接口返回 ${resp.status}`);
-        }
-
-        const data = await resp.json();
-        const content = data?.choices?.[0]?.message?.content;
-        if (!content) return null;
-
-        const obj = JSON.parse(content);
-        const parsed = {
-          title: String(obj.title || "每日提醒").trim() || "每日提醒",
-          hour: Math.max(0, Math.min(23, Number(obj.hour ?? 9))),
-          minute: Math.max(0, Math.min(59, Number(obj.minute ?? 0))),
-          repeat: obj.repeat === "weekly" ? "weekly" : obj.repeat === "daily" ? "daily" : "once",
-          date: typeof obj.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(obj.date) ? obj.date : null,
-          weekdays: Array.isArray(obj.weekdays)
-            ? [...new Set(obj.weekdays.map((n) => Number(n)).filter((n) => n >= 0 && n <= 6))]
-            : [],
-          confidence: Number(obj.confidence ?? 0.65)
-        };
-        return parsed;
-      }
-
       async function parseReminderSmart(raw) {
         const rule = parseReminderRule(raw);
-        if (!rule) return null;
-
-        const shouldTryAI = rule.confidence < 0.75 || raw.length > 18 || /改成|不要|除了|每隔|隔天/.test(raw);
-        if (!shouldTryAI) return rule;
-
-        try {
-          const ai = await parseReminderAI(raw);
-          if (ai && ai.confidence >= 0.55) return ai;
-          return rule;
-        } catch {
-          return rule;
-        }
+        return rule || null;
       }
 
       function splitIntoTaskChunks(text) {
@@ -448,40 +379,39 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(reminders));
       }
 
-      function loadAIConfig() {
+      function loadGithubConfig() {
         try {
-          const raw = localStorage.getItem(CFG_KEY);
+          const raw = localStorage.getItem(GITHUB_CFG_KEY);
           const cfg = raw ? JSON.parse(raw) : {};
           return {
-            enabled: Boolean(cfg.enabled),
-            apiBase: cfg.apiBase || "https://openrouter.ai/api/v1",
-            model: cfg.model || "qwen/qwen-2.5-7b-instruct:free",
-            apiKey: cfg.apiKey || ""
+            repo: cfg.repo || "zechzhang-debug/dahuajiujiu",
+            branch: cfg.branch || "main",
+            path: cfg.path || "data/dahua-calendar-reminders.json",
+            token: cfg.token || ""
           };
         } catch {
-          return { enabled: false, apiBase: "https://openrouter.ai/api/v1", model: "qwen/qwen-2.5-7b-instruct:free", apiKey: "" };
+          return { repo: "zechzhang-debug/dahuajiujiu", branch: "main", path: "data/dahua-calendar-reminders.json", token: "" };
         }
       }
 
-      function saveAIConfig() {
-        localStorage.setItem(CFG_KEY, JSON.stringify({
-          enabled: aiEnabledEl.checked,
-          apiBase: apiBaseEl.value.trim(),
-          model: apiModelEl.value.trim(),
-          apiKey: apiKeyEl.value.trim()
+      function saveGithubConfig() {
+        localStorage.setItem(GITHUB_CFG_KEY, JSON.stringify({
+          repo: ghRepoEl.value.trim(),
+          branch: ghBranchEl.value.trim(),
+          path: ghPathEl.value.trim(),
+          token: ghTokenEl.value.trim()
         }));
       }
 
-      function initAIConfigUI() {
-        const cfg = loadAIConfig();
-        aiEnabledEl.checked = cfg.enabled;
-        apiBaseEl.value = cfg.apiBase;
-        apiModelEl.value = cfg.model;
-        apiKeyEl.value = cfg.apiKey;
-
-        [aiEnabledEl, apiBaseEl, apiModelEl, apiKeyEl].forEach((el) => {
-          el.addEventListener("change", saveAIConfig);
-          el.addEventListener("input", saveAIConfig);
+      function initGithubConfigUI() {
+        const cfg = loadGithubConfig();
+        ghRepoEl.value = cfg.repo;
+        ghBranchEl.value = cfg.branch;
+        ghPathEl.value = cfg.path;
+        ghTokenEl.value = cfg.token;
+        [ghRepoEl, ghBranchEl, ghPathEl, ghTokenEl].forEach((el) => {
+          el.addEventListener("change", saveGithubConfig);
+          el.addEventListener("input", saveGithubConfig);
         });
       }
 
@@ -689,6 +619,51 @@
         document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
       }
 
+      async function syncToGithub() {
+        const cfg = loadGithubConfig();
+        if (!cfg.repo || !cfg.branch || !cfg.path || !cfg.token) {
+          setMessage("请先填写 GitHub 仓库、分支、路径和 Token。", true);
+          return false;
+        }
+
+        const api = `https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}`;
+        const payloadObj = {
+          updatedAt: new Date().toISOString(),
+          reminders
+        };
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(payloadObj, null, 2))));
+        let sha = undefined;
+
+        const existing = await fetch(`${api}?ref=${encodeURIComponent(cfg.branch)}`, {
+          headers: { Authorization: `Bearer ${cfg.token}` }
+        });
+        if (existing.ok) {
+          const ex = await existing.json();
+          sha = ex.sha;
+        } else if (existing.status !== 404) {
+          throw new Error(`读取远端文件失败(${existing.status})`);
+        }
+
+        const resp = await fetch(api, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${cfg.token}`
+          },
+          body: JSON.stringify({
+            message: `chore: sync reminders at ${new Date().toLocaleString()}`,
+            content,
+            branch: cfg.branch,
+            sha
+          })
+        });
+
+        if (!resp.ok) {
+          throw new Error(`同步失败(${resp.status})`);
+        }
+        return true;
+      }
+
       function canUseSpeech() { return "webkitSpeechRecognition" in window || "SpeechRecognition" in window; }
       function setupSpeech() {
         if (!canUseSpeech()) {
@@ -748,13 +723,18 @@
         }
       });
 
-      exportBtn.addEventListener("click", async () => {
-        const content = inputEl.value.trim();
-        if (!content) return setMessage("先输入提醒内容再导出。", true);
-        const parsedList = await parseMultipleReminders(content);
-        if (!parsedList.length) return setMessage("解析失败，无法导出。", true);
-        downloadICS(parsedList[0]);
-        setMessage(`已导出第1条 .ics（本次共解析到 ${parsedList.length} 条）。`, false);
+      syncBtn.addEventListener("click", async () => {
+        syncBtn.disabled = true;
+        syncBtn.textContent = "同步中...";
+        try {
+          const ok = await syncToGithub();
+          if (ok) setMessage("已保存并同步到 GitHub。");
+        } catch (e) {
+          setMessage(`GitHub 同步失败：${e.message}`, true);
+        } finally {
+          syncBtn.disabled = false;
+          syncBtn.textContent = "保存到 GitHub";
+        }
       });
 
       micBtn.addEventListener("click", () => {
@@ -774,10 +754,18 @@
       prevMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
       nextMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
 
-      initAIConfigUI();
+      initGithubConfigUI();
       setupSpeech();
       renderItems();
       renderCalendar();
+      setInterval(async () => {
+        try {
+          await syncToGithub();
+          setMessage("已自动同步到 GitHub（每5分钟）。");
+        } catch {
+          // 自动同步失败时不打断使用
+        }
+      }, 5 * 60 * 1000);
     </script>
   </body>
 </html>
