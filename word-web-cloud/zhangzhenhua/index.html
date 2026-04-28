@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>大华舅舅的日历</title>
+    <style>
+      :root {
+        --bg: #f6f3ea;
+        --ink: #1f2a1f;
+        --muted: #5b6657;
+        --accent: #0f7a57;
+        --accent-2: #0c4f74;
+        --line: #d8d2c2;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "STKaiti", "Kaiti SC", "PingFang SC", serif;
+        background:
+          radial-gradient(circle at 20% 10%, #ece4d2 0%, transparent 40%),
+          radial-gradient(circle at 80% 90%, #d8eadf 0%, transparent 35%),
+          var(--bg);
+        min-height: 100vh;
+      }
+      .page { width: min(1060px, 94vw); margin: 0 auto; padding: 28px 0 42px; }
+      .brand { font-size: clamp(34px, 5vw, 56px); line-height: 1; margin-bottom: 8px; }
+      .subtitle { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
+      .workspace {
+        background: linear-gradient(165deg, rgba(255, 253, 247, 0.88), rgba(255, 251, 241, 0.95));
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 18px;
+      }
+      .hint { margin: 0 0 12px; color: var(--muted); }
+      textarea {
+        width: 100%; min-height: 88px; border-radius: 14px; border: 1px solid #c8c0ab;
+        padding: 14px; resize: vertical; font-size: 18px; font-family: "PingFang SC", sans-serif; background: #fff;
+      }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+      button {
+        border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer; font-size: 15px;
+        transition: transform 180ms ease, opacity 180ms ease;
+      }
+      button:active { transform: translateY(1px) scale(0.99); }
+      .primary { background: linear-gradient(110deg, var(--accent), var(--accent-2)); color: #fff; }
+      .ghost { background: transparent; border: 1px solid #a8b6ac; color: #294337; }
+      .warn { background: #a42020; color: #fff; }
+      .message { min-height: 24px; margin-top: 10px; font-family: "PingFang SC", sans-serif; }
+
+      .ai-panel {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px dashed #c8c0ab;
+        font-family: "PingFang SC", sans-serif;
+      }
+      .ai-title { font-size: 13px; color: #355041; margin-bottom: 8px; }
+      .ai-row { display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px; align-items: center; }
+      .ai-row label { font-size: 13px; color: #5b6657; }
+      .ai-row input {
+        width: 100%; border: 1px solid #c8c0ab; border-radius: 8px; padding: 7px 10px; font-size: 13px;
+      }
+      .ai-inline { display: flex; gap: 8px; align-items: center; font-size: 13px; color: #355041; }
+
+      .layout { margin-top: 18px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; }
+      .panel { border: 1px solid var(--line); border-radius: 16px; padding: 12px; background: rgba(255, 255, 255, 0.72); }
+      .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .cal-title { font-size: 20px; }
+      .mini-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid #bfc9bf; background: #fff; }
+      .week, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+      .week div { text-align: center; color: var(--muted); font-size: 12px; }
+      .day {
+        min-height: 80px; border: 1px solid #d9d5c9; border-radius: 10px; background: #fff;
+        padding: 6px; display: flex; flex-direction: column; gap: 4px;
+        cursor: pointer;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+      .day:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+      .day.muted { opacity: 0.4; cursor: default; }
+      .day.today { outline: 2px solid #0f7a57; }
+      .day.selected { box-shadow: inset 0 0 0 2px #0c4f74; }
+      .day-head { display: flex; justify-content: space-between; align-items: center; }
+      .dnum { font-size: 12px; font-family: "PingFang SC", sans-serif; }
+      .count-pill {
+        font-size: 11px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        color: #2c3d31;
+        background: rgba(255,255,255,0.6);
+      }
+      .preview-list { display: grid; gap: 2px; }
+      .preview-item {
+        font-size: 11px;
+        line-height: 1.2;
+        font-family: "PingFang SC", sans-serif;
+        color: #2a3a30;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .list-title { margin: 0 0 8px; font-size: 16px; }
+      .item { border-bottom: 1px dashed #d8d2c2; padding: 8px 0; font-family: "PingFang SC", sans-serif; display: flex; justify-content: space-between; gap: 8px; }
+      .item:last-child { border-bottom: none; }
+      .empty { color: var(--muted); font-family: "PingFang SC", sans-serif; }
+      .small-btn {
+        border: 1px solid #ccbfbf;
+        color: #8d2d2d;
+        background: #fff;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .legend { margin-top: 8px; font-size: 12px; color: #5b6657; font-family: "PingFang SC", sans-serif; }
+
+      @media (max-width: 880px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 700px) {
+        .ai-row { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 640px) {
+        .workspace { border-radius: 18px; padding: 14px; }
+        textarea { font-size: 16px; }
+        button { width: 100%; }
+        .mini-btn { width: auto; }
+        .small-btn { width: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      (function passwordGate() {
+        const expected = "190828";
+        const input = window.prompt("请输入访问密码");
+        if (input !== expected) {
+          document.documentElement.innerHTML = "<head><meta charset='UTF-8'><title>访问受限</title></head><body style='font-family:PingFang SC,sans-serif;padding:24px;'>密码错误，无法访问此页面。</body>";
+        }
+      })();
+    </script>
+    <main class="page">
+      <div class="brand">大华舅舅的日历</div>
+      <p class="subtitle">你说一句，我帮你存进这个网页日历（本地保存）</p>
+
+      <section class="workspace">
+        <p class="hint">示例：每天早上8点喝水 / 每天 20:30 跑步 / 每天晚上10点读书 / 周一到周五早上7点晨跑</p>
+        <textarea id="input" placeholder="请输入或点语音按钮，例如：每天早上8点喝水"></textarea>
+
+        <div class="actions">
+          <button class="primary" id="saveBtn">添加到网页日历</button>
+          <button class="ghost" id="micBtn">开始语音输入</button>
+          <button class="ghost" id="exportBtn">导出 .ics（可选）</button>
+          <button class="ghost" id="clearBtn">清空输入</button>
+          <button class="ghost" id="wipeBtn">清空全部提醒</button>
+        </div>
+
+        <div class="ai-panel">
+          <div class="ai-title">智能解析增强（可选）</div>
+          <div class="ai-inline">
+            <input type="checkbox" id="aiEnabled" />
+            <label for="aiEnabled">启用 AI 解析兜底（规则解析失败时调用）</label>
+          </div>
+          <div class="ai-row">
+            <label for="apiBase">API Base</label>
+            <input id="apiBase" placeholder="https://openrouter.ai/api/v1" />
+          </div>
+          <div class="ai-row">
+            <label for="apiModel">模型名</label>
+            <input id="apiModel" placeholder="qwen/qwen-2.5-7b-instruct:free" />
+          </div>
+          <div class="ai-row">
+            <label for="apiKey">API Key</label>
+            <input id="apiKey" type="password" placeholder="填入兼容 OpenAI 的 Key" />
+          </div>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="layout">
+          <section class="panel">
+            <div class="cal-head">
+              <button class="mini-btn" id="prevMonth">上月</button>
+              <div class="cal-title" id="monthTitle"></div>
+              <button class="mini-btn" id="nextMonth">下月</button>
+            </div>
+            <div class="week">
+              <div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div>
+            </div>
+            <div class="grid" id="calendarGrid"></div>
+            <div class="legend">负载热度：绿（少）→ 黄（中）→ 红（多）</div>
+          </section>
+
+          <section class="panel">
+            <h3 class="list-title" id="detailTitle">每天提醒列表</h3>
+            <div id="items"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "dahua.daily.reminders.v2";
+      const CFG_KEY = "dahua.ai.config.v1";
+
+      const inputEl = document.getElementById("input");
+      const saveBtn = document.getElementById("saveBtn");
+      const micBtn = document.getElementById("micBtn");
+      const exportBtn = document.getElementById("exportBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const wipeBtn = document.getElementById("wipeBtn");
+      const messageEl = document.getElementById("message");
+      const monthTitleEl = document.getElementById("monthTitle");
+      const calendarGridEl = document.getElementById("calendarGrid");
+      const itemsEl = document.getElementById("items");
+      const detailTitleEl = document.getElementById("detailTitle");
+      const prevMonthBtn = document.getElementById("prevMonth");
+      const nextMonthBtn = document.getElementById("nextMonth");
+
+      const aiEnabledEl = document.getElementById("aiEnabled");
+      const apiBaseEl = document.getElementById("apiBase");
+      const apiModelEl = document.getElementById("apiModel");
+      const apiKeyEl = document.getElementById("apiKey");
+
+      let recognition = null;
+      let listening = false;
+      let reminders = loadReminders();
+      let viewDate = new Date();
+      let selectedDate = new Date();
+
+      function containsAny(text, words) { return words.some((w) => text.includes(w)); }
+      function pad(n) { return String(n).padStart(2, "0"); }
+      function isoDate(date) {
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+      }
+      function addDays(date, days) {
+        const d = new Date(date);
+        d.setDate(d.getDate() + days);
+        return d;
+      }
+      function setMessage(text, isError = false) {
+        messageEl.textContent = text;
+        messageEl.style.color = isError ? "#9d1a1a" : "#0f5c3f";
+      }
+
+      function normalizeTime(hour, minute, sourceText) {
+        let h = Math.max(0, Math.min(23, hour));
+        const m = Math.max(0, Math.min(59, minute));
+        const hasPMHint = containsAny(sourceText, ["下午", "晚上", "傍晚", "今晚"]);
+        const hasNoonHint = containsAny(sourceText, ["中午"]);
+        const hasMorningHint = containsAny(sourceText, ["早上", "上午", "清晨"]);
+        const hasMidnightHint = containsAny(sourceText, ["凌晨"]);
+        if (hasPMHint && h < 12) h += 12;
+        if (hasNoonHint && h >= 1 && h <= 10) h += 12;
+        if (hasMorningHint && h === 12) h = 0;
+        if (hasMidnightHint && h === 12) h = 0;
+        if (h === 24) h = 0;
+        return [h, m];
+      }
+
+      function detectWeekdays(text) {
+        if (text.includes("工作日") || text.includes("周一到周五") || text.includes("星期一到星期五")) {
+          return [1, 2, 3, 4, 5];
+        }
+        const map = { "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "日": 0, "天": 0 };
+        const hits = [...text.matchAll(/(?:周|星期)([一二三四五六日天])/g)].map((m) => map[m[1]]).filter((v) => v !== undefined);
+        return [...new Set(hits)];
+      }
+
+      function parseReminderRule(raw) {
+        const text = raw.trim().replaceAll("：", ":");
+        if (!text) return null;
+
+        let hour = 9;
+        let minute = 0;
+        let hasTime = false;
+
+        let match = text.match(/(\d{1,2}):(\d{1,2})/);
+        if (match) {
+          [hour, minute] = normalizeTime(Number(match[1]), Number(match[2]), text);
+          hasTime = true;
+        } else {
+          match = text.match(/(\d{1,2})点半/);
+          if (match) {
+            [hour, minute] = normalizeTime(Number(match[1]), 30, text);
+            hasTime = true;
+          } else {
+            match = text.match(/(\d{1,2})点(\d{1,2})分?/);
+            if (match) {
+              [hour, minute] = normalizeTime(Number(match[1]), Number(match[2]), text);
+              hasTime = true;
+            } else {
+              match = text.match(/(\d{1,2})点/);
+              if (match) {
+                [hour, minute] = normalizeTime(Number(match[1]), 0, text);
+                hasTime = true;
+              }
+            }
+          }
+        }
+
+        const weekdays = detectWeekdays(text);
+        const hasDailyHint = /每天|每日/.test(text);
+
+        let title = text
+          .replace(/每天|每日|工作日|周一到周五|星期一到星期五/g, "")
+          .replace(/今天|今晚|今早|今晨|今上午|今下午|明天|后天|大后天/g, "")
+          .replace(/早上|上午|中午|下午|傍晚|晚上|今晚|凌晨|清晨/g, "")
+          .replace(/\d{1,2}:\d{1,2}/g, "")
+          .replace(/\d{1,2}点半/g, "")
+          .replace(/\d{1,2}点\d{1,2}分?/g, "")
+          .replace(/\d{1,2}点/g, "")
+          .replace(/(?:周|星期)[一二三四五六日天]/g, "")
+          .replace(/提醒我|记得|要|帮我|安排/g, "")
+          .replace(/[，。,.]/g, "")
+          .trim();
+
+        if (!title) title = "每日提醒";
+
+        let repeat = "once";
+        let date = null;
+        if (hasDailyHint) {
+          repeat = "daily";
+        } else if (weekdays.length) {
+          repeat = "weekly";
+        } else {
+          const now = new Date();
+          if (/大后天/.test(text)) date = isoDate(addDays(now, 3));
+          else if (/后天/.test(text)) date = isoDate(addDays(now, 2));
+          else if (/明天/.test(text)) date = isoDate(addDays(now, 1));
+          else if (/今天|今晚|今早|今晨|今上午|今下午/.test(text)) date = isoDate(now);
+          else {
+            const candidate = new Date(now);
+            candidate.setHours(hour, minute, 0, 0);
+            date = isoDate(candidate > now ? now : addDays(now, 1));
+          }
+        }
+
+        return {
+          title,
+          hour,
+          minute,
+          repeat,
+          date,
+          weekdays,
+          confidence: hasTime ? 0.82 : 0.5
+        };
+      }
+
+      async function parseReminderAI(raw) {
+        const cfg = loadAIConfig();
+        if (!cfg.enabled || !cfg.apiKey || !cfg.apiBase || !cfg.model) return null;
+
+        const base = cfg.apiBase.replace(/\/$/, "");
+        const endpoint = `${base}/chat/completions`;
+        const system = "你是中文日程解析器。输出严格JSON，字段：title(string),hour(0-23),minute(0-59),repeat('once'|'daily'|'weekly'),date('YYYY-MM-DD'|null),weekdays(number[],周日=0周一=1),confidence(0-1)。禁止输出额外文本。";
+        const user = `请解析这句话: ${raw}`;
+
+        const resp = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cfg.apiKey}`
+          },
+          body: JSON.stringify({
+            model: cfg.model,
+            temperature: 0.1,
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: user }
+            ],
+            response_format: { type: "json_object" }
+          })
+        });
+
+        if (!resp.ok) {
+          throw new Error(`AI接口返回 ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        const content = data?.choices?.[0]?.message?.content;
+        if (!content) return null;
+
+        const obj = JSON.parse(content);
+        const parsed = {
+          title: String(obj.title || "每日提醒").trim() || "每日提醒",
+          hour: Math.max(0, Math.min(23, Number(obj.hour ?? 9))),
+          minute: Math.max(0, Math.min(59, Number(obj.minute ?? 0))),
+          repeat: obj.repeat === "weekly" ? "weekly" : obj.repeat === "daily" ? "daily" : "once",
+          date: typeof obj.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(obj.date) ? obj.date : null,
+          weekdays: Array.isArray(obj.weekdays)
+            ? [...new Set(obj.weekdays.map((n) => Number(n)).filter((n) => n >= 0 && n <= 6))]
+            : [],
+          confidence: Number(obj.confidence ?? 0.65)
+        };
+        return parsed;
+      }
+
+      async function parseReminderSmart(raw) {
+        const rule = parseReminderRule(raw);
+        if (!rule) return null;
+
+        const shouldTryAI = rule.confidence < 0.75 || raw.length > 18 || /改成|不要|除了|每隔|隔天/.test(raw);
+        if (!shouldTryAI) return rule;
+
+        try {
+          const ai = await parseReminderAI(raw);
+          if (ai && ai.confidence >= 0.55) return ai;
+          return rule;
+        } catch {
+          return rule;
+        }
+      }
+
+      function splitIntoTaskChunks(text) {
+        const normalized = text
+          .replace(/[；;]/g, "，")
+          .replace(/[。!！?？]/g, "，")
+          .replace(/\s+/g, " ")
+          .trim();
+        if (!normalized) return [];
+        return normalized
+          .split(/[，,]/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+
+      async function parseMultipleReminders(raw) {
+        const chunks = splitIntoTaskChunks(raw);
+        const results = [];
+        for (const chunk of chunks) {
+          const parsed = await parseReminderSmart(chunk);
+          if (parsed) results.push(parsed);
+        }
+        return results;
+      }
+
+      function loadReminders() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const list = raw ? JSON.parse(raw) : [];
+          return Array.isArray(list) ? list : [];
+        } catch { return []; }
+      }
+
+      function persistReminders() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reminders));
+      }
+
+      function loadAIConfig() {
+        try {
+          const raw = localStorage.getItem(CFG_KEY);
+          const cfg = raw ? JSON.parse(raw) : {};
+          return {
+            enabled: Boolean(cfg.enabled),
+            apiBase: cfg.apiBase || "https://openrouter.ai/api/v1",
+            model: cfg.model || "qwen/qwen-2.5-7b-instruct:free",
+            apiKey: cfg.apiKey || ""
+          };
+        } catch {
+          return { enabled: false, apiBase: "https://openrouter.ai/api/v1", model: "qwen/qwen-2.5-7b-instruct:free", apiKey: "" };
+        }
+      }
+
+      function saveAIConfig() {
+        localStorage.setItem(CFG_KEY, JSON.stringify({
+          enabled: aiEnabledEl.checked,
+          apiBase: apiBaseEl.value.trim(),
+          model: apiModelEl.value.trim(),
+          apiKey: apiKeyEl.value.trim()
+        }));
+      }
+
+      function initAIConfigUI() {
+        const cfg = loadAIConfig();
+        aiEnabledEl.checked = cfg.enabled;
+        apiBaseEl.value = cfg.apiBase;
+        apiModelEl.value = cfg.model;
+        apiKeyEl.value = cfg.apiKey;
+
+        [aiEnabledEl, apiBaseEl, apiModelEl, apiKeyEl].forEach((el) => {
+          el.addEventListener("change", saveAIConfig);
+          el.addEventListener("input", saveAIConfig);
+        });
+      }
+
+      function makeReminderId(r) {
+        const suffix = r.repeat === "weekly"
+          ? r.weekdays.slice().sort().join("")
+          : r.repeat === "once"
+            ? (r.date || "no-date")
+            : "D";
+        return `${pad(r.hour)}:${pad(r.minute)}-${r.title}-${r.repeat}-${suffix}`;
+      }
+
+      function upsertReminder(parsed) {
+        const normalized = {
+          title: parsed.title,
+          hour: parsed.hour,
+          minute: parsed.minute,
+          repeat: parsed.repeat === "weekly" ? "weekly" : parsed.repeat === "daily" ? "daily" : "once",
+          date: parsed.date || null,
+          weekdays: Array.isArray(parsed.weekdays) ? parsed.weekdays : []
+        };
+        const id = makeReminderId(normalized);
+        if (!reminders.find((r) => r.id === id)) {
+          reminders.push({ id, ...normalized });
+          reminders.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
+          persistReminders();
+          return true;
+        }
+        return false;
+      }
+
+      function removeReminder(id) {
+        reminders = reminders.filter((r) => r.id !== id);
+        persistReminders();
+      }
+
+      function dateWeekday(date) {
+        return date.getDay(); // 0-6
+      }
+
+      function matchesDate(reminder, date) {
+        if (reminder.repeat === "daily") return true;
+        if (reminder.repeat === "weekly") return reminder.weekdays.includes(dateWeekday(date));
+        if (reminder.repeat === "once") return reminder.date === isoDate(date);
+        return false;
+      }
+
+      function tasksForDate(date) {
+        return reminders.filter((r) => matchesDate(r, date));
+      }
+
+      function colorByLoad(count) {
+        if (count <= 0) return "#ffffff";
+        if (count === 1) return "#e6f5e8";
+        if (count === 2) return "#ccefd1";
+        if (count === 3) return "#f5ecbf";
+        if (count === 4) return "#f7ddb5";
+        return "#f4c0b9";
+      }
+
+      function heightByLoad(count) {
+        return 80 + Math.min(40, count * 8);
+      }
+
+      function renderItems() {
+        const selected = new Date(selectedDate);
+        const dateStr = `${selected.getFullYear()}年${selected.getMonth() + 1}月${selected.getDate()}日`;
+        const list = tasksForDate(selected);
+        detailTitleEl.textContent = `${dateStr} 的任务（${list.length}）`;
+
+        if (!list.length) {
+          itemsEl.innerHTML = '<div class="empty">这一天没有任务。</div>';
+          return;
+        }
+        itemsEl.innerHTML = list
+          .map((r) => {
+            const repeatText = r.repeat === "daily"
+              ? "每天"
+              : r.repeat === "weekly"
+                ? `每周${r.weekdays.map((d) => "日一二三四五六"[d]).join("/")}`
+                : `单次 ${r.date || ""}`;
+            return `<div class="item"><div><strong>${pad(r.hour)}:${pad(r.minute)}</strong> ${escapeHtml(r.title)} <span style="color:#6b736b;font-size:12px;">(${repeatText})</span></div><button class="small-btn" data-id="${escapeHtml(r.id)}">删除</button></div>`;
+          })
+          .join("");
+
+        itemsEl.querySelectorAll("button[data-id]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            removeReminder(btn.getAttribute("data-id"));
+            renderItems();
+            renderCalendar();
+            setMessage("已删除提醒。", true);
+          });
+        });
+      }
+
+      function renderCalendar() {
+        const year = viewDate.getFullYear();
+        const month = viewDate.getMonth();
+        monthTitleEl.textContent = `${year}年${month + 1}月`;
+
+        const first = new Date(year, month, 1);
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const lead = (first.getDay() + 6) % 7;
+        const total = 42;
+        const today = new Date();
+        const selectedISO = isoDate(selectedDate);
+
+        let html = "";
+        for (let i = 0; i < total; i += 1) {
+          const dayNum = i - lead + 1;
+          const inMonth = dayNum >= 1 && dayNum <= daysInMonth;
+          if (!inMonth) {
+            html += `<div class="day muted"></div>`;
+            continue;
+          }
+
+          const cellDate = new Date(year, month, dayNum);
+          const isToday = isoDate(cellDate) === isoDate(today);
+          const isSelected = isoDate(cellDate) === selectedISO;
+          const tasks = tasksForDate(cellDate);
+          const count = tasks.length;
+          const preview = tasks.slice(0, 2)
+            .map((t) => `<div class="preview-item">${pad(t.hour)}:${pad(t.minute)} ${escapeHtml(t.title)}</div>`)
+            .join("");
+
+          html += `
+            <div class="day ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}"
+              data-date="${isoDate(cellDate)}"
+              style="background:${colorByLoad(count)};min-height:${heightByLoad(count)}px;">
+              <div class="day-head">
+                <div class="dnum">${dayNum}</div>
+                <div class="count-pill">${count}条</div>
+              </div>
+              <div class="preview-list">${preview}</div>
+            </div>`;
+        }
+        calendarGridEl.innerHTML = html;
+
+        calendarGridEl.querySelectorAll(".day[data-date]").forEach((el) => {
+          el.addEventListener("click", () => {
+            const [y, m, d] = el.getAttribute("data-date").split("-").map((n) => Number(n));
+            selectedDate = new Date(y, m - 1, d);
+            renderCalendar();
+            renderItems();
+          });
+        });
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function nextOccurrence(hour, minute) {
+        const now = new Date();
+        const start = new Date(now);
+        start.setHours(hour, minute, 0, 0);
+        if (start <= now) start.setDate(start.getDate() + 1);
+        return start;
+      }
+
+      function formatICSLocal(date) {
+        return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
+      }
+      function formatICSUTC(date) {
+        return `${date.getUTCFullYear()}${pad(date.getUTCMonth() + 1)}${pad(date.getUTCDate())}T${pad(date.getUTCHours())}${pad(date.getUTCMinutes())}${pad(date.getUTCSeconds())}Z`;
+      }
+      function escapeICS(text) {
+        return text.replace(/\\/g, "\\\\").replace(/,/g, "\\,").replace(/;/g, "\\;").replace(/\n/g, "\\n");
+      }
+      function buildICS(parsed) {
+        let start = nextOccurrence(parsed.hour, parsed.minute);
+        if (parsed.repeat === "once" && parsed.date) {
+          const [y, m, d] = parsed.date.split("-").map((n) => Number(n));
+          start = new Date(y, m - 1, d, parsed.hour, parsed.minute, 0, 0);
+        }
+        const end = new Date(start.getTime() + 30 * 60 * 1000);
+        const dtStamp = formatICSUTC(new Date());
+        const uid = `dahua-${Date.now()}-${Math.random().toString(16).slice(2)}@calendar.local`;
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Shanghai";
+        const lines = [
+          "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//DaHuaJiuJiu//DailyVoiceCalendar//CN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+          "BEGIN:VEVENT", `UID:${uid}`, `DTSTAMP:${dtStamp}`, `SUMMARY:${escapeICS(parsed.title)}`,
+          `DTSTART;TZID=${tz}:${formatICSLocal(start)}`, `DTEND;TZID=${tz}:${formatICSLocal(end)}`
+        ];
+        if (parsed.repeat === "weekly" && parsed.weekdays?.length) {
+          const map = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+          lines.push(`RRULE:FREQ=WEEKLY;BYDAY=${parsed.weekdays.map((d) => map[d]).join(",")}`);
+        } else if (parsed.repeat === "daily") {
+          lines.push("RRULE:FREQ=DAILY");
+        }
+        lines.push("BEGIN:VALARM", "TRIGGER:-PT0M", "ACTION:DISPLAY", "DESCRIPTION:提醒", "END:VALARM", "END:VEVENT", "END:VCALENDAR");
+        return lines.join("\r\n");
+      }
+      function downloadICS(parsed) {
+        const blob = new Blob([buildICS(parsed)], { type: "text/calendar;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${parsed.title.replace(/[\\/:*?"<>|]/g, "_") || "每日提醒"}.ics`;
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }
+
+      function canUseSpeech() { return "webkitSpeechRecognition" in window || "SpeechRecognition" in window; }
+      function setupSpeech() {
+        if (!canUseSpeech()) {
+          micBtn.disabled = true;
+          setMessage("当前浏览器不支持语音识别，请用 Safari 或 Chrome。", true);
+          return;
+        }
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = "zh-CN";
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.onstart = () => { listening = true; micBtn.textContent = "停止语音输入"; micBtn.className = "warn"; setMessage("正在听你说话..."); };
+        recognition.onresult = (event) => {
+          let fullText = "";
+          for (let i = event.resultIndex; i < event.results.length; i += 1) fullText += event.results[i][0].transcript;
+          inputEl.value = fullText.trim();
+        };
+        recognition.onerror = () => { listening = false; micBtn.textContent = "开始语音输入"; micBtn.className = "ghost"; setMessage("语音识别失败，请确认麦克风权限。", true); };
+        recognition.onend = () => { listening = false; micBtn.textContent = "开始语音输入"; micBtn.className = "ghost"; };
+      }
+
+      saveBtn.addEventListener("click", async () => {
+        const content = inputEl.value.trim();
+        if (!content) return setMessage("先输入提醒内容。", true);
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "解析中...";
+        try {
+          const parsedList = await parseMultipleReminders(content);
+          if (!parsedList.length) {
+            setMessage("没能识别，请换一种说法。", true);
+            return;
+          }
+          let createdCount = 0;
+          let duplicateCount = 0;
+          const sample = [];
+          for (const parsed of parsedList) {
+            const created = upsertReminder(parsed);
+            if (created) {
+              createdCount += 1;
+              if (sample.length < 2) sample.push(`${pad(parsed.hour)}:${pad(parsed.minute)} ${parsed.title}`);
+            } else {
+              duplicateCount += 1;
+            }
+          }
+          renderItems();
+          renderCalendar();
+          if (createdCount > 0) {
+            setMessage(`已新增 ${createdCount} 条${duplicateCount ? `，重复 ${duplicateCount} 条` : ""}。${sample.length ? ` 示例：${sample.join("；")}` : ""}`);
+          } else {
+            setMessage("解析成功，但这些提醒已存在。", true);
+          }
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = "添加到网页日历";
+        }
+      });
+
+      exportBtn.addEventListener("click", async () => {
+        const content = inputEl.value.trim();
+        if (!content) return setMessage("先输入提醒内容再导出。", true);
+        const parsedList = await parseMultipleReminders(content);
+        if (!parsedList.length) return setMessage("解析失败，无法导出。", true);
+        downloadICS(parsedList[0]);
+        setMessage(`已导出第1条 .ics（本次共解析到 ${parsedList.length} 条）。`, false);
+      });
+
+      micBtn.addEventListener("click", () => {
+        if (!recognition) return;
+        try { listening ? recognition.stop() : recognition.start(); }
+        catch { setMessage("无法启动语音识别，请稍后再试。", true); }
+      });
+
+      clearBtn.addEventListener("click", () => { inputEl.value = ""; setMessage("已清空输入。"); });
+      wipeBtn.addEventListener("click", () => {
+        reminders = [];
+        persistReminders();
+        renderItems();
+        renderCalendar();
+        setMessage("已清空全部提醒。", true);
+      });
+      prevMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
+      nextMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
+
+      initAIConfigUI();
+      setupSpeech();
+      renderItems();
+      renderCalendar();
+    </script>
+  </body>
+</html>
