@@ -55,6 +55,7 @@
         border-radius: 12px;
         border: 1px dashed #c8c0ab;
         font-family: "PingFang SC", sans-serif;
+        display: none;
       }
       .ai-title { font-size: 13px; color: #355041; margin-bottom: 8px; }
       .ai-row { display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px; align-items: center; }
@@ -70,12 +71,14 @@
       .cal-title { font-size: 20px; }
       .mini-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid #bfc9bf; background: #fff; }
       .week, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+      .grid { grid-auto-rows: 118px; }
       .week div { text-align: center; color: var(--muted); font-size: 12px; }
       .day {
-        min-height: 80px; border: 1px solid #d9d5c9; border-radius: 10px; background: #fff;
+        height: 118px; border: 1px solid #d9d5c9; border-radius: 10px; background: #fff;
         padding: 6px; display: flex; flex-direction: column; gap: 4px;
         cursor: pointer;
         transition: transform 120ms ease, box-shadow 120ms ease;
+        overflow: hidden;
       }
       .day:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
       .day.muted { opacity: 0.4; cursor: default; }
@@ -99,6 +102,11 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .item-left { display: flex; align-items: center; gap: 8px; }
+      .check {
+        width: 16px;
+        height: 16px;
       }
 
       .list-title { margin: 0 0 8px; font-size: 16px; }
@@ -141,10 +149,12 @@
 
         <div class="actions">
           <button class="primary" id="saveBtn">添加到网页日历</button>
+          <button class="ghost" id="undoBtn">向后回退</button>
+          <button class="ghost" id="redoBtn">向前回退</button>
           <button class="ghost" id="micBtn">开始语音输入</button>
-          <button class="ghost" id="syncBtn">保存到 GitHub</button>
+          <button class="ghost" id="syncBtn">保存计划</button>
+          <button class="ghost" id="deleteByTextBtn">输入文字删除计划</button>
           <button class="ghost" id="clearBtn">清空输入</button>
-          <button class="ghost" id="wipeBtn">清空全部提醒</button>
         </div>
 
         <div class="sync-panel">
@@ -199,8 +209,10 @@
       const saveBtn = document.getElementById("saveBtn");
       const micBtn = document.getElementById("micBtn");
       const syncBtn = document.getElementById("syncBtn");
+      const undoBtn = document.getElementById("undoBtn");
+      const redoBtn = document.getElementById("redoBtn");
+      const deleteByTextBtn = document.getElementById("deleteByTextBtn");
       const clearBtn = document.getElementById("clearBtn");
-      const wipeBtn = document.getElementById("wipeBtn");
       const messageEl = document.getElementById("message");
       const monthTitleEl = document.getElementById("monthTitle");
       const calendarGridEl = document.getElementById("calendarGrid");
@@ -217,6 +229,8 @@
       let recognition = null;
       let listening = false;
       let reminders = loadReminders();
+      let undoStack = [];
+      let redoStack = [];
       let viewDate = new Date();
       let selectedDate = new Date();
 
@@ -233,6 +247,19 @@
       function setMessage(text, isError = false) {
         messageEl.textContent = text;
         messageEl.style.color = isError ? "#9d1a1a" : "#0f5c3f";
+      }
+      function cloneRemindersState(src) {
+        return JSON.parse(JSON.stringify(src));
+      }
+      function pushUndoState() {
+        undoStack.push(cloneRemindersState(reminders));
+        if (undoStack.length > 100) undoStack.shift();
+        redoStack = [];
+        updateUndoRedoButtons();
+      }
+      function updateUndoRedoButtons() {
+        undoBtn.disabled = undoStack.length === 0;
+        redoBtn.disabled = redoStack.length === 0;
       }
 
       function normalizeTime(hour, minute, sourceText) {
@@ -431,7 +458,8 @@
           minute: parsed.minute,
           repeat: parsed.repeat === "weekly" ? "weekly" : parsed.repeat === "daily" ? "daily" : "once",
           date: parsed.date || null,
-          weekdays: Array.isArray(parsed.weekdays) ? parsed.weekdays : []
+          weekdays: Array.isArray(parsed.weekdays) ? parsed.weekdays : [],
+          completed: false
         };
         const id = makeReminderId(normalized);
         if (!reminders.find((r) => r.id === id)) {
@@ -445,6 +473,12 @@
 
       function removeReminder(id) {
         reminders = reminders.filter((r) => r.id !== id);
+        persistReminders();
+      }
+      function toggleReminderCompleted(id, checked) {
+        const found = reminders.find((r) => r.id === id);
+        if (!found) return;
+        found.completed = Boolean(checked);
         persistReminders();
       }
 
@@ -463,17 +497,12 @@
         return reminders.filter((r) => matchesDate(r, date));
       }
 
-      function colorByLoad(count) {
-        if (count <= 0) return "#ffffff";
-        if (count === 1) return "#e6f5e8";
-        if (count === 2) return "#ccefd1";
-        if (count === 3) return "#f5ecbf";
-        if (count === 4) return "#f7ddb5";
+      function colorByLoad(pendingCount) {
+        if (pendingCount <= 0) return "#e6f5e8";
+        if (pendingCount === 1) return "#d8f1dc";
+        if (pendingCount === 2) return "#f5ecbf";
+        if (pendingCount === 3) return "#f7ddb5";
         return "#f4c0b9";
-      }
-
-      function heightByLoad(count) {
-        return 80 + Math.min(40, count * 8);
       }
 
       function renderItems() {
@@ -493,12 +522,23 @@
               : r.repeat === "weekly"
                 ? `每周${r.weekdays.map((d) => "日一二三四五六"[d]).join("/")}`
                 : `单次 ${r.date || ""}`;
-            return `<div class="item"><div><strong>${pad(r.hour)}:${pad(r.minute)}</strong> ${escapeHtml(r.title)} <span style="color:#6b736b;font-size:12px;">(${repeatText})</span></div><button class="small-btn" data-id="${escapeHtml(r.id)}">删除</button></div>`;
+            const checked = r.completed ? "checked" : "";
+            return `<div class="item"><div class="item-left"><input class="check" type="checkbox" data-check-id="${escapeHtml(r.id)}" ${checked} /><div><strong>${pad(r.hour)}:${pad(r.minute)}</strong> ${escapeHtml(r.title)} <span style="color:#6b736b;font-size:12px;">(${repeatText})</span></div></div><button class="small-btn" data-id="${escapeHtml(r.id)}">删除</button></div>`;
           })
           .join("");
 
+        itemsEl.querySelectorAll("input[data-check-id]").forEach((input) => {
+          input.addEventListener("change", () => {
+            pushUndoState();
+            toggleReminderCompleted(input.getAttribute("data-check-id"), input.checked);
+            renderItems();
+            renderCalendar();
+            setMessage("已更新任务完成状态。");
+          });
+        });
         itemsEl.querySelectorAll("button[data-id]").forEach((btn) => {
           btn.addEventListener("click", () => {
+            pushUndoState();
             removeReminder(btn.getAttribute("data-id"));
             renderItems();
             renderCalendar();
@@ -533,14 +573,15 @@
           const isSelected = isoDate(cellDate) === selectedISO;
           const tasks = tasksForDate(cellDate);
           const count = tasks.length;
+          const pendingCount = tasks.filter((t) => !t.completed).length;
           const preview = tasks.slice(0, 2)
-            .map((t) => `<div class="preview-item">${pad(t.hour)}:${pad(t.minute)} ${escapeHtml(t.title)}</div>`)
+            .map((t) => `<div class="preview-item">${t.completed ? "☑" : "☐"} ${pad(t.hour)}:${pad(t.minute)} ${escapeHtml(t.title)}</div>`)
             .join("");
 
           html += `
             <div class="day ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}"
               data-date="${isoDate(cellDate)}"
-              style="background:${colorByLoad(count)};min-height:${heightByLoad(count)}px;">
+              style="background:${colorByLoad(pendingCount)};">
               <div class="day-head">
                 <div class="dnum">${dayNum}</div>
                 <div class="count-pill">${count}条</div>
@@ -702,6 +743,7 @@
           let duplicateCount = 0;
           const sample = [];
           for (const parsed of parsedList) {
+            if (createdCount === 0 && duplicateCount === 0) pushUndoState();
             const created = upsertReminder(parsed);
             if (created) {
               createdCount += 1;
@@ -733,7 +775,7 @@
           setMessage(`GitHub 同步失败：${e.message}`, true);
         } finally {
           syncBtn.disabled = false;
-          syncBtn.textContent = "保存到 GitHub";
+          syncBtn.textContent = "保存计划";
         }
       });
 
@@ -744,12 +786,41 @@
       });
 
       clearBtn.addEventListener("click", () => { inputEl.value = ""; setMessage("已清空输入。"); });
-      wipeBtn.addEventListener("click", () => {
-        reminders = [];
+      deleteByTextBtn.addEventListener("click", () => {
+        const keyword = (window.prompt("输入要删除的计划关键词（如：跑步）") || "").trim();
+        if (!keyword) return;
+        const before = reminders.length;
+        const next = reminders.filter((r) => !(`${r.title} ${pad(r.hour)}:${pad(r.minute)}`.includes(keyword)));
+        if (next.length === before) {
+          setMessage("没有匹配到要删除的计划。", true);
+          return;
+        }
+        pushUndoState();
+        reminders = next;
         persistReminders();
         renderItems();
         renderCalendar();
-        setMessage("已清空全部提醒。", true);
+        setMessage(`已删除 ${before - next.length} 条匹配“${keyword}”的计划。`);
+      });
+      undoBtn.addEventListener("click", () => {
+        if (!undoStack.length) return;
+        redoStack.push(cloneRemindersState(reminders));
+        reminders = undoStack.pop();
+        persistReminders();
+        renderItems();
+        renderCalendar();
+        updateUndoRedoButtons();
+        setMessage("已向后回退一步。");
+      });
+      redoBtn.addEventListener("click", () => {
+        if (!redoStack.length) return;
+        undoStack.push(cloneRemindersState(reminders));
+        reminders = redoStack.pop();
+        persistReminders();
+        renderItems();
+        renderCalendar();
+        updateUndoRedoButtons();
+        setMessage("已向前回退一步。");
       });
       prevMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
       nextMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
@@ -758,6 +829,7 @@
       setupSpeech();
       renderItems();
       renderCalendar();
+      updateUndoRedoButtons();
       setInterval(async () => {
         try {
           await syncToGithub();
