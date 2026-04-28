@@ -157,25 +157,7 @@
           <button class="ghost" id="clearBtn">清空输入</button>
         </div>
 
-        <div class="sync-panel">
-          <div class="ai-title">GitHub 同步设置</div>
-          <div class="ai-row">
-            <label for="ghRepo">仓库</label>
-            <input id="ghRepo" placeholder="zechzhang-debug/dahuajiujiu" />
-          </div>
-          <div class="ai-row">
-            <label for="ghBranch">分支</label>
-            <input id="ghBranch" placeholder="main" />
-          </div>
-          <div class="ai-row">
-            <label for="ghPath">文件路径</label>
-            <input id="ghPath" placeholder="data/dahua-calendar-reminders.json" />
-          </div>
-          <div class="ai-row">
-            <label for="ghToken">GitHub Token</label>
-            <input id="ghToken" type="password" placeholder="填入有 repo 权限的 token" />
-          </div>
-        </div>
+        <div class="sync-panel"></div>
 
         <div class="message" id="message"></div>
 
@@ -203,7 +185,7 @@
 
     <script>
       const STORAGE_KEY = "dahua.daily.reminders.v2";
-      const GITHUB_CFG_KEY = "dahua.github.sync.v1";
+      const SYNC_CFG_KEY = "dahua.sync.config.v1";
 
       const inputEl = document.getElementById("input");
       const saveBtn = document.getElementById("saveBtn");
@@ -221,10 +203,7 @@
       const prevMonthBtn = document.getElementById("prevMonth");
       const nextMonthBtn = document.getElementById("nextMonth");
 
-      const ghRepoEl = document.getElementById("ghRepo");
-      const ghBranchEl = document.getElementById("ghBranch");
-      const ghPathEl = document.getElementById("ghPath");
-      const ghTokenEl = document.getElementById("ghToken");
+      const DEFAULT_SYNC_API_BASE = "https://zhangzhenhua-sync.YOUR_SUBDOMAIN.workers.dev";
 
       let recognition = null;
       let listening = false;
@@ -406,40 +385,43 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(reminders));
       }
 
-      function loadGithubConfig() {
+      function loadSyncConfig() {
         try {
-          const raw = localStorage.getItem(GITHUB_CFG_KEY);
+          const raw = localStorage.getItem(SYNC_CFG_KEY);
           const cfg = raw ? JSON.parse(raw) : {};
           return {
-            repo: cfg.repo || "zechzhang-debug/dahuajiujiu",
-            branch: cfg.branch || "main",
-            path: cfg.path || "data/dahua-calendar-reminders.json",
-            token: cfg.token || ""
+            apiBase: cfg.apiBase || DEFAULT_SYNC_API_BASE,
+            password: cfg.password || ""
           };
         } catch {
-          return { repo: "zechzhang-debug/dahuajiujiu", branch: "main", path: "data/dahua-calendar-reminders.json", token: "" };
+          return { apiBase: DEFAULT_SYNC_API_BASE, password: "" };
         }
       }
 
-      function saveGithubConfig() {
-        localStorage.setItem(GITHUB_CFG_KEY, JSON.stringify({
-          repo: ghRepoEl.value.trim(),
-          branch: ghBranchEl.value.trim(),
-          path: ghPathEl.value.trim(),
-          token: ghTokenEl.value.trim()
+      function saveSyncConfig(cfg) {
+        localStorage.setItem(SYNC_CFG_KEY, JSON.stringify({
+          apiBase: cfg.apiBase || DEFAULT_SYNC_API_BASE,
+          password: cfg.password || ""
         }));
       }
 
-      function initGithubConfigUI() {
-        const cfg = loadGithubConfig();
-        ghRepoEl.value = cfg.repo;
-        ghBranchEl.value = cfg.branch;
-        ghPathEl.value = cfg.path;
-        ghTokenEl.value = cfg.token;
-        [ghRepoEl, ghBranchEl, ghPathEl, ghTokenEl].forEach((el) => {
-          el.addEventListener("change", saveGithubConfig);
-          el.addEventListener("input", saveGithubConfig);
-        });
+      function ensureSyncConfig() {
+        const cfg = loadSyncConfig();
+        let changed = false;
+        if (!cfg.password) {
+          const input = window.prompt("首次同步：请输入同步密码");
+          if (!input) return null;
+          cfg.password = input.trim();
+          changed = true;
+        }
+        if (!cfg.apiBase || cfg.apiBase.includes("YOUR_SUBDOMAIN")) {
+          const base = window.prompt("首次同步：请输入 Worker 地址", cfg.apiBase || DEFAULT_SYNC_API_BASE);
+          if (!base) return null;
+          cfg.apiBase = base.trim().replace(/\/$/, "");
+          changed = true;
+        }
+        if (changed) saveSyncConfig(cfg);
+        return cfg;
       }
 
       function makeReminderId(r) {
@@ -660,48 +642,39 @@
         document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
       }
 
-      async function syncToGithub() {
-        const cfg = loadGithubConfig();
-        if (!cfg.repo || !cfg.branch || !cfg.path || !cfg.token) {
-          setMessage("请先填写 GitHub 仓库、分支、路径和 Token。", true);
-          return false;
-        }
-
-        const api = `https://api.github.com/repos/${cfg.repo}/contents/${cfg.path}`;
-        const payloadObj = {
-          updatedAt: new Date().toISOString(),
-          reminders
-        };
-        const content = btoa(unescape(encodeURIComponent(JSON.stringify(payloadObj, null, 2))));
-        let sha = undefined;
-
-        const existing = await fetch(`${api}?ref=${encodeURIComponent(cfg.branch)}`, {
-          headers: { Authorization: `Bearer ${cfg.token}` }
+      async function pullFromCloud() {
+        const cfg = ensureSyncConfig();
+        if (!cfg) return false;
+        const resp = await fetch(`${cfg.apiBase}/schedule`, {
+          headers: { "X-Sync-Password": cfg.password }
         });
-        if (existing.ok) {
-          const ex = await existing.json();
-          sha = ex.sha;
-        } else if (existing.status !== 404) {
-          throw new Error(`读取远端文件失败(${existing.status})`);
-        }
+        if (!resp.ok) throw new Error(`拉取失败(${resp.status})`);
+        const data = await resp.json();
+        if (!data.ok) throw new Error(data.error || "拉取失败");
+        reminders = Array.isArray(data.reminders) ? data.reminders : [];
+        persistReminders();
+        renderItems();
+        renderCalendar();
+        return true;
+      }
 
-        const resp = await fetch(api, {
-          method: "PUT",
+      async function syncToCloud() {
+        const cfg = ensureSyncConfig();
+        if (!cfg) return false;
+        const resp = await fetch(`${cfg.apiBase}/schedule`, {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${cfg.token}`
+            "X-Sync-Password": cfg.password
           },
           body: JSON.stringify({
-            message: `chore: sync reminders at ${new Date().toLocaleString()}`,
-            content,
-            branch: cfg.branch,
-            sha
+            reminders,
+            updatedAt: new Date().toISOString()
           })
         });
-
-        if (!resp.ok) {
-          throw new Error(`同步失败(${resp.status})`);
-        }
+        if (!resp.ok) throw new Error(`同步失败(${resp.status})`);
+        const data = await resp.json();
+        if (!data.ok) throw new Error(data.error || "同步失败");
         return true;
       }
 
@@ -769,10 +742,10 @@
         syncBtn.disabled = true;
         syncBtn.textContent = "同步中...";
         try {
-          const ok = await syncToGithub();
-          if (ok) setMessage("已保存并同步到 GitHub。");
+          const ok = await syncToCloud();
+          if (ok) setMessage("已保存并同步到云端。");
         } catch (e) {
-          setMessage(`GitHub 同步失败：${e.message}`, true);
+          setMessage(`同步失败：${e.message}`, true);
         } finally {
           syncBtn.disabled = false;
           syncBtn.textContent = "保存计划";
@@ -825,15 +798,19 @@
       prevMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
       nextMonthBtn.addEventListener("click", () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
 
-      initGithubConfigUI();
       setupSpeech();
       renderItems();
       renderCalendar();
       updateUndoRedoButtons();
+      pullFromCloud().then((ok) => {
+        if (ok) setMessage("已拉取最新计划。");
+      }).catch(() => {
+        // 初次打开可能还没配置 Worker，忽略
+      });
       setInterval(async () => {
         try {
-          await syncToGithub();
-          setMessage("已自动同步到 GitHub（每5分钟）。");
+          await syncToCloud();
+          setMessage("已自动同步（每5分钟）。");
         } catch {
           // 自动同步失败时不打断使用
         }
