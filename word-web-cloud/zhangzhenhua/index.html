@@ -6,50 +6,77 @@
     <title>大华舅舅的日历</title>
     <style>
       :root {
-        --bg: #f5f5f7;
+        --bg: #f5f6f8;
         --ink: #1d1d1f;
         --muted: #6e6e73;
-        --accent: #0071e3;
-        --accent-2: #005bbb;
-        --line: #d2d2d7;
+        --accent: #0a74ff;
+        --accent-2: #0660d8;
+        --line: #e3e5ea;
+        --card: #ffffff;
       }
       * { box-sizing: border-box; }
       body {
         margin: 0;
         color: var(--ink);
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-        background:
-          radial-gradient(circle at 15% 0%, #ffffff 0%, #f5f5f7 50%),
-          var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(180deg, #f8f9fb 0%, #f1f2f6 100%);
         min-height: 100vh;
       }
-      .page { width: min(1060px, 94vw); margin: 0 auto; padding: 28px 0 42px; }
-      .brand { font-size: clamp(34px, 5vw, 56px); line-height: 1; margin-bottom: 8px; letter-spacing: -0.02em; font-weight: 700; }
-      .subtitle { margin: 0 0 18px; color: var(--muted); font-size: 18px; }
+      .page { width: min(1480px, 96vw); margin: 0 auto; padding: 24px 0 36px; }
+      .brand {
+        font-size: clamp(36px, 4.2vw, 68px);
+        line-height: 1.08;
+        margin: 8px 0 6px;
+        letter-spacing: 0;
+        font-weight: 600;
+        font-family: "Songti SC", "STSong", "Times New Roman", serif;
+      }
+      .subtitle { margin: 0 0 22px; color: var(--muted); font-size: 41px; font-size: clamp(20px, 1.45vw, 34px); }
       .workspace {
-        background: linear-gradient(165deg, rgba(255, 255, 255, 0.82), rgba(250, 250, 252, 0.95));
+        background: rgba(255, 255, 255, 0.64);
         border: 1px solid var(--line);
-        border-radius: 24px;
-        padding: 18px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-        backdrop-filter: blur(10px);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+        backdrop-filter: blur(8px);
       }
-      .hint { margin: 0 0 12px; color: var(--muted); }
-      textarea {
-        width: 100%; min-height: 88px; border-radius: 14px; border: 1px solid #c8c0ab;
-        padding: 14px; resize: vertical; font-size: 18px; font-family: "PingFang SC", sans-serif; background: #fff;
+      .hint { display: none; }
+      textarea, input[type="text"] {
+        width: 100%; min-height: 52px; border-radius: 16px; border: 1px solid #e0e3ea;
+        padding: 0 18px; resize: none; font-size: 18px; font-family: -apple-system, "PingFang SC", sans-serif; background: #fff;
+        color: #1f2329;
       }
-      .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+      .composer {
+        display: grid;
+        grid-template-columns: 1fr 150px;
+        gap: 14px;
+        align-items: center;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      .actions { display: flex; gap: 18px; flex-wrap: nowrap; margin-top: 18px; align-items: center; }
       button {
-        border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer; font-size: 15px;
+        border: none; border-radius: 999px; padding: 12px 20px; cursor: pointer; font-size: 32px; font-size: clamp(16px,1.05vw,20px);
         transition: transform 180ms ease, opacity 180ms ease;
       }
       button:active { transform: translateY(1px) scale(0.99); }
-      .primary { background: linear-gradient(110deg, var(--accent), var(--accent-2)); color: #fff; }
-      .ghost { background: #fff; border: 1px solid #d2d2d7; color: #1d1d1f; }
+      .primary {
+        background: linear-gradient(180deg, var(--accent), var(--accent-2));
+        color: #fff;
+        min-height: 52px;
+        box-shadow: 0 10px 18px rgba(10, 116, 255, 0.24);
+      }
+      .ghost {
+        background: #fff;
+        border: 1px solid #d8dbe3;
+        color: #30343b;
+        min-width: 164px;
+      }
       .warn { background: #a42020; color: #fff; }
-      .danger { background: #ff3b30; color: #fff; border: 1px solid #ff3b30; margin-left: auto; }
-      .message { min-height: 24px; margin-top: 10px; font-family: "PingFang SC", sans-serif; }
+      .danger { display:none; }
+      .message { min-height: 24px; margin-top: 12px; font-family: "PingFang SC", sans-serif; color:#5f6368; }
 
       .sync-panel {
         margin-top: 10px;
@@ -67,27 +94,27 @@
       }
       .ai-inline { display: flex; gap: 8px; align-items: center; font-size: 13px; color: #355041; }
 
-      .layout { margin-top: 18px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; }
-      .panel { border: 1px solid var(--line); border-radius: 18px; padding: 12px; background: rgba(255, 255, 255, 0.88); }
+      .layout { margin-top: 16px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+      .panel { border: 1px solid var(--line); border-radius: 18px; padding: 20px; background: var(--card); }
       .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-      .cal-title { font-size: 20px; }
-      .mini-btn { padding: 6px 10px; border-radius: 999px; border: 1px solid #bfc9bf; background: #fff; }
+      .cal-title { font-size: clamp(30px, 1.8vw, 38px); font-weight: 600; }
+      .mini-btn { padding: 8px 16px; border-radius: 999px; border: 1px solid #d6d9e1; background: #fff; font-size: clamp(15px,1vw,18px); min-width:88px; }
       .week, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-      .grid { grid-auto-rows: 118px; }
-      .week div { text-align: center; color: var(--muted); font-size: 12px; }
+      .grid { grid-auto-rows: 102px; }
+      .week div { text-align: center; color: var(--muted); font-size: clamp(14px, 0.9vw, 16px); }
       .day {
-        height: 118px; border: 1px solid #d9d5c9; border-radius: 10px; background: #fff;
-        padding: 6px; display: flex; flex-direction: column; gap: 4px;
+        height: 102px; border: 1px solid #e6e9ef; border-radius: 12px; background: #fff;
+        padding: 8px; display: flex; flex-direction: column; gap: 4px;
         cursor: pointer;
         transition: transform 120ms ease, box-shadow 120ms ease;
         overflow: hidden;
       }
       .day:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
       .day.muted { opacity: 0.4; cursor: default; }
-      .day.today { outline: 2px solid var(--accent); }
-      .day.selected { box-shadow: inset 0 0 0 2px var(--accent); }
+      .day.today { outline: 2px solid #8dbbff; }
+      .day.selected { background: linear-gradient(180deg, #1175ff, #0b66e6); color:#fff; box-shadow:none; border-color: transparent; }
       .day-head { display: flex; justify-content: space-between; align-items: center; }
-      .dnum { font-size: 12px; font-family: "PingFang SC", sans-serif; }
+      .dnum { font-size: clamp(24px, 1.25vw, 30px); font-family: -apple-system, "PingFang SC", sans-serif; line-height:1; }
       .count-pill {
         font-size: 11px;
         padding: 1px 6px;
@@ -97,7 +124,7 @@
       }
       .preview-list { display: grid; gap: 2px; }
       .preview-item {
-        font-size: 11px;
+        font-size: clamp(15px, 0.9vw, 17px);
         line-height: 1.2;
         font-family: "PingFang SC", sans-serif;
         color: #2a3a30;
@@ -111,30 +138,46 @@
         height: 16px;
       }
 
-      .list-title { margin: 0 0 8px; font-size: 16px; }
-      .item { border-bottom: 1px dashed #d8d2c2; padding: 8px 0; font-family: "PingFang SC", sans-serif; display: flex; justify-content: space-between; gap: 8px; }
+      .list-title { margin: 0 0 8px; font-size: clamp(22px,1.4vw,30px); font-weight:600; }
+      .item { border-bottom: 1px solid #eceff4; padding: 18px 0; font-family: "PingFang SC", sans-serif; display: flex; justify-content: space-between; gap: 8px; }
       .item:last-child { border-bottom: none; }
       .empty { color: var(--muted); font-family: "PingFang SC", sans-serif; }
       .small-btn {
-        border: 1px solid #ccbfbf;
-        color: #8d2d2d;
-        background: #fff;
-        padding: 2px 8px;
+        border: none;
+        color: #e43f3f;
+        background: transparent;
+        padding: 2px 6px;
         border-radius: 999px;
-        font-size: 12px;
+        font-size: clamp(16px, 1vw, 18px);
       }
-      .legend { margin-top: 8px; font-size: 12px; color: #6e6e73; font-family: -apple-system, "PingFang SC", sans-serif; }
+      .legend { display:none; }
+      .sync-status {
+        margin-top: 18px;
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding: 20px 24px;
+        display:flex;
+        align-items:center;
+        gap:14px;
+      }
+      .sync-dot {
+        width:54px;height:54px;border-radius:50%;
+        background:#e6f7ec;color:#1c9a48;display:flex;align-items:center;justify-content:center;
+        font-size:26px;font-weight:700;
+      }
+      .sync-main { font-size: clamp(26px,1.45vw,34px); }
+      .sync-sub { color:#8b8f97; font-size: clamp(16px,0.95vw,18px); margin-top:4px; }
 
       @media (max-width: 880px) {
         .layout { grid-template-columns: 1fr; }
       }
-      @media (max-width: 700px) {
-        .ai-row { grid-template-columns: 1fr; }
-      }
       @media (max-width: 640px) {
         .workspace { border-radius: 18px; padding: 14px; }
-        textarea { font-size: 16px; }
-        button { width: 100%; }
+        textarea { font-size: 16px; min-height: 48px; }
+        .composer { grid-template-columns: 1fr; }
+        .actions { flex-wrap: wrap; }
+        button { width: auto; }
         .mini-btn { width: auto; }
         .small-btn { width: auto; }
       }
@@ -143,20 +186,19 @@
   <body>
     <main class="page">
       <div class="brand">大华舅舅的日历</div>
-      <p class="subtitle">你说一句，我帮你存进这个网页日历（本地保存）</p>
+      <p class="subtitle">跨设备同步的私人计划中心</p>
 
       <section class="workspace">
-        <p class="hint">示例：每天早上8点喝水 / 每天 20:30 跑步 / 每天晚上10点读书 / 周一到周五早上7点晨跑</p>
-        <textarea id="input" placeholder="请输入或点语音按钮，例如：每天早上8点喝水"></textarea>
+        <div class="composer">
+          <textarea id="input" placeholder="输入计划，例如：明天下午3点开会、周末跑步30分钟、晚上8点读书"></textarea>
+          <button class="primary" id="saveBtn">添加计划</button>
+        </div>
 
         <div class="actions">
-          <button class="primary" id="saveBtn">添加到网页日历</button>
-          <button class="ghost" id="undoBtn">向后回退</button>
-          <button class="ghost" id="redoBtn">向前回退</button>
-          <button class="ghost" id="micBtn">开始语音输入</button>
+          <button class="ghost" id="micBtn">语音输入</button>
+          <button class="ghost" id="undoBtn">回退</button>
+          <button class="ghost" id="redoBtn">重做</button>
           <button class="ghost" id="syncBtn">保存计划</button>
-          <button class="ghost" id="clearBtn">清空输入</button>
-          <button class="danger" id="bulkDeleteBtn">批量删除计划</button>
         </div>
 
         <div class="sync-panel"></div>
@@ -182,6 +224,14 @@
             <div id="items"></div>
           </section>
         </div>
+
+        <section class="sync-status">
+          <div class="sync-dot">✓</div>
+          <div>
+            <div class="sync-main">已自动同步 · 5分钟</div>
+            <div class="sync-sub">所有更改已安全同步到云端，可在所有设备上访问。</div>
+          </div>
+        </section>
       </section>
     </main>
 
@@ -195,8 +245,7 @@
       const syncBtn = document.getElementById("syncBtn");
       const undoBtn = document.getElementById("undoBtn");
       const redoBtn = document.getElementById("redoBtn");
-      const bulkDeleteBtn = document.getElementById("bulkDeleteBtn");
-      const clearBtn = document.getElementById("clearBtn");
+      
       const messageEl = document.getElementById("message");
       const monthTitleEl = document.getElementById("monthTitle");
       const calendarGridEl = document.getElementById("calendarGrid");
@@ -481,33 +530,6 @@
         return reminders.filter((r) => matchesDate(r, date));
       }
 
-      function parseTimeToMinutes(text) {
-        const m = String(text || "").trim().match(/^(\d{1,2}):(\d{1,2})$/);
-        if (!m) return null;
-        const hh = Number(m[1]);
-        const mm = Number(m[2]);
-        if (hh < 0 || hh > 23 || mm < 0 || mm > 59) return null;
-        return hh * 60 + mm;
-      }
-
-      function inDateRange(reminder, startDate, endDate) {
-        let d = null;
-        if (reminder.repeat === "once" && reminder.date) {
-          d = reminder.date;
-        } else if (reminder.repeat === "daily") {
-          return true;
-        } else if (reminder.repeat === "weekly") {
-          const start = new Date(startDate);
-          const end = new Date(endDate);
-          for (let cur = new Date(start); cur <= end; cur.setDate(cur.getDate() + 1)) {
-            if (matchesDate(reminder, cur)) return true;
-          }
-          return false;
-        }
-        if (!d) return false;
-        return d >= startDate && d <= endDate;
-      }
-
       function colorByLoad(pendingCount) {
         if (pendingCount <= 0) return "#e6f5e8";
         if (pendingCount === 1) return "#d8f1dc";
@@ -518,9 +540,10 @@
 
       function renderItems() {
         const selected = new Date(selectedDate);
-        const dateStr = `${selected.getFullYear()}年${selected.getMonth() + 1}月${selected.getDate()}日`;
+        const weekNames = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        const dateStr = `${selected.getFullYear()}年${selected.getMonth() + 1}月${selected.getDate()}日 · ${weekNames[selected.getDay()]}`;
         const list = tasksForDate(selected);
-        detailTitleEl.textContent = `${dateStr} 的任务（${list.length}）`;
+        detailTitleEl.innerHTML = `${dateStr} <span style="float:right;border:1px solid #e1e4ec;border-radius:999px;padding:6px 12px;font-size:14px;color:#6c7078;font-weight:500;">${list.length}条计划</span>`;
 
         if (!list.length) {
           itemsEl.innerHTML = '<div class="empty">这一天没有任务。</div>';
@@ -534,7 +557,8 @@
                 ? `每周${r.weekdays.map((d) => "日一二三四五六"[d]).join("/")}`
                 : `单次 ${r.date || ""}`;
             const checked = r.completed ? "checked" : "";
-            return `<div class="item"><div class="item-left"><input class="check" type="checkbox" data-check-id="${escapeHtml(r.id)}" ${checked} /><div><strong>${pad(r.hour)}:${pad(r.minute)}</strong> ${escapeHtml(r.title)} <span style="color:#6b736b;font-size:12px;">(${repeatText})</span></div></div><button class="small-btn" data-id="${escapeHtml(r.id)}">删除</button></div>`;
+            const doneBadge = r.completed ? '<span style="margin-left:8px;background:#e8f7ee;color:#2f9d59;padding:2px 10px;border-radius:999px;font-size:13px;">已完成</span>' : "";
+            return `<div class="item"><div class="item-left"><input class="check" type="checkbox" data-check-id="${escapeHtml(r.id)}" ${checked} /><div><div><strong style="color:#0a74ff;">${pad(r.hour)}:${pad(r.minute)}</strong> ${escapeHtml(r.title)} ${doneBadge}</div><div style="color:#8c9199;font-size:13px;margin-top:4px;">${repeatText}${r.date ? " · " + r.date : ""}</div></div></div><button class="small-btn" data-id="${escapeHtml(r.id)}">🗑</button></div>`;
           })
           .join("");
 
@@ -785,79 +809,6 @@
         if (!recognition) return;
         try { listening ? recognition.stop() : recognition.start(); }
         catch { setMessage("无法启动语音识别，请稍后再试。", true); }
-      });
-
-      clearBtn.addEventListener("click", () => { inputEl.value = ""; setMessage("已清空输入。"); });
-      bulkDeleteBtn.addEventListener("click", () => {
-        const mode = (window.prompt(
-          "批量删除方式：\n1=按日期\n2=按时间段\n3=按关键词\n请输入 1/2/3"
-        ) || "").trim();
-        if (!["1", "2", "3"].includes(mode)) return;
-
-        let next = reminders.slice();
-        const before = reminders.length;
-
-        if (mode === "1") {
-          const start = (window.prompt("开始日期（YYYY-MM-DD）") || "").trim();
-          const endInput = (window.prompt("结束日期（YYYY-MM-DD，留空=同开始日期）") || "").trim();
-          const end = endInput || start;
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) {
-            setMessage("日期格式错误，请用 YYYY-MM-DD。", true);
-            return;
-          }
-          const scope = (window.prompt("删除范围：all=该日期范围全部计划；partial=按条件删个别") || "all").trim().toLowerCase();
-          if (scope === "all") {
-            next = next.filter((r) => !inDateRange(r, start, end));
-          } else {
-            const keyword = (window.prompt("可选关键词（留空跳过）") || "").trim();
-            const time = (window.prompt("可选具体时间 HH:mm（留空跳过）") || "").trim();
-            const targetMins = time ? parseTimeToMinutes(time) : null;
-            if (time && targetMins === null) {
-              setMessage("时间格式错误，请用 HH:mm。", true);
-              return;
-            }
-            next = next.filter((r) => {
-              const hitDate = inDateRange(r, start, end);
-              const hitKw = keyword ? r.title.includes(keyword) : true;
-              const hitTime = targetMins !== null ? (r.hour * 60 + r.minute) === targetMins : true;
-              return !(hitDate && hitKw && hitTime);
-            });
-          }
-        }
-
-        if (mode === "2") {
-          const startTime = (window.prompt("开始时间 HH:mm（如 09:00）") || "").trim();
-          const endTime = (window.prompt("结束时间 HH:mm（如 18:30）") || "").trim();
-          const s = parseTimeToMinutes(startTime);
-          const e = parseTimeToMinutes(endTime);
-          if (s === null || e === null) {
-            setMessage("时间格式错误，请用 HH:mm。", true);
-            return;
-          }
-          const min = Math.min(s, e);
-          const max = Math.max(s, e);
-          next = next.filter((r) => {
-            const mins = r.hour * 60 + r.minute;
-            return !(mins >= min && mins <= max);
-          });
-        }
-
-        if (mode === "3") {
-          const keyword = (window.prompt("输入要删除的关键词（会删除所有匹配计划）") || "").trim();
-          if (!keyword) return;
-          next = next.filter((r) => !(`${r.title} ${pad(r.hour)}:${pad(r.minute)}`.includes(keyword)));
-        }
-
-        if (next.length === before) {
-          setMessage("没有匹配到可删除的计划。", true);
-          return;
-        }
-        pushUndoState();
-        reminders = next;
-        persistReminders();
-        renderItems();
-        renderCalendar();
-        setMessage(`已批量删除 ${before - next.length} 条计划。`);
       });
       undoBtn.addEventListener("click", () => {
         if (!undoStack.length) return;
