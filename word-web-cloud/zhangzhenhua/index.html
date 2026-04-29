@@ -203,7 +203,7 @@
       const prevMonthBtn = document.getElementById("prevMonth");
       const nextMonthBtn = document.getElementById("nextMonth");
 
-      const DEFAULT_SYNC_API_BASE = "https://zhangzhenhua-sync.YOUR_SUBDOMAIN.workers.dev";
+      const DEFAULT_SYNC_API_BASE = "https://zhangzh-sync-fn-mkrjlhmedg.cn-hangzhou.fcapp.run";
 
       let recognition = null;
       let listening = false;
@@ -415,7 +415,7 @@
           changed = true;
         }
         if (!cfg.apiBase || cfg.apiBase.includes("YOUR_SUBDOMAIN")) {
-          const base = window.prompt("首次同步：请输入 Worker 地址", cfg.apiBase || DEFAULT_SYNC_API_BASE);
+          const base = window.prompt("首次同步：请输入同步服务地址", cfg.apiBase || DEFAULT_SYNC_API_BASE);
           if (!base) return null;
           cfg.apiBase = base.trim().replace(/\/$/, "");
           changed = true;

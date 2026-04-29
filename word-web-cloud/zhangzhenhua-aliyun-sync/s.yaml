@@ -1,0 +1,40 @@
+edition: 3.0.0
+name: zhangzhenhua-aliyun-sync
+access: aliyun-default
+
+vars:
+  region: cn-hangzhou
+  serviceName: zhangzhenhua-sync-svc
+  functionName: zhangzhenhua-sync-fn
+
+resources:
+  syncApi:
+    component: fc3
+    props:
+      region: ${vars.region}
+      description: private schedule sync api for zhangzhenhua page
+      serviceName: ${vars.serviceName}
+      functionName: ${vars.functionName}
+      runtime: nodejs20
+      handler: index.handler
+      code: ./code
+      role: acs:ram::1180059016225838:role/AliyunFCDefaultRole
+      memorySize: 512
+      timeout: 30
+      environmentVariables:
+        SYNC_PASSWORD: "190828"
+        OSS_REGION: "oss-cn-hangzhou"
+        OSS_ENDPOINT: "https://oss-cn-hangzhou.aliyuncs.com"
+        OSS_BUCKET: "dahuajiujiu-zhangzhenhua-sync"
+        OSS_OBJECT_KEY: "schedule.json"
+      triggers:
+        - triggerName: httpTrigger
+          triggerType: http
+          qualifier: LATEST
+          triggerConfig:
+            authType: anonymous
+            disableURLInternet: false
+            methods:
+              - GET
+              - POST
+              - OPTIONS

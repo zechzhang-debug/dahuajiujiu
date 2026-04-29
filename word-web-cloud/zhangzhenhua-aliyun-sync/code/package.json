@@ -1,0 +1,9 @@
+{
+  "name": "zhangzhenhua-aliyun-sync",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "ali-oss": "^6.22.0"
+  }
+}
