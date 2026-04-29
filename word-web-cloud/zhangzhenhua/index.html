@@ -75,8 +75,16 @@
         min-width: 164px;
       }
       .warn { background: #a42020; color: #fff; }
-      .danger { display:none; }
+      .danger {
+        background: linear-gradient(180deg, #ff4d4f, #de2f33);
+        color: #fff;
+        border: 1px solid #de2f33;
+        min-width: 190px;
+        margin-left: auto;
+        box-shadow: 0 10px 18px rgba(222, 47, 51, 0.22);
+      }
       .message { min-height: 24px; margin-top: 12px; font-family: "PingFang SC", sans-serif; color:#5f6368; }
+      .btn-icon { margin-right: 6px; font-size: 0.95em; }
 
       .sync-panel {
         margin-top: 10px;
@@ -100,19 +108,23 @@
       .cal-title { font-size: clamp(30px, 1.8vw, 38px); font-weight: 600; }
       .mini-btn { padding: 8px 16px; border-radius: 999px; border: 1px solid #d6d9e1; background: #fff; font-size: clamp(15px,1vw,18px); min-width:88px; }
       .week, .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-      .grid { grid-auto-rows: 102px; }
+      .grid { grid-auto-rows: minmax(102px, auto); }
       .week div { text-align: center; color: var(--muted); font-size: clamp(14px, 0.9vw, 16px); }
       .day {
-        height: 102px; border: 1px solid #e6e9ef; border-radius: 12px; background: #fff;
+        min-height: 102px; border: 1px solid #e6e9ef; border-radius: 12px; background: #fff;
         padding: 8px; display: flex; flex-direction: column; gap: 4px;
         cursor: pointer;
-        transition: transform 120ms ease, box-shadow 120ms ease;
+        transition: transform 180ms ease, box-shadow 220ms ease, border-color 220ms ease;
         overflow: hidden;
       }
       .day:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
       .day.muted { opacity: 0.4; cursor: default; }
       .day.today { outline: 2px solid #8dbbff; }
       .day.selected { background: linear-gradient(180deg, #1175ff, #0b66e6); color:#fff; box-shadow:none; border-color: transparent; }
+      .day.rest-day { border: 2px solid #32b86c; }
+      .day.holiday { border: 2px solid #24a85f; }
+      .day.selected.rest-day,
+      .day.selected.holiday { border-color: #24a85f; border-width: 3px; }
       .day-head { display: flex; justify-content: space-between; align-items: center; }
       .dnum { font-size: clamp(24px, 1.25vw, 30px); font-family: -apple-system, "PingFang SC", sans-serif; line-height:1; }
       .count-pill {
@@ -168,6 +180,15 @@
       }
       .sync-main { font-size: clamp(26px,1.45vw,34px); }
       .sync-sub { color:#8b8f97; font-size: clamp(16px,0.95vw,18px); margin-top:4px; }
+      .workspace, .panel, .composer, .sync-status {
+        animation: floatIn 560ms cubic-bezier(.22,1,.36,1) both;
+      }
+      .panel:nth-child(2) { animation-delay: 120ms; }
+      .sync-status { animation-delay: 220ms; }
+      @keyframes floatIn {
+        from { opacity: 0; transform: translateY(10px) scale(0.995); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
 
       @media (max-width: 880px) {
         .layout { grid-template-columns: 1fr; }
@@ -195,10 +216,11 @@
         </div>
 
         <div class="actions">
-          <button class="ghost" id="micBtn">语音输入</button>
-          <button class="ghost" id="undoBtn">回退</button>
-          <button class="ghost" id="redoBtn">重做</button>
-          <button class="ghost" id="syncBtn">保存计划</button>
+          <button class="ghost" id="micBtn"><span class="btn-icon">🎤</span>语音输入</button>
+          <button class="ghost" id="undoBtn"><span class="btn-icon">↩︎</span>回退</button>
+          <button class="ghost" id="redoBtn"><span class="btn-icon">↪︎</span>重做</button>
+          <button class="ghost" id="syncBtn"><span class="btn-icon">☁︎</span>保存计划</button>
+          <button class="danger" id="bulkDeleteBtn"><span class="btn-icon">🗑</span>批量删除计划</button>
         </div>
 
         <div class="sync-panel"></div>
@@ -243,6 +265,7 @@
       const saveBtn = document.getElementById("saveBtn");
       const micBtn = document.getElementById("micBtn");
       const syncBtn = document.getElementById("syncBtn");
+      const bulkDeleteBtn = document.getElementById("bulkDeleteBtn");
       const undoBtn = document.getElementById("undoBtn");
       const redoBtn = document.getElementById("redoBtn");
       
@@ -530,6 +553,43 @@
         return reminders.filter((r) => matchesDate(r, date));
       }
 
+      function parseTimeToMinutes(text) {
+        const m = String(text || "").trim().match(/^(\d{1,2}):(\d{1,2})$/);
+        if (!m) return null;
+        const hh = Number(m[1]);
+        const mm = Number(m[2]);
+        if (hh < 0 || hh > 23 || mm < 0 || mm > 59) return null;
+        return hh * 60 + mm;
+      }
+
+      function inDateRange(reminder, startDate, endDate) {
+        let d = null;
+        if (reminder.repeat === "once" && reminder.date) {
+          d = reminder.date;
+        } else if (reminder.repeat === "daily") {
+          return true;
+        } else if (reminder.repeat === "weekly") {
+          const start = new Date(startDate);
+          const end = new Date(endDate);
+          for (let cur = new Date(start); cur <= end; cur.setDate(cur.getDate() + 1)) {
+            if (matchesDate(reminder, cur)) return true;
+          }
+          return false;
+        }
+        if (!d) return false;
+        return d >= startDate && d <= endDate;
+      }
+
+      function isHoliday(date) {
+        const mmdd = `${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+        const fixed = new Set(["01-01", "05-01", "10-01", "10-02", "10-03"]);
+        return fixed.has(mmdd);
+      }
+
+      function dayCellHeightByLoad(taskCount) {
+        return 102 + Math.min(92, taskCount * 16);
+      }
+
       function colorByLoad(pendingCount) {
         if (pendingCount <= 0) return "#e6f5e8";
         if (pendingCount === 1) return "#d8f1dc";
@@ -606,6 +666,8 @@
           const cellDate = new Date(year, month, dayNum);
           const isToday = isoDate(cellDate) === isoDate(today);
           const isSelected = isoDate(cellDate) === selectedISO;
+          const weekend = cellDate.getDay() === 0 || cellDate.getDay() === 6;
+          const holiday = isHoliday(cellDate);
           const tasks = tasksForDate(cellDate);
           const count = tasks.length;
           const pendingCount = tasks.filter((t) => !t.completed).length;
@@ -614,9 +676,9 @@
             .join("");
 
           html += `
-            <div class="day ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}"
+            <div class="day ${isToday ? "today" : ""} ${isSelected ? "selected" : ""} ${weekend ? "rest-day" : ""} ${holiday ? "holiday" : ""}"
               data-date="${isoDate(cellDate)}"
-              style="background:${colorByLoad(pendingCount)};">
+              style="background:${colorByLoad(pendingCount)}; min-height:${dayCellHeightByLoad(count)}px;">
               <div class="day-head">
                 <div class="dnum">${dayNum}</div>
                 <div class="count-pill">${count}条</div>
@@ -787,7 +849,7 @@
           }
         } finally {
           saveBtn.disabled = false;
-          saveBtn.textContent = "添加到网页日历";
+          saveBtn.textContent = "添加计划";
         }
       });
 
@@ -803,6 +865,78 @@
           syncBtn.disabled = false;
           syncBtn.textContent = "保存计划";
         }
+      });
+
+      bulkDeleteBtn.addEventListener("click", () => {
+        const mode = (window.prompt(
+          "批量删除方式：\n1=按日期\n2=按时间段\n3=按关键词\n请输入 1/2/3"
+        ) || "").trim();
+        if (!["1", "2", "3"].includes(mode)) return;
+
+        let next = reminders.slice();
+        const before = reminders.length;
+
+        if (mode === "1") {
+          const start = (window.prompt("开始日期（YYYY-MM-DD）") || "").trim();
+          const endInput = (window.prompt("结束日期（YYYY-MM-DD，留空=同开始日期）") || "").trim();
+          const end = endInput || start;
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end)) {
+            setMessage("日期格式错误，请用 YYYY-MM-DD。", true);
+            return;
+          }
+          const scope = (window.prompt("删除范围：all=该日期范围全部计划；partial=按条件删个别") || "all").trim().toLowerCase();
+          if (scope === "all") {
+            next = next.filter((r) => !inDateRange(r, start, end));
+          } else {
+            const keyword = (window.prompt("可选关键词（留空跳过）") || "").trim();
+            const time = (window.prompt("可选具体时间 HH:mm（留空跳过）") || "").trim();
+            const targetMins = time ? parseTimeToMinutes(time) : null;
+            if (time && targetMins === null) {
+              setMessage("时间格式错误，请用 HH:mm。", true);
+              return;
+            }
+            next = next.filter((r) => {
+              const hitDate = inDateRange(r, start, end);
+              const hitKw = keyword ? r.title.includes(keyword) : true;
+              const hitTime = targetMins !== null ? (r.hour * 60 + r.minute) === targetMins : true;
+              return !(hitDate && hitKw && hitTime);
+            });
+          }
+        }
+
+        if (mode === "2") {
+          const startTime = (window.prompt("开始时间 HH:mm（如 09:00）") || "").trim();
+          const endTime = (window.prompt("结束时间 HH:mm（如 18:30）") || "").trim();
+          const s = parseTimeToMinutes(startTime);
+          const e = parseTimeToMinutes(endTime);
+          if (s === null || e === null) {
+            setMessage("时间格式错误，请用 HH:mm。", true);
+            return;
+          }
+          const min = Math.min(s, e);
+          const max = Math.max(s, e);
+          next = next.filter((r) => {
+            const mins = r.hour * 60 + r.minute;
+            return !(mins >= min && mins <= max);
+          });
+        }
+
+        if (mode === "3") {
+          const keyword = (window.prompt("输入要删除的关键词（会删除所有匹配计划）") || "").trim();
+          if (!keyword) return;
+          next = next.filter((r) => !(`${r.title} ${pad(r.hour)}:${pad(r.minute)}`.includes(keyword)));
+        }
+
+        if (next.length === before) {
+          setMessage("没有匹配到可删除的计划。", true);
+          return;
+        }
+        pushUndoState();
+        reminders = next;
+        persistReminders();
+        renderItems();
+        renderCalendar();
+        setMessage(`已批量删除 ${before - next.length} 条计划。`);
       });
 
       micBtn.addEventListener("click", () => {
