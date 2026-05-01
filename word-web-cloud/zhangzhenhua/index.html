@@ -202,6 +202,21 @@
         .mini-btn { width: auto; }
         .small-btn { width: auto; }
       }
+      .modal-mask {
+        position: fixed; inset: 0; background: rgba(8,12,20,.45);
+        display: none; align-items: center; justify-content: center; z-index: 9999;
+      }
+      .modal-mask.show { display: flex; }
+      .modal {
+        width: min(760px, 92vw); background: #fff; border-radius: 16px;
+        border: 1px solid #e3e7ef; padding: 18px; box-shadow: 0 24px 48px rgba(0,0,0,.2);
+      }
+      .modal h3 { margin: 0 0 10px; font-size: 22px; }
+      .modal-list { max-height: 300px; overflow: auto; display: grid; gap: 8px; margin-bottom: 12px; }
+      .modal-item { border: 1px solid #e8ebf2; border-radius: 12px; padding: 10px 12px; font-size: 16px; }
+      .modal-warn { color: #d94841; font-size: 14px; margin: 6px 0 12px; white-space: pre-wrap; }
+      .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+      .btn-lite { border: 1px solid #d8dbe3; background: #fff; color: #1d1d1f; }
     </style>
   </head>
   <body>
@@ -256,6 +271,17 @@
         </section>
       </section>
     </main>
+    <div class="modal-mask" id="previewModal">
+      <div class="modal">
+        <h3>确认添加计划</h3>
+        <div class="modal-list" id="previewList"></div>
+        <div class="modal-warn" id="previewWarning"></div>
+        <div class="modal-actions">
+          <button class="btn-lite" id="previewCancelBtn">取消</button>
+          <button class="primary" id="previewConfirmBtn">确认添加</button>
+        </div>
+      </div>
+    </div>
 
     <script>
       const STORAGE_KEY = "dahua.daily.reminders.v2";
@@ -276,6 +302,11 @@
       const detailTitleEl = document.getElementById("detailTitle");
       const prevMonthBtn = document.getElementById("prevMonth");
       const nextMonthBtn = document.getElementById("nextMonth");
+      const previewModal = document.getElementById("previewModal");
+      const previewList = document.getElementById("previewList");
+      const previewWarning = document.getElementById("previewWarning");
+      const previewCancelBtn = document.getElementById("previewCancelBtn");
+      const previewConfirmBtn = document.getElementById("previewConfirmBtn");
 
       const DEFAULT_SYNC_API_BASE = "https://zhangzh-sync-fn-mkrjlhmedg.cn-hangzhou.fcapp.run";
 
@@ -286,6 +317,7 @@
       let redoStack = [];
       let viewDate = new Date();
       let selectedDate = new Date();
+      let pendingParsed = [];
 
       function containsAny(text, words) { return words.some((w) => text.includes(w)); }
       function pad(n) { return String(n).padStart(2, "0"); }
@@ -445,6 +477,62 @@
           if (parsed) results.push(parsed);
         }
         return results;
+      }
+
+      function smartEnhanceReminder(rawChunk, parsed) {
+        const text = rawChunk || "";
+        const out = { ...parsed };
+        if ((!parsed.hour && parsed.hour !== 0) || parsed.confidence < 0.7) {
+          out.hour = 9; out.minute = 0;
+        }
+        if (/明晚|晚上/.test(text) && out.hour < 12) out.hour += 12;
+        if (/中午/.test(text) && out.hour >= 1 && out.hour <= 10) out.hour += 12;
+        if (/晨跑/.test(text) && (!/\d/.test(text))) { out.hour = 7; out.minute = 0; out.title = out.title.replace("晨跑","跑步"); }
+        if (/开会/.test(text) && (!/\d/.test(text))) { out.hour = 15; out.minute = 0; }
+        if (/读书/.test(text) && (!/\d/.test(text))) { out.hour = 20; out.minute = 0; }
+        return out;
+      }
+
+      function reminderConflicts(candidate) {
+        return reminders.filter((r) => {
+          if (r.hour !== candidate.hour || r.minute !== candidate.minute) return false;
+          if (r.repeat === "daily" || candidate.repeat === "daily") return true;
+          if (r.repeat === "once" && candidate.repeat === "once") return r.date === candidate.date;
+          if (r.repeat === "weekly" && candidate.repeat === "weekly") {
+            return r.weekdays.some((d) => candidate.weekdays.includes(d));
+          }
+          if (r.repeat === "weekly" && candidate.repeat === "once") {
+            if (!candidate.date) return false;
+            const d = new Date(candidate.date);
+            return r.weekdays.includes(d.getDay());
+          }
+          if (r.repeat === "once" && candidate.repeat === "weekly") {
+            if (!r.date) return false;
+            const d = new Date(r.date);
+            return candidate.weekdays.includes(d.getDay());
+          }
+          return false;
+        });
+      }
+
+      function openPreviewModal(parsedList) {
+        pendingParsed = parsedList;
+        previewList.innerHTML = parsedList.map((p) => {
+          const rep = p.repeat === "daily" ? "每天" : p.repeat === "weekly" ? `每周${p.weekdays.map((d)=>"日一二三四五六"[d]).join("/")}` : `单次 ${p.date || ""}`;
+          return `<div class="modal-item"><strong>${pad(p.hour)}:${pad(p.minute)}</strong> ${escapeHtml(p.title)} <span style="color:#6e6e73;">(${rep})</span></div>`;
+        }).join("");
+        const warnings = [];
+        parsedList.forEach((p) => {
+          const c = reminderConflicts(p);
+          if (c.length) warnings.push(`时间冲突：${pad(p.hour)}:${pad(p.minute)} ${p.title}（与 ${c.length} 条已有计划冲突）`);
+        });
+        previewWarning.textContent = warnings.join("\n");
+        previewModal.classList.add("show");
+      }
+
+      function closePreviewModal() {
+        previewModal.classList.remove("show");
+        pendingParsed = [];
       }
 
       function loadReminders() {
@@ -822,11 +910,28 @@
         saveBtn.disabled = true;
         saveBtn.textContent = "解析中...";
         try {
-          const parsedList = await parseMultipleReminders(content);
+          let parsedList = await parseMultipleReminders(content);
           if (!parsedList.length) {
             setMessage("没能识别，请换一种说法。", true);
             return;
           }
+          const chunks = splitIntoTaskChunks(content);
+          parsedList = parsedList.map((p, i) => smartEnhanceReminder(chunks[i] || "", p));
+          openPreviewModal(parsedList);
+          return;
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = "添加计划";
+        }
+      });
+
+      previewCancelBtn.addEventListener("click", () => closePreviewModal());
+      previewModal.addEventListener("click", (e) => { if (e.target === previewModal) closePreviewModal(); });
+      previewConfirmBtn.addEventListener("click", () => {
+        const parsedList = pendingParsed.slice();
+        if (!parsedList.length) return closePreviewModal();
+        closePreviewModal();
+        try {
           let createdCount = 0;
           let duplicateCount = 0;
           const sample = [];
@@ -847,9 +952,8 @@
           } else {
             setMessage("解析成功，但这些提醒已存在。", true);
           }
-        } finally {
-          saveBtn.disabled = false;
-          saveBtn.textContent = "添加计划";
+        } catch (e) {
+          setMessage(`添加失败：${e.message || e}`, true);
         }
       });
 
