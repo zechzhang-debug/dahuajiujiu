@@ -518,7 +518,7 @@
                 <button id="saveStateBottomBtn" class="primary-btn">💾 保存当前状态</button>
             </div>
             <div class="footer-right">
-                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
+                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的Word</button>
             </div>
         </div>
         <footer>点击🔊听发音 · 点击【会】整行变绿 · 点击【不会】文字变红 · 解释列可“点击看意思”</footer>
@@ -639,6 +639,52 @@
         stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
         saveStoredState(stored);
         alert('当前单词及标记已保存到本地浏览器 💾');
+    }
+
+    function buildDifficultWordDocument(words) {
+        const rows = [];
+        for (let i = 0; i < words.length; i += 4) {
+            const cells = [];
+            for (let j = 0; j < 4; j += 1) {
+                const word = words[i + j] ? escapeHtml(words[i + j].word || '') : '&nbsp;';
+                cells.push(`<td>${word || '&nbsp;'}</td>`);
+            }
+            rows.push(`<tr>${cells.join('')}</tr>`);
+        }
+
+        return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: A4 portrait; margin: 1.5cm; }
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 10.5pt;
+            color: #000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td {
+            width: 25%;
+            padding: 8pt 10pt;
+            vertical-align: top;
+            text-align: left;
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 10.5pt;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        ${rows.join('')}
+    </table>
+</body>
+</html>`;
     }
 
     function sanitizeWordForFilename(word) {
@@ -1130,9 +1176,13 @@
         document.getElementById('exportDifficultBtn').addEventListener('click', () => {
             const difficultWords = allWords.filter(w => w.status === 'difficult');
             if (difficultWords.length === 0) { alert('当前没有标记为“不会”的单词'); return; }
-            const lines = difficultWords.map(w => `${w.word}/${w.phonetic}/${w.pos}/${w.definition}/${w.example}`);
-            const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'difficult_words.txt'; link.click(); URL.revokeObjectURL(link.href);
+            const html = buildDifficultWordDocument(difficultWords);
+            const blob = new Blob(['﻿', html], { type: 'application/msword;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'difficult_words.doc';
+            link.click();
+            URL.revokeObjectURL(link.href);
         });
     }
 
