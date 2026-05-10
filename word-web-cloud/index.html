@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>大华舅舅教英语 · 全页滚动版</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6974565116242974"
+        crossorigin="anonymous"></script>
     <style>
         /* ===== 基础重置 ===== */
         * {
@@ -18,6 +20,10 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+        }
+        .page-top-ad {
+            width: min(1300px, 100%);
+            margin: 0 auto 12px;
         }
         /* ===== 横屏/竖屏切换提示层 ===== */
         .rotate-message {
@@ -109,6 +115,79 @@
             border-radius: 24px;
             margin: 15px 0 20px 0;
             border: 1px solid #d9e5ee;
+        }
+        .ad-block {
+            width: 100%;
+            border: 1px dashed #c7d7e4;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #f6fafe, #eef5fb);
+            padding: 10px 12px;
+            margin: 12px 0 18px;
+        }
+        .ad-slot {
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #d5e3ee;
+            overflow: hidden;
+        }
+        .bottom-floating-ad {
+            position: fixed;
+            left: 20px;
+            right: 20px;
+            bottom: 10px;
+            z-index: 30;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+        .bottom-floating-ad.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .bottom-ad-inner {
+            position: relative;
+        }
+        .bottom-ad-close {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1px solid #b8c7d3;
+            background: rgba(255, 255, 255, 0.96);
+            color: #2a4254;
+            font-size: 16px;
+            line-height: 1;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 2;
+            padding: 0;
+        }
+        .bottom-ad-close:hover {
+            background: #f2f7fb;
+        }
+        .ad-fallback-link {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            color: #1d3f57;
+            font-weight: 600;
+            text-align: center;
+            padding: 16px 10px;
+        }
+        .ad-fallback-link small {
+            display: block;
+            margin-top: 6px;
+            color: #688aa3;
+            font-weight: 500;
         }
         .file-upload {
             display: flex;
@@ -490,6 +569,12 @@
         <p style="font-size:1.2rem">This app is designed for landscape mode</p>
     </div>
 
+    <div class="page-top-ad">
+        <div class="ad-block" id="ad-top-wrap">
+            <div class="ad-slot" id="ad-slot-top"></div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="version-badge">1.0.2</div>
         <!-- 标题、上传栏会随页面滚动 -->
@@ -523,6 +608,12 @@
         </div>
         <footer>点击🔊听发音 · 点击【会】整行变绿 · 点击【不会】文字变红 · 解释列可“点击看意思”</footer>
     </div>
+    <div class="bottom-floating-ad" id="bottom-floating-ad">
+        <div class="ad-block bottom-ad-inner" id="ad-bottom-wrap">
+            <button class="bottom-ad-close" id="bottom-ad-close-btn" type="button" aria-label="关闭广告">×</button>
+            <div class="ad-slot" id="ad-slot-bottom"></div>
+        </div>
+    </div>
 
 <script>
 (function() {
@@ -535,6 +626,14 @@
     };
     const STORAGE_KEY_STATE = 'dahuajiujiu_state_v2';
     const LEGACY_STORAGE_KEY = 'dahuajiujiu_words';
+    const AD_CONFIG = {
+        provider: 'adsense',
+        adsenseClient: 'ca-pub-6974565116242974',
+        topSlotId: '7959617772',
+        bottomSlotId: '3140359763',
+        fallbackTopLink: 'https://dahuajiujiu.com',
+        fallbackBottomLink: 'https://dahuajiujiu.com'
+    };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
         { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
@@ -562,6 +661,171 @@
     const audioCache = new Map();
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
+    let adsenseLoaded = false;
+    let adSlotObserver = null;
+    let bottomAdIdleTimer = null;
+    let bottomAdArmed = false;
+    let bottomAdCooldownUntil = 0;
+    let bottomAdMountedOnce = false;
+    let bottomAdRefreshCount = 0;
+    let bottomAdLastRefreshAt = 0;
+
+    function ensureAdsenseScriptLoaded() {
+        if (adsenseLoaded) return Promise.resolve(true);
+        if (!AD_CONFIG.adsenseClient) return Promise.resolve(false);
+        return new Promise((resolve) => {
+            const existing = document.querySelector('script[data-ad-client]');
+            if (existing) {
+                adsenseLoaded = true;
+                resolve(true);
+                return;
+            }
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(AD_CONFIG.adsenseClient)}`;
+            script.crossOrigin = 'anonymous';
+            script.setAttribute('data-ad-client', AD_CONFIG.adsenseClient);
+            script.onload = () => {
+                adsenseLoaded = true;
+                resolve(true);
+            };
+            script.onerror = () => resolve(false);
+            document.head.appendChild(script);
+        });
+    }
+
+    function renderFallbackAd(slotEl, link) {
+        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">推荐: 高效背单词资料与课程<small>广告位已启用，填入广告平台参数后自动切换正式广告</small></a>`;
+    }
+
+    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false) {
+        if (!slotEl) return;
+        if (!forceRefresh && slotEl.dataset.loaded === '1') return;
+        if (!AD_CONFIG.adsenseClient || !slotId) {
+            renderFallbackAd(slotEl, fallbackLink);
+            slotEl.dataset.loaded = '1';
+            return;
+        }
+        const loaded = await ensureAdsenseScriptLoaded();
+        if (!loaded) {
+            renderFallbackAd(slotEl, fallbackLink);
+            slotEl.dataset.loaded = '1';
+            return;
+        }
+        slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            slotEl.dataset.loaded = '1';
+        } catch (e) {
+            renderFallbackAd(slotEl, fallbackLink);
+            slotEl.dataset.loaded = '1';
+        }
+    }
+
+    function initAds() {
+        const topSlot = document.getElementById('ad-slot-top');
+        const bottomSlot = document.getElementById('ad-slot-bottom');
+        const targets = [
+            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink },
+            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink }
+        ].filter(item => item.el);
+
+        if (!targets.length) return;
+        if (!("IntersectionObserver" in window)) {
+            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link));
+            return;
+        }
+        adSlotObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const target = targets.find(item => item.el === entry.target);
+                if (target) mountAdSlot(target.el, target.slotId, target.link);
+                observer.unobserve(entry.target);
+            });
+        }, {
+            root: null,
+            rootMargin: '500px 0px',
+            threshold: 0.01
+        });
+        targets.forEach(item => adSlotObserver.observe(item.el));
+    }
+
+    function showBottomFloatingAd() {
+        const ad = document.getElementById('bottom-floating-ad');
+        if (!ad) return;
+        const now = Date.now();
+        if (now < bottomAdCooldownUntil) return;
+        const shouldRefreshBottomAd = bottomAdMountedOnce &&
+            bottomAdRefreshCount < 2 &&
+            (now - bottomAdLastRefreshAt) > 180000;
+        if (shouldRefreshBottomAd) {
+            const bottomSlot = document.getElementById('ad-slot-bottom');
+            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true);
+            bottomAdRefreshCount += 1;
+            bottomAdLastRefreshAt = now;
+        }
+        ad.classList.add('show');
+        bottomAdMountedOnce = true;
+    }
+
+    function hideBottomFloatingAd() {
+        const ad = document.getElementById('bottom-floating-ad');
+        if (!ad) return;
+        ad.classList.remove('show');
+    }
+
+    function resetBottomAdIdleTimer() {
+        if (!bottomAdArmed) return;
+        if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
+        hideBottomFloatingAd();
+        const now = Date.now();
+        if (now < bottomAdCooldownUntil) {
+            bottomAdIdleTimer = setTimeout(() => {
+                showBottomFloatingAd();
+            }, bottomAdCooldownUntil - now);
+            return;
+        }
+        bottomAdIdleTimer = setTimeout(() => {
+            showBottomFloatingAd();
+        }, 4000);
+    }
+
+    function initBottomAdBehavior() {
+        const table = document.getElementById('table-container');
+        const closeBtn = document.getElementById('bottom-ad-close-btn');
+        if (!table) return;
+        const armThreshold = 140;
+        const armOnScroll = () => {
+            if (bottomAdArmed) return;
+            const rect = table.getBoundingClientRect();
+            if (rect.top < -armThreshold) {
+                bottomAdArmed = true;
+                resetBottomAdIdleTimer();
+            }
+        };
+
+        window.addEventListener('scroll', () => {
+            armOnScroll();
+            resetBottomAdIdleTimer();
+        }, { passive: true });
+
+        ['pointerdown', 'keydown', 'wheel', 'touchstart', 'click'].forEach((eventName) => {
+            window.addEventListener(eventName, resetBottomAdIdleTimer, { passive: true });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                hideBottomFloatingAd();
+                bottomAdCooldownUntil = Date.now() + 120000;
+                if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
+                bottomAdIdleTimer = setTimeout(() => {
+                    showBottomFloatingAd();
+                }, 120000);
+            });
+        }
+    }
 
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
@@ -1210,6 +1474,8 @@
         window.addEventListener('scroll', syncToolbarHintVisibility, { passive: true });
         window.addEventListener('resize', syncToolbarHintVisibility, { passive: true });
         syncToolbarHintVisibility();
+        initAds();
+        initBottomAdBehavior();
     }
 
     initApp();
