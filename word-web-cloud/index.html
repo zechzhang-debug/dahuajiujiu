@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>大华舅舅教英语 · 全页滚动版</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6974565116242974"
         crossorigin="anonymous"></script>
@@ -66,6 +66,7 @@
         }
         /* ===== 主卡片（普通块级，不限制高度）===== */
         .card {
+            position: relative;
             max-width: 1300px;
             width: 100%;
             background: white;
@@ -73,6 +74,19 @@
             box-shadow: 0 20px 40px -10px rgba(0,20,40,0.2);
             padding: 30px 25px;
             margin: 0 auto; /* 居中 */
+        }
+        .version-badge {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 0.72rem;
+            color: #6f8697;
+            letter-spacing: 0.04em;
+            background: rgba(229, 240, 250, 0.72);
+            border: 1px solid #d6e4ef;
+            border-radius: 999px;
+            padding: 4px 10px;
+            line-height: 1;
         }
         h1 {
             font-size: 2rem;
@@ -167,13 +181,25 @@
             color: #1d3f57;
             font-weight: 600;
             text-align: center;
-            padding: 16px 10px;
+            padding: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            line-height: 0;
+        }
+        .ad-fallback-img {
+            display: block;
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            object-position: center;
         }
         .ad-fallback-link small {
             display: block;
             margin-top: 6px;
             color: #688aa3;
             font-weight: 500;
+            line-height: 1.35;
+            padding: 8px 10px 12px;
         }
         .file-upload {
             display: flex;
@@ -281,6 +307,13 @@
             max-height: 72px;
             opacity: 1;
             overflow: hidden;
+        }
+        .toolbar.is-compact .hint {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            border-left-color: transparent;
         }
         /* 表格容器（仅用于水平滚动） */
         .table-wrapper {
@@ -420,29 +453,46 @@
         }
         @media (max-width: 900px) {
             body {
-                padding: 12px;
+                padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
             }
             .card {
-                padding: 20px 14px;
-                border-radius: 22px;
+                max-width: none;
+                width: 100%;
+                border-radius: 20px;
+                padding: 16px 10px 12px;
             }
-            .page-top-ad {
-                margin-bottom: 10px;
+            h1 {
+                font-size: 1.55rem;
+                gap: 6px;
+                margin-bottom: 8px;
+            }
+            h1 span {
+                font-size: 0.86rem;
+                padding: 4px 10px;
+            }
+            .top-bar {
+                gap: 10px;
+                padding: 10px 12px;
+                margin: 10px 0 14px 0;
+                border-radius: 18px;
+            }
+            .file-upload {
+                padding: 4px 10px 4px 8px;
+            }
+            button {
+                font-size: 0.82rem;
+                padding: 7px 12px;
+                gap: 4px;
             }
             .toolbar {
-                gap: 12px;
-                top: 12px;
-                padding: 12px 14px;
-            }
-            .toolbar.is-compact .hint {
-                max-height: 0;
-                opacity: 0;
-                margin: 0;
-                padding: 0;
-                border-left-color: transparent;
+                top: 6px;
+                gap: 10px;
+                padding: 12px 10px;
+                margin: 0 0 14px 0;
+                border-radius: 18px;
             }
             .col-toggles {
-                gap: 10px;
+                gap: 8px;
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 width: 100%;
@@ -454,35 +504,68 @@
             }
             .toggle-item {
                 flex: 0 0 auto;
-                padding: 6px 12px 6px 10px;
+                padding: 5px 10px 5px 8px;
+            }
+            .toggle-item input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
+            .toggle-item label {
+                font-size: 0.82rem;
+            }
+            .table-wrapper {
+                overflow-x: auto;
+                border-radius: 16px;
+            }
+            table {
+                table-layout: fixed;
+                min-width: 690px;
+                font-size: 0.86rem;
+            }
+            th, td {
+                padding: 10px 8px;
+            }
+            th:nth-child(1), td:nth-child(1) {
+                width: 92px;
+            }
+            th:nth-child(2), td:nth-child(2) {
+                width: 96px;
+            }
+            th:nth-child(3), td:nth-child(3) {
+                width: 56px;
+            }
+            th:nth-child(4), td:nth-child(4) {
+                width: 126px;
+            }
+            th:nth-child(5), td:nth-child(5) {
+                width: 250px;
+                max-width: 250px;
+            }
+            .action-cell {
+                width: 116px;
             }
             .footer-bar {
                 flex-wrap: nowrap;
                 justify-content: flex-start;
-                gap: 10px;
+                gap: 8px;
                 overflow-x: auto;
-                padding: 8px 0 6px;
-                bottom: 8px;
-                scrollbar-width: none;
-            }
-            .bottom-floating-ad {
-                left: 12px;
-                right: 12px;
+                padding: 8px 0 4px;
                 bottom: 6px;
+                scrollbar-width: none;
             }
             .footer-bar::-webkit-scrollbar {
                 display: none;
             }
             .footer-left, .footer-right {
                 flex-wrap: nowrap;
-                gap: 10px;
+                gap: 8px;
                 flex: 0 0 auto;
             }
             .footer-bar button {
                 flex: 0 0 auto;
                 white-space: nowrap;
-                padding: 8px 14px;
-                font-size: 0.82rem;
+                padding: 7px 12px;
+                font-size: 0.78rem;
             }
             footer {
                 padding-bottom: 2px;
@@ -505,6 +588,7 @@
     </div>
 
     <div class="card">
+        <div class="version-badge">1.0.2</div>
         <!-- 标题、上传栏会随页面滚动 -->
         <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
@@ -515,6 +599,7 @@
             <button id="saveStateBtn" class="primary-btn">💾 保存当前状态</button>
             <div class="format-hint">格式: 单词/音标/词性/解释/例句 (每行一个单词，音标不要加//，例句可用/)</div>
         </div>
+
         <!-- 列显隐工具栏（sticky，固定在视口顶部） -->
         <div id="toolbar-container" class="toolbar"></div>
 
@@ -530,7 +615,7 @@
                 <button id="saveStateBottomBtn" class="primary-btn">💾 保存当前状态</button>
             </div>
             <div class="footer-right">
-                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的TXT</button>
+                <button id="exportDifficultBtn" class="primary-btn">📤 导出不会的Word</button>
             </div>
         </div>
         <footer>点击🔊听发音 · 点击【会】整行变绿 · 点击【不会】文字变红 · 解释列可“点击看意思”</footer>
@@ -559,7 +644,10 @@
         topSlotId: '7959617772',
         bottomSlotId: '3140359763',
         fallbackTopLink: 'https://dahuajiujiu.com',
-        fallbackBottomLink: 'https://dahuajiujiu.com'
+        fallbackBottomLink: 'https://dahuajiujiu.com',
+        fallbackTopImage: 'ad-fallback-banner.png',
+        fallbackBottomImage: 'ad-fallback-banner.png',
+        preferFallbackUntilAdsApproved: true
     };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
@@ -621,22 +709,38 @@
         });
     }
 
-    function renderFallbackAd(slotEl, link) {
-        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">推荐: 高效背单词资料与课程<small>广告位已启用，填入广告平台参数后自动切换正式广告</small></a>`;
+    function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png') {
+        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"><small>广告位暂未填充，先看看大华舅舅给你的打气海报</small></a>`;
+        slotEl.dataset.loaded = '1';
+        slotEl.dataset.fallback = '1';
     }
 
-    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false) {
+    function scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage) {
+        window.setTimeout(() => {
+            if (!slotEl || slotEl.dataset.fallback === '1') return;
+            const hasIframe = !!slotEl.querySelector('iframe');
+            const hasImage = !!slotEl.querySelector('img');
+            const hasVisibleAdMarkup = !!slotEl.querySelector('.adsbygoogle iframe, .adsbygoogle img');
+            if (!hasIframe && !hasImage && !hasVisibleAdMarkup) {
+                renderFallbackAd(slotEl, fallbackLink, fallbackImage);
+            }
+        }, 4500);
+    }
+
+    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false, fallbackImage = 'ad-fallback-banner.png') {
         if (!slotEl) return;
         if (!forceRefresh && slotEl.dataset.loaded === '1') return;
+        if (AD_CONFIG.preferFallbackUntilAdsApproved) {
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
+            return;
+        }
         if (!AD_CONFIG.adsenseClient || !slotId) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
             return;
         }
         const loaded = await ensureAdsenseScriptLoaded();
         if (!loaded) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
             return;
         }
         slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
@@ -644,29 +748,29 @@
             (window.adsbygoogle = window.adsbygoogle || []).push({});
             slotEl.dataset.loaded = '1';
         } catch (e) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
         }
+        scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage);
     }
 
     function initAds() {
         const topSlot = document.getElementById('ad-slot-top');
         const bottomSlot = document.getElementById('ad-slot-bottom');
         const targets = [
-            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink },
-            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink }
+            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink, image: AD_CONFIG.fallbackTopImage },
+            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink, image: AD_CONFIG.fallbackBottomImage }
         ].filter(item => item.el);
 
         if (!targets.length) return;
-        if (!('IntersectionObserver' in window)) {
-            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link));
+        if (!("IntersectionObserver" in window)) {
+            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link, false, item.image));
             return;
         }
         adSlotObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) return;
                 const target = targets.find(item => item.el === entry.target);
-                if (target) mountAdSlot(target.el, target.slotId, target.link);
+                if (target) mountAdSlot(target.el, target.slotId, target.link, false, target.image);
                 observer.unobserve(entry.target);
             });
         }, {
@@ -687,7 +791,7 @@
             (now - bottomAdLastRefreshAt) > 180000;
         if (shouldRefreshBottomAd) {
             const bottomSlot = document.getElementById('ad-slot-bottom');
-            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true);
+            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
             bottomAdRefreshCount += 1;
             bottomAdLastRefreshAt = now;
         }
@@ -830,6 +934,52 @@
         stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
         saveStoredState(stored);
         alert('当前单词及标记已保存到本地浏览器 💾');
+    }
+
+    function buildDifficultWordDocument(words) {
+        const rows = [];
+        for (let i = 0; i < words.length; i += 4) {
+            const cells = [];
+            for (let j = 0; j < 4; j += 1) {
+                const word = words[i + j] ? escapeHtml(words[i + j].word || '') : '&nbsp;';
+                cells.push(`<td>${word || '&nbsp;'}</td>`);
+            }
+            rows.push(`<tr>${cells.join('')}</tr>`);
+        }
+
+        return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { size: A4 portrait; margin: 1.5cm; }
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 10.5pt;
+            color: #000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td {
+            width: 25%;
+            padding: 8pt 10pt;
+            vertical-align: top;
+            text-align: left;
+            font-family: Calibri, Arial, sans-serif;
+            font-size: 10.5pt;
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        ${rows.join('')}
+    </table>
+</body>
+</html>`;
     }
 
     function sanitizeWordForFilename(word) {
@@ -994,16 +1144,16 @@
 
     function syncToolbarHintVisibility() {
         const toolbar = document.getElementById('toolbar-container');
-        const tableContainer = document.getElementById('table-container');
-        if (!toolbar || !tableContainer) return;
+        if (!toolbar) return;
 
-        if (window.innerWidth > 900) {
+        const isTouchMobile = window.matchMedia('(pointer: coarse)').matches && window.matchMedia('(max-width: 1180px)').matches;
+        if (!isTouchMobile) {
             toolbar.classList.remove('is-compact');
             return;
         }
 
-        const tableTop = tableContainer.getBoundingClientRect().top;
-        const shouldCompact = tableTop <= toolbar.offsetHeight + 16;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const shouldCompact = scrollTop > 12;
         toolbar.classList.toggle('is-compact', shouldCompact);
     }
 
@@ -1034,7 +1184,7 @@
             row.appendChild(wordCell);
 
             const phoneticCell = document.createElement('td');
-            phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ ${createSpeakButton(item.word, 'word', item.word)}`;
+            phoneticCell.textContent = `/${item.phonetic || ''}/`;
             phoneticCell.classList.add('phonetic');
             row.appendChild(phoneticCell);
 
@@ -1321,9 +1471,13 @@
         document.getElementById('exportDifficultBtn').addEventListener('click', () => {
             const difficultWords = allWords.filter(w => w.status === 'difficult');
             if (difficultWords.length === 0) { alert('当前没有标记为“不会”的单词'); return; }
-            const lines = difficultWords.map(w => `${w.word}/${w.phonetic}/${w.pos}/${w.definition}/${w.example}`);
-            const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'difficult_words.txt'; link.click(); URL.revokeObjectURL(link.href);
+            const html = buildDifficultWordDocument(difficultWords);
+            const blob = new Blob(['﻿', html], { type: 'application/msword;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'difficult_words.doc';
+            link.click();
+            URL.revokeObjectURL(link.href);
         });
     }
 
