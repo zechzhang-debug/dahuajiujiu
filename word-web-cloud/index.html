@@ -21,9 +21,24 @@
             flex-direction: column;
             padding: 20px;
         }
-        .page-top-ad {
+        .page-top-banner {
             width: min(1300px, 100%);
             margin: 0 auto 12px;
+        }
+        .top-banner-frame {
+            width: 100%;
+            aspect-ratio: 4 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #dfe8f0;
+            box-shadow: 0 10px 24px -16px rgba(0,20,40,0.28);
+        }
+        .top-banner-img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
         }
         /* ===== 横屏/竖屏切换提示层 ===== */
         .rotate-message {
@@ -573,9 +588,9 @@
         <p style="font-size:1.2rem">This app is designed for landscape mode</p>
     </div>
 
-    <div class="page-top-ad">
-        <div class="ad-block" id="ad-top-wrap">
-            <div class="ad-slot" id="ad-slot-top"></div>
+    <div class="page-top-banner">
+        <div class="top-banner-frame">
+            <img class="top-banner-img" src="top-banner.png" alt="大华舅舅宣传图">
         </div>
     </div>
 
@@ -637,9 +652,9 @@
         bottomSlotId: '3140359763',
         fallbackTopLink: 'https://dahuajiujiu.com',
         fallbackBottomLink: 'https://dahuajiujiu.com',
-        fallbackTopImage: 'ad-fallback-banner.png',
         fallbackBottomImage: '下banner.png',
-        preferFallbackUntilAdsApproved: true
+        preferFallbackUntilAdsApproved: true,
+        bottomImageChanceWhenAdsAvailable: 0.2
     };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
@@ -746,49 +761,50 @@
     }
 
     function initAds() {
-        const topSlot = document.getElementById('ad-slot-top');
         const bottomSlot = document.getElementById('ad-slot-bottom');
-        const targets = [
-            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink, image: AD_CONFIG.fallbackTopImage },
-            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink, image: AD_CONFIG.fallbackBottomImage }
-        ].filter(item => item.el);
+        if (!bottomSlot) return;
+        renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage);
+    }
 
-        if (!targets.length) return;
-        if (!("IntersectionObserver" in window)) {
-            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link, false, item.image));
+    function chooseBottomFallbackMode() {
+        if (AD_CONFIG.preferFallbackUntilAdsApproved) return true;
+        return Math.random() < (AD_CONFIG.bottomImageChanceWhenAdsAvailable || 0);
+    }
+
+    function prepareBottomFloatingContent(forceRefresh = false) {
+        const bottomSlot = document.getElementById('ad-slot-bottom');
+        if (!bottomSlot) return;
+        if (forceRefresh) {
+            bottomSlot.dataset.loaded = '';
+            bottomSlot.dataset.fallback = '';
+            bottomSlot.innerHTML = '';
+        }
+        if (chooseBottomFallbackMode()) {
+            renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage);
             return;
         }
-        adSlotObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                const target = targets.find(item => item.el === entry.target);
-                if (target) mountAdSlot(target.el, target.slotId, target.link, false, target.image);
-                observer.unobserve(entry.target);
-            });
-        }, {
-            root: null,
-            rootMargin: '500px 0px',
-            threshold: 0.01
-        });
-        targets.forEach(item => adSlotObserver.observe(item.el));
+        mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
+    }
+
+    function scheduleBottomAdPopup(delayMs) {
+        if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
+        bottomAdIdleTimer = setTimeout(() => {
+            showBottomFloatingAd();
+        }, delayMs);
     }
 
     function showBottomFloatingAd() {
         const ad = document.getElementById('bottom-floating-ad');
         if (!ad) return;
         const now = Date.now();
-        if (now < bottomAdCooldownUntil) return;
-        const shouldRefreshBottomAd = bottomAdMountedOnce &&
-            bottomAdRefreshCount < 2 &&
-            (now - bottomAdLastRefreshAt) > 180000;
-        if (shouldRefreshBottomAd) {
-            const bottomSlot = document.getElementById('ad-slot-bottom');
-            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
-            bottomAdRefreshCount += 1;
-            bottomAdLastRefreshAt = now;
+        if (now < bottomAdCooldownUntil) {
+            scheduleBottomAdPopup(bottomAdCooldownUntil - now);
+            return;
         }
+        prepareBottomFloatingContent(bottomAdMountedOnce);
         ad.classList.add('show');
         bottomAdMountedOnce = true;
+        bottomAdLastRefreshAt = now;
     }
 
     function hideBottomFloatingAd() {
@@ -797,44 +813,20 @@
         ad.classList.remove('show');
     }
 
-    function resetBottomAdIdleTimer() {
-        if (!bottomAdArmed) return;
-        if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
-        hideBottomFloatingAd();
-        const now = Date.now();
-        if (now < bottomAdCooldownUntil) {
-            bottomAdIdleTimer = setTimeout(() => {
-                showBottomFloatingAd();
-            }, bottomAdCooldownUntil - now);
-            return;
-        }
-        bottomAdIdleTimer = setTimeout(() => {
-            showBottomFloatingAd();
-        }, 4000);
-    }
-
     function initBottomAdBehavior() {
-        const table = document.getElementById('table-container');
         const closeBtn = document.getElementById('bottom-ad-close-btn');
-        if (!table) return;
-        const armThreshold = 140;
+        let lastScrollY = window.scrollY || 0;
+
         const armOnScroll = () => {
-            if (bottomAdArmed) return;
-            const rect = table.getBoundingClientRect();
-            if (rect.top < -armThreshold) {
+            const currentY = window.scrollY || 0;
+            if (!bottomAdArmed && currentY > lastScrollY && currentY > 80) {
                 bottomAdArmed = true;
-                resetBottomAdIdleTimer();
+                scheduleBottomAdPopup(30000);
             }
+            lastScrollY = currentY;
         };
 
-        window.addEventListener('scroll', () => {
-            armOnScroll();
-            resetBottomAdIdleTimer();
-        }, { passive: true });
-
-        ['pointerdown', 'keydown', 'wheel', 'touchstart', 'click'].forEach((eventName) => {
-            window.addEventListener(eventName, resetBottomAdIdleTimer, { passive: true });
-        });
+        window.addEventListener('scroll', armOnScroll, { passive: true });
 
         if (closeBtn) {
             closeBtn.addEventListener('click', (e) => {
@@ -842,10 +834,7 @@
                 e.stopPropagation();
                 hideBottomFloatingAd();
                 bottomAdCooldownUntil = Date.now() + 120000;
-                if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
-                bottomAdIdleTimer = setTimeout(() => {
-                    showBottomFloatingAd();
-                }, 120000);
+                scheduleBottomAdPopup(120000);
             });
         }
     }
