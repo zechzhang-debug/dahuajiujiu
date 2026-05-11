@@ -193,14 +193,6 @@
             object-fit: cover;
             object-position: center;
         }
-        .ad-fallback-link small {
-            display: block;
-            margin-top: 6px;
-            color: #688aa3;
-            font-weight: 500;
-            line-height: 1.35;
-            padding: 8px 10px 12px;
-        }
         .file-upload {
             display: flex;
             align-items: center;
@@ -710,7 +702,7 @@
     }
 
     function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png') {
-        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"><small>广告位暂未填充，先看看大华舅舅给你的打气海报</small></a>`;
+        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"></a>`;
         slotEl.dataset.loaded = '1';
         slotEl.dataset.fallback = '1';
     }
