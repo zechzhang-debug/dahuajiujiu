@@ -262,15 +262,15 @@
                 line-height: 1.15;
             }
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                width: 21%;
-                font-size: 0.76rem;
+                width: 18%;
+                font-size: 0.72rem;
                 word-break: break-word;
             }
             #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: 23%;
+                width: 18%;
             }
             #word-table.mobile-compact-threecol td:nth-child(3) {
-                width: 56%;
+                width: 64%;
             }
             #word-table.mobile-compact-threecol .action-cell {
                 white-space: nowrap;
@@ -278,14 +278,14 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
-                gap: 4px;
+                gap: 3px;
             }
             #word-table.mobile-compact-threecol .action-cell button {
                 min-width: 0;
-                width: auto;
-                flex: 1 1 0;
-                padding: 5px 4px;
-                font-size: 0.72rem;
+                width: 28px;
+                flex: 0 0 28px;
+                padding: 5px 0;
+                font-size: 0.78rem;
                 line-height: 1;
                 border-radius: 999px;
             }
@@ -293,19 +293,19 @@
                 display: inline-block;
                 width: 100%;
                 text-align: left;
-                font-size: 0.76rem;
+                font-size: 0.72rem;
             }
             #word-table.mobile-compact-threecol .speak-btn {
-                font-size: 0.84rem;
-                margin-left: 1px;
-                padding: 0 1px;
+                font-size: 0.8rem;
+                margin-left: 0;
+                padding: 0;
             }
             .footer-bar {
                 display: grid;
                 grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 6px;
+                gap: 4px;
                 overflow: visible;
-                padding: 6px 0 0;
+                padding: 4px 0 0;
                 bottom: 6px;
                 align-items: stretch;
             }
@@ -316,9 +316,9 @@
             .footer-bar button {
                 width: 100%;
                 min-width: 0;
-                padding: 7px 4px;
-                font-size: 0.72rem;
-                line-height: 1.1;
+                padding: 6px 0;
+                font-size: 0.9rem;
+                line-height: 1;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -1408,7 +1408,7 @@
             if (isDefNormal) {
                 defCell.textContent = item.definition || '—';
             } else {
-                defCell.textContent = '点击看意思';
+                defCell.textContent = compactMobile ? '点看' : '点击看意思';
                 defCell.classList.add('peek-mode');
                 defCell.dataset.revealed = 'false';
             }
@@ -1421,7 +1421,7 @@
             }
 
             const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
-            actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
+            actionCell.innerHTML = compactMobile ? `<button class="btn-master">✅</button><button class="btn-difficult">❌</button>` : `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
             row.appendChild(actionCell);
 
             fragment.appendChild(row);
@@ -1555,7 +1555,7 @@
             const definition = defCell.dataset.definition;
 
             if (isRevealed) {
-                defCell.textContent = '点击看意思';
+                defCell.textContent = compactMobile ? '点看' : '点击看意思';
                 defCell.dataset.revealed = 'false';
                 defCell.classList.remove('revealed');
             } else {
@@ -1720,12 +1720,31 @@
         });
     }
 
+    function applyResponsiveFooterLabels() {
+        const compactMobile = isMobilePortraitCompactMode();
+        const mapping = [
+            ['showDifficultBtn', '🔴', '🔴 只显示不会'],
+            ['hideMasteredBtn', '🙈', '🙈 隐藏会的'],
+            ['showAllBtn', '🌐', '🌐 显示全部'],
+            ['saveStateBottomBtn', '💾', '💾 保存当前状态'],
+            ['exportDifficultBtn', '📤', '📤 导出不会的Word']
+        ];
+        mapping.forEach(([id, compactText, normalText]) => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            button.textContent = compactMobile ? compactText : normalText;
+            button.setAttribute('aria-label', normalText);
+            button.title = normalText;
+        });
+    }
+
     function rebuildResponsiveLayout() {
         renderToolbar();
         renderTable();
         bindTableEvents();
         bindToolbarEvents();
         syncToolbarHintVisibility();
+        applyResponsiveFooterLabels();
     }
 
     async function initApp() {
@@ -1738,6 +1757,7 @@
         bindTableEvents();
         bindControls();
         bindToolbarEvents();
+        applyResponsiveFooterLabels();
 
         let lastCompactMode = isMobilePortraitCompactMode();
         const handleViewportModeChange = () => {
