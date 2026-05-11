@@ -38,7 +38,7 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            object-position: center;
+            object-position: center 58%;
         }
         /* ===== 横屏/竖屏切换提示层 ===== */
         .rotate-message {
@@ -716,8 +716,10 @@
         });
     }
 
-    function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png') {
-        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"></a>`;
+    function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png', action = 'link') {
+        const targetAttr = action === 'link' ? ' target="_blank" rel="noopener noreferrer"' : '';
+        const hrefAttr = action === 'link' ? ` href="${escapeHtml(link)}"` : ' href="#"';
+        slotEl.innerHTML = `<a class="ad-fallback-link" data-action="${escapeHtml(action)}"${hrefAttr}${targetAttr}><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"></a>`;
         slotEl.dataset.loaded = '1';
         slotEl.dataset.fallback = '1';
     }
@@ -780,7 +782,7 @@
             bottomSlot.innerHTML = '';
         }
         if (chooseBottomFallbackMode()) {
-            renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage);
+            renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage, 'close');
             return;
         }
         mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
@@ -815,18 +817,31 @@
 
     function initBottomAdBehavior() {
         const closeBtn = document.getElementById('bottom-ad-close-btn');
+        const ad = document.getElementById('bottom-floating-ad');
         let lastScrollY = window.scrollY || 0;
 
         const armOnScroll = () => {
             const currentY = window.scrollY || 0;
             if (!bottomAdArmed && currentY > lastScrollY && currentY > 80) {
                 bottomAdArmed = true;
-                scheduleBottomAdPopup(30000);
+                scheduleBottomAdPopup(3000);
             }
             lastScrollY = currentY;
         };
 
         window.addEventListener('scroll', armOnScroll, { passive: true });
+
+        if (ad) {
+            ad.addEventListener('click', (e) => {
+                const fallbackLink = e.target.closest('.ad-fallback-link[data-action="close"]');
+                if (!fallbackLink) return;
+                e.preventDefault();
+                e.stopPropagation();
+                hideBottomFloatingAd();
+                bottomAdCooldownUntil = Date.now() + 120000;
+                scheduleBottomAdPopup(120000);
+            });
+        }
 
         if (closeBtn) {
             closeBtn.addEventListener('click', (e) => {
