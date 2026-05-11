@@ -262,23 +262,44 @@
                 line-height: 1.15;
             }
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                width: 18%;
+                width: 24%;
                 font-size: 0.72rem;
                 word-break: break-word;
             }
             #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: 18%;
+                width: 76%;
             }
-            #word-table.mobile-compact-threecol td:nth-child(3) {
-                width: 64%;
+            #word-table.mobile-compact-threecol .compact-mobile-meta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 6px;
+                width: 100%;
+                min-width: 0;
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meaning {
+                flex: 1 1 auto;
+                min-width: 0;
+                font-size: 0.72rem;
+                color: #2b6c9e;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meaning.revealed {
+                color: inherit;
+                font-weight: normal;
             }
             #word-table.mobile-compact-threecol .action-cell {
+                flex: 0 0 auto;
                 white-space: nowrap;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: flex-end;
                 gap: 3px;
+                border: 0;
+                padding: 0;
             }
             #word-table.mobile-compact-threecol .action-cell button {
                 min-width: 0;
@@ -290,10 +311,14 @@
                 border-radius: 999px;
             }
             #word-table.mobile-compact-threecol .peek-mode {
-                display: inline-block;
-                width: 100%;
+                display: inline;
+                width: auto;
                 text-align: left;
                 font-size: 0.72rem;
+                border: 0;
+                padding: 0;
+                margin: 0;
+                background: transparent;
             }
             #word-table.mobile-compact-threecol .speak-btn {
                 font-size: 0.8rem;
@@ -1405,24 +1430,40 @@
 
             const defCell = document.createElement('td');
             defCell.dataset.definition = item.definition || '—';
-            if (isDefNormal) {
-                defCell.textContent = item.definition || '—';
-            } else {
-                defCell.textContent = compactMobile ? '点看' : '点击看意思';
-                defCell.classList.add('peek-mode');
-                defCell.dataset.revealed = 'false';
-            }
-            row.appendChild(defCell);
+            if (compactMobile) {
+                const metaWrap = document.createElement('div');
+                metaWrap.className = 'compact-mobile-meta';
+                const meaningSpan = document.createElement('span');
+                meaningSpan.className = 'compact-mobile-meaning peek-mode';
+                meaningSpan.dataset.definition = item.definition || '—';
+                meaningSpan.dataset.revealed = 'false';
+                meaningSpan.textContent = '点看';
+                metaWrap.appendChild(meaningSpan);
 
-            if (!compactMobile) {
+                const actionCell = document.createElement('div');
+                actionCell.className = 'action-cell';
+                actionCell.innerHTML = `<button class="btn-master">✅</button><button class="btn-difficult">❌</button>`;
+                metaWrap.appendChild(actionCell);
+                defCell.appendChild(metaWrap);
+                row.appendChild(defCell);
+            } else {
+                if (isDefNormal) {
+                    defCell.textContent = item.definition || '—';
+                } else {
+                    defCell.textContent = '点击看意思';
+                    defCell.classList.add('peek-mode');
+                    defCell.dataset.revealed = 'false';
+                }
+                row.appendChild(defCell);
+
                 const exampleCell = document.createElement('td');
                 exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
                 row.appendChild(exampleCell);
-            }
 
-            const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
-            actionCell.innerHTML = compactMobile ? `<button class="btn-master">✅</button><button class="btn-difficult">❌</button>` : `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
-            row.appendChild(actionCell);
+                const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
+                actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
+                row.appendChild(actionCell);
+            }
 
             fragment.appendChild(row);
         });
