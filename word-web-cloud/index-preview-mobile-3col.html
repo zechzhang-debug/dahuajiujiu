@@ -251,37 +251,46 @@
             }
             #word-table.mobile-compact-threecol th,
             #word-table.mobile-compact-threecol td {
-                padding: 12px 6px;
-                font-size: 0.95rem;
+                padding: 8px 5px;
+                font-size: 0.86rem;
                 vertical-align: middle;
+                line-height: 1.25;
             }
             #word-table.mobile-compact-threecol th:nth-child(1),
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                width: 26%;
+                width: 31%;
             }
             #word-table.mobile-compact-threecol th:nth-child(2),
             #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: 34%;
+                width: 25%;
             }
             #word-table.mobile-compact-threecol th:nth-child(3),
             #word-table.mobile-compact-threecol td:nth-child(3) {
-                width: 40%;
+                width: 44%;
             }
             #word-table.mobile-compact-threecol .action-cell {
-                white-space: nowrap;
+                white-space: normal;
                 display: flex;
-                justify-content: flex-end;
-                gap: 4px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 6px;
             }
             #word-table.mobile-compact-threecol .action-cell button {
                 min-width: 0;
-                padding: 8px 8px;
-                font-size: 0.86rem;
+                width: 100%;
+                padding: 6px 0;
+                font-size: 0.78rem;
+                line-height: 1.1;
             }
             #word-table.mobile-compact-threecol .peek-mode {
                 display: inline-block;
                 width: 100%;
                 text-align: left;
+                font-size: 0.82rem;
+            }
+            #word-table.mobile-compact-threecol .speak-btn {
+                font-size: 0.95rem;
+                margin-left: 2px;
             }
             .bottom-floating-ad {
                 left: 10px;
@@ -1301,7 +1310,7 @@
         const shuffleLabel = document.createElement('label'); shuffleLabel.htmlFor = 'shuffleToggle'; shuffleLabel.textContent = '乱序';
         shuffleItem.appendChild(shuffleCheckbox); shuffleItem.appendChild(shuffleLabel); togglesDiv.appendChild(shuffleItem);
         const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = compactMobile
-            ? '✔ 手机竖屏：单词 / 解释 / 操作'
+            ? '✔ 手机竖屏三列预览'
             : '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
         container.appendChild(togglesDiv); container.appendChild(hintSpan);
     }
