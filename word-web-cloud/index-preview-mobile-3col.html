@@ -280,7 +280,7 @@
                 flex: 0 0 42%;
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                gap: 24px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -353,9 +353,10 @@
                 flex: 0 0 auto;
             }
             .footer-bar {
-                display: grid;
-                grid-template-columns: repeat(5, minmax(0, 1fr));
-                gap: 4px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 6px;
                 overflow: visible;
                 padding: 4px 0 0;
                 bottom: 6px;
@@ -366,16 +367,18 @@
                 display: contents;
             }
             .footer-bar button {
-                width: 100%;
-                min-width: 0;
+                width: auto;
+                min-width: calc(33.333% - 6px);
+                max-width: calc(33.333% - 6px);
                 min-height: 30px;
-                padding: 4px 2px;
-                font-size: 0.54rem;
-                line-height: 1;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                padding: 5px 6px;
+                font-size: 0.58rem;
+                line-height: 1.05;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
                 word-break: keep-all;
+                flex: 1 1 calc(33.333% - 6px);
             }
             .bottom-floating-ad {
                 left: 8px;
