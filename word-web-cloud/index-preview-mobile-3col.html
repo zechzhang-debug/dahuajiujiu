@@ -1658,6 +1658,36 @@
         });
     }
 
+    function bindToolbarEvents() {
+        const shuffleToggle = document.getElementById('shuffleToggle');
+        if (shuffleToggle) {
+            shuffleToggle.addEventListener('change', (e) => {
+                shuffleMode = e.target.checked;
+                shuffleState = null;
+                renderTable();
+            });
+        }
+
+        document.querySelectorAll('.col-toggle').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.colindex, 10);
+                if (idx === 3 || isMobilePortraitCompactMode()) {
+                    renderTable();
+                } else {
+                    updateColumnVisibility();
+                }
+            });
+        });
+    }
+
+    function rebuildResponsiveLayout() {
+        renderToolbar();
+        renderTable();
+        bindTableEvents();
+        bindToolbarEvents();
+        syncToolbarHintVisibility();
+    }
+
     async function initApp() {
         const stored = getStoredState();
         currentLevel = CONFIG_FILES[stored.currentLevel] ? stored.currentLevel : 'primary';
@@ -1667,20 +1697,23 @@
         renderTable();
         bindTableEvents();
         bindControls();
+        bindToolbarEvents();
 
-        document.querySelectorAll('.col-toggle').forEach(cb => {
-            cb.addEventListener('change', (e) => {
-                const idx = parseInt(e.target.dataset.colindex, 10);
-                if (idx === 3) {
-                    renderTable();
-                } else {
-                    updateColumnVisibility();
-                }
-            });
-        });
+        let lastCompactMode = isMobilePortraitCompactMode();
+        const handleViewportModeChange = () => {
+            const nextCompactMode = isMobilePortraitCompactMode();
+            if (nextCompactMode !== lastCompactMode) {
+                lastCompactMode = nextCompactMode;
+                rebuildResponsiveLayout();
+                return;
+            }
+            syncToolbarHintVisibility();
+            updateBottomAdPosition();
+        };
 
         window.addEventListener('scroll', syncToolbarHintVisibility, { passive: true });
-        window.addEventListener('resize', syncToolbarHintVisibility, { passive: true });
+        window.addEventListener('resize', handleViewportModeChange, { passive: true });
+        window.addEventListener('orientationchange', handleViewportModeChange, { passive: true });
         syncToolbarHintVisibility();
         initAds();
         initBottomAdBehavior();
