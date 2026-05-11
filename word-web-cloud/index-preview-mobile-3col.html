@@ -245,41 +245,51 @@
                 font-size: 0.82rem;
             }
             .table-wrapper {
-                overflow-x: hidden;
+                overflow-x: hidden !important;
+                width: 100%;
             }
             #word-table.mobile-compact-threecol {
-                width: 100%;
-                table-layout: auto;
+                width: 100% !important;
+                min-width: 0 !important;
+                table-layout: fixed;
                 border-collapse: collapse;
             }
             #word-table.mobile-compact-threecol thead {
                 display: none;
             }
-            #word-table.mobile-compact-threecol tbody tr {
-                display: grid;
-                grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+            #word-table.mobile-compact-threecol tbody,
+            #word-table.mobile-compact-threecol tr,
+            #word-table.mobile-compact-threecol td {
+                width: 100%;
+            }
+            #word-table.mobile-compact-threecol tr {
+                display: flex;
                 align-items: center;
+                justify-content: space-between;
             }
             #word-table.mobile-compact-threecol td {
-                padding: 6px 3px;
-                font-size: 0.74rem;
-                vertical-align: middle;
+                padding: 8px 4px;
+                font-size: 0.76rem;
                 line-height: 1;
+                vertical-align: middle;
                 min-width: 0;
                 border-bottom: 1px solid #d7e5ef;
             }
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                font-size: 0.62rem;
-                white-space: nowrap;
-                word-break: normal;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                width: 42%;
+                flex: 0 0 42%;
                 display: flex;
                 align-items: center;
-                gap: 1px;
+                gap: 2px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: normal;
+                font-size: 0.72rem;
             }
             #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: auto;
+                width: 58%;
+                flex: 0 0 58%;
                 padding-left: 0;
             }
             #word-table.mobile-compact-threecol .compact-mobile-meta {
@@ -291,13 +301,14 @@
                 min-width: 0;
             }
             #word-table.mobile-compact-threecol .compact-mobile-meaning {
-                flex: 0 1 auto;
+                flex: 1 1 auto;
                 min-width: 0;
-                font-size: 0.66rem;
+                font-size: 0.68rem;
                 color: #2b6c9e;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                cursor: pointer;
             }
             #word-table.mobile-compact-threecol .compact-mobile-meaning.revealed {
                 color: inherit;
@@ -305,17 +316,17 @@
             }
             #word-table.mobile-compact-threecol .action-cell {
                 flex: 0 0 auto;
-                white-space: nowrap;
-                display: inline-flex;
+                display: flex;
                 align-items: center;
                 gap: 2px;
+                white-space: nowrap;
             }
             #word-table.mobile-compact-threecol .action-cell button {
-                min-width: 0;
                 width: 22px;
                 height: 22px;
+                min-width: 22px;
                 padding: 0;
-                font-size: 0.72rem;
+                font-size: 0.7rem;
                 line-height: 1;
                 border-radius: 999px;
                 display: inline-flex;
@@ -324,46 +335,41 @@
             }
             #word-table.mobile-compact-threecol .peek-mode {
                 display: inline;
-                width: auto;
-                text-align: left;
-                font-size: 0.66rem;
                 border: 0;
                 padding: 0;
                 margin: 0;
                 background: transparent;
             }
             #word-table.mobile-compact-threecol .speak-btn {
-                font-size: 0.72rem;
+                font-size: 0.78rem;
                 margin-left: 0;
                 padding: 0;
                 flex: 0 0 auto;
             }
             .footer-bar {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
                 gap: 4px;
                 overflow: visible;
                 padding: 4px 0 0;
                 bottom: 6px;
-                align-items: center;
+                align-items: stretch;
             }
             .footer-left,
             .footer-right {
                 display: contents;
             }
             .footer-bar button {
-                width: auto;
+                width: 100%;
                 min-width: 0;
-                min-height: 28px;
-                padding: 4px 8px;
-                font-size: 0.56rem;
+                min-height: 30px;
+                padding: 4px 2px;
+                font-size: 0.54rem;
                 line-height: 1;
                 white-space: nowrap;
-                overflow: visible;
-                text-overflow: clip;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 word-break: keep-all;
-                flex: 0 0 auto;
             }
             .bottom-floating-ad {
                 left: 8px;
@@ -1606,7 +1612,7 @@
                 return;
             }
 
-            const defCell = e.target.closest('td');
+            const defCell = e.target.closest('.compact-mobile-meaning') || e.target.closest('td');
             if (!defCell || !defCell.classList.contains('peek-mode')) return;
 
             const isRevealed = defCell.dataset.revealed === 'true';
