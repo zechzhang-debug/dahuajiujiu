@@ -70,13 +70,13 @@
             50% { transform: rotate(90deg); }
             100% { transform: rotate(90deg); }
         }
-        /* 竖屏时显示提示层，隐藏主卡片 */
+        /* 预览版：手机竖屏直接显示内容，不再提示旋转 */
         @media (orientation: portrait) {
             .rotate-message {
-                display: flex;
+                display: none !important;
             }
             .card {
-                display: none;
+                display: block;
             }
         }
         /* ===== 主卡片（普通块级，不限制高度）===== */
@@ -154,7 +154,7 @@
             position: fixed;
             left: 20px;
             right: 20px;
-            bottom: 10px;
+            bottom: calc(var(--bottom-ad-offset, 10px) + env(safe-area-inset-bottom, 0px));
             z-index: 30;
             opacity: 0;
             pointer-events: none;
@@ -188,6 +188,105 @@
         }
         .bottom-ad-close:hover {
             background: #f2f7fb;
+        }
+        .bottom-ad-close {
+            width: 34px;
+            height: 34px;
+            border-width: 2px;
+            box-shadow: 0 8px 20px rgba(0, 20, 40, 0.18);
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.98);
+        }
+        @media (max-width: 900px) and (orientation: portrait) {
+            .rotate-message {
+                display: none !important;
+            }
+            body {
+                padding: 10px;
+            }
+            .page-top-banner {
+                margin-bottom: 8px;
+            }
+            .card {
+                padding: 16px 10px 18px;
+                border-radius: 20px;
+            }
+            .version-badge {
+                top: 12px;
+                right: 12px;
+            }
+            .toolbar {
+                gap: 10px;
+                top: 10px;
+                padding: 10px 12px;
+            }
+            .toolbar.is-compact .hint {
+                max-height: 0;
+                opacity: 0;
+                margin: 0;
+                padding: 0;
+                border-left-color: transparent;
+            }
+            .col-toggles {
+                gap: 10px;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                width: 100%;
+                padding-bottom: 2px;
+                scrollbar-width: none;
+            }
+            .col-toggles::-webkit-scrollbar {
+                display: none;
+            }
+            .toggle-item {
+                flex: 0 0 auto;
+                padding: 6px 12px 6px 10px;
+            }
+            .table-wrapper {
+                overflow-x: hidden;
+            }
+            #word-table.mobile-compact-threecol {
+                width: 100%;
+                table-layout: fixed;
+            }
+            #word-table.mobile-compact-threecol th,
+            #word-table.mobile-compact-threecol td {
+                padding: 12px 6px;
+                font-size: 0.95rem;
+                vertical-align: middle;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(1),
+            #word-table.mobile-compact-threecol td:nth-child(1) {
+                width: 26%;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(2),
+            #word-table.mobile-compact-threecol td:nth-child(2) {
+                width: 34%;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(3),
+            #word-table.mobile-compact-threecol td:nth-child(3) {
+                width: 40%;
+            }
+            #word-table.mobile-compact-threecol .action-cell {
+                white-space: nowrap;
+                display: flex;
+                justify-content: flex-end;
+                gap: 4px;
+            }
+            #word-table.mobile-compact-threecol .action-cell button {
+                min-width: 0;
+                padding: 8px 8px;
+                font-size: 0.86rem;
+            }
+            #word-table.mobile-compact-threecol .peek-mode {
+                display: inline-block;
+                width: 100%;
+                text-align: left;
+            }
+            .bottom-floating-ad {
+                left: 10px;
+                right: 10px;
+            }
         }
         .ad-fallback-link {
             display: block;
@@ -638,7 +737,7 @@
     </div>
 
     <div class="card">
-        <div class="version-badge">1.0.2</div>
+        <div class="version-badge">preview</div>
         <!-- 标题、上传栏会随页面滚动 -->
         <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
@@ -838,6 +937,23 @@
         }, delayMs);
     }
 
+    function updateBottomAdPosition() {
+        const ad = document.getElementById('bottom-floating-ad');
+        const footerBar = document.querySelector('.footer-bar');
+        if (!ad || !footerBar) return;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const buttonRects = Array.from(footerBar.querySelectorAll('button'))
+            .map((button) => button.getBoundingClientRect())
+            .filter((rect) => rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < viewportHeight);
+        const footerRect = footerBar.getBoundingClientRect();
+        const anchorTop = buttonRects.length
+            ? Math.min(...buttonRects.map((rect) => rect.top))
+            : footerRect.top;
+        const footerTouchesViewport = footerRect.bottom > 0 && anchorTop < viewportHeight;
+        const safeOffset = footerTouchesViewport ? Math.max(0, viewportHeight - anchorTop) : 10;
+        document.documentElement.style.setProperty('--bottom-ad-offset', safeOffset + 'px');
+    }
+
     function showBottomFloatingAd() {
         const ad = document.getElementById('bottom-floating-ad');
         if (!ad) return;
@@ -847,6 +963,7 @@
             return;
         }
         prepareBottomFloatingContent(bottomAdMountedOnce);
+        updateBottomAdPosition();
         ad.classList.add('show');
         bottomAdMountedOnce = true;
         bottomAdLastRefreshAt = now;
@@ -872,7 +989,9 @@
             lastScrollY = currentY;
         };
 
-        window.addEventListener('scroll', armOnScroll, { passive: true });
+        window.addEventListener('scroll', () => { armOnScroll(); updateBottomAdPosition(); }, { passive: true });
+        window.addEventListener('resize', updateBottomAdPosition, { passive: true });
+        updateBottomAdPosition();
 
         if (ad) {
             ad.addEventListener('click', (e) => {
@@ -1167,7 +1286,11 @@
         const container = document.getElementById('toolbar-container');
         container.innerHTML = '';
         const togglesDiv = document.createElement('div'); togglesDiv.className = 'col-toggles';
-        columns.forEach((col, idx) => {
+        const compactMobile = isMobilePortraitCompactMode();
+        const visibleToolbarColumns = compactMobile ? [columns[0], columns[3]] : columns;
+
+        visibleToolbarColumns.forEach((col) => {
+            const idx = columns.findIndex((candidate) => candidate.field === col.field);
             const item = document.createElement('div'); item.className = 'toggle-item';
             const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = `col_${idx}`; checkbox.className = 'col-toggle'; checkbox.dataset.colindex = idx; checkbox.checked = true;
             const label = document.createElement('label'); label.htmlFor = `col_${idx}`; label.textContent = col.label;
@@ -1177,7 +1300,9 @@
         const shuffleCheckbox = document.createElement('input'); shuffleCheckbox.type = 'checkbox'; shuffleCheckbox.id = 'shuffleToggle'; shuffleCheckbox.checked = shuffleMode;
         const shuffleLabel = document.createElement('label'); shuffleLabel.htmlFor = 'shuffleToggle'; shuffleLabel.textContent = '乱序';
         shuffleItem.appendChild(shuffleCheckbox); shuffleItem.appendChild(shuffleLabel); togglesDiv.appendChild(shuffleItem);
-        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
+        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = compactMobile
+            ? '✔ 手机竖屏：单词 / 解释 / 操作'
+            : '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
         container.appendChild(togglesDiv); container.appendChild(hintSpan);
     }
 
@@ -1270,11 +1395,13 @@
     }
 
     function updateColumnVisibility() {
+        if (isMobilePortraitCompactMode()) return;
         const table = document.getElementById('word-table'); if (!table) return;
         const checkboxes = document.querySelectorAll('.col-toggle'); if (!checkboxes.length) return;
         const headerThs = table.querySelectorAll('thead tr th'); const bodyRows = table.querySelectorAll('tbody tr');
 
-        checkboxes.forEach((cb, idx) => {
+        checkboxes.forEach((cb) => {
+            const idx = Number(cb.dataset.colindex);
             if (idx === 3) return; // 解释列不参与隐藏
             const isVisible = cb.checked;
             if (idx < headerThs.length - 1) {
