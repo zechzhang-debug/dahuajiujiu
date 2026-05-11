@@ -353,9 +353,8 @@
                 flex: 0 0 auto;
             }
             .footer-bar {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
                 gap: 6px;
                 overflow: visible;
                 padding: 4px 0 0;
@@ -367,18 +366,25 @@
                 display: contents;
             }
             .footer-bar button {
-                width: auto;
-                min-width: calc(33.333% - 6px);
-                max-width: calc(33.333% - 6px);
-                min-height: 30px;
+                width: 100%;
+                min-width: 0;
+                min-height: 32px;
                 padding: 5px 6px;
-                font-size: 0.58rem;
+                font-size: 0.56rem;
                 line-height: 1.05;
                 white-space: normal;
                 overflow: visible;
                 text-overflow: clip;
                 word-break: keep-all;
-                flex: 1 1 calc(33.333% - 6px);
+            }
+            #showDifficultBtn,
+            #hideMasteredBtn,
+            #showAllBtn {
+                grid-column: span 2;
+            }
+            #saveStateBottomBtn,
+            #exportDifficultBtn {
+                grid-column: span 3;
             }
             .bottom-floating-ad {
                 left: 8px;
@@ -1796,11 +1802,11 @@
     function applyResponsiveFooterLabels() {
         const compactMobile = isMobilePortraitCompactMode();
         const mapping = [
-            ['showDifficultBtn', '🔴不会', '🔴 只显示不会'],
-            ['hideMasteredBtn', '🙈藏会', '🙈 隐藏会的'],
-            ['showAllBtn', '🌐全部', '🌐 显示全部'],
-            ['saveStateBottomBtn', '💾保存', '💾 保存当前状态'],
-            ['exportDifficultBtn', '📤导出', '📤 导出不会的Word']
+            ['showDifficultBtn', '🔴 只显示不会', '🔴 只显示不会'],
+            ['hideMasteredBtn', '🙈 隐藏会的', '🙈 隐藏会的'],
+            ['showAllBtn', '🌐 显示全部', '🌐 显示全部'],
+            ['saveStateBottomBtn', '💾 保存当前状态', '💾 保存当前状态'],
+            ['exportDifficultBtn', '📤 导出不会的Word', '📤 导出不会的Word']
         ];
         mapping.forEach(([id, compactText, normalText]) => {
             const button = document.getElementById(id);
