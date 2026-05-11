@@ -1619,6 +1619,8 @@
     function bindTableEvents() {
         const container = document.getElementById('table-container');
         if (!container) return;
+        if (container.dataset.boundTableEvents === 'true') return;
+        container.dataset.boundTableEvents = 'true';
 
         container.addEventListener('click', (e) => {
             const compactMobile = isMobilePortraitCompactMode();
