@@ -202,23 +202,24 @@
                 display: none !important;
             }
             body {
-                padding: 10px;
+                padding: 8px;
             }
             .page-top-banner {
                 margin-bottom: 8px;
             }
             .card {
-                padding: 16px 10px 18px;
-                border-radius: 20px;
+                padding: 14px 8px 16px;
+                border-radius: 18px;
             }
             .version-badge {
-                top: 12px;
-                right: 12px;
+                top: 10px;
+                right: 10px;
+                font-size: 0.64rem;
             }
             .toolbar {
-                gap: 10px;
-                top: 10px;
-                padding: 10px 12px;
+                gap: 8px;
+                top: 8px;
+                padding: 8px 10px;
             }
             .toolbar.is-compact .hint {
                 max-height: 0;
@@ -228,7 +229,7 @@
                 border-left-color: transparent;
             }
             .col-toggles {
-                gap: 10px;
+                gap: 8px;
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 width: 100%;
@@ -240,7 +241,8 @@
             }
             .toggle-item {
                 flex: 0 0 auto;
-                padding: 6px 12px 6px 10px;
+                padding: 5px 10px 5px 8px;
+                font-size: 0.82rem;
             }
             .table-wrapper {
                 overflow-x: hidden;
@@ -249,52 +251,81 @@
                 width: 100%;
                 table-layout: fixed;
             }
+            #word-table.mobile-compact-threecol thead {
+                display: none;
+            }
             #word-table.mobile-compact-threecol th,
             #word-table.mobile-compact-threecol td {
-                padding: 8px 5px;
-                font-size: 0.86rem;
+                padding: 6px 4px;
+                font-size: 0.8rem;
                 vertical-align: middle;
-                line-height: 1.25;
+                line-height: 1.15;
             }
-            #word-table.mobile-compact-threecol th:nth-child(1),
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                width: 31%;
+                width: 21%;
+                font-size: 0.76rem;
+                word-break: break-word;
             }
-            #word-table.mobile-compact-threecol th:nth-child(2),
             #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: 25%;
+                width: 23%;
             }
-            #word-table.mobile-compact-threecol th:nth-child(3),
             #word-table.mobile-compact-threecol td:nth-child(3) {
-                width: 44%;
+                width: 56%;
             }
             #word-table.mobile-compact-threecol .action-cell {
-                white-space: normal;
+                white-space: nowrap;
                 display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 6px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 4px;
             }
             #word-table.mobile-compact-threecol .action-cell button {
                 min-width: 0;
-                width: 100%;
-                padding: 6px 0;
-                font-size: 0.78rem;
-                line-height: 1.1;
+                width: auto;
+                flex: 1 1 0;
+                padding: 5px 4px;
+                font-size: 0.72rem;
+                line-height: 1;
+                border-radius: 999px;
             }
             #word-table.mobile-compact-threecol .peek-mode {
                 display: inline-block;
                 width: 100%;
                 text-align: left;
-                font-size: 0.82rem;
+                font-size: 0.76rem;
             }
             #word-table.mobile-compact-threecol .speak-btn {
-                font-size: 0.95rem;
-                margin-left: 2px;
+                font-size: 0.84rem;
+                margin-left: 1px;
+                padding: 0 1px;
+            }
+            .footer-bar {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 6px;
+                overflow: visible;
+                padding: 6px 0 0;
+                bottom: 6px;
+                align-items: stretch;
+            }
+            .footer-left,
+            .footer-right {
+                display: contents;
+            }
+            .footer-bar button {
+                width: 100%;
+                min-width: 0;
+                padding: 7px 4px;
+                font-size: 0.72rem;
+                line-height: 1.1;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .bottom-floating-ad {
-                left: 10px;
-                right: 10px;
+                left: 8px;
+                right: 8px;
             }
         }
         .ad-fallback-link {
