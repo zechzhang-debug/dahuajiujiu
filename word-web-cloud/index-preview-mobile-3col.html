@@ -249,36 +249,44 @@
             }
             #word-table.mobile-compact-threecol {
                 width: 100%;
-                table-layout: fixed;
+                table-layout: auto;
+                border-collapse: collapse;
             }
             #word-table.mobile-compact-threecol thead {
                 display: none;
             }
-            #word-table.mobile-compact-threecol th,
+            #word-table.mobile-compact-threecol tbody tr {
+                display: grid;
+                grid-template-columns: minmax(0, 28%) minmax(0, 72%);
+                align-items: center;
+            }
             #word-table.mobile-compact-threecol td {
-                padding: 6px 4px;
-                font-size: 0.8rem;
+                padding: 8px 4px;
+                font-size: 0.78rem;
                 vertical-align: middle;
-                line-height: 1.15;
+                line-height: 1.1;
+                min-width: 0;
+                border-bottom: 1px solid #d7e5ef;
             }
             #word-table.mobile-compact-threecol td:nth-child(1) {
-                width: 24%;
                 font-size: 0.72rem;
                 word-break: break-word;
-            }
-            #word-table.mobile-compact-threecol td:nth-child(2) {
-                width: 76%;
-            }
-            #word-table.mobile-compact-threecol .compact-mobile-meta {
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
-                gap: 6px;
+                gap: 2px;
+            }
+            #word-table.mobile-compact-threecol td:nth-child(2) {
+                width: auto;
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meta {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto auto;
+                align-items: center;
+                gap: 4px;
                 width: 100%;
                 min-width: 0;
             }
             #word-table.mobile-compact-threecol .compact-mobile-meaning {
-                flex: 1 1 auto;
                 min-width: 0;
                 font-size: 0.72rem;
                 color: #2b6c9e;
@@ -291,24 +299,20 @@
                 font-weight: normal;
             }
             #word-table.mobile-compact-threecol .action-cell {
-                flex: 0 0 auto;
                 white-space: nowrap;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: flex-end;
-                gap: 3px;
-                border: 0;
-                padding: 0;
+                display: contents;
             }
             #word-table.mobile-compact-threecol .action-cell button {
                 min-width: 0;
-                width: 28px;
-                flex: 0 0 28px;
-                padding: 5px 0;
-                font-size: 0.78rem;
+                width: 24px;
+                height: 24px;
+                padding: 0;
+                font-size: 0.76rem;
                 line-height: 1;
                 border-radius: 999px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
             #word-table.mobile-compact-threecol .peek-mode {
                 display: inline;
@@ -341,12 +345,14 @@
             .footer-bar button {
                 width: 100%;
                 min-width: 0;
-                padding: 6px 0;
-                font-size: 0.9rem;
-                line-height: 1;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                min-height: 34px;
+                padding: 5px 2px;
+                font-size: 0.64rem;
+                line-height: 1.1;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                word-break: break-word;
             }
             .bottom-floating-ad {
                 left: 8px;
@@ -1764,11 +1770,11 @@
     function applyResponsiveFooterLabels() {
         const compactMobile = isMobilePortraitCompactMode();
         const mapping = [
-            ['showDifficultBtn', '🔴', '🔴 只显示不会'],
-            ['hideMasteredBtn', '🙈', '🙈 隐藏会的'],
-            ['showAllBtn', '🌐', '🌐 显示全部'],
-            ['saveStateBottomBtn', '💾', '💾 保存当前状态'],
-            ['exportDifficultBtn', '📤', '📤 导出不会的Word']
+            ['showDifficultBtn', '🔴不会', '🔴 只显示不会'],
+            ['hideMasteredBtn', '🙈藏会', '🙈 隐藏会的'],
+            ['showAllBtn', '🌐全部', '🌐 显示全部'],
+            ['saveStateBottomBtn', '💾保存', '💾 保存当前状态'],
+            ['exportDifficultBtn', '📤导出', '📤 导出不会的Word']
         ];
         mapping.forEach(([id, compactText, normalText]) => {
             const button = document.getElementById(id);
