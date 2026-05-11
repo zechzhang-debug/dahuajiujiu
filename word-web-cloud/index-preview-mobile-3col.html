@@ -1621,6 +1621,7 @@
         if (!container) return;
 
         container.addEventListener('click', (e) => {
+            const compactMobile = isMobilePortraitCompactMode();
             const actionButton = e.target.closest('.btn-master, .btn-difficult');
             if (actionButton) {
                 const row = actionButton.closest('tr');
@@ -1672,7 +1673,7 @@
             const definition = defCell.dataset.definition;
 
             if (isRevealed) {
-                defCell.textContent = compactMobile ? '点看' : '点击看意思';
+                defCell.textContent = compactMobile ? '点看意思' : '点击看意思';
                 defCell.dataset.revealed = 'false';
                 defCell.classList.remove('revealed');
             } else {
