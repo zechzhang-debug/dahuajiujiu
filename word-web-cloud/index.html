@@ -181,13 +181,25 @@
             color: #1d3f57;
             font-weight: 600;
             text-align: center;
-            padding: 16px 10px;
+            padding: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            line-height: 0;
+        }
+        .ad-fallback-img {
+            display: block;
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            object-position: center;
         }
         .ad-fallback-link small {
             display: block;
             margin-top: 6px;
             color: #688aa3;
             font-weight: 500;
+            line-height: 1.35;
+            padding: 8px 10px 12px;
         }
         .file-upload {
             display: flex;
@@ -632,7 +644,9 @@
         topSlotId: '7959617772',
         bottomSlotId: '3140359763',
         fallbackTopLink: 'https://dahuajiujiu.com',
-        fallbackBottomLink: 'https://dahuajiujiu.com'
+        fallbackBottomLink: 'https://dahuajiujiu.com',
+        fallbackTopImage: 'ad-fallback-banner.png',
+        fallbackBottomImage: 'ad-fallback-banner.png'
     };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
@@ -694,22 +708,34 @@
         });
     }
 
-    function renderFallbackAd(slotEl, link) {
-        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">推荐: 高效背单词资料与课程<small>广告位已启用，填入广告平台参数后自动切换正式广告</small></a>`;
+    function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png') {
+        slotEl.innerHTML = `<a class="ad-fallback-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"><small>广告位暂未填充，先看看大华舅舅给你的打气海报</small></a>`;
+        slotEl.dataset.loaded = '1';
+        slotEl.dataset.fallback = '1';
     }
 
-    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false) {
+    function scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage) {
+        window.setTimeout(() => {
+            if (!slotEl || slotEl.dataset.fallback === '1') return;
+            const hasIframe = !!slotEl.querySelector('iframe');
+            const hasImage = !!slotEl.querySelector('img');
+            const hasVisibleAdMarkup = !!slotEl.querySelector('.adsbygoogle iframe, .adsbygoogle img');
+            if (!hasIframe && !hasImage && !hasVisibleAdMarkup) {
+                renderFallbackAd(slotEl, fallbackLink, fallbackImage);
+            }
+        }, 4500);
+    }
+
+    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false, fallbackImage = 'ad-fallback-banner.png') {
         if (!slotEl) return;
         if (!forceRefresh && slotEl.dataset.loaded === '1') return;
         if (!AD_CONFIG.adsenseClient || !slotId) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
             return;
         }
         const loaded = await ensureAdsenseScriptLoaded();
         if (!loaded) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
             return;
         }
         slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
@@ -717,29 +743,29 @@
             (window.adsbygoogle = window.adsbygoogle || []).push({});
             slotEl.dataset.loaded = '1';
         } catch (e) {
-            renderFallbackAd(slotEl, fallbackLink);
-            slotEl.dataset.loaded = '1';
+            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
         }
+        scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage);
     }
 
     function initAds() {
         const topSlot = document.getElementById('ad-slot-top');
         const bottomSlot = document.getElementById('ad-slot-bottom');
         const targets = [
-            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink },
-            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink }
+            { el: topSlot, slotId: AD_CONFIG.topSlotId, link: AD_CONFIG.fallbackTopLink, image: AD_CONFIG.fallbackTopImage },
+            { el: bottomSlot, slotId: AD_CONFIG.bottomSlotId, link: AD_CONFIG.fallbackBottomLink, image: AD_CONFIG.fallbackBottomImage }
         ].filter(item => item.el);
 
         if (!targets.length) return;
         if (!("IntersectionObserver" in window)) {
-            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link));
+            targets.forEach(item => mountAdSlot(item.el, item.slotId, item.link, false, item.image));
             return;
         }
         adSlotObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) return;
                 const target = targets.find(item => item.el === entry.target);
-                if (target) mountAdSlot(target.el, target.slotId, target.link);
+                if (target) mountAdSlot(target.el, target.slotId, target.link, false, target.image);
                 observer.unobserve(entry.target);
             });
         }, {
@@ -760,7 +786,7 @@
             (now - bottomAdLastRefreshAt) > 180000;
         if (shouldRefreshBottomAd) {
             const bottomSlot = document.getElementById('ad-slot-bottom');
-            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true);
+            mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
             bottomAdRefreshCount += 1;
             bottomAdLastRefreshAt = now;
         }
