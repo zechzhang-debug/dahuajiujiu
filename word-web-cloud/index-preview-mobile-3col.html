@@ -280,7 +280,7 @@
                 flex: 0 0 42%;
                 display: flex;
                 align-items: center;
-                gap: 2px;
+                gap: 6px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -303,12 +303,18 @@
             #word-table.mobile-compact-threecol .compact-mobile-meaning {
                 flex: 1 1 auto;
                 min-width: 0;
-                font-size: 0.68rem;
+                font-size: 0.66rem;
                 color: #2b6c9e;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                min-height: 24px;
+                padding: 3px 6px;
+                border-radius: 8px;
+                background: rgba(233, 240, 246, 0.75);
             }
             #word-table.mobile-compact-threecol .compact-mobile-meaning.revealed {
                 color: inherit;
@@ -1460,7 +1466,7 @@
                 meaningSpan.className = 'compact-mobile-meaning peek-mode';
                 meaningSpan.dataset.definition = item.definition || '—';
                 meaningSpan.dataset.revealed = 'false';
-                meaningSpan.textContent = '点看';
+                meaningSpan.textContent = '点看意思';
                 metaWrap.appendChild(meaningSpan);
 
                 const actionCell = document.createElement('div');
