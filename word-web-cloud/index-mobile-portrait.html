@@ -1254,6 +1254,13 @@
         alert('当前单词及标记已保存到本地浏览器 💾');
     }
 
+    function saveToStorageSilently() {
+        const stored = getStoredState();
+        stored.currentLevel = currentLevel;
+        stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
+        saveStoredState(stored);
+    }
+
     function buildDifficultWordDocument(words) {
         const rows = [];
         for (let i = 0; i < words.length; i += 4) {
@@ -1655,6 +1662,7 @@
                 } else {
                     allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
                 }
+                saveToStorageSilently();
                 const currentStatus = allWords[idx].status;
                 const shouldHide = (showOnlyDifficult && currentStatus !== 'difficult') || (hideMastered && currentStatus === 'mastered');
                 if (shouldHide) {
