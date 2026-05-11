@@ -825,7 +825,7 @@
         const footerTouchesViewport = rect.bottom > 0 && rect.top < viewportHeight;
         const visibleFooterHeight = footerTouchesViewport ? Math.max(0, viewportHeight - rect.top) : 0;
         const baseOffset = 10;
-        const safeOffset = visibleFooterHeight > 0 ? visibleFooterHeight + 14 : baseOffset;
+        const safeOffset = visibleFooterHeight > 0 ? visibleFooterHeight : baseOffset;
         document.documentElement.style.setProperty("--bottom-ad-offset", safeOffset + "px");
     }
 
