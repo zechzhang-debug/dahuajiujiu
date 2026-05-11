@@ -7,17 +7,17 @@
     <title>大华舅舅教英语 · 全页滚动版</title>
     <script>
         (function() {
-            const portraitPreviewPath = 'index-preview-mobile-portrait.html';
+            const landscapePreviewPath = 'index-preview-mobile-3col.html';
             const isPhonePortrait = () =>
                 window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
-            if (isPhonePortrait()) {
+            if (!isPhonePortrait()) {
                 const suffix = window.location.search + window.location.hash;
-                window.location.replace(`${portraitPreviewPath}${suffix}`);
+                window.location.replace(`${landscapePreviewPath}${suffix}`);
             }
             const handleViewportSwap = () => {
-                if (isPhonePortrait()) {
+                if (!isPhonePortrait()) {
                     const suffix = window.location.search + window.location.hash;
-                    window.location.replace(`${portraitPreviewPath}${suffix}`);
+                    window.location.replace(`${landscapePreviewPath}${suffix}`);
                 }
             };
             window.addEventListener('resize', handleViewportSwap, { passive: true });
@@ -89,13 +89,13 @@
             50% { transform: rotate(90deg); }
             100% { transform: rotate(90deg); }
         }
-        /* 竖屏时显示提示层，隐藏主卡片 */
+        /* 预览版：手机竖屏直接显示内容，不再提示旋转 */
         @media (orientation: portrait) {
             .rotate-message {
-                display: flex;
+                display: none !important;
             }
             .card {
-                display: none;
+                display: block;
             }
         }
         /* ===== 主卡片（普通块级，不限制高度）===== */
@@ -173,7 +173,7 @@
             position: fixed;
             left: 20px;
             right: 20px;
-            bottom: 10px;
+            bottom: calc(var(--bottom-ad-offset, 10px) + env(safe-area-inset-bottom, 0px));
             z-index: 30;
             opacity: 0;
             pointer-events: none;
@@ -207,6 +207,208 @@
         }
         .bottom-ad-close:hover {
             background: #f2f7fb;
+        }
+        .bottom-ad-close {
+            width: 34px;
+            height: 34px;
+            border-width: 2px;
+            box-shadow: 0 8px 20px rgba(0, 20, 40, 0.18);
+            font-size: 22px;
+            background: rgba(255, 255, 255, 0.98);
+        }
+        @media (max-width: 900px) and (orientation: portrait) {
+            .rotate-message {
+                display: none !important;
+            }
+            body {
+                padding: 8px;
+            }
+            .page-top-banner {
+                margin-bottom: 8px;
+            }
+            .card {
+                padding: 14px 8px 16px;
+                border-radius: 18px;
+            }
+            .version-badge {
+                top: 10px;
+                right: 10px;
+                font-size: 0.64rem;
+            }
+            .toolbar {
+                gap: 8px;
+                top: 8px;
+                padding: 8px 10px;
+            }
+            .toolbar.is-compact .hint {
+                max-height: 0;
+                opacity: 0;
+                margin: 0;
+                padding: 0;
+                border-left-color: transparent;
+            }
+            .col-toggles {
+                gap: 8px;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                width: 100%;
+                padding-bottom: 2px;
+                scrollbar-width: none;
+            }
+            .col-toggles::-webkit-scrollbar {
+                display: none;
+            }
+            .toggle-item {
+                flex: 0 0 auto;
+                padding: 5px 10px 5px 8px;
+                font-size: 0.82rem;
+            }
+            .table-wrapper {
+                overflow-x: hidden !important;
+                width: 100%;
+            }
+            #word-table.mobile-compact-threecol {
+                width: 100% !important;
+                min-width: 0 !important;
+                table-layout: fixed;
+                border-collapse: collapse;
+            }
+            #word-table.mobile-compact-threecol thead {
+                display: none;
+            }
+            #word-table.mobile-compact-threecol tbody,
+            #word-table.mobile-compact-threecol tr,
+            #word-table.mobile-compact-threecol td {
+                width: 100%;
+            }
+            #word-table.mobile-compact-threecol tr {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            #word-table.mobile-compact-threecol td {
+                padding: 8px 4px;
+                font-size: 0.76rem;
+                line-height: 1;
+                vertical-align: middle;
+                min-width: 0;
+                border-bottom: 1px solid #d7e5ef;
+            }
+            #word-table.mobile-compact-threecol td:nth-child(1) {
+                width: 42%;
+                flex: 0 0 42%;
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: normal;
+                font-size: 0.72rem;
+            }
+            #word-table.mobile-compact-threecol td:nth-child(2) {
+                width: 58%;
+                flex: 0 0 58%;
+                padding-left: 0;
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meta {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 2px;
+                width: 100%;
+                min-width: 0;
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meaning {
+                flex: 1 1 auto;
+                min-width: 0;
+                font-size: 0.66rem;
+                color: #2b6c9e;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                min-height: 24px;
+                padding: 3px 6px;
+                border-radius: 8px;
+                background: rgba(233, 240, 246, 0.75);
+            }
+            #word-table.mobile-compact-threecol .compact-mobile-meaning.revealed {
+                color: inherit;
+                font-weight: normal;
+            }
+            #word-table.mobile-compact-threecol .action-cell {
+                flex: 0 0 auto;
+                display: flex;
+                align-items: center;
+                gap: 2px;
+                white-space: nowrap;
+            }
+            #word-table.mobile-compact-threecol .action-cell button {
+                width: 22px;
+                height: 22px;
+                min-width: 22px;
+                padding: 0;
+                font-size: 0.7rem;
+                line-height: 1;
+                border-radius: 999px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #word-table.mobile-compact-threecol .peek-mode {
+                display: inline;
+                border: 0;
+                padding: 0;
+                margin: 0;
+                background: transparent;
+            }
+            #word-table.mobile-compact-threecol .speak-btn {
+                font-size: 0.78rem;
+                margin-left: 0;
+                padding: 0;
+                flex: 0 0 auto;
+            }
+            .footer-bar {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 6px;
+                overflow: visible;
+                padding: 4px 0 0;
+                bottom: 6px;
+                align-items: stretch;
+            }
+            .footer-left,
+            .footer-right {
+                display: contents;
+            }
+            .footer-bar button {
+                width: 100%;
+                min-width: 0;
+                min-height: 32px;
+                padding: 5px 6px;
+                font-size: 0.56rem;
+                line-height: 1.05;
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                word-break: keep-all;
+            }
+            #showDifficultBtn,
+            #hideMasteredBtn,
+            #showAllBtn {
+                grid-column: span 2;
+            }
+            #saveStateBottomBtn,
+            #exportDifficultBtn {
+                grid-column: span 3;
+            }
+            .bottom-floating-ad {
+                left: 8px;
+                right: 8px;
+            }
         }
         .ad-fallback-link {
             display: block;
@@ -477,6 +679,49 @@
             transform: scale(1.1);
             opacity: 0.8;
         }
+        @media (max-width: 900px) and (orientation: portrait) {
+            .table-wrapper {
+                overflow-x: hidden;
+            }
+            #word-table.mobile-compact-threecol {
+                width: 100%;
+                table-layout: fixed;
+            }
+            #word-table.mobile-compact-threecol th,
+            #word-table.mobile-compact-threecol td {
+                padding: 12px 8px;
+                font-size: 0.95rem;
+                vertical-align: middle;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(1),
+            #word-table.mobile-compact-threecol td:nth-child(1) {
+                width: 28%;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(2),
+            #word-table.mobile-compact-threecol td:nth-child(2) {
+                width: 32%;
+            }
+            #word-table.mobile-compact-threecol th:nth-child(3),
+            #word-table.mobile-compact-threecol td:nth-child(3) {
+                width: 40%;
+            }
+            #word-table.mobile-compact-threecol .action-cell {
+                white-space: nowrap;
+                display: flex;
+                justify-content: flex-end;
+                gap: 6px;
+            }
+            #word-table.mobile-compact-threecol .action-cell button {
+                min-width: 0;
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            #word-table.mobile-compact-threecol .peek-mode {
+                display: inline-block;
+                width: 100%;
+                text-align: left;
+            }
+        }
         @media (max-width: 900px) {
             body {
                 padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
@@ -597,6 +842,44 @@
                 padding-bottom: 2px;
             }
         }
+        @media (max-width: 900px) and (orientation: portrait) {
+            .footer-bar {
+                display: grid;
+                width: 100%;
+                max-width: 100%;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                grid-template-areas:
+                    "difficult difficult hide hide all all"
+                    "save save save export export export";
+                gap: 8px;
+                overflow: visible !important;
+                padding: 6px 0 2px;
+                bottom: 6px;
+                align-items: stretch;
+                justify-content: stretch;
+            }
+            .footer-left,
+            .footer-right {
+                display: contents;
+            }
+            #showDifficultBtn { grid-area: difficult; }
+            #hideMasteredBtn { grid-area: hide; }
+            #showAllBtn { grid-area: all; }
+            #saveStateBottomBtn { grid-area: save; }
+            #exportDifficultBtn { grid-area: export; }
+            .footer-bar button {
+                width: 100%;
+                min-width: 0;
+                min-height: 34px;
+                padding: 7px 8px;
+                font-size: 0.72rem;
+                line-height: 1.15;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -614,7 +897,7 @@
     </div>
 
     <div class="card">
-        <div class="version-badge">1.0.2</div>
+        <div class="version-badge">preview</div>
         <!-- 标题、上传栏会随页面滚动 -->
         <h1> 🧑‍🏫 大华舅舅教英语 <span>上传 · 标记 · 发音</span> </h1>
         <div class="top-bar">
@@ -655,8 +938,8 @@
 
 <script>
 (function() {
-    const APP_VERSION = '1.0.3';
-    const APP_VERSION_NOTE = '增加乱序，底部保存';
+    const APP_VERSION = 'preview';
+    const APP_VERSION_NOTE = '手机竖屏三列预览';
     const CONFIG_FILES = {
         primary: 'words_primary.txt',
         junior: 'words_junior.txt',
@@ -814,6 +1097,23 @@
         }, delayMs);
     }
 
+    function updateBottomAdPosition() {
+        const ad = document.getElementById('bottom-floating-ad');
+        const footerBar = document.querySelector('.footer-bar');
+        if (!ad || !footerBar) return;
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const buttonRects = Array.from(footerBar.querySelectorAll('button'))
+            .map((button) => button.getBoundingClientRect())
+            .filter((rect) => rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < viewportHeight);
+        const footerRect = footerBar.getBoundingClientRect();
+        const anchorTop = buttonRects.length
+            ? Math.min(...buttonRects.map((rect) => rect.top))
+            : footerRect.top;
+        const footerTouchesViewport = footerRect.bottom > 0 && anchorTop < viewportHeight;
+        const safeOffset = footerTouchesViewport ? Math.max(0, viewportHeight - anchorTop) : 10;
+        document.documentElement.style.setProperty('--bottom-ad-offset', safeOffset + 'px');
+    }
+
     function showBottomFloatingAd() {
         const ad = document.getElementById('bottom-floating-ad');
         if (!ad) return;
@@ -823,6 +1123,7 @@
             return;
         }
         prepareBottomFloatingContent(bottomAdMountedOnce);
+        updateBottomAdPosition();
         ad.classList.add('show');
         bottomAdMountedOnce = true;
         bottomAdLastRefreshAt = now;
@@ -848,7 +1149,9 @@
             lastScrollY = currentY;
         };
 
-        window.addEventListener('scroll', armOnScroll, { passive: true });
+        window.addEventListener('scroll', () => { armOnScroll(); updateBottomAdPosition(); }, { passive: true });
+        window.addEventListener('resize', updateBottomAdPosition, { passive: true });
+        updateBottomAdPosition();
 
         if (ad) {
             ad.addEventListener('click', (e) => {
@@ -1143,7 +1446,11 @@
         const container = document.getElementById('toolbar-container');
         container.innerHTML = '';
         const togglesDiv = document.createElement('div'); togglesDiv.className = 'col-toggles';
-        columns.forEach((col, idx) => {
+        const compactMobile = isMobilePortraitCompactMode();
+        const visibleToolbarColumns = compactMobile ? [columns[0], columns[3]] : columns;
+
+        visibleToolbarColumns.forEach((col) => {
+            const idx = columns.findIndex((candidate) => candidate.field === col.field);
             const item = document.createElement('div'); item.className = 'toggle-item';
             const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = `col_${idx}`; checkbox.className = 'col-toggle'; checkbox.dataset.colindex = idx; checkbox.checked = true;
             const label = document.createElement('label'); label.htmlFor = `col_${idx}`; label.textContent = col.label;
@@ -1153,7 +1460,9 @@
         const shuffleCheckbox = document.createElement('input'); shuffleCheckbox.type = 'checkbox'; shuffleCheckbox.id = 'shuffleToggle'; shuffleCheckbox.checked = shuffleMode;
         const shuffleLabel = document.createElement('label'); shuffleLabel.htmlFor = 'shuffleToggle'; shuffleLabel.textContent = '乱序';
         shuffleItem.appendChild(shuffleCheckbox); shuffleItem.appendChild(shuffleLabel); togglesDiv.appendChild(shuffleItem);
-        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
+        const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = compactMobile
+            ? '✔ 手机竖屏三列预览'
+            : '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
         container.appendChild(togglesDiv); container.appendChild(hintSpan);
     }
 
@@ -1172,18 +1481,25 @@
         toolbar.classList.toggle('is-compact', shouldCompact);
     }
 
+    function isMobilePortraitCompactMode() {
+        return window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
+    }
+
     function renderTable() {
         const container = document.getElementById('table-container');
         container.innerHTML = '';
 
+        const compactMobile = isMobilePortraitCompactMode();
         const defCheckbox = document.querySelector('.col-toggle[data-colindex="3"]');
-        const isDefNormal = defCheckbox ? defCheckbox.checked : true;
+        const isDefNormal = compactMobile ? false : (defCheckbox ? defCheckbox.checked : true);
 
         const displayedWords = buildDisplayedWords();
 
         const table = document.createElement('table'); table.id = 'word-table';
+        if (compactMobile) table.classList.add('mobile-compact-threecol');
         const thead = document.createElement('thead'); const headerRow = document.createElement('tr');
-        columns.forEach(col => { const th = document.createElement('th'); th.textContent = col.label; headerRow.appendChild(th); });
+        const activeColumns = compactMobile ? [columns[0], columns[3]] : columns;
+        activeColumns.forEach(col => { const th = document.createElement('th'); th.textContent = col.label; headerRow.appendChild(th); });
         const actionTh = document.createElement('th'); actionTh.textContent = '操作'; headerRow.appendChild(actionTh);
         thead.appendChild(headerRow); table.appendChild(thead);
 
@@ -1198,48 +1514,70 @@
             wordCell.innerHTML = `${escapeHtml(item.word)} ${createSpeakButton(item.word, 'word', item.word)}`;
             row.appendChild(wordCell);
 
-            const phoneticCell = document.createElement('td');
-            phoneticCell.textContent = `/${item.phonetic || ''}/`;
-            phoneticCell.classList.add('phonetic');
-            row.appendChild(phoneticCell);
+            if (!compactMobile) {
+                const phoneticCell = document.createElement('td');
+                phoneticCell.innerHTML = `/${escapeHtml(item.phonetic || '')}/ ${createSpeakButton(item.word, 'word', item.word)}`;
+                phoneticCell.classList.add('phonetic');
+                row.appendChild(phoneticCell);
 
-            const posCell = document.createElement('td'); posCell.textContent = item.pos || '—'; row.appendChild(posCell);
+                const posCell = document.createElement('td'); posCell.textContent = item.pos || '—'; row.appendChild(posCell);
+            }
 
             const defCell = document.createElement('td');
             defCell.dataset.definition = item.definition || '—';
-            if (isDefNormal) {
-                defCell.textContent = item.definition || '—';
+            if (compactMobile) {
+                const metaWrap = document.createElement('div');
+                metaWrap.className = 'compact-mobile-meta';
+                const meaningSpan = document.createElement('span');
+                meaningSpan.className = 'compact-mobile-meaning peek-mode';
+                meaningSpan.dataset.definition = item.definition || '—';
+                meaningSpan.dataset.revealed = 'false';
+                meaningSpan.textContent = '点看意思';
+                metaWrap.appendChild(meaningSpan);
+
+                const actionCell = document.createElement('div');
+                actionCell.className = 'action-cell';
+                actionCell.innerHTML = `<button class="btn-master">✅</button><button class="btn-difficult">❌</button>`;
+                metaWrap.appendChild(actionCell);
+                defCell.appendChild(metaWrap);
+                row.appendChild(defCell);
             } else {
-                defCell.textContent = '点击看意思';
-                defCell.classList.add('peek-mode');
-                defCell.dataset.revealed = 'false';
+                if (isDefNormal) {
+                    defCell.textContent = item.definition || '—';
+                } else {
+                    defCell.textContent = '点击看意思';
+                    defCell.classList.add('peek-mode');
+                    defCell.dataset.revealed = 'false';
+                }
+                row.appendChild(defCell);
+
+                const exampleCell = document.createElement('td');
+                exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
+                row.appendChild(exampleCell);
+
+                const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
+                actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
+                row.appendChild(actionCell);
             }
-            row.appendChild(defCell);
-
-            const exampleCell = document.createElement('td');
-            exampleCell.innerHTML = `${escapeHtml(item.example)} ${createSpeakButton(item.example, 'example', '')}`;
-            row.appendChild(exampleCell);
-
-            const actionCell = document.createElement('td'); actionCell.className = 'action-cell';
-            actionCell.innerHTML = `<button class="btn-master">✅ 会</button><button class="btn-difficult">❌ 不会</button>`;
-            row.appendChild(actionCell);
 
             fragment.appendChild(row);
         });
         tbody.appendChild(fragment);
         table.appendChild(tbody); container.appendChild(table);
 
-        updateColumnVisibility();
+        if (!compactMobile) updateColumnVisibility();
         scheduleAudioPreload(displayedWords.slice(0, 24).map(({ item }) => item.word), currentLevel);
         syncToolbarHintVisibility();
     }
 
     function updateColumnVisibility() {
+        if (isMobilePortraitCompactMode()) return;
         const table = document.getElementById('word-table'); if (!table) return;
         const checkboxes = document.querySelectorAll('.col-toggle'); if (!checkboxes.length) return;
         const headerThs = table.querySelectorAll('thead tr th'); const bodyRows = table.querySelectorAll('tbody tr');
 
-        checkboxes.forEach((cb, idx) => {
+        checkboxes.forEach((cb) => {
+            const idx = Number(cb.dataset.colindex);
             if (idx === 3) return; // 解释列不参与隐藏
             const isVisible = cb.checked;
             if (idx < headerThs.length - 1) {
@@ -1300,8 +1638,11 @@
     function bindTableEvents() {
         const container = document.getElementById('table-container');
         if (!container) return;
+        if (container.dataset.boundTableEvents === 'true') return;
+        container.dataset.boundTableEvents = 'true';
 
         container.addEventListener('click', (e) => {
+            const compactMobile = isMobilePortraitCompactMode();
             const actionButton = e.target.closest('.btn-master, .btn-difficult');
             if (actionButton) {
                 const row = actionButton.closest('tr');
@@ -1346,14 +1687,14 @@
                 return;
             }
 
-            const defCell = e.target.closest('td');
+            const defCell = e.target.closest('.compact-mobile-meaning') || e.target.closest('td');
             if (!defCell || !defCell.classList.contains('peek-mode')) return;
 
             const isRevealed = defCell.dataset.revealed === 'true';
             const definition = defCell.dataset.definition;
 
             if (isRevealed) {
-                defCell.textContent = '点击看意思';
+                defCell.textContent = compactMobile ? '点看意思' : '点击看意思';
                 defCell.dataset.revealed = 'false';
                 defCell.classList.remove('revealed');
             } else {
@@ -1496,6 +1837,55 @@
         });
     }
 
+    function bindToolbarEvents() {
+        const shuffleToggle = document.getElementById('shuffleToggle');
+        if (shuffleToggle) {
+            shuffleToggle.addEventListener('change', (e) => {
+                shuffleMode = e.target.checked;
+                shuffleState = null;
+                renderTable();
+            });
+        }
+
+        document.querySelectorAll('.col-toggle').forEach(cb => {
+            cb.addEventListener('change', (e) => {
+                const idx = parseInt(e.target.dataset.colindex, 10);
+                if (idx === 3 || isMobilePortraitCompactMode()) {
+                    renderTable();
+                } else {
+                    updateColumnVisibility();
+                }
+            });
+        });
+    }
+
+    function applyResponsiveFooterLabels() {
+        const compactMobile = isMobilePortraitCompactMode();
+        const mapping = [
+            ['showDifficultBtn', '🔴 只显示不会', '🔴 只显示不会'],
+            ['hideMasteredBtn', '🙈 隐藏会的', '🙈 隐藏会的'],
+            ['showAllBtn', '🌐 显示全部', '🌐 显示全部'],
+            ['saveStateBottomBtn', '💾 保存当前状态', '💾 保存当前状态'],
+            ['exportDifficultBtn', '📤 导出不会的Word', '📤 导出不会的Word']
+        ];
+        mapping.forEach(([id, compactText, normalText]) => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            button.textContent = compactMobile ? compactText : normalText;
+            button.setAttribute('aria-label', normalText);
+            button.title = normalText;
+        });
+    }
+
+    function rebuildResponsiveLayout() {
+        renderToolbar();
+        renderTable();
+        bindTableEvents();
+        bindToolbarEvents();
+        syncToolbarHintVisibility();
+        applyResponsiveFooterLabels();
+    }
+
     async function initApp() {
         const stored = getStoredState();
         currentLevel = CONFIG_FILES[stored.currentLevel] ? stored.currentLevel : 'primary';
@@ -1505,20 +1895,24 @@
         renderTable();
         bindTableEvents();
         bindControls();
+        bindToolbarEvents();
+        applyResponsiveFooterLabels();
 
-        document.querySelectorAll('.col-toggle').forEach(cb => {
-            cb.addEventListener('change', (e) => {
-                const idx = parseInt(e.target.dataset.colindex, 10);
-                if (idx === 3) {
-                    renderTable();
-                } else {
-                    updateColumnVisibility();
-                }
-            });
-        });
+        let lastCompactMode = isMobilePortraitCompactMode();
+        const handleViewportModeChange = () => {
+            const nextCompactMode = isMobilePortraitCompactMode();
+            if (nextCompactMode !== lastCompactMode) {
+                lastCompactMode = nextCompactMode;
+                rebuildResponsiveLayout();
+                return;
+            }
+            syncToolbarHintVisibility();
+            updateBottomAdPosition();
+        };
 
         window.addEventListener('scroll', syncToolbarHintVisibility, { passive: true });
-        window.addEventListener('resize', syncToolbarHintVisibility, { passive: true });
+        window.addEventListener('resize', handleViewportModeChange, { passive: true });
+        window.addEventListener('orientationchange', handleViewportModeChange, { passive: true });
         syncToolbarHintVisibility();
         initAds();
         initBottomAdBehavior();
