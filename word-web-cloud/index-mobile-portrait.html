@@ -948,15 +948,16 @@
     const STORAGE_KEY_STATE = 'dahuajiujiu_state_v2';
     const LEGACY_STORAGE_KEY = 'dahuajiujiu_words';
     const AD_CONFIG = {
-        provider: 'adsense',
+        provider: 'waterfall',
         adsenseClient: 'ca-pub-6974565116242974',
-        topSlotId: '7959617772',
         bottomSlotId: '3140359763',
-        fallbackTopLink: 'https://dahuajiujiu.com',
+        baiduBottomSlotId: '',
+        waterfallOrder: ['adsense', 'baidu', 'fallback'],
+        adsenseFillCheckDelayMs: 2600,
         fallbackBottomLink: 'https://dahuajiujiu.com',
         fallbackBottomImage: '下banner.png',
-        preferFallbackUntilAdsApproved: true,
-        bottomImageChanceWhenAdsAvailable: 0.2
+        preferFallbackUntilAdsApproved: false,
+        bottomImageChanceWhenAdsAvailable: 0
     };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
@@ -986,6 +987,7 @@
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
     let adsenseLoaded = false;
+    let baiduLoaded = false;
     let adSlotObserver = null;
     let bottomAdIdleTimer = null;
     let bottomAdArmed = false;
@@ -1018,6 +1020,28 @@
         });
     }
 
+    function ensureBaiduScriptLoaded() {
+        if (baiduLoaded) return Promise.resolve(true);
+        return new Promise((resolve) => {
+            const existing = document.querySelector('script[data-baidu-union-loader]');
+            if (existing) {
+                baiduLoaded = true;
+                resolve(true);
+                return;
+            }
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://cpro.baidustatic.com/cpro/ui/cm.js';
+            script.setAttribute('data-baidu-union-loader', '1');
+            script.onload = () => {
+                baiduLoaded = true;
+                resolve(true);
+            };
+            script.onerror = () => resolve(false);
+            document.head.appendChild(script);
+        });
+    }
+
     function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png', action = 'link') {
         const targetAttr = action === 'link' ? ' target="_blank" rel="noopener noreferrer"' : '';
         const hrefAttr = action === 'link' ? ` href="${escapeHtml(link)}"` : ' href="#"';
@@ -1038,6 +1062,50 @@
         }, 4500);
     }
 
+    function didSlotRenderCreative(slotEl) {
+        if (!slotEl) return false;
+        return !!slotEl.querySelector('iframe, img, object, embed');
+    }
+
+    async function renderAdsenseSlot(slotEl, slotId, fallbackLink, fallbackImage) {
+        if (!AD_CONFIG.adsenseClient || !slotId) return false;
+        const loaded = await ensureAdsenseScriptLoaded();
+        if (!loaded) return false;
+        slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            return false;
+        }
+        await new Promise((resolve) => setTimeout(resolve, AD_CONFIG.adsenseFillCheckDelayMs || 2500));
+        if (didSlotRenderCreative(slotEl)) return true;
+        slotEl.innerHTML = '';
+        scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage);
+        return false;
+    }
+
+    async function renderBaiduSlot(slotEl, baiduSlotId) {
+        if (!baiduSlotId) return false;
+        const loaded = await ensureBaiduScriptLoaded();
+        if (!loaded) return false;
+        const containerId = `baidu_slot_${Math.random().toString(36).slice(2, 10)}`;
+        slotEl.innerHTML = `<div id="${containerId}" style="width:100%;min-height:90px;"></div>`;
+        try {
+            (window.slotbydup = window.slotbydup || []).push({
+                id: baiduSlotId,
+                container: containerId,
+                display: 'inlay-fix',
+                async: true
+            });
+        } catch (e) {
+            return false;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1800));
+        if (didSlotRenderCreative(slotEl)) return true;
+        slotEl.innerHTML = '';
+        return false;
+    }
+
     async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false, fallbackImage = 'ad-fallback-banner.png') {
         if (!slotEl) return;
         if (!forceRefresh && slotEl.dataset.loaded === '1') return;
@@ -1045,23 +1113,21 @@
             renderFallbackAd(slotEl, fallbackLink, fallbackImage);
             return;
         }
-        if (!AD_CONFIG.adsenseClient || !slotId) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            return;
+        const providers = Array.isArray(AD_CONFIG.waterfallOrder) ? AD_CONFIG.waterfallOrder : ['adsense', 'baidu', 'fallback'];
+        let mounted = false;
+        for (const provider of providers) {
+            if (provider === 'adsense') {
+                mounted = await renderAdsenseSlot(slotEl, slotId, fallbackLink, fallbackImage);
+            } else if (provider === 'baidu') {
+                mounted = await renderBaiduSlot(slotEl, AD_CONFIG.baiduBottomSlotId);
+            } else if (provider === 'fallback') {
+                renderFallbackAd(slotEl, fallbackLink, fallbackImage);
+                mounted = true;
+            }
+            if (mounted) break;
         }
-        const loaded = await ensureAdsenseScriptLoaded();
-        if (!loaded) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            return;
-        }
-        slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-            slotEl.dataset.loaded = '1';
-        } catch (e) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-        }
-        scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage);
+        if (!mounted) renderFallbackAd(slotEl, fallbackLink, fallbackImage);
+        slotEl.dataset.loaded = '1';
     }
 
     function initAds() {
@@ -1252,13 +1318,6 @@
         stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
         saveStoredState(stored);
         alert('当前单词及标记已保存到本地浏览器 💾');
-    }
-
-    function saveToStorageSilently() {
-        const stored = getStoredState();
-        stored.currentLevel = currentLevel;
-        stored.statuses[currentLevel] = buildStatusMapFromWords(allWords);
-        saveStoredState(stored);
     }
 
     function buildDifficultWordDocument(words) {
@@ -1662,7 +1721,6 @@
                 } else {
                     allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
                 }
-                saveToStorageSilently();
                 const currentStatus = allWords[idx].status;
                 const shouldHide = (showOnlyDifficult && currentStatus !== 'difficult') || (hideMastered && currentStatus === 'mastered');
                 if (shouldHide) {
