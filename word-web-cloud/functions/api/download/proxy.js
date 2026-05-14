@@ -41,7 +41,7 @@ export async function onRequestGet({ request }) {
   const upstream = await fetch(target.toString(), {
     headers: {
       "Accept": request.headers.get("Accept") || "*/*",
-      "User-Agent": "Mozilla/5.0教材下载器/1.0",
+      "User-Agent": "Mozilla/5.0 TextbookDownloader/1.0",
       "Referer": "https://basic.smartedu.cn/"
     },
     cf: { cacheTtl: 3600, cacheEverything: true }
