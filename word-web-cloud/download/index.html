@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>教材下载器 - 大华舅舅</title>
+  <meta name="description" content="批量整理智慧教育平台教材 PDF，按学科打包下载。">
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --ink: #17211f;
+      --muted: #64716d;
+      --line: #d9e0dc;
+      --panel: #ffffff;
+      --accent: #176b52;
+      --accent-2: #0d4c3a;
+      --warn: #a34714;
+      --bad: #a22522;
+      --good: #176b52;
+      --shadow: 0 18px 46px rgba(18, 34, 30, .10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(245,247,246,.94)),
+        url("https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=2400&q=80") center top / cover fixed;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .shell {
+      width: min(1120px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+    header {
+      min-height: 30svh;
+      display: grid;
+      align-content: end;
+      padding: 36px 0 30px;
+      animation: rise .55s ease-out both;
+    }
+    .brand {
+      font-size: 14px;
+      font-weight: 750;
+      color: var(--accent-2);
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+    h1 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: .98;
+      letter-spacing: 0;
+      font-weight: 850;
+    }
+    .lead {
+      margin: 18px 0 0;
+      max-width: 620px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: #34423f;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .surface {
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(217,224,220,.92);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      animation: settle .5s ease-out both;
+    }
+    .input-pane, .run-pane { padding: 18px; }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 750;
+      color: #26322f;
+    }
+    textarea {
+      width: 100%;
+      min-height: 310px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 13px 14px;
+      font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: #1e2825;
+      background: #fbfcfb;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(23, 107, 82, .12);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    button {
+      border: 0;
+      border-radius: 6px;
+      min-height: 42px;
+      padding: 0 16px;
+      font: inherit;
+      font-weight: 800;
+      color: #fff;
+      background: var(--accent);
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, opacity .16s ease;
+    }
+    button:hover { background: var(--accent-2); transform: translateY(-1px); }
+    button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+    .ghost {
+      color: var(--accent-2);
+      background: #e8f1ee;
+    }
+    .ghost:hover { background: #dcebe6; }
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .metric {
+      border-bottom: 1px solid var(--line);
+      padding: 0 0 10px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .status {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 8px 0 10px;
+    }
+    .progress {
+      height: 8px;
+      background: #e8eeeb;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width .25s ease;
+    }
+    pre {
+      height: 314px;
+      margin: 0;
+      overflow: auto;
+      padding: 12px;
+      border-radius: 6px;
+      background: #101715;
+      color: #e7eeeb;
+      font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre-wrap;
+    }
+    .results {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .result {
+      border-left: 3px solid var(--good);
+      padding: 8px 10px;
+      background: #f7faf8;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .result.fail { border-left-color: var(--bad); }
+    .footnote {
+      margin: 18px 0 0;
+      color: #52605c;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes settle {
+      from { opacity: 0; transform: translateY(12px) scale(.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 860px) {
+      body { background-attachment: scroll; }
+      .shell { width: min(100vw - 20px, 680px); padding-top: 12px; }
+      header { min-height: 24svh; padding: 26px 0 22px; }
+      .workspace { grid-template-columns: 1fr; }
+      .metric-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      textarea { min-height: 220px; }
+      pre { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand">大华舅舅 · 教材下载器</div>
+      <h1>教材链接，自动归档。</h1>
+      <p class="lead">把智慧教育平台教材详情页批量整理成 PDF 压缩包，文件按学科分好目录。</p>
+    </header>
+
+    <section class="workspace" aria-label="下载工作区">
+      <div class="surface input-pane">
+        <label for="links">教材详情页链接</label>
+        <textarea id="links" spellcheck="false" placeholder="https://basic.smartedu.cn/tchMaterial/detail?contentType=assets_document&contentId=..."></textarea>
+        <div class="actions">
+          <button id="run">生成压缩包</button>
+          <button id="demo" class="ghost" type="button">填入示例</button>
+        </div>
+        <p class="footnote">线上网页会生成 zip 文件；解压后就是按学科分好的 PDF 文件夹。</p>
+      </div>
+
+      <div class="surface run-pane">
+        <div class="metric-row">
+          <div class="metric"><strong id="total">0</strong><span>链接</span></div>
+          <div class="metric"><strong id="ok">0</strong><span>完成</span></div>
+          <div class="metric"><strong id="bad">0</strong><span>失败</span></div>
+        </div>
+        <div class="status">
+          <span id="state">等待开始</span>
+          <span id="percent">0%</span>
+        </div>
+        <div class="progress" aria-hidden="true"><div id="bar" class="bar"></div></div>
+        <pre id="log"></pre>
+        <div id="results" class="results"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const DETAIL_HOSTS = [
+      "https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/{id}.json",
+      "https://bdcs-file-2.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/{id}.json",
+      "https://bdcs-file-2.ykt.cbern.com.cn/zxx_secondary/ndrv2/resources/tch_material/details/{id}.json"
+    ];
+    const KNOWN_MIRRORS = {
+      "5f12c902-f141-4ae2-9dcb-e2c504a7783b": {
+        api: "https://keben.app/api/download/0192?isChineseUser=true"
+      }
+    };
+    const PROXY_PATH = "/api/download/proxy?url=";
+    const SUBJECTS = ["语文","数学","英语","物理","化学","生物学","生物","历史","地理","道德与法治","思想政治","科学","信息科技","信息技术","音乐","美术","体育与健康","劳动","艺术","日语","俄语"];
+    const GRADE_PATTERNS = [
+      [/一年级/, "一年级"], [/二年级/, "二年级"], [/三年级/, "三年级"], [/四年级/, "四年级"], [/五年级/, "五年级"], [/六年级/, "六年级"],
+      [/七年级|初一/, "七年级"], [/八年级|初二/, "八年级"], [/九年级|初三/, "九年级"], [/高一/, "高一"], [/高二/, "高二"], [/高三/, "高三"]
+    ];
+    const VOLUME_PATTERNS = [[/上册|上学期/, "上册"], [/下册|下学期/, "下册"], [/全一册|全册/, "全一册"], [/选择性必修/, "选择性必修"], [/必修/, "必修"]];
+
+    const $ = (id) => document.getElementById(id);
+    const state = {
+      total: 0,
+      ok: 0,
+      bad: 0,
+      completed: 0
+    };
+
+    function setMetrics() {
+      $("total").textContent = state.total;
+      $("ok").textContent = state.ok;
+      $("bad").textContent = state.bad;
+      const pct = state.total ? Math.round(state.completed / state.total * 100) : 0;
+      $("percent").textContent = `${pct}%`;
+      $("bar").style.width = `${pct}%`;
+    }
+
+    function log(message) {
+      const now = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+      $("log").textContent += `[${now}] ${message}\n`;
+      $("log").scrollTop = $("log").scrollHeight;
+    }
+
+    function safeName(value) {
+      return (value || "未命名").replace(/[\\/:*?"<>|]+/g, "_").replace(/\s+/g, " ").trim().slice(0, 160) || "未命名";
+    }
+
+    function extractContentId(link) {
+      try {
+        const url = new URL(link.trim());
+        const id = url.searchParams.get("contentId");
+        if (id) return id;
+        const keben = url.pathname.match(/\/book\/(\d+)/);
+        if (keben) return `keben:${keben[1]}`;
+      } catch (_) {}
+      const match = link.match(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/);
+      return match ? match[0] : null;
+    }
+
+    function encodeUrlPath(url) {
+      const parsed = new URL(url);
+      parsed.pathname = parsed.pathname.split("/").map(part => encodeURIComponent(decodeURIComponent(part))).join("/");
+      return parsed.toString();
+    }
+
+    function proxied(url) {
+      return `${PROXY_PATH}${encodeURIComponent(encodeUrlPath(url))}`;
+    }
+
+    async function fetchBinary(url) {
+      const res = await fetch(proxied(url), {
+        headers: { "Accept": "*/*" },
+        cache: "no-store"
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.arrayBuffer();
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(proxied(url), { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    }
+
+    function titleOf(detail) {
+      return detail.title || detail.global_title?.["zh-CN"] || detail.global_title?.["en-US"] || detail.id || "未命名";
+    }
+
+    function searchableText(detail) {
+      const parts = [titleOf(detail)];
+      for (const key of ["tag_list", "tags", "library_tags"]) {
+        for (const item of detail[key] || []) {
+          if (item && typeof item === "object") parts.push(item.title || "", item.tag_name || "", item.name || "", item.id || "");
+          else parts.push(String(item));
+        }
+      }
+      for (const path of detail.tag_paths || []) parts.push(String(path));
+      const labels = detail.global_label || {};
+      for (const values of Object.values(labels)) {
+        if (Array.isArray(values)) parts.push(...values.map(String));
+      }
+      return parts.join(" ");
+    }
+
+    function classify(detail) {
+      const text = searchableText(detail);
+      let subject = SUBJECTS.find(item => text.includes(item)) || "未分类";
+      if (subject === "生物学") subject = "生物";
+      let grade = "未分年级";
+      for (const [pattern, value] of GRADE_PATTERNS) {
+        if (pattern.test(text)) { grade = value; break; }
+      }
+      let volume = "未分册";
+      for (const [pattern, value] of VOLUME_PATTERNS) {
+        if (pattern.test(text)) { volume = value; break; }
+      }
+      return { subject, grade, volume };
+    }
+
+    async function fetchDetail(contentId) {
+      let lastError;
+      for (const template of DETAIL_HOSTS) {
+        const url = template.replace("{id}", contentId);
+        try {
+          return await fetchJson(url);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw new Error(`详情获取失败：${lastError?.message || lastError}`);
+    }
+
+    function findPdfItem(detail) {
+      return (detail.ti_items || []).find(item => item.ti_format === "pdf");
+    }
+
+    function findImageSource(detail) {
+      for (const item of detail.ti_items || []) {
+        if (item.ti_format === "folder" && item.ti_file_flag === "image") {
+          const pages = Number((item.custom_properties?.requirements || []).find(req => req.name === "pagesize")?.value || 0);
+          if (pages && item.ti_storages?.length) {
+            return {
+              pages,
+              bases: item.ti_storages.map(url => url.replace("-private", "")),
+              preview: null
+            };
+          }
+        }
+      }
+      const preview = detail.custom_properties?.preview || {};
+      const slides = Object.entries(preview)
+        .map(([key, url]) => {
+          const match = key.match(/^Slide(\d+)$/);
+          return match ? [Number(match[1]), url] : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => a[0] - b[0]);
+      if (slides.length) return { pages: slides.length, bases: [], preview: slides };
+      return null;
+    }
+
+    async function trySmarteduPdf(detail) {
+      const item = findPdfItem(detail);
+      if (!item) return null;
+      const candidates = [];
+      for (const url of item.ti_storages || []) {
+        candidates.push(url, url.replace("-private", ""));
+      }
+      for (const url of candidates) {
+        try {
+          const data = await fetchBinary(url);
+          if (new Uint8Array(data.slice(0, 4)).every((v, i) => v === [37,80,68,70][i])) {
+            return data;
+          }
+        } catch (_) {}
+      }
+      return null;
+    }
+
+    async function tryKnownMirror(contentId) {
+      const mirror = KNOWN_MIRRORS[contentId];
+      if (!mirror) return null;
+      const info = await fetchJson(mirror.api);
+      const urls = [info.primaryUrl, info.fallbackUrl, info.downloadUrl].filter(Boolean);
+      for (const url of urls) {
+        try {
+          const data = await fetchBinary(url);
+          if (new Uint8Array(data.slice(0, 4)).every((v, i) => v === [37,80,68,70][i])) return data;
+        } catch (_) {}
+      }
+      return null;
+    }
+
+    function arrayBufferToDataUrl(buffer, mime = "image/jpeg") {
+      const bytes = new Uint8Array(buffer);
+      let binary = "";
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+      }
+      return `data:${mime};base64,${btoa(binary)}`;
+    }
+
+    function loadImage(dataUrl) {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = dataUrl;
+      });
+    }
+
+    async function fetchPageImage(source, index) {
+      const candidates = source.preview
+        ? [source.preview[index - 1][1]]
+        : source.bases.map(base => `${base}/${index}.jpg`);
+      let lastError;
+      for (const url of candidates) {
+        try {
+          return await fetchBinary(url);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw new Error(`第 ${index} 页下载失败：${lastError?.message || lastError}`);
+    }
+
+    async function rebuildPdfFromImages(detail, contentId, progress) {
+      const mirror = await tryKnownMirror(contentId).catch(() => null);
+      if (mirror) return mirror;
+
+      const source = findImageSource(detail);
+      if (!source) throw new Error("没有找到页面图资源");
+      const { jsPDF } = window.jspdf;
+      let pdf = null;
+      for (let i = 1; i <= source.pages; i++) {
+        const imageBuffer = await fetchPageImage(source, i);
+        const dataUrl = arrayBufferToDataUrl(imageBuffer, "image/jpeg");
+        const img = await loadImage(dataUrl);
+        const width = img.naturalWidth;
+        const height = img.naturalHeight;
+        if (!pdf) {
+          pdf = new jsPDF({ unit: "px", format: [width, height], orientation: width > height ? "l" : "p", compress: true });
+        } else {
+          pdf.addPage([width, height], width > height ? "l" : "p");
+        }
+        pdf.addImage(dataUrl, "JPEG", 0, 0, width, height);
+        if (i === 1 || i % 20 === 0 || i === source.pages) progress(i, source.pages);
+      }
+      return pdf.output("arraybuffer");
+    }
+
+    async function processKeben(id, titleHint) {
+      const info = await fetchJson(`https://keben.app/api/download/${id}?isChineseUser=true`);
+      const urls = [info.primaryUrl, info.fallbackUrl, info.downloadUrl].filter(Boolean);
+      for (const url of urls) {
+        const data = await fetchBinary(url);
+        if (new Uint8Array(data.slice(0, 4)).every((v, i) => v === [37,80,68,70][i])) {
+          const title = titleHint || decodeURIComponent(url.split("/").pop().replace(/\.pdf$/i, ""));
+          return { title, subject: "未分类", data };
+        }
+      }
+      throw new Error("镜像 PDF 下载失败");
+    }
+
+    async function processSmartedu(link) {
+      const contentId = extractContentId(link);
+      if (!contentId) throw new Error("没有识别到 contentId");
+      if (contentId.startsWith("keben:")) return await processKeben(contentId.replace("keben:", ""));
+
+      const detail = await fetchDetail(contentId);
+      const title = titleOf(detail);
+      const meta = classify(detail);
+      log(`详情：${title}`);
+      log(`分类：${meta.subject} / ${meta.grade} / ${meta.volume}`);
+
+      let data = await trySmarteduPdf(detail);
+      if (!data) {
+        log("原始 PDF 不可直接下载，切换到页面图或镜像");
+        data = await rebuildPdfFromImages(detail, contentId, (done, total) => log(`页面图：${done}/${total}`));
+      }
+      return { title, ...meta, data };
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function resetRun(total) {
+      state.total = total;
+      state.ok = 0;
+      state.bad = 0;
+      state.completed = 0;
+      $("log").textContent = "";
+      $("results").innerHTML = "";
+      $("state").textContent = "运行中";
+      setMetrics();
+    }
+
+    function addResult(type, text) {
+      const div = document.createElement("div");
+      div.className = `result ${type === "fail" ? "fail" : ""}`;
+      div.textContent = text;
+      $("results").appendChild(div);
+    }
+
+    async function run() {
+      const links = $("links").value.split(/\n+/).map(line => line.trim()).filter(Boolean);
+      if (!links.length) {
+        alert("请先粘贴链接");
+        return;
+      }
+      if (!window.JSZip || !window.jspdf) {
+        alert("依赖库没有加载完成，请刷新后重试");
+        return;
+      }
+      $("run").disabled = true;
+      resetRun(links.length);
+      const zip = new JSZip();
+      for (let i = 0; i < links.length; i++) {
+        const link = links[i];
+        log(`[${i + 1}/${links.length}] 开始：${link}`);
+        try {
+          const item = await processSmartedu(link);
+          const subject = safeName(item.subject || "未分类");
+          const filename = `${safeName(item.title)}.pdf`;
+          zip.folder(subject).file(filename, item.data);
+          state.ok++;
+          addResult("ok", `完成：${subject}/${filename}`);
+        } catch (error) {
+          state.bad++;
+          addResult("fail", `失败：${link}（${error.message || error}）`);
+          log(`失败：${error.message || error}`);
+        } finally {
+          state.completed++;
+          setMetrics();
+        }
+      }
+      if (state.ok > 0) {
+        $("state").textContent = "正在打包";
+        const blob = await zip.generateAsync({ type: "blob" }, (meta) => {
+          $("percent").textContent = `${Math.round(meta.percent)}%`;
+          $("bar").style.width = `${Math.round(meta.percent)}%`;
+        });
+        downloadBlob(blob, `教材下载_${new Date().toISOString().slice(0,10)}.zip`);
+        $("state").textContent = "已完成";
+        log("压缩包已生成");
+      } else {
+        $("state").textContent = "未完成";
+      }
+      $("run").disabled = false;
+    }
+
+    $("run").addEventListener("click", run);
+    $("demo").addEventListener("click", () => {
+      $("links").value = "https://basic.smartedu.cn/tchMaterial/detail?contentType=assets_document&contentId=8b9c7052-add4-4744-ab04-69d6c180d5d9&catalogType=tchMaterial&subCatalog=tchMaterial\\nhttps://basic.smartedu.cn/tchMaterial/detail?contentType=assets_document&contentId=5f12c902-f141-4ae2-9dcb-e2c504a7783b&catalogType=tchMaterial&subCatalog=tchMaterial";
+    });
+  </script>
+</body>
+</html>
