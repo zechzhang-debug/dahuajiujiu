@@ -1135,6 +1135,10 @@
         ad.classList.remove('show');
     }
 
+    function getBottomAdCloseCooldownMs() {
+        return 1200000;
+    }
+
     function initBottomAdBehavior() {
         const closeBtn = document.getElementById('bottom-ad-close-btn');
         const ad = document.getElementById('bottom-floating-ad');
@@ -1160,8 +1164,9 @@
                 e.preventDefault();
                 e.stopPropagation();
                 hideBottomFloatingAd();
-                bottomAdCooldownUntil = Date.now() + 120000;
-                scheduleBottomAdPopup(120000);
+                const cooldownMs = getBottomAdCloseCooldownMs();
+                bottomAdCooldownUntil = Date.now() + cooldownMs;
+                scheduleBottomAdPopup(cooldownMs);
             });
         }
 
@@ -1170,8 +1175,9 @@
                 e.preventDefault();
                 e.stopPropagation();
                 hideBottomFloatingAd();
-                bottomAdCooldownUntil = Date.now() + 120000;
-                scheduleBottomAdPopup(120000);
+                const cooldownMs = getBottomAdCloseCooldownMs();
+                bottomAdCooldownUntil = Date.now() + cooldownMs;
+                scheduleBottomAdPopup(cooldownMs);
             });
         }
     }
