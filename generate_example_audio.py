@@ -23,11 +23,12 @@ async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--concurrency", type=int, default=8)
+    parser.add_argument("--level", choices=["primary", "junior", "senior", "ielts"], default="primary")
     args = parser.parse_args()
 
-    out = ROOT / "word-web-cloud" / "audio" / "primary-sentence"
+    out = ROOT / "word-web-cloud" / "audio" / f"{args.level}-sentence"
     out.mkdir(parents=True, exist_ok=True)
-    jobs = [(word, sentence) for word, sentence in parse_words(ROOT / "word-web-cloud" / "words_primary.txt")]
+    jobs = [(word, sentence) for word, sentence in parse_words(ROOT / "word-web-cloud" / f"words_{args.level}.txt")]
     if args.limit:
         jobs = jobs[:args.limit]
     queue = asyncio.Semaphore(max(1, args.concurrency))
