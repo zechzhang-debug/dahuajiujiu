@@ -10,7 +10,7 @@
 </style>
 </head>
 <body><main class="wrap">
-<nav class="nav"><a class="brand" href="../index.html">∑ 大华舅舅的数学资料</a><a class="back" href="../math.html?grade=junior3&topic=congruence-rotation-models">← 返回初三题目目录</a></nav>
+<nav class="nav"><a class="brand" href="../index.html">∑ 大华舅舅的数学资料</a><a class="back" href="../math.html?grade=junior2&topic=congruence">← 返回初二题目目录</a></nav>
 <header class="hero"><h1>等腰直角三角形脚拉脚旋转模型</h1><p>初三几何 · 两图只共点 · 旋转与中点</p><span class="tag">等腰直角</span><span class="tag">旋转模型</span><span class="tag">倍长中线</span><span class="tag">平行四边形</span></header>
 <section class="card"><h2><span class="icon">题</span>模型条件与结论</h2><div class="problem"><p>△ABC 和 △CDE 都是等腰直角三角形，<span class="formula">∠ACB=∠CDE=90°</span>。两个三角形只共用连接点 C，小三角形 △CDE 可绕 C 旋转，并始终保持 <span class="formula">CD=DE</span>。</p><p>M 是线段 BE 的中点。证明：</p><div class="block">DM⊥AE，且 DM=½AE</div></div></section>
 <section class="card"><h2><span class="icon">动</span>动态旋转模型</h2><p class="muted">两个三角形分居直线 CB 两侧，仅在 C 点连接。拖动“旋转角”观察小三角形绕 C 转动；拖动“大小”可改变 CD，但结论始终不变。虚线 DN 是倍长 DM 得到的辅助线。</p><div class="canvas"><canvas id="fig" width="760" height="560" aria-label="两个分开的等腰直角三角形脚拉脚旋转模型图"></canvas></div><div class="controls"><label class="control">小三角形大小 CD/CB<input id="sizeSlider" type="range" min="0.35" max="0.75" step="0.01" value="0.55"><output id="sizeValue" class="value">0.55</output></label><label class="control">绕连接点 C 旋转<input id="rotationSlider" type="range" min="-135" max="-55" step="1" value="-90"><output id="rotationValue" class="value">−90°</output></label></div><div class="reads"><div class="read">DM<strong id="dm">—</strong></div><div class="read">AE / 2<strong id="halfAe">—</strong></div><div class="read">DM 与 AE 的夹角<strong id="angle">—</strong></div></div></section>

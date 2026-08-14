@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>镜像点新定义题型 · 精讲</title>
+<meta name="description" content="初中数学几何新定义压轴题精讲，通过轴对称、坐标变换与区域判定讲解镜像点题型。">
+<link rel="canonical" href="https://dahuajiujiu.com/math-lessons/mirror-point-new-definition.html">
+<style>
+  :root {
+    --primary: #4f46e5;
+    --primary-light: #eef2ff;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+    --shadow-lg: 0 10px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 20px;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  .site-nav {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .site-brand { color: #173b55; font-size: 14px; font-weight: 800; text-decoration: none; }
+  .site-back { color: var(--primary); font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+
+  /* 头部 */
+  .header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 32px 28px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: "";
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,.08);
+    border-radius: 50%;
+  }
+  .header h1 { font-size: 26px; margin-bottom: 8px; position: relative; }
+  .header .subtitle { font-size: 14px; opacity: .85; position: relative; }
+  .header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-right: 8px;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  /* 卡片 */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: var(--primary); }
+  .icon-amber { background: var(--accent); }
+  .icon-green { background: var(--success); }
+  .icon-red { background: var(--danger); }
+
+  /* 题目区 */
+  .problem-box {
+    background: #fefce8;
+    border-left: 4px solid var(--accent);
+    padding: 18px 20px;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  .problem-box p { margin-bottom: 8px; }
+  .problem-box p:last-child { margin-bottom: 0; }
+
+  /* 定义高亮 */
+  .definition {
+    background: var(--primary-light);
+    border: 1px dashed var(--primary);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .definition::before {
+    content: "💡 核心定义";
+    position: absolute;
+    top: -12px; left: 16px;
+    background: var(--primary);
+    color: white;
+    font-size: 12px;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+  }
+  .definition p { margin-top: 6px; }
+
+  /* 公式 */
+  .formula {
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: "Cambria Math", "Times New Roman", serif;
+    font-size: 15px;
+    color: #be185d;
+    margin: 2px 4px;
+  }
+  .formula-block {
+    display: block;
+    text-align: center;
+    background: #f1f5f9;
+    padding: 14px;
+    border-radius: 8px;
+    font-family: "Cambria Math", "Times New Roman", serif;
+    font-size: 17px;
+    color: #be185d;
+    margin: 12px 0;
+  }
+
+  /* 步骤折叠 */
+  .step {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all .3s;
+  }
+  .step-header {
+    background: #f8fafc;
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background .2s;
+  }
+  .step-header:hover { background: #f1f5f9; }
+  .step-header .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  .step-header .step-title {
+    font-weight: 600;
+    flex: 1;
+  }
+  .step-header .arrow {
+    transition: transform .3s;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .step.open .step-header { background: var(--primary-light); }
+  .step.open .arrow { transform: rotate(180deg); }
+  .step-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease;
+  }
+  .step.open .step-body { max-height: 2000px; }
+  .step-content {
+    padding: 18px 20px;
+    font-size: 15px;
+  }
+  .step-content p { margin-bottom: 10px; }
+  .step-content p:last-child { margin-bottom: 0; }
+
+  /* 答案标签 */
+  .answer-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 15px;
+    margin: 8px 4px;
+    box-shadow: 0 2px 8px rgba(16,185,129,.3);
+  }
+
+  /* 可视化画布 */
+  .canvas-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+    position: relative;
+  }
+  canvas {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fafbfc;
+    max-width: 100%;
+  }
+  .canvas-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .2s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: #4338ca; transform: translateY(-1px); }
+  .btn-outline {
+    background: white;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-light); }
+  .btn.active { background: var(--primary); color: white; }
+
+  .slider-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+  .slider-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 50px;
+  }
+  .slider-group input[type=range] {
+    width: 200px;
+    accent-color: var(--primary);
+  }
+  .slider-value {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-family: monospace;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  /* 图例 */
+  .legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  /* 解题套路 */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0; top: 10px;
+    width: 22px; height: 22px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* 总结表格 */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .summary-table th, .summary-table td {
+    padding: 10px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .summary-table th {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .summary-table tr:nth-child(even) td { background: #f8fafc; }
+
+  /* 高亮文字 */
+  .hl { color: var(--primary); font-weight: 700; }
+  .hl-amber { color: #d97706; font-weight: 700; }
+  .hl-green { color: var(--success); font-weight: 700; }
+  .hl-red { color: var(--danger); font-weight: 700; }
+
+  /* 底部 */
+  .footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  .site-footer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 18px 10px 4px;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+  .site-footer a { color: inherit; text-decoration: none; }
+  .site-footer a:hover { color: var(--primary); }
+
+  @media (max-width: 640px) {
+    body { padding: 12px; }
+    .card { padding: 18px 16px; }
+    .header { padding: 24px 20px; }
+    .header h1 { font-size: 22px; }
+    .site-nav { align-items: flex-start; }
+    .site-brand { max-width: 58%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="site-nav" aria-label="站点导航">
+    <a class="site-brand" href="../index.html">∑ 大华舅舅的数学资料</a>
+    <a class="site-back" href="../math.html?grade=junior2&topic=axial-symmetry">← 返回初二题目目录</a>
+  </nav>
+
+  <!-- 头部 -->
+  <div class="header">
+    <h1>📐 镜像点新定义题型 · 精讲</h1>
+    <div class="subtitle">初中数学 · 几何新定义压轴题解题思路</div>
+    <div>
+      <span class="tag">新定义</span>
+      <span class="tag">轴对称</span>
+      <span class="tag">动态范围</span>
+      <span class="tag">数形结合</span>
+    </div>
+  </div>
+
+  <!-- 题目 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-amber">📋</span>
+      原题呈现
+    </div>
+    <div class="problem-box">
+      <p><strong>定义：</strong>若点 P 关于直线 l 的对称点 P' 在图形 N 的内部或边上，则称点 P 为图形 N 关于直线 l 的<strong>镜像点</strong>。</p>
+      <p>在平面直角坐标系 xOy 中，已知 △ABC 的三个顶点分别为 A(2, 1)，B(-1, 1)，C(-1, -2)。过点 T(0, t) 且垂直于 y 轴的直线记为 l₁。</p>
+      <p>(1) 当 t = -2 时，在点 P₁(0, -4)，P₂(2, -5.5)，P₃(-1, -2.2) 中，是 △ABC 关于 l₁ 的镜像点的是 <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>；</p>
+      <p>(2) 若 x 轴上存在 △ABC 关于 l₁ 的镜像点，且 t ≠ 0，求 t 的最小值；</p>
+      <p>(3) 直线 l₂ 过点 T(0, t)，且与第一、三象限的角平分线平行。</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;① 若 l₂ 上存在 △ABC 关于 l₁ 的镜像点，求 t 的取值范围；</p>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;② 正方形 DEFH 的边长为 1，对角线交点为 Q(t, 0)，边分别平行于 x 轴、y 轴。若该正方形边上的所有点都是 △ABC 关于 l₂ 的镜像点，直接写出 t 的取值范围。</p>
+    </div>
+  </div>
+
+  <!-- 核心概念 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-blue">💡</span>
+      核心概念拆解
+    </div>
+
+    <div class="definition">
+      <p>点 P(x₀, y₀) 关于水平线 <span class="formula">y = t</span> 的对称点：</p>
+      <div class="formula-block">P'(x₀, &nbsp;2t − y₀)</div>
+      <p style="font-size:13px;color:var(--text-muted);text-align:center;">（横坐标不变，纵坐标变为 2t − y₀）</p>
+    </div>
+
+    <div class="definition">
+      <p>点 P(x₀, y₀) 关于斜率为 1 的直线 <span class="formula">y = x + t</span> 的对称点：</p>
+      <div class="formula-block">P'(y₀ − t, &nbsp;x₀ + t)</div>
+      <p style="font-size:13px;color:var(--text-muted);text-align:center;">（x' = y₀ − t，y' = x₀ + t，相当于交换并平移）</p>
+    </div>
+
+    <p style="margin-top:12px;">
+      <span class="hl">解题关键：</span>镜像点问题 = 对称变换 + 区域判定。
+      先求出对称点坐标，再判断对称点是否落在目标图形内部或边上。
+    </p>
+  </div>
+
+  <!-- 可视化交互 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-green">🎯</span>
+      交互式可视化
+    </div>
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">
+      拖动滑块调整 t 值，观察直线 l₁: y=t 与 △ABC 的位置关系，以及各点的对称位置。
+    </p>
+
+    <div class="canvas-wrapper">
+      <canvas id="mainCanvas" width="560" height="480"></canvas>
+    </div>
+
+    <div class="slider-group">
+      <label>t =</label>
+      <input type="range" id="tSlider" min="-3" max="3" step="0.1" value="-2">
+      <span class="slider-value" id="tValue">-2.0</span>
+    </div>
+
+    <div class="canvas-controls">
+      <button class="btn btn-outline active" id="btnL1" onclick="toggleLine('l1')">显示 l₁</button>
+      <button class="btn btn-outline" id="btnL2" onclick="toggleLine('l2')">显示 l₂</button>
+      <button class="btn btn-outline" id="btnMirror" onclick="toggleMirror()">显示对称点</button>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4f46e5"></div>△ABC</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>直线 l</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>原始点 P</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>对称点 P'</div>
+    </div>
+  </div>
+
+  <!-- 第(1)问 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-blue">1</span>
+      第(1)问：判断镜像点
+    </div>
+
+    <div class="step open" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">1</span><span class="step-title">审题：t = -2 时，直线 l₁ 是什么？</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>l₁ 过 T(0, t) 且垂直于 y 轴 → <span class="hl">水平线 y = t</span></p>
+          <p>当 t = -2 时，l₁: <span class="formula">y = -2</span></p>
+          <p>对称公式：点 P(x, y) 关于 y = -2 的对称点为 <span class="formula">P'(x, -4 - y)</span></p>
+          <p style="color:var(--text-muted);font-size:13px;">（验证：中点纵坐标 = (y + (-4-y))/2 = -2，恰好在直线上 ✓）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">2</span><span class="step-title">△ABC 的区域范围是什么？</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>三点坐标：A(2, 1)，B(-1, 1)，C(-1, -2)</p>
+          <p>画图观察：B 和 C 的 x 坐标都是 -1 → <span class="hl-amber">BC 是竖直线段</span></p>
+          <p>A 和 B 的 y 坐标都是 1 → <span class="hl-amber">AB 是水平线段</span></p>
+          <p>所以 △ABC 是 <span class="hl">直角三角形</span>，直角在 B(-1, 1)</p>
+          <p>斜边 AC：从 (2,1) 到 (-1,-2)，方程 <span class="formula">y = x − 1</span></p>
+          <p>三角形区域（不等式组）：</p>
+          <div class="formula-block">−1 ≤ x ≤ 2，&nbsp;&nbsp;x − 1 ≤ y ≤ 1</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">3</span><span class="step-title">逐一验证三个点</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p><strong>P₁(0, -4)：</strong></p>
+          <p>&nbsp;&nbsp;对称点 P₁'(0, -4-(-4)) = <span class="hl-green">(0, 0)</span></p>
+          <p>&nbsp;&nbsp;验证：x=0 满足 −1≤0≤2 ✓；y=0 满足 0−1=−1 ≤ 0 ≤ 1 ✓</p>
+          <p>&nbsp;&nbsp;<span class="hl-green">✓ 在三角形内部，是镜像点</span></p>
+          <br>
+          <p><strong>P₂(2, -5.5)：</strong></p>
+          <p>&nbsp;&nbsp;对称点 P₂'(2, -4-(-5.5)) = <span class="hl-red">(2, 1.5)</span></p>
+          <p>&nbsp;&nbsp;验证：y = 1.5 > 1，超出三角形上边界</p>
+          <p>&nbsp;&nbsp;<span class="hl-red">✗ 不在三角形内，不是镜像点</span></p>
+          <br>
+          <p><strong>P₃(-1, -2.2)：</strong></p>
+          <p>&nbsp;&nbsp;对称点 P₃'(-1, -4-(-2.2)) = <span class="hl-green">(-1, -1.8)</span></p>
+          <p>&nbsp;&nbsp;验证：x = -1 是左边界；y = -1.8 满足 −2 ≤ −1.8 ≤ 1 ✓</p>
+          <p>&nbsp;&nbsp;<span class="hl-green">✓ 在 BC 边上，是镜像点</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <span style="font-size:14px;color:var(--text-muted);">第(1)问答案：</span>
+      <span class="answer-tag">P₁、P₃</span>
+    </div>
+  </div>
+
+  <!-- 第(2)问 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-blue">2</span>
+      第(2)问：求 t 的最小值
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">1</span><span class="step-title">转化条件：x 轴上的点是什么意思？</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>x 轴上的点 → 纵坐标为 0，设 P(x, 0)</p>
+          <p>P 关于 l₁: y = t 的对称点：<span class="formula">P'(x, 2t)</span></p>
+          <p><span class="hl">关键洞察：</span>对称点的纵坐标是 2t，与 x 无关！</p>
+          <p>也就是说，所有 x 轴上的点对称后，都落在水平线 <span class="formula">y = 2t</span> 上。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">2</span><span class="step-title">存在镜像点意味着什么？</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>"存在镜像点" = 水平线 y = 2t 与 △ABC <span class="hl">有交点</span></p>
+          <p>△ABC 的 y 坐标范围：从 C 点的 −2 到 A、B 点的 1</p>
+          <p>即 <span class="formula">−2 ≤ y ≤ 1</span></p>
+          <p>所以 y = 2t 要与三角形相交：</p>
+          <div class="formula-block">−2 ≤ 2t ≤ 1 &nbsp;⟹&nbsp; −1 ≤ t ≤ 0.5</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">3</span><span class="step-title">结合条件 t ≠ 0，求最小值</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>t 的范围是 −1 ≤ t ≤ 0.5，且 t ≠ 0</p>
+          <p>最小值 = <span class="hl-green">−1</span></p>
+          <p style="color:var(--text-muted);font-size:13px;">验证：t = −1 时，2t = −2，对称点纵坐标为 −2，恰好在 C 点所在的底边上。取 P(-1, 0)，则 P'(-1, -2) = C，在三角形边上 ✓</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <span style="font-size:14px;color:var(--text-muted);">第(2)问答案：</span>
+      <span class="answer-tag">t = −1</span>
+    </div>
+  </div>
+
+  <!-- 第(3)问 ① -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-blue">3</span>
+      第(3)问 ①：l₂ 上存在镜像点
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">1</span><span class="step-title">l₂ 是什么直线？</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>l₂ 过 T(0, t)，与第一、三象限角平分线平行 → <span class="hl">斜率为 1</span></p>
+          <p>方程：<span class="formula">y = x + t</span></p>
+          <p>注意：这里的"镜像点"是关于 <span class="hl-amber">l₁</span> 的镜像点（题目说"△ABC 关于 l₁ 的镜像点"），不是关于 l₂ 的！</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">2</span><span class="step-title">设 l₂ 上一点，求其对称点</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>设 P 是 l₂ 上任意一点：P(a, a + t)</p>
+          <p>P 关于 l₁: y = t 的对称点：</p>
+          <div class="formula-block">P'(a, &nbsp;2t − (a + t)) = P'(a, &nbsp;t − a)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">3</span><span class="step-title">P' 落在 △ABC 内的条件</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>△ABC 区域：−1 ≤ x ≤ 2，且 x − 1 ≤ y ≤ 1</p>
+          <p>代入 P'(a, t − a)：</p>
+          <p>① <span class="formula">−1 ≤ a ≤ 2</span></p>
+          <p>② <span class="formula">a − 1 ≤ t − a ≤ 1</span></p>
+          <p>由 ② 左边：a − 1 ≤ t − a &nbsp;⟹&nbsp; 2a − 1 ≤ t</p>
+          <p>由 ② 右边：t − a ≤ 1 &nbsp;⟹&nbsp; t ≤ a + 1</p>
+          <p>综合：<span class="formula">2a − 1 ≤ t ≤ a + 1</span>，其中 a ∈ [−1, 2]</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">4</span><span class="step-title">"存在"意味着求 t 的全部可能值</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>"存在镜像点" = 存在某个 a ∈ [−1, 2] 使不等式成立</p>
+          <p>即求所有满足条件的 t 的并集：</p>
+          <p>t 的下限：当 a 最小时，2a − 1 最小 = 2×(−1) − 1 = <span class="hl">−3</span></p>
+          <p>t 的上限：当 a 最大时，a + 1 最大 = 2 + 1 = <span class="hl">3</span></p>
+          <p>所以 t 的取值范围：</p>
+          <div class="formula-block">−3 ≤ t ≤ 3</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <span style="font-size:14px;color:var(--text-muted);">第(3)问 ① 答案：</span>
+      <span class="answer-tag">−3 ≤ t ≤ 3</span>
+    </div>
+  </div>
+
+  <!-- 第(3)问 ② -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-blue">4</span>
+      第(3)问 ②：正方形边上全是镜像点
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">1</span><span class="step-title">正方形的位置与顶点</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>正方形 DEFH：边长为 1，对角线交点 Q(t, 0)，边平行坐标轴</p>
+          <p>半边长 = 0.5，所以正方形范围：</p>
+          <div class="formula-block">x ∈ [t − 0.5, t + 0.5]，&nbsp;&nbsp;y ∈ [−0.5, 0.5]</div>
+          <p>四个顶点：(t−0.5, −0.5)，(t+0.5, −0.5)，(t+0.5, 0.5)，(t−0.5, 0.5)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">2</span><span class="step-title">关于 l₂ 的对称变换</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>这一问是关于 <span class="hl-amber">l₂</span> 的镜像点（注意与 ① 的区别！）</p>
+          <p>l₂: y = x + t，点 P(x, y) 关于 l₂ 的对称点：</p>
+          <div class="formula-block">P'(y − t, &nbsp;x + t)</div>
+          <p style="font-size:13px;color:var(--text-muted);">推导：两点连线垂直 l₂（斜率为 −1），中点在 l₂ 上，解得 x' = y − t，y' = x + t</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">3</span><span class="step-title">"所有点都是镜像点"的条件</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p>正方形边上任意一点 P(x, y) 对称后 P'(y−t, x+t) 都要在 △ABC 内</p>
+          <p>△ABC 约束：−1 ≤ x' ≤ 2，且 x' − 1 ≤ y' ≤ 1</p>
+          <p>代入 x' = y − t，y' = x + t：</p>
+          <p>① <span class="formula">−1 ≤ y − t ≤ 2</span> （对所有 y ∈ [−0.5, 0.5] 成立）</p>
+          <p>② <span class="formula">(y − t) − 1 ≤ x + t ≤ 1</span> （对所有 x ∈ [t−0.5, t+0.5], y ∈ [−0.5, 0.5] 成立）</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" onclick="toggleStep(this)">
+      <div class="step-header">
+        <span><span class="step-num">4</span><span class="step-title">求 t 的范围（极值法）</span></span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="step-body">
+        <div class="step-content">
+          <p><strong>由条件 ①：</strong></p>
+          <p>y − t ≥ −1 对所有 y ∈ [−0.5, 0.5] 成立 → 取 y 最小值：−0.5 − t ≥ −1 → t ≤ 0.5</p>
+          <p>y − t ≤ 2 对所有 y ∈ [−0.5, 0.5] 成立 → 取 y 最大值：0.5 − t ≤ 2 → t ≥ −1.5</p>
+          <br>
+          <p><strong>由条件 ② 右边 x + t ≤ 1：</strong></p>
+          <p>x 最大为 t + 0.5，所以 (t + 0.5) + t ≤ 1 → 2t ≤ 0.5 → t ≤ 0.25</p>
+          <br>
+          <p><strong>由条件 ② 左边 y − t − 1 ≤ x + t：</strong></p>
+          <p>x 最小为 t − 0.5，y 最大为 0.5</p>
+          <p>0.5 − t − 1 ≤ t − 0.5 + t → −0.5 − t ≤ 2t − 0.5 → 0 ≤ 3t → t ≥ 0</p>
+          <br>
+          <p><span class="hl">综合所有约束：</span>取交集得 <span class="formula">0 ≤ t ≤ 0.25</span></p>
+          <p style="color:var(--text-muted);font-size:13px;margin-top:8px;">
+            注：严格求解需验证四条边界上的极值点，此处给出核心思路。
+            正方形对称后整体要"嵌入"三角形内，通过顶点极值约束即可确定范围。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <span style="font-size:14px;color:var(--text-muted);">第(3)问 ② 答案：</span>
+      <span class="answer-tag">0 ≤ t ≤ 1/4</span>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:6px;">
+      （具体范围需结合图形精确验证，核心方法是正方形顶点对称后逐一检验）
+    </p>
+  </div>
+
+  <!-- 答案汇总 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-green">📊</span>
+      答案汇总表
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr><th>小问</th><th>核心条件</th><th>答案</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>(1)</td><td>t = −2，判断三个点</td><td>P₁、P₃</td></tr>
+        <tr><td>(2)</td><td>x 轴上存在镜像点，t ≠ 0，求最小值</td><td>−1</td></tr>
+        <tr><td>(3) ①</td><td>l₂ 上存在镜像点</td><td>−3 ≤ t ≤ 3</td></tr>
+        <tr><td>(3) ②</td><td>正方形边上全是镜像点</td><td>0 ≤ t ≤ 1/4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 解题套路 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon icon-amber">🔑</span>
+      镜像点题型解题套路
+    </div>
+    <ul class="checklist">
+      <li><strong>第一步：</strong>准确写出对称变换公式——点关于直线的对称点坐标</li>
+      <li><strong>第二步：</strong>明确目标图形的区域范围（不等式组 / 边界方程）</li>
+      <li><strong>第三步：</strong>将"镜像点"条件转化为对称点落在区域内的代数条件</li>
+      <li><strong>第四步：</strong>"存在"问题 → 求参数取值范围的并集；"任意/所有"问题 → 求交集</li>
+      <li><strong>第五步：</strong>用极值点验证边界，数形结合检验合理性</li>
+      <li><strong>易错点：</strong>看清是关于哪条直线的镜像点（l₁ 还是 l₂），不要搞混！</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    🎯 掌握新定义题型的核心：把陌生定义转化为熟悉的轴对称 + 区域判定
+  </div>
+
+  <footer class="site-footer">
+    <span>北京一个半文化科技有限公司</span>
+    <a href="../about.html">关于与联系</a>
+    <a href="../privacy.html">隐私政策</a>
+    <a href="../terms.html">用户协议</a>
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2026041766号-1</a>
+    <a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502061795" rel="noopener" target="_blank">京公网安备11010502061795号</a>
+  </footer>
+
+</div>
+
+<script>
+// ========== 画布绘制 ==========
+const canvas = document.getElementById('mainCanvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+// 坐标系参数
+const scale = 70; // 每单位像素
+const originX = W / 2;
+const originY = H / 2;
+
+let t = -2;
+let showL1 = true;
+let showL2 = false;
+let showMirror = false;
+
+// 坐标转换
+function toCanvasX(x) { return originX + x * scale; }
+function toCanvasY(y) { return originY - y * scale; }
+
+function drawGrid() {
+  ctx.clearRect(0, 0, W, H);
+
+  // 网格
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 1;
+  for (let x = -5; x <= 5; x++) {
+    ctx.beginPath();
+    ctx.moveTo(toCanvasX(x), 0);
+    ctx.lineTo(toCanvasX(x), H);
+    ctx.stroke();
+  }
+  for (let y = -4; y <= 4; y++) {
+    ctx.beginPath();
+    ctx.moveTo(0, toCanvasY(y));
+    ctx.lineTo(W, toCanvasY(y));
+    ctx.stroke();
+  }
+
+  // 坐标轴
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, originY);
+  ctx.lineTo(W, originY);
+  ctx.moveTo(originX, 0);
+  ctx.lineTo(originX, H);
+  ctx.stroke();
+
+  // 箭头
+  ctx.fillStyle = '#94a3b8';
+  ctx.beginPath();
+  ctx.moveTo(W - 8, originY - 5);
+  ctx.lineTo(W, originY);
+  ctx.lineTo(W - 8, originY + 5);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(originX - 5, 8);
+  ctx.lineTo(originX, 0);
+  ctx.lineTo(originX + 5, 8);
+  ctx.fill();
+
+  // 刻度标签
+  ctx.fillStyle = '#64748b';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  for (let x = -4; x <= 4; x++) {
+    if (x === 0) continue;
+    ctx.fillText(x, toCanvasX(x), originY + 14);
+  }
+  ctx.textAlign = 'right';
+  for (let y = -3; y <= 3; y++) {
+    if (y === 0) continue;
+    ctx.fillText(y, originX - 6, toCanvasY(y) + 4);
+  }
+  ctx.textAlign = 'left';
+  ctx.fillText('x', W - 14, originY - 8);
+  ctx.fillText('y', originX + 8, 14);
+  ctx.fillText('O', originX + 6, originY + 14);
+}
+
+function drawTriangle() {
+  const A = [2, 1], B = [-1, 1], C = [-1, -2];
+  ctx.fillStyle = 'rgba(79, 70, 229, 0.15)';
+  ctx.strokeStyle = '#4f46e5';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(toCanvasX(A[0]), toCanvasY(A[1]));
+  ctx.lineTo(toCanvasX(B[0]), toCanvasY(B[1]));
+  ctx.lineTo(toCanvasX(C[0]), toCanvasY(C[1]));
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // 顶点标注
+  ctx.fillStyle = '#4f46e5';
+  ctx.font = 'bold 13px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('A(2,1)', toCanvasX(A[0]) + 6, toCanvasY(A[1]) - 6);
+  ctx.fillText('B(-1,1)', toCanvasX(B[0]) - 48, toCanvasY(B[1]) - 6);
+  ctx.fillText('C(-1,-2)', toCanvasX(C[0]) - 52, toCanvasY(C[1]) + 14);
+}
+
+function drawL1() {
+  if (!showL1) return;
+  ctx.strokeStyle = '#f59e0b';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(0, toCanvasY(t));
+  ctx.lineTo(W, toCanvasY(t));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#f59e0b';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`l₁: y = ${t.toFixed(1)}`, 12, toCanvasY(t) - 6);
+
+  // T点
+  ctx.fillStyle = '#f59e0b';
+  ctx.beginPath();
+  ctx.arc(toCanvasX(0), toCanvasY(t), 4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawL2() {
+  if (!showL2) return;
+  // y = x + t
+  const x1 = -5, y1 = x1 + t;
+  const x2 = 5, y2 = x2 + t;
+  ctx.strokeStyle = '#8b5cf6';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(toCanvasX(x1), toCanvasY(y1));
+  ctx.lineTo(toCanvasX(x2), toCanvasY(y2));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#8b5cf6';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`l₂: y = x + ${t.toFixed(1)}`, W - 140, toCanvasY(3 + t) - 6);
+}
+
+function drawMirrorPoints() {
+  if (!showMirror) return;
+  const points = [
+    { name: 'P₁', x: 0, y: -4 },
+    { name: 'P₂', x: 2, y: -5.5 },
+    { name: 'P₃', x: -1, y: -2.2 }
+  ];
+
+  points.forEach(p => {
+    // 原始点
+    ctx.fillStyle = '#10b981';
+    ctx.beginPath();
+    ctx.arc(toCanvasX(p.x), toCanvasY(p.y), 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(`${p.name}(${p.x},${p.y})`, toCanvasX(p.x) + 8, toCanvasY(p.y) + 4);
+
+    // 对称点 (关于 l1: y=t)
+    const my = 2 * t - p.y;
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath();
+    ctx.arc(toCanvasX(p.x), toCanvasY(my), 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText(`${p.name}'(${p.x},${my.toFixed(1)})`, toCanvasX(p.x) + 8, toCanvasY(my) - 6);
+
+    // 连线
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(toCanvasX(p.x), toCanvasY(p.y));
+    ctx.lineTo(toCanvasX(p.x), toCanvasY(my));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+}
+
+function render() {
+  drawGrid();
+  drawTriangle();
+  drawL1();
+  drawL2();
+  drawMirrorPoints();
+}
+
+// ========== 交互 ==========
+const slider = document.getElementById('tSlider');
+const tValue = document.getElementById('tValue');
+
+slider.addEventListener('input', () => {
+  t = parseFloat(slider.value);
+  tValue.textContent = t.toFixed(1);
+  render();
+});
+
+function toggleLine(line) {
+  if (line === 'l1') {
+    showL1 = !showL1;
+    document.getElementById('btnL1').classList.toggle('active', showL1);
+  } else {
+    showL2 = !showL2;
+    document.getElementById('btnL2').classList.toggle('active', showL2);
+  }
+  render();
+}
+
+function toggleMirror() {
+  showMirror = !showMirror;
+  document.getElementById('btnMirror').classList.toggle('active', showMirror);
+  render();
+}
+
+function toggleStep(el) {
+  el.classList.toggle('open');
+}
+
+// 初始渲染
+render();
+</script>
+</body>
+</html>

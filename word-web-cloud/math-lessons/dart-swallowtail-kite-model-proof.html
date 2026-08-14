@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>飞镖燕尾风筝模型证明 · 精讲</title>
+  <meta name="description" content="初二飞镖、燕尾与风筝几何模型证明：角度拆分、对顶角相似和 SSS 全等三类核心结论。">
+  <link rel="canonical" href="https://dahuajiujiu.com/math-lessons/dart-swallowtail-kite-model-proof.html">
+  <link rel="stylesheet" href="geometry-model-common.css">
+</head>
+<body>
+<main class="wrap">
+  <nav class="nav"><a class="brand" href="../index.html">∑ 大华舅舅的数学资料</a><a class="back" href="../math.html?grade=junior2&amp;topic=grade8-geometry-models">← 返回初二模型目录</a></nav>
+  <header class="hero">
+    <h1>飞镖、燕尾与风筝模型</h1>
+    <p>按图形外形识别三类角度、相似与全等关系</p>
+    <span class="tag">飞镖角</span><span class="tag">燕尾相似</span><span class="tag">风筝全等</span>
+  </header>
+
+  <section class="card">
+    <h2>三类核心结论</h2>
+    <div class="problem">
+      <p><b>飞镖：</b>D 在 △ABC 内，<span class="formula">∠BDC=∠BAC+∠ABD+∠ACD</span>。</p>
+      <p><b>燕尾：</b>在 △AEC 中，B、D 分别在 AE、CE 上，AD、CB 交于 F；若 ∠A=∠C，则 <span class="formula">△ABF∽△CDF</span>。</p>
+      <p><b>风筝：</b>AB=AD、CB=CD，则 <span class="formula">AC⊥BD</span>，且 AC 平分 ∠BAD、∠BCD。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>分型参考图</h2>
+    <svg class="diagram" viewBox="0 0 720 360" aria-label="飞镖燕尾风筝三种模型图">
+      <text class="note" x="90" y="28">飞镖</text>
+      <path class="base" d="M30 310L125 60L225 310L125 220Z"/>
+      <text class="lbl" x="118" y="55">A</text><text class="lbl" x="12" y="330">B</text><text class="lbl" x="230" y="330">C</text><text class="lbl" x="118" y="242">D</text>
+      <g data-stage="1">
+        <text class="note" x="330" y="28">燕尾</text>
+        <path class="base" d="M265 75L465 75L365 325Z"/>
+        <line class="goal" x1="265" y1="75" x2="420" y2="188"/>
+        <line class="goal" x1="465" y1="75" x2="310" y2="188"/>
+        <text class="lbl" x="250" y="70">A</text><text class="lbl" x="470" y="70">C</text><text class="lbl" x="357" y="348">E</text>
+        <text class="lbl" x="292" y="198">B</text><text class="lbl" x="426" y="198">D</text><text class="lbl" x="357" y="142">F</text>
+      </g>
+      <g data-stage="2">
+        <text class="note" x="575" y="28">风筝</text>
+        <path class="base" d="M585 50L495 170L585 330L680 170Z"/>
+        <line class="goal" x1="585" y1="50" x2="585" y2="330"/>
+        <line class="aux" x1="495" y1="170" x2="680" y2="170"/>
+        <text class="lbl" x="578" y="42">A</text><text class="lbl" x="475" y="175">B</text><text class="lbl" x="578" y="350">C</text><text class="lbl" x="687" y="175">D</text>
+      </g>
+    </svg>
+    <label class="control">分型展开<input class="stage-slider" data-output="stageValue" type="range" min="0" max="3" step="1" value="3"><output class="value" id="stageValue"></output></label>
+  </section>
+
+  <section class="card">
+    <h2>证明汇总</h2>
+    <details open><summary>飞镖角公式</summary><div class="proof"><p>在凹四边形 ABDC 中，D 点的内角是 360°−∠BDC。代入四边形内角和 360°，整理即得：</p><div class="block">∠BDC=∠BAC+∠ABD+∠ACD</div></div></details>
+    <details open><summary>燕尾相似</summary><div class="proof"><p>∠BAF=∠DCF（已知 ∠A=∠C），∠AFB=∠CFD（对顶角），所以 △ABF∽△CDF（AA）。</p></div></details>
+    <details><summary>风筝全等</summary><div class="proof"><p>连接 AC。AB=AD、CB=CD、AC 公共，所以 △ABC≌△ADC（SSS）。由对应角相等，AC 平分两组顶角；等腰三角形底边上的中线同时是高，因此 AC⊥BD。</p></div></details>
+    <div class="answer">看外形只是入口，落笔时仍要回到内角和、AA 相似或 SSS 全等。</div>
+  </section>
+
+  <footer class="footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a></footer>
+</main>
+<script src="geometry-model-common.js"></script>
+</body>
+</html>

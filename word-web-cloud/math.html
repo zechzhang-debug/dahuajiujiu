@@ -283,19 +283,20 @@
         ['geometry-basics', '线与角的基础', '从余角补角到平行线判定，建立几何语言', ['几何入门', '判定']]
       ]},
       junior2: { label: '初二', title: '初二数学', description: '用全等、函数和因式分解建立更完整的推理能力。', topics: [
-        ['triangles', '三角形与多边形', '内角和、外角与辅助线的常用方法', ['几何', '辅助线']],
+        ['triangles', '三角形与等腰三角形', '内角和、外角、等腰性质与常用辅助线', ['三角形', '等腰']],
         ['congruence', '全等三角形', '从条件筛选到完整证明，拒绝跳步', ['证明', '高频']],
+        ['axial-symmetry', '轴对称', '掌握镜像点、对称变换与最短路径问题', ['轴对称', '最短路径']],
+        ['quadrilaterals', '平行四边形与特殊四边形', '研究平行四边形、矩形、菱形和正方形的性质', ['四边形', '正方形']],
         ['linear-function', '一次函数', '把图像、解析式和实际变化对应起来', ['函数', '图像']],
         ['factoring', '因式分解', '提公因式与公式法的选择顺序', ['计算', '技巧']]
       ]},
       junior3: { label: '初三', title: '初三数学', description: '围绕中考高频模型，把代数、几何和概率连成体系。', topics: [
         ['quadratic-equation', '一元二次方程', '配方法、公式法与根的判别式', ['中考', '方程']],
         ['inverse-proportion', '反比例函数', '双曲线图像与面积不变量', ['函数', '模型']],
-        ['congruence-rotation-models', '全等与旋转模型', '从等腰直角脚拉脚理解中点、全等和垂直关系', ['全等', '旋转模型']],
-        ['circle', '圆的核心模型', '垂径定理、圆周角和切线证明', ['几何', '压轴']],
+        ['similarity-models', '相似三角形', '从对应角、平行线和比例线段判断并应用相似', ['相似', '比例线段']],
+        ['circle', '圆', '垂径定理、圆周角和切线的判定与性质', ['圆周角', '切线']],
         ['probability', '概率初步', '树状图与列表法避免漏解', ['概率', '规范']],
-        ['geometry-new-definition', '几何新定义题', '把陌生定义转化为轴对称与区域判定', ['压轴题', '新定义']],
-        ['triangle-theorems-junior', '三角形定理的初中证明', '用圆、勾股定理和因式分解理解三条经典结论', ['初中方法', '拓展证明']]
+        ['triangle-theorems-junior', '三角形拓展定理', '用圆、勾股定理和因式分解理解三条经典结论', ['初中方法', '拓展证明']]
       ]},
       senior1: { label: '高一', title: '高一数学', description: '用集合和函数语言重建数学表达，打牢高中学习底座。', topics: [
         ['sets', '集合与常用逻辑', '交并补、充分必要条件与量词', ['基础', '逻辑']],
@@ -325,19 +326,41 @@
         { title:'正方形动点角平分证明（角度追踪法）', href:'math-lessons/square-angle-bisector-proof-junior1-preview.html?v=figure2' }
       ],
       'congruence': [
-        { title:'正方形动点角平分证明', href:'math-lessons/square-angle-bisector-proof.html?v=1.0.1' }
+        { title:'正方形动点角平分证明', href:'math-lessons/square-angle-bisector-proof.html?v=1.0.1' },
+        { title:'倍长中线模型证明', href:'math-lessons/median-extension-model-proof.html?v=1.0.0' },
+        { title:'截长补短模型原理证明', href:'math-lessons/cut-and-complete-model-proof.html?v=1.0.0' },
+        { title:'一线三等角全等模型证明', href:'math-lessons/one-line-three-equal-angles-congruence-proof.html?v=1.0.0' },
+        { title:'一线三垂直全等模型证明', href:'math-lessons/three-perpendicular-congruence-model-proof.html?v=1.0.0' },
+        { title:'手拉手全等模型证明', href:'math-lessons/hand-in-hand-congruence-model-proof.html?v=1.0.0' },
+        { title:'对角互补全等模型证明', href:'math-lessons/supplementary-angles-model-proof.html?v=1.0.0' },
+        { title:'角平分线全等模型证明', href:'math-lessons/angle-bisector-congruence-model-proof.html?v=1.0.0' },
+        { title:'等腰直角三角形脚拉脚旋转模型证明', href:'math-lessons/isosceles-right-foot-to-foot-model.html?v=1.1.0' },
+        { title:'等腰直角三角形锐角连接脚拉脚模型证明', href:'math-lessons/isosceles-right-acute-vertex-foot-to-foot-model.html?v=1.0.0' }
       ],
-      'geometry-new-definition': [
+      'triangles': [
+        { title:'平分加平行构等腰模型证明', href:'math-lessons/bisector-parallel-isosceles-model-proof.html?v=1.0.0' },
+        { title:'飞镖燕尾风筝模型证明', href:'math-lessons/dart-swallowtail-kite-model-proof.html?v=1.0.0' }
+      ],
+      'axial-symmetry': [
+        { title:'将军饮马最短路径模型证明', href:'math-lessons/general-horse-reflection-model-proof.html?v=1.0.0' },
         { title:'镜像点新定义题型精讲', href:'math-lessons/mirror-point-new-definition.html?v=1.0.1' }
+      ],
+      'quadrilaterals': [
+        { title:'正方形半角模型证明', href:'math-lessons/square-half-angle-model-proof.html?v=1.0.0' }
       ],
       'triangle-theorems-junior': [
         { title:'用初中圆知识证明正弦定理', href:'math-lessons/sine-law-proof-junior.html?v=1.0.0' },
         { title:'用初中知识证明余弦定理', href:'math-lessons/cosine-law-proof-junior.html?v=1.0.0' },
         { title:'用初中知识证明海伦公式', href:'math-lessons/heron-formula-proof-junior.html?v=1.0.0' }
       ],
-      'congruence-rotation-models': [
-        { title:'等腰直角三角形脚拉脚旋转模型证明', href:'math-lessons/isosceles-right-foot-to-foot-model.html?v=1.1.0' },
-        { title:'等腰直角三角形锐角连接脚拉脚模型证明', href:'math-lessons/isosceles-right-acute-vertex-foot-to-foot-model.html?v=1.0.0' }
+      'similarity-models': [
+        { title:'一线三等角相似模型证明', href:'math-lessons/three-equal-angles-similarity.html?v=1.0.0' },
+        { title:'A字与8字相似模型证明', href:'math-lessons/a-eight-similarity-model-proof.html?v=1.0.0' }
+      ],
+      'circle': [
+        { title:'圆周角定理证明', href:'math-lessons/inscribed-angle-theorem-proof.html?v=1.0.0' },
+        { title:'垂径定理证明', href:'math-lessons/perpendicular-diameter-theorem-proof.html?v=1.0.0' },
+        { title:'圆的切线判定与性质证明', href:'math-lessons/circle-tangent-theorem-proof.html?v=1.0.0' }
       ],
       'trigonometry': [
         { title:'三角形的正弦定理证明', href:'math-lessons/sine-law-proof.html?v=1.0.0' },
@@ -353,12 +376,12 @@
       document.getElementById('grade-breadcrumb').textContent = grade.label;
       document.getElementById('grade-title').textContent = grade.title;
       document.getElementById('grade-description').textContent = grade.description;
-      document.getElementById('topic-count').textContent = availableTopics.length ? `共 ${availableTopics.length} 个专题` : '暂无题目';
+      document.getElementById('topic-count').textContent = availableTopics.length ? `共 ${availableTopics.length} 个知识点` : '暂无题目';
       buttons.forEach(button => {
         const buttonGrade = curriculum[button.dataset.grade];
         const availableCount = buttonGrade.topics.filter(topic => (questionsByTopic[topic[0]] || []).length > 0).length;
         button.classList.toggle('is-active', button.dataset.grade === key);
-        button.lastElementChild.textContent = availableCount ? `${availableCount} 个专题` : '暂无题目';
+        button.lastElementChild.textContent = availableCount ? `${availableCount} 个知识点` : '暂无题目';
       });
       list.innerHTML = availableTopics.length ? availableTopics.map((topic, index) => {
         const questions = questionsByTopic[topic[0]] || [];
