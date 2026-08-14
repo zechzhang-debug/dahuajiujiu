@@ -1,0 +1,94 @@
+.dahua-account-trigger {
+  position: fixed;
+  z-index: 80;
+  top: 18px;
+  right: 18px;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid rgba(15, 47, 73, 0.16);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #123552;
+  box-shadow: 0 8px 24px rgba(23, 50, 72, 0.12);
+  font: 700 14px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.module-nav .dahua-account-trigger {
+  position: static;
+  flex: 0 0 auto;
+  margin-left: auto;
+  box-shadow: none;
+}
+
+.dahua-account-trigger[data-state="signed-in"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #08b878;
+}
+
+.dahua-account-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: #14263a;
+  box-shadow: 0 24px 70px rgba(15, 34, 50, 0.28);
+}
+
+.dahua-account-dialog::backdrop { background: rgba(20, 35, 49, 0.42); }
+.dahua-account-panel { padding: 24px; }
+.dahua-account-panel h2 { margin: 0 0 10px; font-size: 22px; letter-spacing: 0; }
+.dahua-account-panel p { margin: 0 0 18px; color: #5f7081; line-height: 1.65; }
+.dahua-account-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.dahua-account-code {
+  flex: 1 0 100%;
+  display: grid;
+  gap: 6px;
+  color: #5f7081;
+  font: 600 13px/1.4 system-ui, sans-serif;
+}
+.dahua-account-code input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 11px;
+  border: 1px solid #cdd8e1;
+  border-radius: 6px;
+  color: #18364f;
+  background: #fff;
+  font: 500 14px/1 system-ui, sans-serif;
+}
+.dahua-account-code input:focus {
+  border-color: #08b878;
+  outline: 2px solid rgba(8, 184, 120, 0.16);
+}
+.dahua-account-actions button,
+.dahua-account-actions a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid #cdd8e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #18364f;
+  font: 700 14px/1 system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+.dahua-account-actions .primary { border-color: #08b878; background: #08b878; color: #fff; }
+.dahua-account-actions .danger { color: #b52e36; }
+.dahua-account-note { margin-top: 16px !important; font-size: 12px; }
+.dahua-account-sync { color: #078258 !important; font-weight: 700; }
+
+@media (max-width: 560px) {
+  .dahua-account-trigger { top: 12px; right: 12px; min-width: 40px; padding: 0 10px; }
+  .module-nav .dahua-account-trigger { top: auto; right: auto; min-width: 40px; padding: 0 10px; }
+  .dahua-account-panel { padding: 20px; }
+}
