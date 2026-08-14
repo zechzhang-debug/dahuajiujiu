@@ -1,0 +1,75 @@
+name: Deploy website to Aliyun ECS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "word-web-cloud/**"
+      - ".github/workflows/deploy-aliyun.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aliyun-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Aliyun ECS
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    env:
+      REMOTE_PATH: ${{ vars.ALIYUN_REMOTE_PATH || '/srv/dahuajiujiu/current' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package website
+        run: tar -czf site.tar.gz -C word-web-cloud .
+
+      - name: Configure SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.ALIYUN_SSH_PRIVATE_KEY }}
+
+      - name: Trust server host key
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+        run: ssh-keyscan -H "$SSH_HOST" >> "$HOME/.ssh/known_hosts"
+
+      - name: Upload release
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+          SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+        run: scp site.tar.gz "$SSH_USER@$SSH_HOST:/tmp/dahuajiujiu-site-${{ github.run_id }}.tar.gz"
+
+      - name: Activate release with backup
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+          SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+          RELEASE: /tmp/dahuajiujiu-site-${{ github.run_id }}.tar.gz
+        run: |
+          ssh "$SSH_USER@$SSH_HOST" "RELEASE='$RELEASE' TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          stamp=$(date +%Y%m%d-%H%M%S)
+          backup="${TARGET%/}/../backups/$stamp-github-actions"
+          staging=$(mktemp -d)
+          trap 'rm -rf "$staging" "$RELEASE"' EXIT
+
+          test -s "$RELEASE"
+          mkdir -p "$backup" "$TARGET"
+          cp -a "$TARGET/." "$backup/" 2>/dev/null || true
+          tar -xzf "$RELEASE" -C "$staging"
+          test -s "$staging/index.html"
+
+          find "$TARGET" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+          cp -a "$staging/." "$TARGET/"
+          test -s "$TARGET/index.html"
+          echo "DEPLOY_OK backup=$backup"
+          REMOTE_SCRIPT
+
+      - name: Verify public site
+        run: curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
