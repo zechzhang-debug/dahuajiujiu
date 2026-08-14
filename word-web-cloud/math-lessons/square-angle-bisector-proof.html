@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>正方形动点角平分证明 · 精讲</title>
+<meta name="description" content="正方形动点几何证明精讲：只用正方形性质、垂直关系、角度计算和全等三角形证明∠CEG=∠FEG。">
+<link rel="canonical" href="https://dahuajiujiu.com/math-lessons/square-angle-bisector-proof.html">
+<style>
+  :root {
+    --primary:#4f46e5; --primary-light:#eef2ff; --accent:#f59e0b;
+    --success:#10b981; --danger:#ef4444; --bg:#f8fafc; --card:#fff;
+    --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+    --shadow:0 4px 6px -1px rgba(15,23,42,.09),0 2px 4px -2px rgba(15,23,42,.08);
+    --shadow-lg:0 18px 38px -18px rgba(79,70,229,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;padding:20px}
+  button,input{font:inherit}
+  .container{max-width:960px;margin:0 auto}
+  .site-nav{min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 14px;margin-bottom:14px;border:1px solid var(--border);border-radius:10px;background:#fff}
+  .site-brand{color:#173b55;font-size:14px;font-weight:800;text-decoration:none}
+  .site-back{color:var(--primary);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}
+  .header{position:relative;overflow:hidden;padding:34px 28px;margin-bottom:24px;border-radius:16px;color:#fff;background:linear-gradient(135deg,#4338ca 0%,#7c3aed 100%);box-shadow:var(--shadow-lg)}
+  .header::before,.header::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+  .header::before{width:300px;height:300px;right:-80px;top:-170px}
+  .header::after{width:160px;height:160px;right:130px;bottom:-120px}
+  .header h1{position:relative;font-size:27px;line-height:1.35;margin-bottom:7px}
+  .subtitle{position:relative;font-size:14px;opacity:.86}
+  .tag{position:relative;display:inline-block;margin:12px 8px 0 0;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.18);font-size:12px}
+  .card{margin-bottom:20px;padding:24px 28px;border:1px solid var(--border);border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+  .card-title{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:18px;font-weight:800}
+  .icon{width:32px;height:32px;display:grid;place-items:center;flex:0 0 auto;border-radius:8px;color:#fff;font-size:15px}
+  .icon-blue{background:var(--primary)}.icon-amber{background:var(--accent)}.icon-green{background:var(--success)}
+  .problem-box{padding:18px 20px;border-left:4px solid var(--accent);border-radius:0 10px 10px 0;background:#fefce8;font-size:15px}
+  .problem-box p+p{margin-top:8px}
+  .definition{position:relative;margin:18px 0 12px;padding:20px;border:1px dashed var(--primary);border-radius:10px;background:var(--primary-light)}
+  .definition::before{content:"💡 破题眼";position:absolute;top:-13px;left:16px;padding:2px 12px;border-radius:12px;background:var(--primary);color:#fff;font-size:12px;font-weight:700}
+  .formula{display:inline-block;margin:2px 4px;padding:3px 9px;border-radius:6px;background:#f1f5f9;color:#be185d;font-family:"Cambria Math","Times New Roman",serif}
+  .formula-block{display:block;margin:12px 0;padding:13px 10px;border-radius:8px;background:#f1f5f9;color:#be185d;text-align:center;font-family:"Cambria Math","Times New Roman",serif;font-size:18px;overflow-wrap:anywhere}
+  .muted{color:var(--muted);font-size:13px}.hl{color:var(--primary);font-weight:800}.hl-amber{color:#d97706;font-weight:800}.hl-green{color:var(--success);font-weight:800}
+  .canvas-wrapper{display:flex;justify-content:center;margin:14px 0;overflow:hidden}
+  canvas{width:100%;max-width:720px;height:auto;border:1px solid var(--border);border-radius:12px;background:#fbfdff;touch-action:none}
+  .slider-group{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:14px 0 10px}
+  .slider-group label{font-size:14px;font-weight:700;color:var(--muted)}
+  input[type=range]{width:min(280px,55vw);accent-color:var(--primary)}
+  .slider-value{min-width:72px;padding:4px 12px;border-radius:7px;background:var(--primary-light);color:var(--primary);text-align:center;font-family:ui-monospace,monospace;font-weight:800}
+  .live-readout{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:720px;margin:0 auto 12px}
+  .readout{padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;text-align:center;font-size:12px;color:var(--muted)}
+  .readout strong{display:block;color:var(--text);font-size:15px}
+  .canvas-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .btn{padding:8px 16px;border:1.5px solid var(--primary);border-radius:8px;background:#fff;color:var(--primary);cursor:pointer;font-size:13px;font-weight:700;transition:.2s}
+  .btn:hover,.btn.active{background:var(--primary);color:#fff;transform:translateY(-1px)}
+  .legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:12px}
+  .legend-item{display:flex;align-items:center;gap:6px}.legend-line{width:20px;height:3px;border-radius:2px;background:currentColor}
+  .step{overflow:hidden;margin-bottom:12px;border:1px solid var(--border);border-radius:10px}
+  .step-header{width:100%;display:flex;align-items:center;gap:10px;padding:14px 18px;border:0;background:#f8fafc;color:var(--text);text-align:left;cursor:pointer}
+  .step-header:hover{background:#f1f5f9}.step.open .step-header{background:var(--primary-light)}
+  .step-num{width:27px;height:27px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;background:var(--primary);color:#fff;font-size:13px;font-weight:800}
+  .step-title{flex:1;font-weight:700}.arrow{color:var(--muted);font-size:12px;transition:transform .25s}.step.open .arrow{transform:rotate(180deg)}
+  .step-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}.step.open .step-body{grid-template-rows:1fr}.step-inner{min-height:0;overflow:hidden}.step-content{padding:18px 20px;font-size:15px}.step-content p+p{margin-top:10px}
+  .answer{margin-top:16px;text-align:center}.answer-tag{display:inline-block;margin:7px 4px;padding:7px 18px;border-radius:22px;background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 3px 10px rgba(16,185,129,.28);color:#fff;font-weight:800}
+  .summary-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.summary-table th,.summary-table td{padding:11px 13px;border:1px solid var(--border);text-align:center}.summary-table th{background:var(--primary-light);color:var(--primary)}.summary-table tr:nth-child(even) td{background:#f8fafc}
+  .checklist{list-style:none}.checklist li{position:relative;padding:10px 0 10px 32px;border-bottom:1px dashed var(--border)}.checklist li:last-child{border-bottom:0}.checklist li::before{content:"✓";position:absolute;left:0;top:12px;width:21px;height:21px;display:grid;place-items:center;border-radius:50%;background:var(--success);color:#fff;font-size:12px;font-weight:900}
+  .footer{text-align:center;color:var(--muted);font-size:13px;padding:20px 10px 8px}.site-footer{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:14px 10px 4px;color:var(--muted);font-size:12px}.site-footer a{color:inherit;text-decoration:none}.site-footer a:hover{color:var(--primary)}
+  @media(max-width:640px){body{padding:12px}.card{padding:18px 16px}.header{padding:25px 20px}.header h1{font-size:22px}.site-nav{align-items:flex-start}.site-brand{max-width:58%}.live-readout{grid-template-columns:1fr}.summary-table{font-size:12px}.summary-table th,.summary-table td{padding:8px 6px}.step-header{padding:12px}.step-content{padding:15px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="site-nav" aria-label="站点导航">
+    <a class="site-brand" href="../index.html">∑ 大华舅舅的数学资料</a>
+    <a class="site-back" href="../math.html?grade=junior3&topic=geometry-new-definition">← 返回初三题目目录</a>
+  </nav>
+
+  <header class="header">
+    <h1>📐 正方形动点角平分证明 · 精讲</h1>
+    <div class="subtitle">初一几何 · 两次作辅助线与三次全等</div>
+    <div><span class="tag">正方形</span><span class="tag">辅助线</span><span class="tag">全等三角形</span><span class="tag">角平分线</span></div>
+  </header>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-amber">题</span>原题呈现</h2>
+    <div class="problem-box">
+      <p>如图，点 E 是正方形 ABCD 的边 BC 上一动点，AE ⟂ EG，垂足为 E，∠DCG = 45°。</p>
+      <p>连接 AG 交 CD 于点 F，连接 EF。</p>
+      <p><strong>求证：∠CEG = ∠FEG。</strong></p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-blue">💡</span>核心关系拆解</h2>
+    <div class="definition">
+      <p>不设未知数，也不计算长度。我们只补两个点：</p>
+      <div class="formula-block">在 AB 上取 P，使 BP=BE；延长 CD 到 K，使 DK=BE</div>
+      <p class="muted" style="text-align:center">同一条线段 BE 被“搬”到两个位置，用来制造全等三角形。</p>
+    </div>
+    <p><span class="hl">第一步：</span>△AEP ≌ △EGC，推出 AE=EG；<span class="hl-amber">第二步：</span>△ABE ≌ △ADK，再证 △AEF ≌ △AKF，最后只做角度加减。</p>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-green">动</span>交互式可视化</h2>
+    <p class="muted">拖动 E，观察 P、K、G、F 一起变化。辅助点始终满足 BP=BE、DK=BE。</p>
+    <div class="canvas-wrapper"><canvas id="geometryCanvas" width="720" height="470" aria-label="正方形动点几何图"></canvas></div>
+    <div class="slider-group"><label for="eSlider">动点位置 BE / BC</label><input id="eSlider" type="range" min="0.15" max="0.85" step="0.01" value="0.44"><output class="slider-value" id="eValue">0.44</output></div>
+    <div class="live-readout">
+      <div class="readout">辅助点 P<strong>BP = BE</strong></div>
+      <div class="readout">第一组全等<strong>△AEP ≌ △EGC</strong></div>
+      <div class="readout">辅助点 K<strong>DK = BE</strong></div>
+    </div>
+    <div class="canvas-controls"><button class="btn active" id="constructionBtn" type="button">显示辅助点 P、K</button><button class="btn active" id="anglesBtn" type="button">标出相等角</button></div>
+    <div class="legend"><span class="legend-item" style="color:#4f46e5"><i class="legend-line"></i>正方形</span><span class="legend-item" style="color:#f59e0b"><i class="legend-line"></i>条件线</span><span class="legend-item" style="color:#10b981"><i class="legend-line"></i>结论角</span></div>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-blue">证</span>完整证明</h2>
+    <article class="step open">
+      <button class="step-header" type="button" aria-expanded="true"><span class="step-num">1</span><span class="step-title">在 AB 上取点 P，准备第一组全等</span><span class="arrow">▼</span></button>
+      <div class="step-body"><div class="step-inner"><div class="step-content">
+        <p>在 AB 上取一点 P，使 <span class="formula">BP=BE</span>，连接 PE。</p>
+        <p>因为 ABCD 是正方形，所以 <span class="formula">AB=BC</span>。从相等的整段中减去相等的小段，得到</p>
+        <div class="formula-block">AP = AB−BP = BC−BE = CE</div>
+        <p>又因为 BP⊥BE 且 BP=BE，所以 △PBE 是等腰直角三角形，<span class="formula">∠BPE=45°</span>。</p>
+        <p>因此 <span class="formula">∠APE=180°−45°=135°</span>。而 ∠DCG=45°、DC⊥CE，所以 <span class="formula">∠ECG=135°</span>。</p>
+      </div></div></div>
+    </article>
+
+    <article class="step open">
+      <button class="step-header" type="button" aria-expanded="true"><span class="step-num">2</span><span class="step-title">证明 △AEP ≌ △EGC，得到 AE=EG</span><span class="arrow">▼</span></button>
+      <div class="step-body"><div class="step-inner"><div class="step-content">
+        <p>因为 <span class="formula">AB⊥BC</span>、<span class="formula">AE⊥EG</span>，两个角的两边分别垂直，所以</p>
+        <div class="formula-block">∠PAE = ∠CEG</div>
+        <p>比较 △AEP 和 △EGC：</p>
+        <p>① <span class="formula">∠PAE=∠CEG</span>；② <span class="formula">∠APE=∠ECG=135°</span>；③ <span class="formula">AP=CE</span>。</p>
+        <p>所以由“角边角”可得 <span class="formula">△AEP ≌ △EGC</span>，从而</p>
+        <div class="formula-block">AE = EG</div>
+        <p>已知 AE⊥EG，因此 △AEG 是等腰直角三角形，故 <span class="formula">∠EAG=45°</span>。又 A、F、G 共线，所以 <span class="formula">∠EAF=45°</span>。</p>
+      </div></div></div>
+    </article>
+
+    <article class="step">
+      <button class="step-header" type="button" aria-expanded="false"><span class="step-num">3</span><span class="step-title">延长 CD 到 K，准备第二组全等</span><span class="arrow">▼</span></button>
+      <div class="step-body"><div class="step-inner"><div class="step-content">
+        <p>延长 CD 到点 K，使 <span class="formula">DK=BE</span>，连接 AK。</p>
+        <p>在 △ABE 和 △ADK 中：</p>
+        <p>① <span class="formula">AB=AD</span>（正方形的边相等）；② <span class="formula">BE=DK</span>（作法）；③ <span class="formula">∠ABE=∠ADK=90°</span>。</p>
+        <p>所以由“边角边”可得</p>
+        <div class="formula-block">△ABE ≌ △ADK</div>
+        <p>于是 <span class="formula">AE=AK</span>，并且 <span class="formula">∠BAE=∠DAK</span>。</p>
+      </div></div></div>
+    </article>
+
+    <article class="step">
+      <button class="step-header" type="button" aria-expanded="false"><span class="step-num">4</span><span class="step-title">再证 △AEF ≌ △AKF，完成角度计算</span><span class="arrow">▼</span></button>
+      <div class="step-body"><div class="step-inner"><div class="step-content">
+        <p>设 <span class="formula">∠BAE=∠CEG=α</span>。由上一步，<span class="formula">∠DAK=α</span>。</p>
+        <p>因为 ∠BAD=90°，所以 <span class="formula">∠EAD=90°−α</span>，进而</p>
+        <div class="formula-block">∠EAK = ∠EAD+∠DAK = 90°</div>
+        <p>又 AE=AK，所以 △EAK 是等腰直角三角形。已知 ∠EAF=45°，因此 AF 正好平分 ∠EAK，即 <span class="formula">∠EAF=∠FAK=45°</span>。</p>
+        <p>在 △AEF 和 △AKF 中，<span class="formula">AE=AK</span>、<span class="formula">AF=AF</span>、<span class="formula">∠EAF=∠FAK</span>，所以</p>
+        <div class="formula-block">△AEF ≌ △AKF</div>
+        <p>从而 <span class="formula">∠AEF=∠AKF</span>。在直角三角形 ADK 中，<span class="formula">∠AKF=90°−α</span>，故 <span class="formula">∠AEF=90°−α</span>。</p>
+        <p>最后，因为 AE⊥EG，所以</p>
+        <div class="formula-block">∠FEG = 90°−∠AEF = α = ∠CEG</div>
+        <div class="formula-block">∴ ∠CEG = ∠FEG</div>
+      </div></div></div>
+    </article>
+    <div class="answer"><span class="muted">结论：</span><span class="answer-tag">EG 平分 ∠CEF</span></div>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-green">表</span>关键结果汇总</h2>
+    <table class="summary-table"><thead><tr><th>对象</th><th>结果</th><th>来自哪里</th></tr></thead><tbody>
+      <tr><td>辅助点 P</td><td>BP=BE</td><td>得到 AP=CE</td></tr>
+      <tr><td>第一次全等</td><td>△AEP≌△EGC</td><td>得到 AE=EG</td></tr>
+      <tr><td>辅助点 K</td><td>DK=BE</td><td>制造第二组全等</td></tr>
+      <tr><td>第二、三次全等</td><td>△ABE≌△ADK；△AEF≌△AKF</td><td>得到 ∠AEF=90°−α</td></tr>
+      <tr><td>结论</td><td>∠CEG=∠FEG</td><td>两角都等于 α</td></tr>
+    </tbody></table>
+  </section>
+
+  <section class="card">
+    <h2 class="card-title"><span class="icon icon-amber">🔑</span>这类题的通用套路</h2>
+    <ul class="checklist">
+      <li><strong>搬相等线段：</strong>把 BE 分别搬到 AB、CD 延长线上，主动制造全等条件。</li>
+      <li><strong>整段减小段：</strong>由 AB=BC、BP=BE，马上得到 AP=CE。</li>
+      <li><strong>垂直角互换：</strong>两组角的两边分别垂直时，对应的锐角相等。</li>
+      <li><strong>45°想到等腰直角：</strong>先用全等得到 AE=EG，再结合 AE⊥EG，得到 ∠EAF=45°。</li>
+      <li><strong>最终只算角：</strong>把目标角统一写成 α 或 90°−α，不需要求任何具体长度。</li>
+    </ul>
+  </section>
+
+  <div class="footer">🎯 不设未知数、不列方程：用辅助线把隐藏的相等关系“搬”出来。</div>
+  <footer class="site-footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a><a href="../privacy.html">隐私政策</a><a href="../terms.html">用户协议</a><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2026041766号-1</a><a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502061795" target="_blank" rel="noopener">京公网安备11010502061795号</a></footer>
+</div>
+
+<script>
+  const canvas=document.getElementById('geometryCanvas');
+  const ctx=canvas.getContext('2d');
+  const slider=document.getElementById('eSlider');
+  const eValue=document.getElementById('eValue');
+  const constructionBtn=document.getElementById('constructionBtn');
+  const anglesBtn=document.getElementById('anglesBtn');
+  let showConstruction=true,showAngles=true;
+  const side=4,scale=56,ox=105,oy=438;
+  const sx=x=>ox+x*scale, sy=y=>oy-y*scale;
+  function line(p,q,color,width=2,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(sx(p.x),sy(p.y));ctx.lineTo(sx(q.x),sy(q.y));ctx.stroke();ctx.restore()}
+  function point(p,name,dx=7,dy=-8){ctx.fillStyle='#06b6d4';ctx.beginPath();ctx.arc(sx(p.x),sy(p.y),4.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#334155';ctx.font='700 14px sans-serif';ctx.fillText(name,sx(p.x)+dx,sy(p.y)+dy)}
+  function arcAt(p,r,a1,a2,color){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();for(let i=0;i<=24;i++){const a=a1+(a2-a1)*i/24,x=sx(p.x)+r*Math.cos(a),y=sy(p.y)-r*Math.sin(a);i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke();ctx.restore()}
+  function render(){
+    const ratio=Number(slider.value),x=side*ratio;
+    const A={x:0,y:side},B={x:0,y:0},C={x:side,y:0},D={x:side,y:side},E={x,y:0},G={x:side+x,y:x};
+    const P={x:0,y:x},K={x:side,y:side+x};
+    const F={x:side,y:2*side*x/(side+x)};
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle='#eef2f7';ctx.lineWidth=1;
+    for(let i=0;i<=9;i++){ctx.beginPath();ctx.moveTo(sx(i),18);ctx.lineTo(sx(i),445);ctx.stroke()}
+    for(let j=0;j<=8;j++){ctx.beginPath();ctx.moveTo(42,sy(j));ctx.lineTo(690,sy(j));ctx.stroke()}
+    ctx.fillStyle='rgba(79,70,229,.08)';ctx.fillRect(sx(0),sy(side),side*scale,side*scale);
+    line(A,B,'#4f46e5',3);line(B,C,'#4f46e5',3);line(C,D,'#4f46e5',3);line(D,A,'#4f46e5',3);
+    line(A,E,'#f59e0b',2.5);line(E,G,'#f59e0b',2.5);line(C,G,'#f59e0b',2.5);line(A,G,'#64748b',2);line(E,F,'#10b981',2.7);
+    if(showConstruction){line(P,E,'#ec4899',2,[6,4]);line(D,K,'#ec4899',2,[6,4]);line(A,K,'#ec4899',2,[6,4]);point(P,'P',-22,3);point(K,'K',8,-4)}
+    point(A,'A',-20,-9);point(B,'B',-20,18);point(C,'C',7,18);point(D,'D',7,-8);point(E,'E',-5,21);point(G,'G',8,2);point(F,'F',8,4);
+    const alpha=Math.atan(x/side),beta=Math.atan(F.y/(side-x));
+    if(showAngles&&showConstruction){arcAt(E,35,0,alpha,'#7c3aed');arcAt(E,48,alpha,beta,'#10b981');ctx.fillStyle='#7c3aed';ctx.font='700 13px serif';ctx.fillText('α',sx(E.x)+43,sy(E.y)-8);ctx.fillStyle='#10b981';ctx.fillText('α',sx(E.x)+43,sy(E.y)-34)}
+    ctx.save();ctx.translate(sx(E.x),sy(E.y));ctx.rotate(-alpha);ctx.strokeStyle='#ef4444';ctx.lineWidth=1.6;ctx.strokeRect(9,-9,10,10);ctx.restore();
+    ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='#94a3b8';ctx.beginPath();ctx.moveTo(sx(C.x),sy(C.y));ctx.lineTo(sx(C.x),sy(4.7));ctx.stroke();ctx.restore();
+    eValue.textContent=ratio.toFixed(2);
+  }
+  slider.addEventListener('input',render);
+  constructionBtn.addEventListener('click',()=>{showConstruction=!showConstruction;constructionBtn.classList.toggle('active',showConstruction);constructionBtn.textContent=showConstruction?'显示辅助点 P、K':'隐藏辅助点 P、K';render()});
+  anglesBtn.addEventListener('click',()=>{showAngles=!showAngles;anglesBtn.classList.toggle('active',showAngles);anglesBtn.textContent=showAngles?'标出相等角':'隐藏角标记';render()});
+  document.querySelectorAll('.step-header').forEach(button=>button.addEventListener('click',()=>{const step=button.closest('.step'),open=step.classList.toggle('open');button.setAttribute('aria-expanded',String(open))}));
+  render();
+</script>
+</body>
+</html>

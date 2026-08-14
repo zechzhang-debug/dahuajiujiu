@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数学难点讲解 · 大华舅舅的资料</title>
+  <meta name="description" content="大华舅舅数学讲题目录，按初中和高中年级整理真实题目与静态精讲页面。">
+  <link rel="canonical" href="https://dahuajiujiu.com/math.html">
+  <style>
+    :root {
+      --ink: #102f47;
+      --muted: #62798b;
+      --line: #dce6ec;
+      --paper: #fffefa;
+      --blue: #2563eb;
+      --blue-soft: #eaf2ff;
+      --green: #0f9f70;
+      --orange: #dc7a18;
+      --shadow: 0 12px 30px rgba(20, 53, 76, .08);
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: #f4f8fa; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background:
+        linear-gradient(rgba(248, 251, 252, .93), rgba(248, 251, 252, .97)),
+        url("study-map-background.webp") center / cover fixed;
+      letter-spacing: 0;
+    }
+    button, a { font: inherit; }
+    button { letter-spacing: 0; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      border-bottom: 1px solid rgba(16, 47, 71, .1);
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(12px);
+    }
+    .brand, .home-link { display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; }
+    .brand { gap: 11px; font-weight: 800; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--ink);
+      font-size: 20px;
+    }
+    .brand small { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; font-weight: 500; }
+    .home-link { gap: 7px; padding: 9px 11px; border-radius: 6px; color: var(--muted); font-size: 14px; }
+    .home-link:hover { color: var(--blue); background: var(--blue-soft); }
+    .page-shell {
+      width: min(1420px, calc(100% - 40px));
+      margin: 30px auto 56px;
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .curriculum {
+      position: sticky;
+      top: 98px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: var(--shadow);
+    }
+    .curriculum-head { padding: 22px 22px 17px; border-bottom: 1px solid var(--line); }
+    .curriculum-head strong { display: block; font-size: 18px; }
+    .curriculum-head span { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .stage { border-bottom: 1px solid var(--line); }
+    .stage:last-child { border-bottom: 0; }
+    .stage > summary {
+      min-height: 62px;
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 18px;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 800;
+    }
+    .stage > summary::-webkit-details-marker { display: none; }
+    .stage > summary:hover { background: #f7fafc; }
+    .stage-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-size: 16px;
+    }
+    .stage-meta { color: var(--muted); font-size: 11px; font-weight: 500; }
+    .chevron { color: var(--muted); transition: transform .18s ease; }
+    details[open] > summary .chevron { transform: rotate(90deg); }
+    .grade-list { padding: 0 12px 13px 64px; }
+    .grade-button {
+      width: 100%;
+      min-height: 43px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border: 0;
+      border-left: 3px solid transparent;
+      border-radius: 0 5px 5px 0;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+    }
+    .grade-button:hover { color: var(--ink); background: #f2f7fa; }
+    .grade-button.is-active { color: var(--blue); border-left-color: var(--blue); background: var(--blue-soft); font-weight: 800; }
+    .grade-button span:last-child { font-size: 12px; font-weight: 500; }
+    .content { min-width: 0; }
+    .breadcrumb { margin: 2px 0 14px; color: var(--muted); font-size: 13px; }
+    .breadcrumb strong { color: var(--blue); }
+    .content-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 0 23px;
+      border-bottom: 1px solid #cad8e0;
+    }
+    .content-head h1 { margin: 0; font-size: 34px; line-height: 1.25; }
+    .content-head p { max-width: 660px; margin: 10px 0 0; color: var(--muted); line-height: 1.7; }
+    .progress-note { flex: 0 0 auto; color: var(--green); font-size: 13px; font-weight: 700; }
+    .section-row { display: flex; align-items: center; justify-content: space-between; margin: 25px 0 13px; }
+    .section-row h2 { margin: 0; font-size: 19px; }
+    .section-row span { color: var(--muted); font-size: 12px; }
+    .topic-list { display: grid; gap: 11px; }
+    .topic-card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      color: inherit;
+      background: rgba(255, 255, 255, .95);
+      box-shadow: 0 7px 18px rgba(20, 53, 76, .05);
+      overflow: hidden;
+      transition: border-color .16s ease, box-shadow .16s ease;
+    }
+    .topic-card:hover, .topic-card[open] { border-color: #91b7f8; box-shadow: var(--shadow); }
+    .topic-summary {
+      min-height: 108px;
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 20px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .topic-summary::-webkit-details-marker { display: none; }
+    .topic-card--static .topic-summary { grid-template-columns:54px minmax(0, 1fr); cursor:default; }
+    .topic-number {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      font-weight: 900;
+    }
+    .topic-card h3 { margin: 0; font-size: 17px; }
+    .topic-card p { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .topic-tags { margin-top: 9px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .topic-tags span { color: #526b7d; font-size: 11px; }
+    .open-lesson { display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 13px; font-weight: 800; white-space: nowrap; }
+    .topic-chevron { display:inline-block; font-size:20px; transition:transform .16s ease; }
+    .topic-card[open] .topic-chevron { transform:rotate(90deg); }
+    .question-list { display:grid; gap:1px; padding:0 20px 18px 92px; background:var(--line); border-top:1px solid var(--line); }
+    .question-link { display:grid; grid-template-columns:70px minmax(0, 1fr) auto; align-items:center; gap:14px; min-height:58px; padding:10px 14px; color:var(--ink); background:#fff; text-decoration:none; }
+    .question-link:first-child { margin-top:14px; }
+    .question-index { color:var(--blue); font-size:12px; font-weight:800; }
+    .question-title { font-size:14px; font-weight:700; line-height:1.5; }
+    .question-enter { color:var(--muted); font-size:12px; font-style:normal; white-space:nowrap; }
+    .question-link:hover .question-title, .question-link:hover .question-enter { color:var(--blue); }
+    .empty-state { padding: 50px 20px; border: 1px dashed #b9cad4; color: var(--muted); text-align: center; }
+    .site-footer { width:min(1180px, calc(100% - 36px)); display:flex; justify-content:center; flex-wrap:wrap; gap:8px 16px; margin:22px auto 28px; color:var(--muted); font-size:12px; }
+    .site-footer a { color:inherit; text-decoration:none; }
+    .site-footer a:hover { color:var(--blue); }
+    @media (max-width: 800px) {
+      .site-header { height: 62px; padding: 0 14px; }
+      .brand small { display: none; }
+      .page-shell { width: min(100% - 24px, 720px); margin-top: 18px; grid-template-columns: 1fr; gap: 20px; }
+      .curriculum { position: static; }
+      .grade-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; padding: 0 12px 13px; }
+      .grade-button { border-left: 0; border-bottom: 3px solid transparent; border-radius: 5px; justify-content: center; }
+      .grade-button span:last-child { display: none; }
+      .grade-button.is-active { border-bottom-color: var(--blue); }
+      .content-head { align-items: flex-start; }
+      .content-head h1 { font-size: 28px; }
+      .progress-note { display: none; }
+      .topic-summary { grid-template-columns: 44px minmax(0, 1fr); gap: 13px; padding: 16px; }
+      .topic-card--static .topic-summary { grid-template-columns:44px minmax(0, 1fr); }
+      .topic-number { width: 44px; height: 44px; }
+      .open-lesson { grid-column: 2; }
+      .question-list { padding:0 16px 16px; }
+      .question-link { grid-template-columns:58px minmax(0, 1fr); gap:8px; padding:11px 10px; }
+      .question-enter { grid-column:2; }
+    }
+    @media (max-width: 480px) {
+      .brand span:nth-child(2) { font-size: 14px; }
+      .home-link span:last-child { display: none; }
+      .content-head h1 { font-size: 25px; }
+      .topic-card h3 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">∑</span>
+      <span>大华舅舅的数学资料<small>按年级找到要攻克的难点</small></span>
+    </a>
+    <a class="home-link" href="index.html" aria-label="返回首页"><span aria-hidden="true">←</span><span>返回首页</span></a>
+  </header>
+
+  <div class="page-shell">
+    <aside class="curriculum" aria-label="数学课程目录">
+      <div class="curriculum-head"><strong>课程目录</strong><span>展开学段，再选择年级查看知识点</span></div>
+      <details class="stage" open>
+        <summary><span class="stage-icon">初</span><span>初中数学<span class="stage-meta">七至九年级</span></span><span class="chevron">›</span></summary>
+        <div class="grade-list">
+          <button class="grade-button is-active" data-grade="junior1"><span>初一</span><span>4 个专题</span></button>
+          <button class="grade-button" data-grade="junior2"><span>初二</span><span>4 个专题</span></button>
+          <button class="grade-button" data-grade="junior3"><span>初三</span><span>5 个专题</span></button>
+        </div>
+      </details>
+      <details class="stage">
+        <summary><span class="stage-icon">高</span><span>高中数学<span class="stage-meta">高一至高三</span></span><span class="chevron">›</span></summary>
+        <div class="grade-list">
+          <button class="grade-button" data-grade="senior1"><span>高一</span><span>4 个专题</span></button>
+          <button class="grade-button" data-grade="senior2"><span>高二</span><span>4 个专题</span></button>
+          <button class="grade-button" data-grade="senior3"><span>高三</span><span>4 个专题</span></button>
+        </div>
+      </details>
+    </aside>
+
+    <main class="content">
+      <div class="breadcrumb">数学难点讲解 / <strong id="grade-breadcrumb">初一</strong></div>
+      <div class="content-head">
+        <div><h1 id="grade-title">初一数学</h1><p id="grade-description">从数与式进入代数世界，把每一步变形的理由弄明白。</p></div>
+        <div class="progress-note">静态讲题页 · 随时复习</div>
+      </div>
+      <div class="section-row"><h2>知识点与讲题</h2><span id="topic-count">共 4 个专题</span></div>
+      <div class="topic-list" id="topic-list" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <span>北京一个半文化科技有限公司</span>
+    <a href="about.html">关于与联系</a>
+    <a href="privacy.html">隐私政策</a>
+    <a href="terms.html">用户协议</a>
+    <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2026041766号-1</a>
+    <a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502061795" rel="noopener" target="_blank">京公网安备11010502061795号</a>
+  </footer>
+
+  <script>
+    const curriculum = {
+      junior1: { label: '初一', title: '初一数学', description: '从数与式进入代数世界，把每一步变形的理由弄明白。', topics: [
+        ['rational-numbers', '有理数与数轴', '正负数、绝对值和数轴距离一次讲清', ['基础概念', '易错点']],
+        ['algebraic-expressions', '整式与代数式', '会列式，更要会判断同类项和整式次数', ['化简', '规范书写']],
+        ['linear-equation', '一元一次方程', '移项不是搬家，核心是等式两边同做运算', ['必考', '应用题']],
+        ['geometry-basics', '线与角的基础', '从余角补角到平行线判定，建立几何语言', ['几何入门', '判定']]
+      ]},
+      junior2: { label: '初二', title: '初二数学', description: '用全等、函数和因式分解建立更完整的推理能力。', topics: [
+        ['triangles', '三角形与多边形', '内角和、外角与辅助线的常用方法', ['几何', '辅助线']],
+        ['congruence', '全等三角形', '从条件筛选到完整证明，拒绝跳步', ['证明', '高频']],
+        ['linear-function', '一次函数', '把图像、解析式和实际变化对应起来', ['函数', '图像']],
+        ['factoring', '因式分解', '提公因式与公式法的选择顺序', ['计算', '技巧']]
+      ]},
+      junior3: { label: '初三', title: '初三数学', description: '围绕中考高频模型，把代数、几何和概率连成体系。', topics: [
+        ['quadratic-equation', '一元二次方程', '配方法、公式法与根的判别式', ['中考', '方程']],
+        ['inverse-proportion', '反比例函数', '双曲线图像与面积不变量', ['函数', '模型']],
+        ['circle', '圆的核心模型', '垂径定理、圆周角和切线证明', ['几何', '压轴']],
+        ['probability', '概率初步', '树状图与列表法避免漏解', ['概率', '规范']],
+        ['geometry-new-definition', '几何新定义题', '把陌生定义转化为轴对称与区域判定', ['压轴题', '新定义']]
+      ]},
+      senior1: { label: '高一', title: '高一数学', description: '用集合和函数语言重建数学表达，打牢高中学习底座。', topics: [
+        ['sets', '集合与常用逻辑', '交并补、充分必要条件与量词', ['基础', '逻辑']],
+        ['functions', '函数的性质', '定义域、单调性、奇偶性与最值', ['核心', '图像']],
+        ['exponential', '指数与对数函数', '运算规则和增长模型统一理解', ['函数', '运算']],
+        ['trigonometry', '三角函数', '单位圆、诱导公式和图像变换', ['必考', '图像']]
+      ]},
+      senior2: { label: '高二', title: '高二数学', description: '空间、坐标与数列并进，训练多步骤推理和模型转换。', topics: [
+        ['solid-geometry', '立体几何', '线面关系与空间角的两套方法', ['空间', '证明']],
+        ['analytic-geometry', '直线与圆', '用坐标把几何关系转化为代数条件', ['解析几何', '计算']],
+        ['sequences', '数列', '通项、求和与递推关系', ['数列', '高频']],
+        ['statistics', '概率与统计', '条件概率、分布列和期望', ['概率', '统计']]
+      ]},
+      senior3: { label: '高三', title: '高三数学', description: '按专题回收方法，重点解决综合题的入口和计算稳定性。', topics: [
+        ['derivatives', '导数综合', '切线、单调区间与恒成立问题', ['压轴', '函数']],
+        ['vectors', '平面向量', '基底、数量积与几何证明', ['向量', '方法']],
+        ['conic-sections', '圆锥曲线', '设点、联立与韦达定理的稳定流程', ['解析几何', '压轴']],
+        ['review-models', '高考模型回顾', '分类讨论、参数范围与规范表达', ['复习', '综合']]
+      ]}
+    };
+
+    const list = document.getElementById('topic-list');
+    const buttons = [...document.querySelectorAll('.grade-button')];
+    // Only add a topic here after the user supplies its real question page.
+    const questionsByTopic = {
+      'geometry-basics': [
+        { title:'正方形动点角平分证明（角度追踪法）', href:'math-lessons/square-angle-bisector-proof-junior1-preview.html?v=figure2' }
+      ],
+      'congruence': [
+        { title:'正方形动点角平分证明', href:'math-lessons/square-angle-bisector-proof.html?v=1.0.1' }
+      ],
+      'geometry-new-definition': [
+        { title:'镜像点新定义题型精讲', href:'math-lessons/mirror-point-new-definition.html?v=1.0.1' }
+      ]
+    };
+
+    function renderGrade(key) {
+      const grade = curriculum[key];
+      if (!grade) return;
+      const availableTopics = grade.topics.filter(topic => (questionsByTopic[topic[0]] || []).length > 0);
+      document.getElementById('grade-breadcrumb').textContent = grade.label;
+      document.getElementById('grade-title').textContent = grade.title;
+      document.getElementById('grade-description').textContent = grade.description;
+      document.getElementById('topic-count').textContent = availableTopics.length ? `共 ${availableTopics.length} 个专题` : '暂无题目';
+      buttons.forEach(button => {
+        const buttonGrade = curriculum[button.dataset.grade];
+        const availableCount = buttonGrade.topics.filter(topic => (questionsByTopic[topic[0]] || []).length > 0).length;
+        button.classList.toggle('is-active', button.dataset.grade === key);
+        button.lastElementChild.textContent = availableCount ? `${availableCount} 个专题` : '暂无题目';
+      });
+      list.innerHTML = availableTopics.length ? availableTopics.map((topic, index) => {
+        const questions = questionsByTopic[topic[0]] || [];
+        const topicHeading = `
+          <span class="topic-number">${String(index + 1).padStart(2, '0')}</span>
+          <span><h3>${topic[1]}</h3><p>${topic[2]}</p><span class="topic-tags">${topic[3].map(tag => `<span>· ${tag}</span>`).join('')}</span></span>`;
+        if (!questions.length) return `
+          <div class="topic-card topic-card--static">
+            <div class="topic-summary">${topicHeading}</div>
+          </div>`;
+        return `
+        <details class="topic-card" data-topic="${topic[0]}">
+          <summary class="topic-summary">
+            ${topicHeading}
+            <span class="open-lesson">展开题目 <span class="topic-chevron" aria-hidden="true">›</span></span>
+          </summary>
+          <div class="question-list">
+            ${questions.map((question, questionIndex) => `
+              <a class="question-link" href="${question.href}">
+                <span class="question-index">题目 ${String(questionIndex + 1).padStart(2, '0')}</span>
+                <span class="question-title">${question.title}</span>
+                <em class="question-enter">进入讲解 →</em>
+              </a>`).join('')}
+          </div>
+        </details>`;
+      }).join('') : '<div class="empty-state">这个年级的讲题正在整理中</div>';
+      const url = new URL(location.href);
+      url.searchParams.set('grade', key);
+      const requestedTopic = url.searchParams.get('topic');
+      const requestedCard = requestedTopic ? list.querySelector(`details[data-topic="${requestedTopic}"]`) : null;
+      if (requestedCard) requestedCard.open = true;
+      else url.searchParams.delete('topic');
+      history.replaceState(null, '', url);
+      list.querySelectorAll('.topic-card').forEach(card => card.addEventListener('toggle', () => {
+        if (!card.open) return;
+        list.querySelectorAll('.topic-card').forEach(other => { if (other !== card) other.open = false; });
+        const nextUrl = new URL(location.href);
+        nextUrl.searchParams.set('topic', card.dataset.topic);
+        history.replaceState(null, '', nextUrl);
+      }));
+    }
+
+    buttons.forEach(button => button.addEventListener('click', () => renderGrade(button.dataset.grade)));
+    const initial = new URLSearchParams(location.search).get('grade');
+    renderGrade(curriculum[initial] ? initial : 'junior1');
+  </script>
+</body>
+</html>
