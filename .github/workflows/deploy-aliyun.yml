@@ -96,13 +96,13 @@ jobs:
             fi
           fi
           node_bin=$(command -v node)
-          PORT=3001 XIANGXIANG_DATA_DIR="$data_dir" nohup "$node_bin" "$SERVICE_RELEASE" > "$service_dir/server.log" 2>&1 &
+          PORT=3002 XIANGXIANG_DATA_DIR="$data_dir" nohup "$node_bin" "$SERVICE_RELEASE" > "$service_dir/server.log" 2>&1 &
           echo $! > "$service_dir/server.pid"
           for _ in 1 2 3 4 5 6 7 8 9 10; do
-            if curl --fail --silent --show-error http://127.0.0.1:3001/health > /dev/null; then break; fi
+            if curl --fail --silent --show-error http://127.0.0.1:3002/health > /dev/null; then break; fi
             sleep 1
           done
-          curl --fail --silent --show-error http://127.0.0.1:3001/health > /dev/null
+          curl --fail --silent --show-error http://127.0.0.1:3002/health > /dev/null
           rm -f "$SERVICE_RELEASE"
           rm -f "$diagnostic"
           trap - ERR
@@ -117,7 +117,7 @@ jobs:
           ssh "$SSH_USER@$SSH_HOST" "TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
           admin='http://127.0.0.1:2019'
-          upstream='127.0.0.1:3001'
+          upstream='127.0.0.1:3002'
           diagnostic="$TARGET/hua/api-proxy-diagnostic.txt"
           printf 'START\n' > "$diagnostic"
           if ! config=$(curl --fail --silent --show-error "$admin/config/apps/http/servers" 2>>"$diagnostic"); then
