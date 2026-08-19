@@ -83,8 +83,6 @@ jobs:
           set -euo pipefail
           service_dir="$HOME/.local/share/xiangxiang-service"
           data_dir="$HOME/.local/share/xiangxiang-data"
-          diagnostic="$TARGET/hua/service-diagnostic.txt"
-          trap 'code=$?; { echo "SERVICE_FAILED code=$code"; test -f "$service_dir/server.log" && tail -80 "$service_dir/server.log"; } > "$diagnostic"; exit "$code"' ERR
           mkdir -p "$service_dir" "$data_dir"
           test -s "$SERVICE_RELEASE"
           node --check "$SERVICE_RELEASE"
@@ -104,8 +102,6 @@ jobs:
           done
           curl --fail --silent --show-error http://127.0.0.1:3002/health > /dev/null
           rm -f "$SERVICE_RELEASE"
-          rm -f "$diagnostic"
-          trap - ERR
           echo 'XIANGXIANG_API_OK'
           REMOTE_SCRIPT
 
@@ -118,15 +114,8 @@ jobs:
           set -euo pipefail
           admin='http://127.0.0.1:2019'
           upstream='127.0.0.1:3002'
-          diagnostic="$TARGET/hua/api-proxy-diagnostic.txt"
-          printf 'START\n' > "$diagnostic"
-          if ! config=$(curl --fail --silent --show-error "$admin/config/apps/http/servers" 2>>"$diagnostic"); then
-            printf 'ADMIN_UNAVAILABLE\n' >> "$diagnostic"
-            exit 1
-          fi
-          printf 'ADMIN_OK\n' >> "$diagnostic"
+          config=$(curl --fail --silent --show-error "$admin/config/apps/http/servers")
           server=$(python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(iter(data)))' <<<"$config")
-          printf 'SERVER=%s\n' "$server" >> "$diagnostic"
           routes_url="$admin/config/apps/http/servers/$server/routes"
           routes=$(curl --fail --silent --show-error "$routes_url")
           existing=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(" ".join(str(i) for i,r in enumerate(routes) if any("/hua/api/*" in m.get("path",[]) for m in r.get("match",[]))))' <<<"$routes")
@@ -142,12 +131,10 @@ jobs:
             -X PUT \
             --data "$route" \
             "$routes_url/0" 2>&1); then
-            printf 'ROUTE_FAILED\n%s\n' "$response" >> "$diagnostic"
+            printf '%s\n' "$response"
             exit 1
           fi
           curl --fail --silent --show-error "$routes_url/0" | grep -q "$upstream"
-          curl --fail --silent --show-error "$routes_url" > "$TARGET/hua/api-proxy-routes.json"
-          rm -f "$diagnostic"
           echo "API_PROXY_OK server=$server"
           REMOTE_SCRIPT
 

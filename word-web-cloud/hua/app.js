@@ -4,7 +4,7 @@ const STORAGE_KEY = 'suishouji-data-v1';
 const FORCE_CLOUD = new URLSearchParams(location.search).get('cloud') === '1';
 const IS_CLOUD = FORCE_CLOUD || !['localhost', '127.0.0.1'].includes(location.hostname);
 const BASE_PATH = location.pathname.startsWith('/hua') || FORCE_CLOUD ? '/hua' : '';
-const API_ORIGIN = location.hostname === 'dahuajiujiu.com' || FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '';
+const API_ORIGIN = location.hostname === 'dahuajiujiu.com' ? '' : (FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '');
 const ACCESS_STORAGE_KEY = 'xiangxiang-private-access-v1';
 const fragment = decodeURIComponent(location.hash.slice(1));
 const fragmentToken = new URLSearchParams(fragment).get('access') || (fragment && !fragment.includes('=') ? fragment : '');
