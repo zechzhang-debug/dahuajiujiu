@@ -71,5 +71,36 @@ jobs:
           echo "DEPLOY_OK backup=$backup"
           REMOTE_SCRIPT
 
+      - name: Configure same-origin cloud API proxy
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+          SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+        run: |
+          ssh "$SSH_USER@$SSH_HOST" bash -s <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          admin='http://127.0.0.1:2019'
+          upstream='xiangxiang-private.dahuajiujiu-hua.workers.dev'
+          config=$(curl --fail --silent --show-error "$admin/config/apps/http/servers")
+          if printf '%s' "$config" | grep -q "$upstream"; then
+            echo 'API_PROXY_ALREADY_CONFIGURED'
+            exit 0
+          fi
+          server=$(python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(iter(data)))' <<<"$config")
+          route=$(cat <<JSON
+          {"match":[{"path":["/hua/api/*"]}],"handle":[{"handler":"reverse_proxy","upstreams":[{"dial":"$upstream:443"}],"transport":{"protocol":"http","tls":{}},"headers":{"request":{"set":{"Host":["$upstream"]}}}}]}
+          JSON
+          )
+          curl --fail --silent --show-error \
+            -H 'Content-Type: application/json' \
+            -X POST \
+            --data "$route" \
+            "$admin/config/apps/http/servers/$server/routes/0"
+          curl --fail --silent --show-error "$admin/config/apps/http/servers/$server/routes/0" | grep -q "$upstream"
+          echo "API_PROXY_OK server=$server"
+          REMOTE_SCRIPT
+
       - name: Verify public site
-        run: curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
+        run: |
+          curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
+          status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 https://dahuajiujiu.com/hua/api/state)
+          test "$status" = '401'
