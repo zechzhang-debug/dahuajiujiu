@@ -331,9 +331,22 @@ async function copyText(text) {
   }
 }
 
-$('#export-button').addEventListener('click', () => {
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=url;a.download=`想想-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);showToast('记录已导出');
+$('#export-button').addEventListener('click', async () => {
+  try {
+    let blob;
+    let filename;
+    if (IS_CLOUD && ACCESS_TOKEN) {
+      const response = await fetch(apiUrl('archive?format=markdown'), {headers:authHeaders()});
+      if (!response.ok) throw new Error((await response.json().catch(()=>({}))).error || '知识归档下载失败');
+      blob = await response.blob();
+      filename = `想想-知识库-${new Date().toISOString().slice(0,10)}.md`;
+    } else {
+      blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+      filename = `想想-${new Date().toISOString().slice(0,10)}.json`;
+    }
+    const url=URL.createObjectURL(blob); const a=document.createElement('a');
+    a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);showToast('知识归档已导出');
+  } catch (error) { showToast(error.message || '知识归档下载失败',true); }
 });
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
