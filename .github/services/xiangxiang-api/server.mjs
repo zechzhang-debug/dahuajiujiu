@@ -159,6 +159,7 @@ const server = http.createServer(async (req,res) => {
     if (!url.pathname.startsWith('/hua/api/')) return send(res,404,{error:'Not found'});
     if (!authorized(req)) return send(res,401,{error:'私人链接访问密钥无效'});
     if (url.pathname === '/hua/api/state') return await stateApi(req,res);
+    if (url.pathname === '/hua/api/debug' && req.method === 'GET') return send(res,200,{version:'aliyun-v2',dataDir:DATA_DIR,port:PORT,pid:process.pid});
     if (url.pathname === '/hua/api/analyze') return await analyzeApi(req,res);
     if (url.pathname === '/hua/api/setup') return await setupApi(req,res);
     if (url.pathname === '/hua/api/archive' && req.method === 'GET') {
