@@ -157,10 +157,12 @@ const server = http.createServer(async (req,res) => {
     if (url.pathname === '/health') return send(res,200,{ok:true,service:'xiangxiang-api'});
     if (req.method === 'OPTIONS') return send(res,204,'','text/plain',{'Access-Control-Allow-Origin':req.headers.origin||'*','Access-Control-Allow-Headers':'Authorization, Content-Type','Access-Control-Allow-Methods':'GET, PUT, POST, OPTIONS'});
     if (!url.pathname.startsWith('/hua/api/')) return send(res,404,{error:'Not found'});
-    if (!authorized(req)) return send(res,401,{error:'私人链接访问密钥无效'});
+    if (url.pathname === '/hua/api/setup') {
+      if (!authorized(req)) return send(res,401,{error:'服务配置访问密钥无效'});
+      return await setupApi(req,res);
+    }
     if (url.pathname === '/hua/api/state') return await stateApi(req,res);
     if (url.pathname === '/hua/api/analyze') return await analyzeApi(req,res);
-    if (url.pathname === '/hua/api/setup') return await setupApi(req,res);
     if (url.pathname === '/hua/api/archive' && req.method === 'GET') {
       const bundle = await knowledgeMarkdown();
       return send(res,200,bundle.markdown,'text/markdown; charset=utf-8',{'Content-Disposition':`attachment; filename="xiangxiang-knowledge-${bundle.generatedAt.slice(0,10)}.md"`});

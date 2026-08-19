@@ -5,17 +5,8 @@ const FORCE_CLOUD = new URLSearchParams(location.search).get('cloud') === '1';
 const IS_CLOUD = FORCE_CLOUD || !['localhost', '127.0.0.1'].includes(location.hostname);
 const BASE_PATH = location.pathname.startsWith('/hua') || FORCE_CLOUD ? '/hua' : '';
 const API_ORIGIN = location.hostname === 'dahuajiujiu.com' ? '' : (FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '');
-const ACCESS_STORAGE_KEY = 'xiangxiang-private-access-v1';
-const fragment = decodeURIComponent(location.hash.slice(1));
-const fragmentToken = new URLSearchParams(fragment).get('access') || (fragment && !fragment.includes('=') ? fragment : '');
-if (fragmentToken) {
-  try { localStorage.setItem(ACCESS_STORAGE_KEY, fragmentToken); } catch {}
-}
-let rememberedToken = '';
-try { rememberedToken = localStorage.getItem(ACCESS_STORAGE_KEY) || ''; } catch {}
-const ACCESS_TOKEN = fragmentToken || rememberedToken;
 const apiUrl = (name) => `${API_ORIGIN}${BASE_PATH}/api/${name}`;
-const authHeaders = () => ACCESS_TOKEN ? { Authorization:`Bearer ${ACCESS_TOKEN}` } : {};
+const authHeaders = () => ({});
 const themeColors = { 工作:'#7550ed', 生活:'#f26722', 创作:'#e77ddd', 学习:'#eff357', 其他:'#65d69e' };
 const themeEmoji = { 工作:'●', 生活:'●', 创作:'●', 学习:'●', 其他:'●' };
 const $ = (selector) => document.querySelector(selector);
@@ -71,7 +62,7 @@ async function cloudRequest(name, options={}) {
 }
 
 async function pushCloudState() {
-  if (!IS_CLOUD || !ACCESS_TOKEN) return;
+  if (!IS_CLOUD) return;
   if (syncBusy) { syncDirty = true; return; }
   syncBusy = true;
   setSyncStatus('正在同步…');
@@ -100,11 +91,6 @@ function queueCloudPush() {
 
 async function pullCloudState(initial=false) {
   if (!IS_CLOUD) return;
-  if (!ACCESS_TOKEN) {
-    setSyncStatus('私人链接缺少密钥', true);
-    $('#analyze-button').disabled = true;
-    return;
-  }
   if (syncBusy) return;
   try {
     const payload = await cloudRequest('state', { method:'GET' });
@@ -133,7 +119,6 @@ async function pullCloudState(initial=false) {
 
 async function bootstrapCloudSync() {
   if (!IS_CLOUD) { setSyncStatus('仅保存在此设备'); return; }
-  if (!ACCESS_TOKEN) showToast('这台设备尚未授权，请重新打开完整的私人链接', true);
   await pullCloudState(true);
   window.setInterval(() => pullCloudState(false), 2000);
   window.addEventListener('focus', () => pullCloudState(false));
@@ -347,7 +332,7 @@ $('#export-button').addEventListener('click', async () => {
   try {
     let blob;
     let filename;
-    if (IS_CLOUD && ACCESS_TOKEN) {
+    if (IS_CLOUD) {
       const response = await fetch(apiUrl('archive?format=markdown'), {headers:authHeaders()});
       if (!response.ok) throw new Error((await response.json().catch(()=>({}))).error || '知识归档下载失败');
       blob = await response.blob();
