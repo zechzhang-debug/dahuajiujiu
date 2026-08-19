@@ -6,6 +6,7 @@ on:
     branches: ["main"]
     paths:
       - "word-web-cloud/**"
+      - ".github/services/xiangxiang-api/server.mjs"
       - ".github/workflows/deploy-aliyun.yml"
 
 permissions:
