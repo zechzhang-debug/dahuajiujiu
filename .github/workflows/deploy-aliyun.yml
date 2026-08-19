@@ -127,14 +127,12 @@ jobs:
           printf 'ADMIN_OK\n' >> "$diagnostic"
           server=$(python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(iter(data)))' <<<"$config")
           printf 'SERVER=%s\n' "$server" >> "$diagnostic"
-          nested_url="$admin/config/apps/http/servers/$server/routes/0/handle/0/routes"
-          nested=$(curl --fail --silent --show-error "$nested_url")
-          existing_at=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(next((i for i,r in enumerate(routes) if any("/hua/api/*" in m.get("path",[]) for m in r.get("match",[]))),""))' <<<"$nested")
-          if test -n "$existing_at"; then
-            curl --fail --silent --show-error -X DELETE "$nested_url/$existing_at"
-            nested=$(curl --fail --silent --show-error "$nested_url")
-          fi
-          insert_at=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(next(i for i,r in enumerate(routes) if any(h.get("handler")=="file_server" for h in r.get("handle",[]))))' <<<"$nested")
+          routes_url="$admin/config/apps/http/servers/$server/routes"
+          routes=$(curl --fail --silent --show-error "$routes_url")
+          existing=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(" ".join(str(i) for i,r in enumerate(routes) if any("/hua/api/*" in m.get("path",[]) for m in r.get("match",[]))))' <<<"$routes")
+          for existing_at in $(printf '%s\n' "$existing" | tr ' ' '\n' | sort -rn); do
+            curl --fail --silent --show-error -X DELETE "$routes_url/$existing_at"
+          done
           route=$(cat <<JSON
           {"match":[{"path":["/hua/api/*"]}],"handle":[{"handler":"reverse_proxy","upstreams":[{"dial":"$upstream"}]}]}
           JSON
@@ -143,12 +141,12 @@ jobs:
             -H 'Content-Type: application/json' \
             -X PUT \
             --data "$route" \
-            "$nested_url/$insert_at" 2>&1); then
+            "$routes_url/0" 2>&1); then
             printf 'ROUTE_FAILED\n%s\n' "$response" >> "$diagnostic"
             exit 1
           fi
-          curl --fail --silent --show-error "$nested_url/$insert_at" | grep -q "$upstream"
-          curl --fail --silent --show-error "$nested_url" > "$TARGET/hua/api-proxy-routes.json"
+          curl --fail --silent --show-error "$routes_url/0" | grep -q "$upstream"
+          curl --fail --silent --show-error "$routes_url" > "$TARGET/hua/api-proxy-routes.json"
           rm -f "$diagnostic"
           echo "API_PROXY_OK server=$server"
           REMOTE_SCRIPT
