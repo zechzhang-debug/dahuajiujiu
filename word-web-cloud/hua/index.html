@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0d0c" />
+  <meta name="description" content="AI 自动分类的灵感与日程随手记" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+  <title>想想</title>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="想想首页">
+        <span class="brand-mark"><span></span><span></span></span>
+        <span>想想</span>
+      </a>
+      <nav class="side-nav" aria-label="主导航">
+        <button class="nav-item active" data-tab="ideas">
+          <svg viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4M8.2 14.2A7 7 0 1 1 15.8 14c-.9.7-1.3 1.6-1.3 2.5h-5c0-.9-.4-1.7-1.3-2.3Z"/></svg>
+          <span>灵感泡泡</span><b id="idea-count-side">0</b>
+        </button>
+        <button class="nav-item" data-tab="schedule">
+          <svg viewBox="0 0 24 24"><path d="M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg>
+          <span>我的日程</span><b id="event-count-side">0</b>
+        </button>
+      </nav>
+      <div class="side-bottom">
+        <div class="ai-status"><i></i><div><strong>DeepSeek V4 Pro</strong><span id="sync-status">正在连接云端</span></div></div>
+        <button class="text-button" id="export-button">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 18v2h14v-2"/></svg>导出记录
+        </button>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="today-label"></p>
+          <h1 id="page-title">灵感泡泡</h1>
+        </div>
+        <div class="hero-note">把闪念放进来，<br />剩下的交给 AI。</div>
+        <button class="round-button" id="search-toggle" aria-label="搜索">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+        </button>
+      </header>
+
+      <div class="geometry-board" aria-hidden="true">
+        <span>想</span><span>想</span>
+      </div>
+
+      <section class="capture-card" aria-label="快速记录">
+        <div class="capture-top">
+          <span class="sparkle">✦</span>
+          <span>想到什么，尽管说</span>
+          <span class="ai-pill">AI 自动整理</span>
+        </div>
+        <textarea id="capture-input" rows="3" maxlength="4000" placeholder="例如：我想做一个城市声音地图；另外周五下午三点和小林聊一下这个项目……"></textarea>
+        <div class="capture-actions">
+          <p id="capture-hint">灵感、日程，或两者混合都可以</p>
+          <div>
+            <button class="mic-button" id="mic-button" aria-label="语音输入">
+              <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg>
+            </button>
+            <button class="primary-button" id="analyze-button"><span>整理并记下</span><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </section>
+      </section>
+
+      <div class="search-row hidden" id="search-row">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+        <input id="search-input" type="search" placeholder="搜索所有记录…" />
+      </div>
+
+      <section id="ideas-view" class="view">
+        <div class="section-heading">
+          <div><h2>所有泡泡</h2><span id="ideas-summary">0 个灵感</span></div>
+          <div class="filters" id="theme-filters">
+            <button class="active" data-theme="全部">全部</button><button data-theme="工作">工作</button><button data-theme="生活">生活</button><button data-theme="创作">创作</button><button data-theme="学习">学习</button><button data-theme="其他">其他</button>
+          </div>
+        </div>
+        <div class="bubble-grid" id="bubble-grid"></div>
+        <div class="empty hidden" id="ideas-empty">
+          <div class="empty-bubbles"><i></i><i></i><i></i></div>
+          <h3>第一颗泡泡，等你吹出来</h3><p>在上方写下想法，AI 会帮你提炼主题并选好颜色。</p>
+        </div>
+      </section>
+
+      <section id="schedule-view" class="view hidden">
+        <div class="schedule-head">
+          <div><p>未来 7 天 · 只看未完成</p><h2 id="schedule-month"></h2></div>
+          <div class="schedule-stats"><span><b id="pending-count">0</b> 待完成</span><span><b id="done-count">0</b> 已完成</span></div>
+        </div>
+        <div class="timeline-focus" id="timeline-focus">
+          <div class="timeline" id="timeline"></div>
+        </div>
+        <div class="empty hidden" id="schedule-empty">
+          <div class="calendar-empty">✓</div><h3>未来 7 天轻松自在</h3><p>这一周没有未完成日程，新的安排会自动出现在这里。</p>
+        </div>
+        <div class="other-schedules hidden" id="other-schedules">
+          <button class="other-toggle" id="other-toggle" aria-expanded="false">
+            <span><i></i><strong>其他日程</strong><small id="other-summary"></small></span>
+            <svg viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+          </button>
+          <div class="other-content hidden" id="other-content"><div class="timeline" id="other-timeline"></div></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="移动端导航">
+    <button class="active" data-tab="ideas"><svg viewBox="0 0 24 24"><path d="M9 18h6m-5 3h4M8.2 14.2A7 7 0 1 1 15.8 14c-.9.7-1.3 1.6-1.3 2.5h-5c0-.9-.4-1.7-1.3-2.3Z"/></svg><span>灵感</span></button>
+    <button data-tab="schedule"><svg viewBox="0 0 24 24"><path d="M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg><span>日程</span></button>
+  </nav>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

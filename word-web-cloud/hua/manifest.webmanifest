@@ -1,0 +1,10 @@
+{
+  "name": "想想 · 灵感与日程",
+  "short_name": "想想",
+  "description": "用 AI 自动整理灵感和日程",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d0d0c",
+  "theme_color": "#0d0d0c",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
