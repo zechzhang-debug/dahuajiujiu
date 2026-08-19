@@ -165,7 +165,7 @@ function renderIdeas() {
         <button class="copy-button" data-copy-idea="${item.id}" aria-label="复制灵感" title="复制"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
         <button class="delete" data-delete-idea="${item.id}" aria-label="删除灵感" title="删除"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></svg></button>
       </div>
-      <p class="bubble-content">${esc(item.content || item.title)}</p>
+      <p class="bubble-content editable-text" data-edit-idea-content="${item.id}" title="双击修改">${esc(item.content || item.title)}</p>
       <time>${formatCreated(item.createdAt)}</time>
     </article>`).join('');
   $('#ideas-empty').classList.toggle('hidden', items.length > 0);
@@ -210,7 +210,7 @@ function eventGroupsHtml(items) {
       <article class="event-card ${item.done ? 'done':''}">
         <button class="check" data-toggle-event="${item.id}" aria-label="${item.done?'标记未完成':'标记完成'}">${item.done?'✓':''}</button>
         <span class="event-time">${eventTime(item)}</span>
-        <div class="event-copy"><h3>${esc(item.title)}</h3>${item.note ? `<p>${esc(item.note)}</p>`:''}</div>
+        <div class="event-copy"><h3 class="editable-text" data-edit-event-title="${item.id}" title="双击修改">${esc(item.title)}</h3>${item.note ? `<p class="editable-text" data-edit-event-note="${item.id}" title="双击修改">${esc(item.note)}</p>`:''}</div>
         <button class="delete" data-delete-event="${item.id}" aria-label="删除日程" title="删除"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></svg></button>
       </article>`).join('')}</div></div>`;
   }).join('');
@@ -297,6 +297,67 @@ $('#search-toggle').addEventListener('click', () => { $('#search-row').classList
 $('#search-input').addEventListener('input', (event) => { search=event.target.value.trim().toLowerCase(); render(); });
 $('#theme-filters').addEventListener('click', (event) => { const button=event.target.closest('button'); if(!button)return; currentTheme=button.dataset.theme; $$('#theme-filters button').forEach((b)=>b.classList.toggle('active',b===button)); renderIdeas(); });
 $('#other-toggle').addEventListener('click', () => { otherExpanded=!otherExpanded; renderSchedule(); });
+
+function inlineEditDescriptor(element) {
+  if (element.dataset.editIdeaContent) return { item:state.ideas.find((entry)=>entry.id===element.dataset.editIdeaContent), field:'content', label:'灵感内容', allowEmpty:false };
+  if (element.dataset.editEventTitle) return { item:state.events.find((entry)=>entry.id===element.dataset.editEventTitle), field:'title', label:'日程名称', allowEmpty:false };
+  if (element.dataset.editEventNote) return { item:state.events.find((entry)=>entry.id===element.dataset.editEventNote), field:'note', label:'日程备注', allowEmpty:true };
+  return null;
+}
+
+function startInlineEdit(element) {
+  if (!element || element.isContentEditable) return;
+  const descriptor=inlineEditDescriptor(element);
+  if (!descriptor?.item) return;
+  const {item,field,label,allowEmpty}=descriptor;
+  const original=String(item[field] || '');
+  let finished=false;
+  element.contentEditable='true';
+  element.classList.add('inline-editing');
+  element.setAttribute('role','textbox');
+  element.setAttribute('aria-multiline',String(field!=='title'));
+  element.focus();
+  const range=document.createRange(); range.selectNodeContents(element); range.collapse(false);
+  const selection=window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
+
+  const finish=(save) => {
+    if (finished) return;
+    finished=true;
+    const value=element.innerText.trim();
+    if (!save || (!value && !allowEmpty)) {
+      element.textContent=original;
+      element.contentEditable='false';
+      element.classList.remove('inline-editing');
+      if (save && !value) showToast(`${label}不能为空`,true);
+      return;
+    }
+    if (value===original) {
+      element.contentEditable='false';
+      element.classList.remove('inline-editing');
+      return;
+    }
+    item[field]=value;
+    saveState();
+    showToast(`${label}已更新`);
+  };
+  element.addEventListener('blur',()=>finish(true),{once:true});
+  element.addEventListener('keydown',(event)=>{
+    if (event.key==='Escape') { event.preventDefault(); finish(false); }
+    if (event.key==='Enter' && (field==='title' || event.ctrlKey || event.metaKey)) { event.preventDefault(); finish(true); }
+  });
+}
+
+function editableFrom(target) { return target instanceof Element ? target.closest('.editable-text') : null; }
+document.addEventListener('dblclick',(event)=>startInlineEdit(editableFrom(event.target)));
+let lastTouchTarget=null; let lastTouchAt=0;
+document.addEventListener('pointerup',(event)=>{
+  if (event.pointerType!=='touch') return;
+  const target=editableFrom(event.target); if(!target)return;
+  const now=Date.now();
+  if (target===lastTouchTarget && now-lastTouchAt<450) { event.preventDefault(); startInlineEdit(target); lastTouchTarget=null; lastTouchAt=0; }
+  else { lastTouchTarget=target; lastTouchAt=now; }
+});
+
 document.addEventListener('click', (event) => {
   const ideaButton=event.target.closest('[data-delete-idea]');
   const eventButton=event.target.closest('[data-delete-event]');
