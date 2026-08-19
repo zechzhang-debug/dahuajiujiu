@@ -148,6 +148,7 @@ jobs:
             exit 1
           fi
           curl --fail --silent --show-error "$nested_url/$insert_at" | grep -q "$upstream"
+          curl --fail --silent --show-error "$nested_url" > "$TARGET/hua/api-proxy-routes.json"
           rm -f "$diagnostic"
           echo "API_PROXY_OK server=$server"
           REMOTE_SCRIPT
