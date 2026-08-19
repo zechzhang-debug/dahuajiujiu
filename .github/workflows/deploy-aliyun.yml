@@ -44,7 +44,9 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
           SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
-        run: scp site.tar.gz "$SSH_USER@$SSH_HOST:/tmp/dahuajiujiu-site-${{ github.run_id }}.tar.gz"
+        run: |
+          scp site.tar.gz "$SSH_USER@$SSH_HOST:/tmp/dahuajiujiu-site-${{ github.run_id }}.tar.gz"
+          scp .github/services/xiangxiang-api/server.mjs "$SSH_USER@$SSH_HOST:/tmp/xiangxiang-api-${{ github.run_id }}.mjs"
 
       - name: Activate release with backup
         env:
@@ -71,6 +73,38 @@ jobs:
           echo "DEPLOY_OK backup=$backup"
           REMOTE_SCRIPT
 
+      - name: Deploy Xiangxiang API service
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+          SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+          SERVICE_RELEASE: /tmp/xiangxiang-api-${{ github.run_id }}.mjs
+        run: |
+          ssh "$SSH_USER@$SSH_HOST" "SERVICE_RELEASE='$SERVICE_RELEASE' TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
+          set -euo pipefail
+          service_dir="${TARGET%/}/../xiangxiang-service"
+          data_dir="${TARGET%/}/../xiangxiang-data"
+          mkdir -p "$service_dir" "$data_dir"
+          test -s "$SERVICE_RELEASE"
+          cp "$SERVICE_RELEASE" "$service_dir/server.mjs"
+          rm -f "$SERVICE_RELEASE"
+          if test -s "$service_dir/server.pid"; then
+            old_pid=$(cat "$service_dir/server.pid")
+            if test -r "/proc/$old_pid/cmdline" && tr '\0' ' ' < "/proc/$old_pid/cmdline" | grep -q "$service_dir/server.mjs"; then
+              kill "$old_pid" || true
+              for _ in 1 2 3 4 5; do kill -0 "$old_pid" 2>/dev/null || break; sleep 1; done
+            fi
+          fi
+          node_bin=$(command -v node)
+          PORT=3001 XIANGXIANG_DATA_DIR="$data_dir" nohup "$node_bin" "$service_dir/server.mjs" > "$service_dir/server.log" 2>&1 &
+          echo $! > "$service_dir/server.pid"
+          for _ in 1 2 3 4 5 6 7 8 9 10; do
+            if curl --fail --silent --show-error http://127.0.0.1:3001/health > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --show-error http://127.0.0.1:3001/health > /dev/null
+          echo 'XIANGXIANG_API_OK'
+          REMOTE_SCRIPT
+
       - name: Configure same-origin cloud API proxy
         env:
           SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
@@ -79,7 +113,7 @@ jobs:
           ssh "$SSH_USER@$SSH_HOST" "TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
           admin='http://127.0.0.1:2019'
-          upstream='xiangxiang-private.dahuajiujiu-hua.workers.dev'
+          upstream='127.0.0.1:3001'
           diagnostic="$TARGET/hua/api-proxy-diagnostic.txt"
           printf 'START\n' > "$diagnostic"
           if ! config=$(curl --fail --silent --show-error "$admin/config/apps/http/servers" 2>>"$diagnostic"); then
@@ -91,14 +125,14 @@ jobs:
           printf 'SERVER=%s\n' "$server" >> "$diagnostic"
           nested_url="$admin/config/apps/http/servers/$server/routes/0/handle/0/routes"
           nested=$(curl --fail --silent --show-error "$nested_url")
-          if printf '%s' "$nested" | grep -q "$upstream"; then
-            echo 'API_PROXY_ALREADY_CONFIGURED'
-            rm -f "$diagnostic"
-            exit 0
+          existing_at=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(next((i for i,r in enumerate(routes) if any("/hua/api/*" in m.get("path",[]) for m in r.get("match",[]))),""))' <<<"$nested")
+          if test -n "$existing_at"; then
+            curl --fail --silent --show-error -X DELETE "$nested_url/$existing_at"
+            nested=$(curl --fail --silent --show-error "$nested_url")
           fi
           insert_at=$(python3 -c 'import json,sys; routes=json.load(sys.stdin); print(next(i for i,r in enumerate(routes) if any(h.get("handler")=="file_server" for h in r.get("handle",[]))))' <<<"$nested")
           route=$(cat <<JSON
-          {"match":[{"path":["/hua/api/*"]}],"handle":[{"handler":"reverse_proxy","upstreams":[{"dial":"$upstream:443"}],"transport":{"protocol":"http","tls":{}},"headers":{"request":{"set":{"Host":["$upstream"]}}}}]}
+          {"match":[{"path":["/hua/api/*"]}],"handle":[{"handler":"reverse_proxy","upstreams":[{"dial":"$upstream"}]}]}
           JSON
           )
           if ! response=$(curl --fail --silent --show-error \
