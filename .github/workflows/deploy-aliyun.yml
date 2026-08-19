@@ -143,4 +143,4 @@ jobs:
         run: |
           curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
           status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 https://dahuajiujiu.com/hua/api/state)
-          test "$status" = '401'
+          test "$status" = '200'
