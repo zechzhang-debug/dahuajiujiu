@@ -81,8 +81,8 @@ jobs:
         run: |
           ssh "$SSH_USER@$SSH_HOST" "SERVICE_RELEASE='$SERVICE_RELEASE' TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
-          service_dir="${TARGET%/}/../xiangxiang-service"
-          data_dir="${TARGET%/}/../xiangxiang-data"
+          service_dir="$HOME/.local/share/xiangxiang-service"
+          data_dir="$HOME/.local/share/xiangxiang-data"
           diagnostic="$TARGET/hua/service-diagnostic.txt"
           trap 'code=$?; { echo "SERVICE_FAILED code=$code"; test -f "$service_dir/server.log" && tail -80 "$service_dir/server.log"; } > "$diagnostic"; exit "$code"' ERR
           mkdir -p "$service_dir" "$data_dir"
