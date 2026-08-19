@@ -127,8 +127,12 @@ async function pullCloudState(initial=false) {
 async function bootstrapCloudSync() {
   if (!IS_CLOUD) { setSyncStatus('仅保存在此设备'); return; }
   await pullCloudState(true);
-  window.setInterval(() => pullCloudState(false), 5000);
+  window.setInterval(() => pullCloudState(false), 2000);
   window.addEventListener('focus', () => pullCloudState(false));
+  window.addEventListener('online', () => pullCloudState(false));
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') pullCloudState(false);
+  });
 }
 
 function formatCreated(date) {
