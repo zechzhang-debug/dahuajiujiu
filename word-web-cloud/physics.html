@@ -19,6 +19,7 @@
       --shadow: 0 12px 30px rgba(20, 53, 76, .08);
     }
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { min-height: 100%; background: #f4f8fa; }
     body {
       min-height: 100vh;
@@ -239,11 +240,11 @@
       <details class="stage" open>
         <summary><span class="stage-icon">初</span><span>初中物理<span class="stage-meta">八至九年级</span></span><span class="chevron">›</span></summary>
         <div class="grade-list">
-          <button class="grade-button is-active" type="button" data-grade="junior2" aria-pressed="true"><span>初二</span><span>12 个知识点</span></button>
-          <button class="grade-button" type="button" data-grade="junior3" aria-pressed="false"><span>初三</span><span>4 个知识点</span></button>
+          <button class="grade-button is-active" type="button" data-grade="junior2" aria-pressed="true"><span>初二</span><span>1 个知识点</span></button>
+          <button class="grade-button" type="button" data-grade="junior3" aria-pressed="false" hidden><span>初三</span><span>4 个知识点</span></button>
         </div>
       </details>
-      <details class="stage">
+      <details class="stage" hidden>
         <summary><span class="stage-icon">高</span><span>高中物理<span class="stage-meta">高一至高三</span></span><span class="chevron">›</span></summary>
         <div class="grade-list">
           <button class="grade-button" type="button" data-grade="senior1" aria-pressed="false"><span>高一</span><span>4 个知识点</span></button>
@@ -259,7 +260,7 @@
         <div><h1 id="grade-title">初二物理</h1><p id="grade-description">贯通八年级上下册，重点攻克运动、光学、热学、密度和力学中的实验、作图与综合计算。</p></div>
         <div class="progress-note">静态讲解页 · 随时复习</div>
       </div>
-      <div class="section-row"><h2>知识点与讲解</h2><span id="topic-count">共 12 个知识点</span></div>
+      <div class="section-row"><h2>知识点与讲解</h2><span id="topic-count">共 1 个知识点</span></div>
       <div class="topic-list" id="topic-list" aria-live="polite"></div>
     </main>
   </div>
@@ -311,21 +312,30 @@
       ]
     };
 
+    function availableTopicsFor(key) {
+      const grade = curriculum[key];
+      return grade ? grade.topics.filter(topic => (questionsByTopic[topic[0]] || []).length) : [];
+    }
+
     function renderGrade(key) {
       const grade = curriculum[key];
       if (!grade) return;
-      const availableTopics = grade.topics;
+      const availableTopics = availableTopicsFor(key);
+      if (!availableTopics.length) return;
       document.getElementById('grade-breadcrumb').textContent = grade.label;
       document.getElementById('grade-title').textContent = grade.title;
       document.getElementById('grade-description').textContent = grade.description;
       document.getElementById('topic-count').textContent = availableTopics.length ? `共 ${availableTopics.length} 个知识点` : '暂无题目';
       buttons.forEach(button => {
-        const buttonGrade = curriculum[button.dataset.grade];
-        const availableCount = buttonGrade.topics.length;
+        const availableCount = availableTopicsFor(button.dataset.grade).length;
+        button.hidden = availableCount === 0;
         const isActive = button.dataset.grade === key;
         button.classList.toggle('is-active', isActive);
         button.setAttribute('aria-pressed', String(isActive));
         button.lastElementChild.textContent = availableCount ? `${availableCount} 个知识点` : '暂无题目';
+      });
+      document.querySelectorAll('.stage').forEach(stage => {
+        stage.hidden = ![...stage.querySelectorAll('.grade-button')].some(button => !button.hidden);
       });
       list.innerHTML = availableTopics.length ? availableTopics.map((topic, index) => {
         const questions = questionsByTopic[topic[0]] || [];
@@ -370,7 +380,9 @@
 
     buttons.forEach(button => button.addEventListener('click', () => renderGrade(button.dataset.grade)));
     const initial = new URLSearchParams(location.search).get('grade');
-    renderGrade(curriculum[initial] ? initial : 'junior2');
+    const firstAvailable = buttons.find(button => availableTopicsFor(button.dataset.grade).length)?.dataset.grade;
+    const initialGrade = curriculum[initial] && availableTopicsFor(initial).length ? initial : firstAvailable;
+    if (initialGrade) renderGrade(initialGrade);
   </script>
 </body>
 </html>
