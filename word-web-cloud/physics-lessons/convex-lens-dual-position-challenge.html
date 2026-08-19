@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>凸透镜双位置成像 · 顶级难度综合题精讲</title>
+  <meta name="description" content="八年级物理凸透镜双位置成像高难度综合题，讲解物屏固定、焦距反推、放大率、遮挡与跨焦点动态成像。">
+  <link rel="canonical" href="https://dahuajiujiu.com/physics-lessons/convex-lens-dual-position-challenge.html">
+  <style>
+    :root{--ink:#102f47;--muted:#607789;--line:#dbe6ec;--paper:#fff;--blue:#2563eb;--blue-soft:#eaf2ff;--orange:#e87918;--green:#0f9f70;--red:#dc3f4f;--purple:#7c3aed;--bg:#f4f8fa;--shadow:0 12px 30px rgba(20,53,76,.08)}
+    *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:linear-gradient(180deg,#f8fbfc,#eef5f8);line-height:1.75}a{color:inherit}.shell{width:min(1080px,calc(100% - 28px));margin:20px auto 42px}
+    .site-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.95)}.brand,.back{text-decoration:none;font-weight:800}.back{color:var(--blue);font-size:13px}.hero{position:relative;overflow:hidden;margin:16px 0 20px;padding:34px 32px;border-radius:16px;color:#fff;background:linear-gradient(135deg,#4a1d78,#7c3aed 58%,#2563eb);box-shadow:var(--shadow)}
+    .hero:after{content:"";position:absolute;width:280px;height:280px;right:-70px;top:-120px;border-radius:50%;background:rgba(255,255,255,.1)}.hero h1{position:relative;margin:0 0 8px;font-size:30px}.hero p{position:relative;margin:0;max-width:790px;color:#f0eaff}.tags{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.tag{padding:4px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;font-size:12px;background:rgba(255,255,255,.12)}
+    .trust{display:flex;gap:10px;align-items:flex-start;margin:0 0 18px;padding:14px 16px;border:1px solid #a8dfca;border-radius:10px;background:#effcf7;font-size:13px}.trust strong{color:#087b55;white-space:nowrap}.card{margin-bottom:18px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}.card h2{margin:0 0 15px;font-size:20px}.card h3{margin:15px 0 8px;font-size:16px}
+    .problem{padding:18px 20px;border-left:5px solid var(--orange);border-radius:0 10px 10px 0;background:#fff9ec}.problem p{margin:8px 0}.formula{display:block;margin:14px 0;padding:14px;border-radius:9px;text-align:center;color:#b42359;background:#f7f1f5;font:700 19px "Cambria Math","Times New Roman",serif}.hint{padding:13px 15px;border-radius:9px;background:var(--blue-soft);color:#174fae}.answer{display:inline-block;padding:3px 10px;border-radius:999px;color:#087b55;background:#e6f9f1;font-weight:900}
+    .visual{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:18px}.canvas-wrap{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fbfdfe}.canvas-wrap canvas{display:block;width:100%;height:auto}.presets{display:grid;gap:9px;align-content:start}.preset{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff;cursor:pointer;text-align:left;font:700 13px inherit}.preset:hover,.preset.is-active{border-color:#8bb1f4;color:#174fae;background:var(--blue-soft)}.state-box{margin-top:7px;padding:13px;border-radius:9px;background:#f7fafc;font-size:13px}.state-box strong{display:block;margin-bottom:5px;color:var(--purple)}
+    details.step{margin:10px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden}details.step[open]{border-color:#a8c2f4}details.step summary{display:flex;gap:10px;align-items:center;padding:14px 16px;cursor:pointer;background:#f8fbfc;font-weight:800;list-style:none}details.step summary::-webkit-details-marker{display:none}.num{width:27px;height:27px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;color:#fff;background:var(--blue);font-size:12px}.step-body{padding:16px 18px}.step-body p{margin:8px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.score{padding:15px;border-radius:10px;background:#f6f2ff}.score strong{color:var(--purple)}
+    .summary{width:100%;border-collapse:collapse;font-size:14px}.summary th,.summary td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left}.summary th{color:var(--muted);font-size:12px}.footer{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:18px;color:var(--muted);font-size:12px}.footer a{text-decoration:none}
+    @media(max-width:760px){.grid,.visual{grid-template-columns:1fr}.hero{padding:27px 22px}.hero h1{font-size:24px}.card{padding:18px 16px}.site-nav{align-items:flex-start}.brand{max-width:58%}.presets{grid-template-columns:repeat(2,minmax(0,1fr))}.summary{font-size:12px}.summary th,.summary td{padding:9px 6px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="site-nav" aria-label="站点导航">
+      <a class="brand" href="../index.html">⚛ 大华舅舅的物理资料</a>
+      <a class="back" href="../physics.html?grade=junior2&amp;topic=lens">← 返回凸透镜题目目录</a>
+    </nav>
+
+    <header class="hero">
+      <h1>凸透镜“双位置成像” · 顶级难度综合题</h1>
+      <p>一道题贯通：物像互换、焦距反推、放大率、遮挡透镜、焦点分界和动态调屏。</p>
+      <div class="tags"><span class="tag">高难综合</span><span class="tag">信息给予题</span><span class="tag">实验推理</span><span class="tag">动态成像</span></div>
+    </header>
+
+    <div class="trust"><strong>✓ 模型已校验</strong><span>所有数值均由薄透镜公式与光路可逆性确定；题目为依据凸透镜实验要求重新编制的原创综合题。</span></div>
+
+    <section class="card">
+      <h2>原题呈现</h2>
+      <div class="problem">
+        <p>在水平光具座上，发光物体 AB 固定在 <b>0 cm</b> 刻度处，高度为 <b>2.0 cm</b>；光屏固定在 <b>100 cm</b> 刻度处。一只焦距未知的薄凸透镜在物体与光屏之间移动。</p>
+        <p>实验发现：透镜先后位于 P、Q 两处时，光屏上都能得到清晰的像，且 P、Q 相距 <b>60 cm</b>，P 更靠近物体。</p>
+        <p><b>已知信息：</b>薄透镜满足 <b>1/f = 1/u + 1/v</b>，像的放大率 <b>|m| = |v/u|</b>。</p>
+        <p>（1）求 P、Q 的刻度及凸透镜焦距。</p>
+        <p>（2）判断两处像的性质并求像高；说明为什么两次都能在同一光屏上成清晰像。</p>
+        <p>（3）透镜位于 P 时，用不透明纸遮住透镜上半部分，像是否完整？亮度怎样变化？</p>
+        <p>（4）透镜仍位于 P：把物体向透镜移动 4 cm，会发生什么？若把物体从原位置向远离透镜方向移动 4 cm，光屏应移动到哪个刻度？</p>
+        <p>（5）透镜仍位于 P：把物体从原位置向透镜移动 8 cm，像在哪里、性质如何？</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>先用交互图看懂五个状态</h2>
+      <div class="visual">
+        <div class="canvas-wrap"><canvas id="challengeCanvas" width="900" height="400" aria-label="双位置凸透镜成像题交互光路图"></canvas></div>
+        <div class="presets" id="presetList">
+          <button class="preset is-active" type="button" data-state="p">P 点：放大实像</button>
+          <button class="preset" type="button" data-state="q">Q 点：缩小实像</button>
+          <button class="preset" type="button" data-state="focus">物体移近 4 cm</button>
+          <button class="preset" type="button" data-state="away">物体移远 4 cm</button>
+          <button class="preset" type="button" data-state="inside">物体移近 8 cm</button>
+          <div class="state-box"><strong id="stateTitle">P 点成像</strong><span id="stateText">u=20 cm，v=80 cm，倒立放大实像，恰好落在 100 cm 光屏上。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>逐问拆解</h2>
+      <details class="step" open>
+        <summary><span class="num">1</span>P、Q 位置与焦距：先抓住“物像互换”</summary>
+        <div class="step-body">
+          <p>物体和光屏固定，两次都清晰成像。根据光路可逆性，第二次成像时物距与像距恰好互换。因此 P、Q 关于 50 cm 中点对称。</p>
+          <span class="formula">P + Q = 100，　Q − P = 60</span>
+          <p>解得 <b>P=20 cm，Q=80 cm</b>。在 P 点，u=20 cm，v=80 cm：</p>
+          <span class="formula">1/f = 1/20 + 1/80 = 1/16　⇒　f = 16 cm</span>
+          <p>答案：<span class="answer">P=20 cm，Q=80 cm，f=16 cm</span></p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">2</span>像的性质与像高：位置互换，放大率互为倒数</summary>
+        <div class="step-body">
+          <p>P 点：f&lt;u&lt;2f，即 16&lt;20&lt;32，成倒立、放大的实像；|m|=80/20=4，像高为 2×4=<b>8.0 cm</b>。</p>
+          <p>Q 点：u&gt;2f，即 80&gt;32，成倒立、缩小的实像；|m|=20/80=1/4，像高为 2×1/4=<b>0.5 cm</b>。</p>
+          <p>两次清晰成像的根本原因不是巧合，而是光路可逆：<b>(u,v)=(20,80)</b> 与 <b>(80,20)</b> 都满足同一个透镜公式。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">3</span>遮挡半个透镜：每一小块都能参与完整成像</summary>
+        <div class="step-body">
+          <p>来自物体每个发光点的光会照到透镜的多个区域。遮住上半部分后，下半部分仍能把物体各点的部分光线会聚到各自像点。</p>
+          <p>所以像仍然<b>完整</b>、位置和大小不变，但到达光屏的光减少，像会<b>变暗</b>。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">4</span>物体移动 4 cm：一边撞上焦点，一边需要重新调屏</summary>
+        <div class="step-body">
+          <p><b>向透镜移动 4 cm：</b>物体从 0 cm 到 4 cm，透镜仍在 20 cm，u=16 cm=f。折射光平行，像在无穷远，有限位置的光屏都接不到清晰像。</p>
+          <p><b>远离透镜移动 4 cm：</b>物体到 −4 cm，u=24 cm。代入公式：</p>
+          <span class="formula">1/v = 1/16 − 1/24 = 1/48　⇒　v=48 cm</span>
+          <p>新光屏刻度为 20+48=<b>68 cm</b>，即从 100 cm 向左移动 <b>32 cm</b>。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">5</span>物体移动 8 cm：跨过焦点后，实像变虚像</summary>
+        <div class="step-body">
+          <p>物体移到 8 cm，u=20−8=12 cm&lt;f。代入公式：</p>
+          <span class="formula">1/v = 1/16 − 1/12 = −1/48　⇒　v=−48 cm</span>
+          <p>负号表示像和物体在透镜同侧。像的位置为 20−48=<b>−28 cm</b>；|m|=48/12=4。</p>
+          <p>答案：成<b>正立、放大 4 倍的虚像</b>，像高 8.0 cm，任何位置的光屏都不能承接。</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>为什么这是高难题</h2>
+        <div class="score"><strong>难点 1：</strong>从“两次清晰”识别物像互换，而不是分别盲算。</div>
+        <div class="score" style="margin-top:9px"><strong>难点 2：</strong>物体移动后必须重新判断 u 与 f、2f 的关系。</div>
+        <div class="score" style="margin-top:9px"><strong>难点 3：</strong>公式中的 v&lt;0 不是“距离为负”，而是虚像位于物体侧。</div>
+      </section>
+      <section class="card">
+        <h2>答案速查</h2>
+        <table class="summary">
+          <thead><tr><th>小问</th><th>结论</th></tr></thead>
+          <tbody>
+            <tr><td>（1）</td><td>P=20 cm，Q=80 cm，f=16 cm</td></tr>
+            <tr><td>（2）</td><td>P：8.0 cm；Q：0.5 cm，均为倒立实像</td></tr>
+            <tr><td>（3）</td><td>像完整、变暗</td></tr>
+            <tr><td>（4）</td><td>移近4 cm无有限像；移远4 cm屏到68 cm</td></tr>
+            <tr><td>（5）</td><td>−28 cm处，正立放大4倍虚像</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>命题依据</h2>
+      <p>本题不是对现成试题的照搬，而是在教材“探究凸透镜成像规律”的实验框架上重新编制。双位置数据、焦距、像高和移动后的像距均由同一薄透镜模型验证。</p>
+      <p><a href="https://www.pep.com.cn/zslth/xxfzljxzy/wl/202510/P020251013564065019554.pdf" target="_blank" rel="noopener">人民教育出版社：八年级物理探究实践</a>　·　<a href="https://jyt.hunan.gov.cn/jyt/sjyt/jyzbc/zbczcwj/syjx/202503/t20250303_33600704.html" target="_blank" rel="noopener">湖南省教育厅：初中物理实验操作规范</a></p>
+    </section>
+
+    <footer class="footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a><a href="../privacy.html">隐私政策</a><a href="../terms.html">用户协议</a><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2026041766号-1</a></footer>
+  </div>
+
+  <script>
+    const challengeModel=Object.freeze({
+      subject:'physics',type:'convex_lens_dual_position',formula:'1/f = 1/u + 1/v',
+      parameters:{f:{value:16,unit:'cm'},objectScreenDistance:{value:100,unit:'cm'},lensSeparation:{value:60,unit:'cm'}},
+      invariants:['P、Q 两次成像的物距与像距互换','实像可由光屏承接','遮挡只改变通光量，不截去半个像'],validationStatus:'verified'
+    });
+    const states={
+      p:{title:'P 点成像',objectX:0,lensX:20,screenX:100,v:80,text:'u=20 cm，v=80 cm，倒立放大实像，恰好落在 100 cm 光屏上。'},
+      q:{title:'Q 点成像',objectX:0,lensX:80,screenX:100,v:20,text:'u=80 cm，v=20 cm，倒立缩小实像，仍落在同一光屏上。'},
+      focus:{title:'物体恰在焦点',objectX:4,lensX:20,screenX:100,v:Infinity,text:'u=16 cm=f，折射光平行，有限位置没有清晰像。'},
+      away:{title:'物体远离透镜 4 cm',objectX:-4,lensX:20,screenX:68,oldScreenX:100,v:48,text:'u=24 cm，v=48 cm，光屏应从 100 cm 移到 68 cm。'},
+      inside:{title:'物体跨入焦点内',objectX:8,lensX:20,screenX:null,v:-48,text:'u=12 cm<f，在 −28 cm 处成正立、放大 4 倍的虚像。'}
+    };
+    const canvas=document.getElementById('challengeCanvas'),ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height,axisY=235,originX=220,scale=5.5,f=16,objectHeight=32;
+    const sx=x=>originX+x*scale;function line(x1,y1,x2,y2,color,width=2,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore()}
+    function arrow(x,baseY,height,color,label){line(x,baseY,x,baseY-height,color,5);const y=baseY-height;line(x,y,x-7,y+12,color,4);line(x,y,x+7,y+12,color,4);ctx.fillStyle=color;ctx.font='700 14px Microsoft YaHei';ctx.fillText(label,x+9,y+4)}
+    function lens(x){ctx.strokeStyle='#2563eb';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,70);ctx.quadraticCurveTo(x-20,axisY,x,385);ctx.moveTo(x,70);ctx.quadraticCurveTo(x+20,axisY,x,385);ctx.stroke()}
+    function screen(x,ghost=false){line(x,90,x,370,ghost?'#b9c7d1':'#0f9f70',5,ghost?[7,6]:[]);ctx.fillStyle=ghost?'#8193a0':'#087b55';ctx.font='13px Microsoft YaHei';ctx.textAlign='center';ctx.fillText(ghost?'原光屏':'光屏',x,390);ctx.textAlign='start'}
+    function draw(stateKey){
+      const s=states[stateKey],u=s.lensX-s.objectX,lx=sx(s.lensX),ox=sx(s.objectX);ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfdfe';ctx.fillRect(0,0,W,H);line(35,axisY,W-30,axisY,'#7690a2',2);
+      [s.lensX-f,s.lensX+f].forEach((x,i)=>{const px=sx(x);line(px,axisY-7,px,axisY+7,'#102f47',2);ctx.fillStyle='#102f47';ctx.font='12px Microsoft YaHei';ctx.textAlign='center';ctx.fillText(i?'F′':'F',px,axisY+24)});ctx.textAlign='start';
+      arrow(ox,axisY,objectHeight,'#2563eb','物');lens(lx);if(s.oldScreenX!=null)screen(sx(s.oldScreenX),true);if(s.screenX!=null)screen(sx(s.screenX));
+      const objectTop=axisY-objectHeight;line(ox,objectTop,lx,objectTop,'#e87918',2.5);line(ox,objectTop,lx,axisY,'#e87918',2.5);
+      if(!Number.isFinite(s.v)){
+        const slope=objectHeight/(f*scale);line(lx,objectTop,W-30,objectTop+(W-30-lx)*slope,'#e87918',2.5);line(lx,axisY,W-30,axisY+(W-30-lx)*slope,'#e87918',2.5);
+      }else{
+        const ix=sx(s.lensX+s.v),m=-s.v/u,imageTop=axisY-m*objectHeight,endX=W-30;const y1=objectTop+(endX-lx)*(imageTop-objectTop)/(ix-lx),y2=axisY+(endX-lx)*(imageTop-axisY)/(ix-lx);
+        line(lx,objectTop,endX,y1,'#e87918',2.5);line(lx,axisY,endX,y2,'#e87918',2.5);if(s.v<0){line(ix,imageTop,lx,objectTop,'#9a6aca',2,[7,6]);line(ix,imageTop,lx,axisY,'#9a6aca',2,[7,6])}arrow(ix,axisY,m*objectHeight,'#dc3f4f','像');
+      }
+      ctx.fillStyle='#607789';ctx.font='13px Microsoft YaHei';ctx.fillText(`物距 u=${u} cm`,Math.min(ox,lx)+10,45);document.getElementById('stateTitle').textContent=s.title;document.getElementById('stateText').textContent=s.text;
+      document.querySelectorAll('.preset').forEach(button=>button.classList.toggle('is-active',button.dataset.state===stateKey));
+    }
+    document.getElementById('presetList').addEventListener('click',event=>{const button=event.target.closest('.preset');if(button)draw(button.dataset.state)});draw('p');
+  </script>
+</body>
+</html>

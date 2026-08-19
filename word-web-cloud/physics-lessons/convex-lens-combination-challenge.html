@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>组合透镜成像 · 凸透镜综合难题精讲</title>
+  <meta name="description" content="八年级物理组合透镜高难度综合题，讲解凸透镜与凹透镜、双凸透镜组合后的等效焦距、成像位置和跨焦点变化。">
+  <link rel="canonical" href="https://dahuajiujiu.com/physics-lessons/convex-lens-combination-challenge.html">
+  <style>
+    :root{--ink:#102f47;--muted:#607789;--line:#dbe6ec;--paper:#fff;--blue:#2563eb;--blue-soft:#eaf2ff;--teal:#0f9f8d;--teal-soft:#e9faf6;--orange:#e87918;--red:#dc3f4f;--purple:#7c3aed;--bg:#f4f8fa;--shadow:0 12px 30px rgba(20,53,76,.08)}
+    *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:linear-gradient(180deg,#f8fbfc,#eef5f8);line-height:1.75}a{color:inherit}.shell{width:min(1080px,calc(100% - 28px));margin:20px auto 42px}
+    .site-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.95)}.brand,.back{text-decoration:none;font-weight:800}.back{color:var(--blue);font-size:13px}.hero{position:relative;overflow:hidden;margin:16px 0 20px;padding:34px 32px;border-radius:16px;color:#fff;background:linear-gradient(135deg,#0b4f58,#0f9f8d 58%,#2563eb);box-shadow:var(--shadow)}
+    .hero:after{content:"";position:absolute;width:280px;height:280px;right:-70px;top:-120px;border-radius:50%;background:rgba(255,255,255,.1)}.hero h1{position:relative;margin:0 0 8px;font-size:30px}.hero p{position:relative;margin:0;max-width:790px;color:#e6fffa}.tags{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.tag{padding:4px 10px;border:1px solid rgba(255,255,255,.35);border-radius:999px;font-size:12px;background:rgba(255,255,255,.12)}
+    .trust{display:flex;gap:10px;align-items:flex-start;margin:0 0 18px;padding:14px 16px;border:1px solid #a8dfca;border-radius:10px;background:#effcf7;font-size:13px}.trust strong{color:#087b55;white-space:nowrap}.card{margin-bottom:18px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}.card h2{margin:0 0 15px;font-size:20px}.card h3{margin:15px 0 8px;font-size:16px}
+    .problem{padding:18px 20px;border-left:5px solid var(--orange);border-radius:0 10px 10px 0;background:#fff9ec}.problem p{margin:8px 0}.formula{display:block;margin:14px 0;padding:14px;border-radius:9px;text-align:center;color:#b42359;background:#f7f1f5;font:700 19px "Cambria Math","Times New Roman",serif}.info{padding:13px 15px;border-radius:9px;background:var(--blue-soft);color:#174fae}.answer{display:inline-block;padding:3px 10px;border-radius:999px;color:#087b55;background:#e6f9f1;font-weight:900}
+    .visual{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:18px}.canvas-wrap{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fbfdfe}.canvas-wrap canvas{display:block;width:100%;height:auto}.presets{display:grid;gap:9px;align-content:start}.preset{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff;cursor:pointer;text-align:left;font:700 13px inherit}.preset:hover,.preset.is-active{border-color:#72c7b8;color:#087b68;background:var(--teal-soft)}.state-box{margin-top:7px;padding:13px;border-radius:9px;background:#f7fafc;font-size:13px}.state-box strong{display:block;margin-bottom:5px;color:var(--teal)}
+    details.step{margin:10px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden}details.step[open]{border-color:#91d3c7}details.step summary{display:flex;gap:10px;align-items:center;padding:14px 16px;cursor:pointer;background:#f8fbfc;font-weight:800;list-style:none}details.step summary::-webkit-details-marker{display:none}.num{width:27px;height:27px;display:grid;place-items:center;flex:0 0 auto;border-radius:50%;color:#fff;background:var(--teal);font-size:12px}.step-body{padding:16px 18px}.step-body p{margin:8px 0}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.power{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.power div{padding:15px 12px;border:1px solid var(--line);border-radius:10px;text-align:center;background:#fbfdfe}.power strong{display:block;color:var(--teal);font-size:20px}.summary{width:100%;border-collapse:collapse;font-size:14px}.summary th,.summary td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left}.summary th{color:var(--muted);font-size:12px}.footer{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:18px;color:var(--muted);font-size:12px}.footer a{text-decoration:none}
+    @media(max-width:760px){.grid,.visual{grid-template-columns:1fr}.power{grid-template-columns:1fr}.hero{padding:27px 22px}.hero h1{font-size:24px}.card{padding:18px 16px}.site-nav{align-items:flex-start}.brand{max-width:58%}.presets{grid-template-columns:repeat(2,minmax(0,1fr))}.summary{font-size:12px}.summary th,.summary td{padding:9px 6px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="site-nav" aria-label="站点导航">
+      <a class="brand" href="../index.html">⚛ 大华舅舅的物理资料</a>
+      <a class="back" href="../physics.html?grade=junior2&amp;topic=lens">← 返回凸透镜题目目录</a>
+    </nav>
+
+    <header class="hero">
+      <h1>组合透镜成像 · 可拆镜片综合难题</h1>
+      <p>同一个物体、同一个主凸透镜，装上不同镜片后，焦距、像距、大小和虚实会怎样连锁变化？</p>
+      <div class="tags"><span class="tag">凸透镜＋凹透镜</span><span class="tag">双凸透镜</span><span class="tag">等效焦距</span><span class="tag">跨焦点</span></div>
+    </header>
+
+    <div class="trust"><strong>✓ 模型已校验</strong><span>两片薄透镜紧贴时使用等效焦距模型；凸透镜焦距取正、凹透镜焦距取负，所有成像位置均再次代入薄透镜公式验证。</span></div>
+
+    <section class="card">
+      <h2>原题呈现</h2>
+      <div class="problem">
+        <p>一高度为 <b>3.0 cm</b> 的发光物体固定在光具座 <b>0 cm</b> 处，主凸透镜 L₁ 位于 <b>30 cm</b> 处。光屏在 <b>45 cm</b> 处时得到清晰像。</p>
+        <p>现有两片可与 L₁ 紧贴的薄透镜：凹透镜 L₂ 的焦距 <b>f₂=−30 cm</b>；凸透镜 L₃ 的焦距 <b>f₃=10 cm</b>。</p>
+        <p class="info"><b>已知信息：</b>薄透镜满足 1/f=1/u+1/v；两片紧贴薄透镜的等效焦距满足 1/F=1/fₐ+1/fᵦ；放大率 |m|=|v/u|。</p>
+        <p>（1）求 L₁ 的焦距和原像的性质、像高。</p>
+        <p>（2）给 L₁ 紧贴 L₂，求组合焦距；光屏应移到哪里？像高是多少？</p>
+        <p>（3）撤去 L₂，改为紧贴 L₃，求组合焦距、光屏位置和像高。</p>
+        <p>（4）恢复 L₁＋L₂：物体先移到 15 cm，再移到 20 cm。两种情况下分别怎样成像？</p>
+        <p>（5）比较三种装置的会聚能力，并说明凹透镜为什么会使清晰实像远离透镜。</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>交互装置：切换镜片与物体位置</h2>
+      <div class="visual">
+        <div class="canvas-wrap"><canvas id="comboCanvas" width="900" height="410" aria-label="组合透镜成像交互光路图"></canvas></div>
+        <div class="presets" id="presetList">
+          <button class="preset is-active" type="button" data-state="single">只有主凸透镜 L₁</button>
+          <button class="preset" type="button" data-state="concave">L₁＋凹透镜 L₂</button>
+          <button class="preset" type="button" data-state="convex">L₁＋凸透镜 L₃</button>
+          <button class="preset" type="button" data-state="focus">组合焦点位置</button>
+          <button class="preset" type="button" data-state="virtual">物体进入焦点内</button>
+          <div class="state-box"><strong id="stateTitle">只有 L₁</strong><span id="stateText">F=10 cm，u=30 cm，v=15 cm，光屏位于45 cm。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>逐问拆解</h2>
+      <details class="step" open>
+        <summary><span class="num">1</span>先反推主凸透镜 L₁</summary>
+        <div class="step-body">
+          <p>物距 u=30−0=30 cm，像距 v=45−30=15 cm。</p>
+          <span class="formula">1/f₁ = 1/30 + 1/15 = 1/10　⇒　f₁=10 cm</span>
+          <p>u=30 cm&gt;2f₁，成倒立、缩小实像。|m|=15/30=0.5，像高为 3×0.5=<b>1.5 cm</b>。</p>
+          <p><span class="answer">f₁=10 cm；倒立、缩小实像；像高1.5 cm</span></p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">2</span>L₁＋凹透镜 L₂：会聚能力被削弱</summary>
+        <div class="step-body">
+          <span class="formula">1/F = 1/10 + 1/(−30) = 1/15　⇒　F=15 cm</span>
+          <p>焦距从10 cm变为15 cm，说明凹透镜抵消了一部分会聚能力。此时 u=30 cm=2F，所以 v=2F=30 cm。</p>
+          <p>光屏应移动到 30+30=<b>60 cm</b>；像为倒立、等大实像，像高<b>3.0 cm</b>。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">3</span>L₁＋凸透镜 L₃：会聚能力进一步增强</summary>
+        <div class="step-body">
+          <span class="formula">1/F = 1/10 + 1/10 = 1/5　⇒　F=5 cm</span>
+          <p>物距仍为30 cm。代入成像公式：</p>
+          <span class="formula">1/v = 1/5 − 1/30 = 1/6　⇒　v=6 cm</span>
+          <p>光屏应在 30+6=<b>36 cm</b>；|m|=6/30=0.2，像高为 3×0.2=<b>0.6 cm</b>，是倒立、缩小实像。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">4</span>L₁＋L₂ 动态成像：从焦点跨入焦点内</summary>
+        <div class="step-body">
+          <p>组合焦距 F=15 cm，组合光心仍按30 cm处理。</p>
+          <p><b>物体在15 cm：</b>u=30−15=15 cm=F。折射光平行，像在无穷远，有限位置的光屏不能得到清晰像。</p>
+          <p><b>物体在20 cm：</b>u=30−20=10 cm&lt;F。</p>
+          <span class="formula">1/v = 1/15 − 1/10 = −1/30　⇒　v=−30 cm</span>
+          <p>像在组合透镜左侧30 cm，即光具座<b>0 cm</b>处；|m|=30/10=3，成正立、放大3倍的虚像，像高<b>9.0 cm</b>。</p>
+        </div>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">5</span>比较会聚能力：看焦距，不看镜片数量</summary>
+        <div class="step-body">
+          <div class="power"><div><span>L₁＋L₃</span><strong>F=5 cm</strong><small>会聚最强</small></div><div><span>只有L₁</span><strong>F=10 cm</strong><small>居中</small></div><div><span>L₁＋L₂</span><strong>F=15 cm</strong><small>会聚最弱</small></div></div>
+          <p>凹透镜先让光线发散，主凸透镜组合后的总会聚能力减弱。在物距不变且仍能成实像时，公式表明焦距增大会使像距增大，所以光屏要远离透镜。</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>答案速查</h2>
+        <table class="summary"><thead><tr><th>装置</th><th>焦距</th><th>像距/位置</th><th>像高</th></tr></thead><tbody>
+          <tr><td>L₁</td><td>10 cm</td><td>v=15 cm，屏在45 cm</td><td>1.5 cm</td></tr>
+          <tr><td>L₁＋L₂</td><td>15 cm</td><td>v=30 cm，屏在60 cm</td><td>3.0 cm</td></tr>
+          <tr><td>L₁＋L₃</td><td>5 cm</td><td>v=6 cm，屏在36 cm</td><td>0.6 cm</td></tr>
+          <tr><td>L₁＋L₂，物在20 cm</td><td>15 cm</td><td>虚像在0 cm</td><td>9.0 cm</td></tr>
+        </tbody></table>
+      </section>
+      <section class="card">
+        <h2>三条压轴题策略</h2>
+        <p><b>① 先合成，再成像：</b>不要分别追踪两片紧贴透镜。</p>
+        <p><b>② 凹透镜焦距带负号：</b>漏掉负号会把“削弱会聚”算成“增强会聚”。</p>
+        <p><b>③ 每次移动物体后重新比较 u、F、2F：</b>先判虚实，再计算像距。</p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>命题说明</h2>
+      <p>本题在八年级凸透镜实验基础上加入“等效焦距”信息，属于信息给予型组合光学题。页面将自由曲面近轴系统简化为紧贴薄透镜，适用前提已经在题面明确。</p>
+      <p><a href="https://www.pep.com.cn/zslth/xxfzljxzy/wl/202510/P020251013564065019554.pdf" target="_blank" rel="noopener">人民教育出版社：八年级物理探究实践</a>　·　<a href="https://jyt.hunan.gov.cn/jyt/sjyt/jyzbc/zbczcwj/syjx/202503/t20250303_33600704.html" target="_blank" rel="noopener">湖南省教育厅：初中物理实验操作规范</a></p>
+    </section>
+
+    <footer class="footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a><a href="../privacy.html">隐私政策</a><a href="../terms.html">用户协议</a><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2026041766号-1</a></footer>
+  </div>
+
+  <script>
+    const combinationModel=Object.freeze({
+      subject:'physics',type:'contact_lens_combination',formula:['1/F=1/f₁+1/f₂','1/F=1/u+1/v'],
+      parameters:{primary:{f:10,unit:'cm',kind:'convex'},addonConcave:{f:-30,unit:'cm',kind:'concave'},addonConvex:{f:10,unit:'cm',kind:'convex'}},
+      invariants:['凹透镜焦距取负','仅在薄透镜紧贴且近轴条件下使用等效焦距','实像异侧、虚像同侧'],validationStatus:'verified'
+    });
+    const states={
+      single:{title:'只有主凸透镜 L₁',objectX:0,lensX:30,F:10,screenX:45,v:15,addon:null,text:'F=10 cm，u=30 cm，v=15 cm，光屏位于45 cm。'},
+      concave:{title:'L₁＋凹透镜 L₂',objectX:0,lensX:30,F:15,screenX:60,v:30,addon:'concave',text:'F=15 cm，u=30 cm，v=30 cm，光屏移到60 cm。'},
+      convex:{title:'L₁＋凸透镜 L₃',objectX:0,lensX:30,F:5,screenX:36,v:6,addon:'convex',text:'F=5 cm，u=30 cm，v=6 cm，光屏移到36 cm。'},
+      focus:{title:'组合焦点位置',objectX:15,lensX:30,F:15,screenX:null,v:Infinity,addon:'concave',text:'物体在15 cm处，u=F=15 cm，有限位置不成像。'},
+      virtual:{title:'物体进入组合焦点内',objectX:20,lensX:30,F:15,screenX:null,v:-30,addon:'concave',text:'u=10 cm<F，在0 cm处成正立、放大3倍的虚像。'}
+    };
+    const canvas=document.getElementById('comboCanvas'),ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height,axisY=235,originX=150,scale=9,objectHeight=34;const sx=x=>originX+x*scale;
+    function line(x1,y1,x2,y2,color,width=2,dash=[]){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore()}
+    function arrow(x,baseY,height,color,label){line(x,baseY,x,baseY-height,color,5);const y=baseY-height;line(x,y,x-7,y+12,color,4);line(x,y,x+7,y+12,color,4);ctx.fillStyle=color;ctx.font='700 14px Microsoft YaHei';ctx.fillText(label,x+9,y+4)}
+    function lens(x,addon){ctx.strokeStyle='#2563eb';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x,72);ctx.quadraticCurveTo(x-20,axisY,x,385);ctx.moveTo(x,72);ctx.quadraticCurveTo(x+20,axisY,x,385);ctx.stroke();if(addon){const ax=x+12;ctx.strokeStyle=addon==='concave'?'#7c3aed':'#0f9f8d';ctx.lineWidth=4;ctx.beginPath();if(addon==='concave'){ctx.moveTo(ax,82);ctx.quadraticCurveTo(ax+15,axisY,ax,375);ctx.moveTo(ax+12,82);ctx.quadraticCurveTo(ax-3,axisY,ax+12,375)}else{ctx.moveTo(ax,82);ctx.quadraticCurveTo(ax-15,axisY,ax,375);ctx.moveTo(ax,82);ctx.quadraticCurveTo(ax+15,axisY,ax,375)}ctx.stroke()}}
+    function screen(x){line(x,92,x,370,'#0f9f70',5);ctx.fillStyle='#087b55';ctx.font='13px Microsoft YaHei';ctx.textAlign='center';ctx.fillText('光屏',x,392);ctx.textAlign='start'}
+    function draw(key){
+      const s=states[key],u=s.lensX-s.objectX,lx=sx(s.lensX),ox=sx(s.objectX),objectTop=axisY-objectHeight;ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfdfe';ctx.fillRect(0,0,W,H);line(35,axisY,W-30,axisY,'#7690a2',2);
+      [s.lensX-s.F,s.lensX+s.F].forEach((x,i)=>{const px=sx(x);line(px,axisY-7,px,axisY+7,'#102f47',2);ctx.fillStyle='#102f47';ctx.font='12px Microsoft YaHei';ctx.textAlign='center';ctx.fillText(i?'F′':'F',px,axisY+24)});ctx.textAlign='start';arrow(ox,axisY,objectHeight,'#2563eb','物');lens(lx,s.addon);if(s.screenX!=null)screen(sx(s.screenX));
+      line(ox,objectTop,lx,objectTop,'#e87918',2.5);line(ox,objectTop,lx,axisY,'#e87918',2.5);
+      if(!Number.isFinite(s.v)){const slope=objectHeight/(s.F*scale);line(lx,objectTop,W-30,objectTop+(W-30-lx)*slope,'#e87918',2.5);line(lx,axisY,W-30,axisY+(W-30-lx)*slope,'#e87918',2.5)}else{
+        const ix=sx(s.lensX+s.v),m=-s.v/u,imageTop=axisY-m*objectHeight,endX=W-30,y1=objectTop+(endX-lx)*(imageTop-objectTop)/(ix-lx),y2=axisY+(endX-lx)*(imageTop-axisY)/(ix-lx);line(lx,objectTop,endX,y1,'#e87918',2.5);line(lx,axisY,endX,y2,'#e87918',2.5);if(s.v<0){line(ix,imageTop,lx,objectTop,'#9a6aca',2,[7,6]);line(ix,imageTop,lx,axisY,'#9a6aca',2,[7,6])}arrow(ix,axisY,m*objectHeight,'#dc3f4f','像');
+      }
+      ctx.fillStyle='#607789';ctx.font='13px Microsoft YaHei';ctx.fillText(`等效焦距 F=${s.F} cm`,45,45);document.getElementById('stateTitle').textContent=s.title;document.getElementById('stateText').textContent=s.text;document.querySelectorAll('.preset').forEach(button=>button.classList.toggle('is-active',button.dataset.state===key));
+    }
+    document.getElementById('presetList').addEventListener('click',event=>{const button=event.target.closest('.preset');if(button)draw(button.dataset.state)});draw('single');
+  </script>
+</body>
+</html>
