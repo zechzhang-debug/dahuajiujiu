@@ -101,7 +101,7 @@ jobs:
           {"match":[{"path":["/hua/api/*"]}],"handle":[{"handler":"reverse_proxy","upstreams":[{"dial":"$upstream:443"}],"transport":{"protocol":"http","tls":{}},"headers":{"request":{"set":{"Host":["$upstream"]}}}}]}
           JSON
           )
-          if ! response=$(curl --fail-with-body --silent --show-error \
+          if ! response=$(curl --fail --silent --show-error \
             -H 'Content-Type: application/json' \
             -X PUT \
             --data "$route" \
