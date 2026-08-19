@@ -83,6 +83,8 @@ jobs:
           set -euo pipefail
           service_dir="${TARGET%/}/../xiangxiang-service"
           data_dir="${TARGET%/}/../xiangxiang-data"
+          diagnostic="$TARGET/hua/service-diagnostic.txt"
+          trap 'code=$?; { echo "SERVICE_FAILED code=$code"; test -f "$service_dir/server.log" && tail -80 "$service_dir/server.log"; } > "$diagnostic"; exit "$code"' ERR
           mkdir -p "$service_dir" "$data_dir"
           test -s "$SERVICE_RELEASE"
           cp "$SERVICE_RELEASE" "$service_dir/server.mjs"
@@ -102,6 +104,8 @@ jobs:
             sleep 1
           done
           curl --fail --silent --show-error http://127.0.0.1:3001/health > /dev/null
+          rm -f "$diagnostic"
+          trap - ERR
           echo 'XIANGXIANG_API_OK'
           REMOTE_SCRIPT
 
