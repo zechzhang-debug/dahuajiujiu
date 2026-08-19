@@ -214,7 +214,11 @@ function sortEvents(items) {
 }
 
 function eventGroupsHtml(items) {
-  const groups = Object.groupBy(sortEvents(items), dayKey);
+  const groups = sortEvents(items).reduce((result, item) => {
+    const key = dayKey(item);
+    (result[key] ||= []).push(item);
+    return result;
+  }, {});
   return Object.entries(groups).map(([key,items]) => {
     const label = formatDayLabel(key);
     return `<div class="day-group"><div class="day-label"><b>${label.day}</b><span>${label.week}</span></div><div class="day-events">${items.map((item) => `
