@@ -1,9 +1,10 @@
 import { removeById, restoreAt } from './state-utils.js';
 
 const STORAGE_KEY = 'suishouji-data-v1';
-const IS_CLOUD = !['localhost', '127.0.0.1'].includes(location.hostname);
-const BASE_PATH = location.pathname.startsWith('/hua') ? '/hua' : '';
-const API_ORIGIN = location.hostname === 'dahuajiujiu.com' ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '';
+const FORCE_CLOUD = new URLSearchParams(location.search).get('cloud') === '1';
+const IS_CLOUD = FORCE_CLOUD || !['localhost', '127.0.0.1'].includes(location.hostname);
+const BASE_PATH = location.pathname.startsWith('/hua') || FORCE_CLOUD ? '/hua' : '';
+const API_ORIGIN = location.hostname === 'dahuajiujiu.com' || FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '';
 const fragment = decodeURIComponent(location.hash.slice(1));
 const ACCESS_TOKEN = new URLSearchParams(fragment).get('access') || (fragment && !fragment.includes('=') ? fragment : '');
 const apiUrl = (name) => `${API_ORIGIN}${BASE_PATH}/api/${name}`;
@@ -25,6 +26,7 @@ let otherExpanded = false;
 let syncBusy = false;
 let syncDirty = false;
 let lastRemoteUpdate = '';
+let hasUnsyncedChanges = false;
 
 function loadState() {
   try {
@@ -70,8 +72,10 @@ async function pushCloudState() {
     const snapshot = structuredClone(state);
     const payload = await cloudRequest('state', { method:'PUT', body:JSON.stringify({ state:snapshot }) });
     lastRemoteUpdate = String(payload.version ?? payload.updatedAt ?? lastRemoteUpdate);
+    hasUnsyncedChanges = syncDirty;
     setSyncStatus('云端已同步');
   } catch (error) {
+    hasUnsyncedChanges = true;
     setSyncStatus('同步失败，稍后重试', true);
   } finally {
     syncBusy = false;
@@ -80,6 +84,7 @@ async function pushCloudState() {
 }
 
 function queueCloudPush() {
+  hasUnsyncedChanges = true;
   syncDirty = true;
   queueMicrotask(() => {
     if (!syncBusy && syncDirty) { syncDirty = false; pushCloudState(); }
@@ -98,6 +103,11 @@ async function pullCloudState(initial=false) {
     const payload = await cloudRequest('state', { method:'GET' });
     const remote = payload.state;
     if (initial && !stateHasContent(remote) && stateHasContent(state)) {
+      hasUnsyncedChanges = true;
+      await pushCloudState();
+      return;
+    }
+    if (hasUnsyncedChanges) {
       await pushCloudState();
       return;
     }
@@ -110,7 +120,7 @@ async function pullCloudState(initial=false) {
     }
     setSyncStatus('云端已同步');
   } catch (error) {
-    setSyncStatus(error.message.includes('访问') ? '私人链接无效' : '云端暂时不可用', true);
+    setSyncStatus(FORCE_CLOUD ? error.message : (error.message.includes('访问') ? '私人链接无效' : '云端暂时不可用'), true);
   }
 }
 
