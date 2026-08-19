@@ -87,9 +87,7 @@ jobs:
           trap 'code=$?; { echo "SERVICE_FAILED code=$code"; test -f "$service_dir/server.log" && tail -80 "$service_dir/server.log"; } > "$diagnostic"; exit "$code"' ERR
           mkdir -p "$service_dir" "$data_dir"
           test -s "$SERVICE_RELEASE"
-          cp "$SERVICE_RELEASE" "$service_dir/server.mjs"
-          test -s "$service_dir/server.mjs"
-          node --check "$service_dir/server.mjs"
+          node --check "$SERVICE_RELEASE"
           if test -s "$service_dir/server.pid"; then
             old_pid=$(cat "$service_dir/server.pid")
             if test -r "/proc/$old_pid/cmdline" && tr '\0' ' ' < "/proc/$old_pid/cmdline" | grep -q 'xiangxiang-api-\|xiangxiang-service/server.mjs'; then
