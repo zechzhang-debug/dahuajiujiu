@@ -201,6 +201,7 @@
       box-shadow: 0 12px 28px rgba(23, 49, 77, 0.1);
     }
     .subject-card.is-disabled:hover { transform: none; box-shadow: 0 12px 28px rgba(23, 49, 77, 0.1); }
+    .subject-card[hidden] { display: none !important; }
     .subject-card.active { height: 186px; border-color: var(--pink); box-shadow: 0 22px 45px rgba(217, 144, 47, 0.2); }
 
     .subject-icon {
@@ -372,7 +373,7 @@
             <span class="status-badge">新页面</span>
             <span class="subject-icon" aria-hidden="true">⚛</span><h3>物理难点讲解</h3><p>拆解难题，深入理解</p>
           </a>
-          <button class="subject-card is-disabled" style="--accent:#06cda4" type="button" disabled aria-label="化学难点讲解，即将上线">
+          <button class="subject-card is-disabled" style="--accent:#06cda4" type="button" disabled hidden aria-label="化学难点讲解，即将上线">
             <span class="status-badge">即将上线</span>
             <span class="subject-icon" aria-hidden="true">⚗</span><h3>化学难点讲解</h3><p>反应不再难，实验直观</p>
           </button>
