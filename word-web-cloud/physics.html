@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>物理难点讲解 · 大华舅舅的资料</title>
+  <title>物理难点讲解｜大华舅舅</title>
   <meta name="description" content="大华舅舅物理讲题目录，按初中和高中年级整理知识点与静态精讲页面。">
   <link rel="canonical" href="https://dahuajiujiu.com/physics.html">
   <style>
@@ -194,6 +194,12 @@
     .question-enter { color:var(--muted); font-size:12px; font-style:normal; white-space:nowrap; }
     .question-link:hover .question-title, .question-link:hover .question-enter { color:var(--blue); }
     .empty-state { padding: 50px 20px; border: 1px dashed #b9cad4; color: var(--muted); text-align: center; }
+    .editorial-guide { margin: 0 0 24px; padding: 22px 24px; border: 1px solid #cfe1ed; border-radius: 14px; background: #f5faff; }
+    .editorial-guide h2 { margin: 0 0 8px; font-size: 20px; }
+    .editorial-guide p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .featured-lessons { display: grid; gap: 10px; margin-top: 16px; }
+    .featured-lessons a { padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--blue); font-size: 14px; font-weight: 750; text-decoration: none; }
+    .featured-lessons a:hover { border-color: #9fc5d9; background: #eef7fc; }
     .site-footer { width:min(1180px, calc(100% - 36px)); display:flex; justify-content:center; flex-wrap:wrap; gap:8px 16px; margin:22px auto 28px; color:var(--muted); font-size:12px; }
     .site-footer a { color:inherit; text-decoration:none; }
     .site-footer a:hover { color:var(--blue); }
@@ -260,6 +266,15 @@
         <div><h1 id="grade-title">初二物理</h1><p id="grade-description">贯通八年级上下册，重点攻克运动、光学、热学、密度和力学中的实验、作图与综合计算。</p></div>
         <div class="progress-note">静态讲解页 · 随时复习</div>
       </div>
+      <section class="editorial-guide" aria-labelledby="physics-guide-title">
+        <h2 id="physics-guide-title">从一张光路图读懂凸透镜成像</h2>
+        <p>先确定焦点、二倍焦距和物距区间，再用两条特殊光线定位像。本站讲解把规律表格、可拖动光路图和综合题拆解连在一起，帮助理解“物近像远像变大”等结论为什么成立。</p>
+        <nav class="featured-lessons" aria-label="物理代表性讲解">
+          <a href="physics-lessons/convex-lens-imaging-guide.html">基础规律：凸透镜成像与交互光路图</a>
+          <a href="physics-lessons/convex-lens-dual-position-challenge.html">进阶综合：双位置成像与跨焦点变化</a>
+          <a href="physics-lessons/convex-lens-combination-challenge.html">组合难题：凸透镜、凹透镜与等效焦距</a>
+        </nav>
+      </section>
       <div class="section-row"><h2>知识点与讲解</h2><span id="topic-count">共 1 个知识点</span></div>
       <div class="topic-list" id="topic-list" aria-live="polite"></div>
     </main>
@@ -325,19 +340,19 @@
       document.getElementById('grade-breadcrumb').textContent = grade.label;
       document.getElementById('grade-title').textContent = grade.title;
       document.getElementById('grade-description').textContent = grade.description;
-      document.getElementById('topic-count').textContent = availableTopics.length ? `共 ${availableTopics.length} 个知识点` : '暂无题目';
+      document.getElementById('topic-count').textContent = `共 ${availableTopics.length} 个知识点`;
       buttons.forEach(button => {
         const availableCount = availableTopicsFor(button.dataset.grade).length;
         button.hidden = availableCount === 0;
         const isActive = button.dataset.grade === key;
         button.classList.toggle('is-active', isActive);
         button.setAttribute('aria-pressed', String(isActive));
-        button.lastElementChild.textContent = availableCount ? `${availableCount} 个知识点` : '暂无题目';
+        if (availableCount) button.lastElementChild.textContent = `${availableCount} 个知识点`;
       });
       document.querySelectorAll('.stage').forEach(stage => {
         stage.hidden = ![...stage.querySelectorAll('.grade-button')].some(button => !button.hidden);
       });
-      list.innerHTML = availableTopics.length ? availableTopics.map((topic, index) => {
+      list.innerHTML = availableTopics.map((topic, index) => {
         const questions = questionsByTopic[topic[0]] || [];
         const topicHeading = `
           <span class="topic-number">${String(index + 1).padStart(2, '0')}</span>
@@ -361,7 +376,7 @@
               </a>`).join('')}
           </div>
         </details>`;
-      }).join('') : '<div class="empty-state">这个年级的讲题正在整理中</div>';
+      }).join('');
       const url = new URL(location.href);
       url.searchParams.set('grade', key);
       const requestedTopic = url.searchParams.get('topic');

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /preview/
+Disallow: /*preview*
+
+Sitemap: https://dahuajiujiu.com/sitemap.xml

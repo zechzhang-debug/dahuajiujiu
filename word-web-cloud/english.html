@@ -26,8 +26,6 @@
             window.addEventListener('orientationchange', handleViewportSwap, { passive: true });
         })();
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6974565116242974"
-        crossorigin="anonymous"></script>
     <style>
         /* ===== 基础重置 ===== */
         * {
@@ -222,83 +220,6 @@
             border-radius: 24px;
             margin: 15px 0 20px 0;
             border: 1px solid #d9e5ee;
-        }
-        .ad-block {
-            width: 100%;
-            border: 1px dashed #c7d7e4;
-            border-radius: 18px;
-            background: linear-gradient(180deg, #f6fafe, #eef5fb);
-            padding: 10px 12px;
-            margin: 12px 0 18px;
-        }
-        .ad-slot {
-            width: 100%;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #d5e3ee;
-            overflow: hidden;
-        }
-        .bottom-floating-ad {
-            position: fixed;
-            left: 20px;
-            right: 20px;
-            bottom: 10px;
-            z-index: 30;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(14px);
-            transition: opacity 0.22s ease, transform 0.22s ease;
-        }
-        .bottom-floating-ad.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-        .bottom-ad-inner {
-            position: relative;
-        }
-        .bottom-ad-close {
-            position: absolute;
-            right: 8px;
-            top: 8px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid #b8c7d3;
-            background: rgba(255, 255, 255, 0.96);
-            color: #2a4254;
-            font-size: 16px;
-            line-height: 1;
-            font-weight: 700;
-            cursor: pointer;
-            z-index: 2;
-            padding: 0;
-        }
-        .bottom-ad-close:hover {
-            background: #f2f7fb;
-        }
-        .ad-fallback-link {
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            color: #1d3f57;
-            font-weight: 600;
-            text-align: center;
-            padding: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            line-height: 0;
-        }
-        .ad-fallback-img {
-            display: block;
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
-            object-position: center;
         }
         .file-upload {
             display: flex;
@@ -733,9 +654,9 @@
 </head>
 <body>
     <header class="module-nav">
-        <a class="module-brand" href="index.html" aria-label="返回大华舅舅的资料首页">
+        <a class="module-brand" href="index.html" aria-label="返回大华舅舅首页">
             <span class="module-mark" aria-hidden="true">舅</span>
-            <span>大华舅舅的资料</span>
+            <span>大华舅舅</span>
         </a>
         <nav class="module-links" aria-label="学习模块">
             <a class="module-link" href="index.html">首页</a>
@@ -799,13 +720,6 @@
         <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">京ICP备2026041766号-1</a>
         <a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502061795" rel="noopener" target="_blank">京公网安备11010502061795号</a>
     </footer>
-    <div class="bottom-floating-ad" id="bottom-floating-ad">
-        <div class="ad-block bottom-ad-inner" id="ad-bottom-wrap">
-            <button class="bottom-ad-close" id="bottom-ad-close-btn" type="button" aria-label="关闭广告">×</button>
-            <div class="ad-slot" id="ad-slot-bottom"></div>
-        </div>
-    </div>
-
 <script>
 (function() {
     const APP_VERSION = '1.0.3';
@@ -818,17 +732,6 @@
     };
     const STORAGE_KEY_STATE = 'dahuajiujiu_state_v2';
     const LEGACY_STORAGE_KEY = 'dahuajiujiu_words';
-    const AD_CONFIG = {
-        provider: 'adsense',
-        adsenseClient: 'ca-pub-6974565116242974',
-        topSlotId: '7959617772',
-        bottomSlotId: '3140359763',
-        fallbackTopLink: 'https://dahuajiujiu.com',
-        fallbackBottomLink: 'https://dahuajiujiu.com',
-        fallbackBottomImage: '下banner.png',
-        preferFallbackUntilAdsApproved: true,
-        bottomImageChanceWhenAdsAvailable: 0.2
-    };
     const DEFAULT_WORDS = [
         { word: 'Apple', phonetic: 'ˈæp.əl', pos: 'n.', definition: '苹果', example: 'An apple a day keeps the doctor away.', status: '' },
         { word: 'Run', phonetic: 'rʌn', pos: 'v.', definition: '跑', example: 'I like to run in the park every morning.', status: '' },
@@ -860,183 +763,6 @@
     const audioCache = new Map();
     const audioLoadPromises = new Map();
     const missingAudioCache = new Set();
-    let adsenseLoaded = false;
-    let adSlotObserver = null;
-    let bottomAdIdleTimer = null;
-    let bottomAdArmed = false;
-    let bottomAdCooldownUntil = 0;
-    let bottomAdMountedOnce = false;
-    let bottomAdRefreshCount = 0;
-    let bottomAdLastRefreshAt = 0;
-
-    function ensureAdsenseScriptLoaded() {
-        if (adsenseLoaded) return Promise.resolve(true);
-        if (!AD_CONFIG.adsenseClient) return Promise.resolve(false);
-        return new Promise((resolve) => {
-            const existing = document.querySelector('script[data-ad-client]');
-            if (existing) {
-                adsenseLoaded = true;
-                resolve(true);
-                return;
-            }
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(AD_CONFIG.adsenseClient)}`;
-            script.crossOrigin = 'anonymous';
-            script.setAttribute('data-ad-client', AD_CONFIG.adsenseClient);
-            script.onload = () => {
-                adsenseLoaded = true;
-                resolve(true);
-            };
-            script.onerror = () => resolve(false);
-            document.head.appendChild(script);
-        });
-    }
-
-    function renderFallbackAd(slotEl, link, imagePath = 'ad-fallback-banner.png', action = 'link') {
-        const targetAttr = action === 'link' ? ' target="_blank" rel="noopener noreferrer"' : '';
-        const hrefAttr = action === 'link' ? ` href="${escapeHtml(link)}"` : ' href="#"';
-        slotEl.innerHTML = `<a class="ad-fallback-link" data-action="${escapeHtml(action)}"${hrefAttr}${targetAttr}><img class="ad-fallback-img" src="${escapeHtml(imagePath)}" alt="推荐内容"></a>`;
-        slotEl.dataset.loaded = '1';
-        slotEl.dataset.fallback = '1';
-    }
-
-    function scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage) {
-        window.setTimeout(() => {
-            if (!slotEl || slotEl.dataset.fallback === '1') return;
-            const hasIframe = !!slotEl.querySelector('iframe');
-            const hasImage = !!slotEl.querySelector('img');
-            const hasVisibleAdMarkup = !!slotEl.querySelector('.adsbygoogle iframe, .adsbygoogle img');
-            if (!hasIframe && !hasImage && !hasVisibleAdMarkup) {
-                renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            }
-        }, 4500);
-    }
-
-    async function mountAdSlot(slotEl, slotId, fallbackLink, forceRefresh = false, fallbackImage = 'ad-fallback-banner.png') {
-        if (!slotEl) return;
-        if (!forceRefresh && slotEl.dataset.loaded === '1') return;
-        if (AD_CONFIG.preferFallbackUntilAdsApproved) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            return;
-        }
-        if (!AD_CONFIG.adsenseClient || !slotId) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            return;
-        }
-        const loaded = await ensureAdsenseScriptLoaded();
-        if (!loaded) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-            return;
-        }
-        slotEl.innerHTML = `<ins class="adsbygoogle" style="display:block;width:100%;height:90px;" data-ad-client="${escapeHtml(AD_CONFIG.adsenseClient)}" data-ad-slot="${escapeHtml(slotId)}" data-ad-format="horizontal" data-full-width-responsive="true"></ins>`;
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-            slotEl.dataset.loaded = '1';
-        } catch (e) {
-            renderFallbackAd(slotEl, fallbackLink, fallbackImage);
-        }
-        scheduleAdFallbackCheck(slotEl, fallbackLink, fallbackImage);
-    }
-
-    function initAds() {
-        const bottomSlot = document.getElementById('ad-slot-bottom');
-        if (!bottomSlot) return;
-        renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage);
-    }
-
-    function chooseBottomFallbackMode() {
-        if (AD_CONFIG.preferFallbackUntilAdsApproved) return true;
-        return Math.random() < (AD_CONFIG.bottomImageChanceWhenAdsAvailable || 0);
-    }
-
-    function prepareBottomFloatingContent(forceRefresh = false) {
-        const bottomSlot = document.getElementById('ad-slot-bottom');
-        if (!bottomSlot) return;
-        if (forceRefresh) {
-            bottomSlot.dataset.loaded = '';
-            bottomSlot.dataset.fallback = '';
-            bottomSlot.innerHTML = '';
-        }
-        if (chooseBottomFallbackMode()) {
-            renderFallbackAd(bottomSlot, AD_CONFIG.fallbackBottomLink, AD_CONFIG.fallbackBottomImage, 'close');
-            return;
-        }
-        mountAdSlot(bottomSlot, AD_CONFIG.bottomSlotId, AD_CONFIG.fallbackBottomLink, true, AD_CONFIG.fallbackBottomImage);
-    }
-
-    function scheduleBottomAdPopup(delayMs) {
-        if (bottomAdIdleTimer) clearTimeout(bottomAdIdleTimer);
-        bottomAdIdleTimer = setTimeout(() => {
-            showBottomFloatingAd();
-        }, delayMs);
-    }
-
-    function showBottomFloatingAd() {
-        const ad = document.getElementById('bottom-floating-ad');
-        if (!ad) return;
-        const now = Date.now();
-        if (now < bottomAdCooldownUntil) {
-            scheduleBottomAdPopup(bottomAdCooldownUntil - now);
-            return;
-        }
-        prepareBottomFloatingContent(bottomAdMountedOnce);
-        ad.classList.add('show');
-        bottomAdMountedOnce = true;
-        bottomAdLastRefreshAt = now;
-    }
-
-    function hideBottomFloatingAd() {
-        const ad = document.getElementById('bottom-floating-ad');
-        if (!ad) return;
-        ad.classList.remove('show');
-    }
-
-    function getBottomAdCloseCooldownMs() {
-        return 1200000;
-    }
-
-    function initBottomAdBehavior() {
-        const closeBtn = document.getElementById('bottom-ad-close-btn');
-        const ad = document.getElementById('bottom-floating-ad');
-        let lastScrollY = window.scrollY || 0;
-
-        const armOnScroll = () => {
-            const currentY = window.scrollY || 0;
-            if (!bottomAdArmed && currentY > lastScrollY && currentY > 80) {
-                bottomAdArmed = true;
-                scheduleBottomAdPopup(3000);
-            }
-            lastScrollY = currentY;
-        };
-
-        window.addEventListener('scroll', armOnScroll, { passive: true });
-
-        if (ad) {
-            ad.addEventListener('click', (e) => {
-                const fallbackLink = e.target.closest('.ad-fallback-link[data-action="close"]');
-                if (!fallbackLink) return;
-                e.preventDefault();
-                e.stopPropagation();
-                hideBottomFloatingAd();
-                const cooldownMs = getBottomAdCloseCooldownMs();
-                bottomAdCooldownUntil = Date.now() + cooldownMs;
-                scheduleBottomAdPopup(cooldownMs);
-            });
-        }
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                hideBottomFloatingAd();
-                const cooldownMs = getBottomAdCloseCooldownMs();
-                bottomAdCooldownUntil = Date.now() + cooldownMs;
-                scheduleBottomAdPopup(cooldownMs);
-            });
-        }
-    }
-
     function escapeHtml(unsafe) {
         if (!unsafe) return '';
         return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
@@ -1799,8 +1525,6 @@
         window.addEventListener('scroll', syncToolbarHintVisibility, { passive: true });
         window.addEventListener('resize', syncToolbarHintVisibility, { passive: true });
         syncToolbarHintVisibility();
-        initAds();
-        initBottomAdBehavior();
     }
 
     window.DahuaLearning = {
