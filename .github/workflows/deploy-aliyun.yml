@@ -91,6 +91,8 @@ jobs:
           data_dir="$HOME/.local/share/xiangxiang-data"
           mkdir -p "$service_dir" "$data_dir"
           test -s "$SERVICE_RELEASE"
+          runtime_info=$(python3 -c 'import sqlite3,sys; print("python="+sys.version.replace("\n"," ")+" sqlite="+sqlite3.sqlite_version)')
+          echo "::notice title=Xiangxiang server runtime::$runtime_info"
           python3 -m py_compile "$SERVICE_RELEASE"
           if test -s "$service_dir/server.pid"; then
             old_pid=$(cat "$service_dir/server.pid")
@@ -109,7 +111,8 @@ jobs:
           done
           if ! curl --fail --silent --show-error http://127.0.0.1:3002/health > /dev/null; then
             echo 'XIANGXIANG_API_START_FAILED'
-            tail -n 100 "$service_dir/server.log" || true
+            log=$(tail -n 30 "$service_dir/server.log" 2>/dev/null | tr '\n' ' ' | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+            echo "::error title=Xiangxiang API startup failed::$log"
             exit 1
           fi
           rm -f "$SERVICE_RELEASE"

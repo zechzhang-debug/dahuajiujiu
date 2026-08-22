@@ -34,6 +34,7 @@ let syncInitialized = localStorage.getItem(SYNC_CURSOR_KEY) !== null
 let syncCursor = Number(localStorage.getItem(SYNC_CURSOR_KEY) || 0);
 let pendingChanges = loadPendingChanges();
 let persistedState = structuredClone(state);
+let incrementalUnavailable = false;
 
 function loadState() {
   try {
@@ -178,13 +179,27 @@ async function initialCloudSync() {
   render();
 }
 
+async function legacyCloudSync() {
+  if (Object.keys(pendingChanges).length) {
+    await cloudRequest('state',{method:'PUT',body:JSON.stringify({state})});
+    pendingChanges={};
+    persistPendingChanges();
+  }
+  const payload=await cloudRequest('state');
+  if (payload.state && Array.isArray(payload.state.ideas) && Array.isArray(payload.state.events)) state=payload.state;
+  persistLocalState();
+  render();
+  setSyncStatus('云端已同步（兼容模式）');
+}
+
 async function syncCloud() {
   if (!IS_CLOUD) return;
   if (syncBusy) { syncDirty=true; return; }
   syncBusy=true;
   setSyncStatus('正在同步…');
   try {
-    if (!syncInitialized) await initialCloudSync();
+    if (incrementalUnavailable) await legacyCloudSync();
+    else if (!syncInitialized) await initialCloudSync();
     else {
       await pushPendingChanges();
       syncCursor=await pullChanges();
@@ -194,7 +209,11 @@ async function syncCloud() {
     }
     setSyncStatus(Object.keys(pendingChanges).length ? '等待同步…' : '云端已同步');
   } catch (error) {
-    setSyncStatus(error.message || '同步失败，稍后重试',true);
+    if (!incrementalUnavailable && /404|502|not found|bad gateway/i.test(error.message || '')) {
+      incrementalUnavailable=true;
+      try { await legacyCloudSync(); }
+      catch (fallbackError) { setSyncStatus(fallbackError.message || '同步失败，稍后重试',true); }
+    } else setSyncStatus(error.message || '同步失败，稍后重试',true);
   } finally {
     syncBusy=false;
     if (syncDirty) { syncDirty=false; queueMicrotask(syncCloud); }
