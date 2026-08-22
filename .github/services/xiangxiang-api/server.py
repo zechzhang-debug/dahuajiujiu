@@ -99,7 +99,7 @@ def clean_analysis(value):
 
 
 def db_connect():
-    connection = sqlite3.connect(DB_FILE, timeout=30)
+    connection = sqlite3.connect(str(DB_FILE), timeout=30)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys=ON")
     connection.execute("PRAGMA busy_timeout=30000")
