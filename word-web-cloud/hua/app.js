@@ -1,10 +1,15 @@
 import { removeById, restoreAt } from './state-utils.js';
 
 const STORAGE_KEY = 'suishouji-data-v1';
+const SYNC_CURSOR_KEY = 'suishouji-sync-cursor-v2';
+const PENDING_CHANGES_KEY = 'suishouji-pending-changes-v2';
+const PARTIAL_CACHE_KEY = 'suishouji-partial-cache-v2';
 const FORCE_CLOUD = new URLSearchParams(location.search).get('cloud') === '1';
+const LOCAL_API_OVERRIDE = ['localhost','127.0.0.1'].includes(location.hostname)
+  ? new URLSearchParams(location.search).get('apiOrigin') : '';
 const IS_CLOUD = FORCE_CLOUD || !['localhost', '127.0.0.1'].includes(location.hostname);
 const BASE_PATH = location.pathname.startsWith('/hua') || FORCE_CLOUD ? '/hua' : '';
-const API_ORIGIN = location.hostname === 'dahuajiujiu.com' ? '' : (FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : '');
+const API_ORIGIN = LOCAL_API_OVERRIDE || (location.hostname === 'dahuajiujiu.com' ? '' : (FORCE_CLOUD ? 'https://xiangxiang-private.dahuajiujiu-hua.workers.dev' : ''));
 const apiUrl = (name) => `${API_ORIGIN}${BASE_PATH}/api/${name}`;
 const authHeaders = () => ({});
 const themeColors = { 工作:'#7550ed', 生活:'#f26722', 创作:'#e77ddd', 学习:'#eff357', 其他:'#65d69e' };
@@ -23,8 +28,12 @@ let pendingUndo = null;
 let otherExpanded = false;
 let syncBusy = false;
 let syncDirty = false;
-let lastRemoteUpdate = '';
-let hasUnsyncedChanges = false;
+let syncInitialized = localStorage.getItem(SYNC_CURSOR_KEY) !== null
+  && localStorage.getItem(STORAGE_KEY) !== null
+  && localStorage.getItem(PARTIAL_CACHE_KEY) !== '1';
+let syncCursor = Number(localStorage.getItem(SYNC_CURSOR_KEY) || 0);
+let pendingChanges = loadPendingChanges();
+let persistedState = structuredClone(state);
 
 function loadState() {
   try {
@@ -34,10 +43,61 @@ function loadState() {
   return { ideas: [], events: [] };
 }
 
+function loadPendingChanges() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PENDING_CHANGES_KEY));
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch { return {}; }
+}
+
+function recordKey(kind,id) { return `${kind}:${id}`; }
+function itemMap(items) { return new Map(items.map((item) => [item.id, item])); }
+function mutationId() { return uid(); }
+
+function diffState(before,after) {
+  const changes=[];
+  for (const [kind,field] of [['idea','ideas'],['event','events']]) {
+    const previous=itemMap(before[field]);
+    const current=itemMap(after[field]);
+    for (const [id,item] of current) {
+      if (JSON.stringify(previous.get(id)) === JSON.stringify(item)) continue;
+      changes.push({kind,id,item:structuredClone(item),deleted:false,clientMutationId:mutationId()});
+    }
+    for (const id of previous.keys()) {
+      if (!current.has(id)) changes.push({kind,id,item:null,deleted:true,clientMutationId:mutationId()});
+    }
+  }
+  return changes;
+}
+
+function persistPendingChanges() {
+  try { localStorage.setItem(PENDING_CHANGES_KEY,JSON.stringify(pendingChanges)); } catch {}
+}
+
+function persistLocalState() {
+  try {
+    const serialized=JSON.stringify(state);
+    if (new Blob([serialized]).size<=3_500_000) {
+      localStorage.setItem(STORAGE_KEY,serialized);
+      localStorage.removeItem(PARTIAL_CACHE_KEY);
+    } else {
+      localStorage.setItem(STORAGE_KEY,JSON.stringify({ideas:state.ideas.slice(0,1000),events:state.events.slice(0,1000)}));
+      localStorage.setItem(PARTIAL_CACHE_KEY,'1');
+    }
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.setItem(PARTIAL_CACHE_KEY,'1');
+  }
+  persistedState=structuredClone(state);
+}
+
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  const changes=diffState(persistedState,state);
+  for (const change of changes) pendingChanges[recordKey(change.kind,change.id)]=change;
+  persistLocalState();
+  if (changes.length) persistPendingChanges();
   render();
-  if (IS_CLOUD) queueCloudPush();
+  if (IS_CLOUD && changes.length) queueCloudSync();
 }
 
 function setSyncStatus(text, error=false) {
@@ -45,10 +105,6 @@ function setSyncStatus(text, error=false) {
   if (!el) return;
   el.textContent = text;
   el.closest('.ai-status')?.classList.toggle('sync-error', error);
-}
-
-function stateHasContent(value) {
-  return Boolean(value?.ideas?.length || value?.events?.length);
 }
 
 async function cloudRequest(name, options={}) {
@@ -61,70 +117,105 @@ async function cloudRequest(name, options={}) {
   return payload;
 }
 
-async function pushCloudState() {
+function applyRemoteChange(target,change,skipPending=true) {
+  if (!['idea','event'].includes(change.kind) || !change.id) return;
+  if (skipPending && pendingChanges[recordKey(change.kind,change.id)]) return;
+  const field=change.kind==='idea'?'ideas':'events';
+  const index=target[field].findIndex((item)=>item.id===change.id);
+  if (change.deleted) {
+    if (index>=0) target[field].splice(index,1);
+  } else if (change.item) {
+    if (index>=0) target[field][index]=change.item;
+    else target[field].unshift(change.item);
+  }
+}
+
+async function pushPendingChanges() {
+  const snapshot=Object.values(pendingChanges);
+  if (!snapshot.length) return;
+  const payload=await cloudRequest('sync',{method:'POST',body:JSON.stringify({changes:snapshot})});
+  for (const sent of snapshot) {
+    const key=recordKey(sent.kind,sent.id);
+    if (pendingChanges[key]?.clientMutationId===sent.clientMutationId) delete pendingChanges[key];
+  }
+  persistPendingChanges();
+  return payload;
+}
+
+async function pullChanges(target=state,fromCursor=syncCursor,skipPending=true,seenKeys=null) {
+  let cursor=fromCursor;
+  let pages=0;
+  do {
+    const payload=await cloudRequest(`sync?cursor=${cursor}&limit=500`);
+    for (const change of payload.changes || []) {
+      if (seenKeys) seenKeys.add(recordKey(change.kind,change.id));
+      applyRemoteChange(target,change,skipPending);
+    }
+    cursor=Number(payload.cursor || cursor);
+    pages+=1;
+    if (!payload.hasMore) break;
+  } while (pages<250);
+  return cursor;
+}
+
+async function initialCloudSync() {
+  const localBefore=structuredClone(state);
+  const remote={ideas:[],events:[]};
+  const remoteKeys=new Set();
+  const cursor=await pullChanges(remote,0,false,remoteKeys);
+  state=remote;
+  for (const item of localBefore.ideas) if (!remoteKeys.has(recordKey('idea',item.id))) state.ideas.push(item);
+  for (const item of localBefore.events) if (!remoteKeys.has(recordKey('event',item.id))) state.events.push(item);
+  persistedState=structuredClone(remote);
+  saveState();
+  syncCursor=cursor;
+  localStorage.setItem(SYNC_CURSOR_KEY,String(syncCursor));
+  await pushPendingChanges();
+  syncCursor=await pullChanges(state,syncCursor);
+  syncInitialized=true;
+  localStorage.setItem(SYNC_CURSOR_KEY,String(syncCursor));
+  persistLocalState();
+  render();
+}
+
+async function syncCloud() {
   if (!IS_CLOUD) return;
-  if (syncBusy) { syncDirty = true; return; }
-  syncBusy = true;
+  if (syncBusy) { syncDirty=true; return; }
+  syncBusy=true;
   setSyncStatus('正在同步…');
   try {
-    const snapshot = structuredClone(state);
-    const payload = await cloudRequest('state', { method:'PUT', body:JSON.stringify({ state:snapshot }) });
-    lastRemoteUpdate = String(payload.version ?? payload.updatedAt ?? lastRemoteUpdate);
-    hasUnsyncedChanges = syncDirty;
-    setSyncStatus('云端已同步');
-  } catch (error) {
-    hasUnsyncedChanges = true;
-    setSyncStatus('同步失败，稍后重试', true);
-  } finally {
-    syncBusy = false;
-    if (syncDirty) { syncDirty = false; pushCloudState(); }
-  }
-}
-
-function queueCloudPush() {
-  hasUnsyncedChanges = true;
-  syncDirty = true;
-  queueMicrotask(() => {
-    if (!syncBusy && syncDirty) { syncDirty = false; pushCloudState(); }
-  });
-}
-
-async function pullCloudState(initial=false) {
-  if (!IS_CLOUD) return;
-  if (syncBusy) return;
-  try {
-    const payload = await cloudRequest('state', { method:'GET' });
-    const remote = payload.state;
-    if (initial && !stateHasContent(remote) && stateHasContent(state)) {
-      hasUnsyncedChanges = true;
-      await pushCloudState();
-      return;
-    }
-    if (hasUnsyncedChanges) {
-      await pushCloudState();
-      return;
-    }
-    const remoteVersion = String(payload.version ?? payload.updatedAt ?? '');
-    if (remoteVersion && remoteVersion !== lastRemoteUpdate && remote && Array.isArray(remote.ideas) && Array.isArray(remote.events)) {
-      state = remote;
-      lastRemoteUpdate = remoteVersion;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if (!syncInitialized) await initialCloudSync();
+    else {
+      await pushPendingChanges();
+      syncCursor=await pullChanges();
+      localStorage.setItem(SYNC_CURSOR_KEY,String(syncCursor));
+      persistLocalState();
       render();
     }
-    setSyncStatus('云端已同步');
+    setSyncStatus(Object.keys(pendingChanges).length ? '等待同步…' : '云端已同步');
   } catch (error) {
-    setSyncStatus(FORCE_CLOUD ? error.message : (error.message.includes('访问') ? '私人链接无效' : '云端暂时不可用'), true);
+    setSyncStatus(error.message || '同步失败，稍后重试',true);
+  } finally {
+    syncBusy=false;
+    if (syncDirty) { syncDirty=false; queueMicrotask(syncCloud); }
   }
+}
+
+function queueCloudSync() {
+  syncDirty = true;
+  queueMicrotask(() => {
+    if (!syncBusy && syncDirty) { syncDirty = false; syncCloud(); }
+  });
 }
 
 async function bootstrapCloudSync() {
   if (!IS_CLOUD) { setSyncStatus('仅保存在此设备'); return; }
-  await pullCloudState(true);
-  window.setInterval(() => pullCloudState(false), 2000);
-  window.addEventListener('focus', () => pullCloudState(false));
-  window.addEventListener('online', () => pullCloudState(false));
+  await syncCloud();
+  window.setInterval(syncCloud,5000);
+  window.addEventListener('focus',syncCloud);
+  window.addEventListener('online',syncCloud);
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') pullCloudState(false);
+    if (document.visibilityState === 'visible') syncCloud();
   });
 }
 

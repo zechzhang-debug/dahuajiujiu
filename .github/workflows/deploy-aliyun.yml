@@ -6,7 +6,7 @@ on:
     branches: ["main"]
     paths:
       - "word-web-cloud/**"
-      - ".github/services/xiangxiang-api/server.mjs"
+      - ".github/services/xiangxiang-api/server.py"
       - ".github/workflows/deploy-aliyun.yml"
 
 permissions:
@@ -28,6 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Test Xiangxiang storage and client
+        run: |
+          python3 .github/services/xiangxiang-api/test_server.py -v
+          node --check word-web-cloud/hua/app.js
+
       - name: Package website
         run: tar -czf site.tar.gz -C word-web-cloud .
 
@@ -47,7 +52,7 @@ jobs:
           SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
         run: |
           scp site.tar.gz "$SSH_USER@$SSH_HOST:/tmp/dahuajiujiu-site-${{ github.run_id }}.tar.gz"
-          scp .github/services/xiangxiang-api/server.mjs "$SSH_USER@$SSH_HOST:/tmp/xiangxiang-api-${{ github.run_id }}.mjs"
+          scp .github/services/xiangxiang-api/server.py "$SSH_USER@$SSH_HOST:/tmp/xiangxiang-api-${{ github.run_id }}.py"
 
       - name: Activate release with backup
         env:
@@ -78,7 +83,7 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
           SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
-          SERVICE_RELEASE: /tmp/xiangxiang-api-${{ github.run_id }}.mjs
+          SERVICE_RELEASE: /tmp/xiangxiang-api-${{ github.run_id }}.py
         run: |
           ssh "$SSH_USER@$SSH_HOST" "SERVICE_RELEASE='$SERVICE_RELEASE' TARGET='$REMOTE_PATH' bash -s" <<'REMOTE_SCRIPT'
           set -euo pipefail
@@ -86,16 +91,17 @@ jobs:
           data_dir="$HOME/.local/share/xiangxiang-data"
           mkdir -p "$service_dir" "$data_dir"
           test -s "$SERVICE_RELEASE"
-          node --check "$SERVICE_RELEASE"
+          python3 -m py_compile "$SERVICE_RELEASE"
           if test -s "$service_dir/server.pid"; then
             old_pid=$(cat "$service_dir/server.pid")
-            if test -r "/proc/$old_pid/cmdline" && tr '\0' ' ' < "/proc/$old_pid/cmdline" | grep -q 'xiangxiang-api-\|xiangxiang-service/server.mjs'; then
+            if test -r "/proc/$old_pid/cmdline" && tr '\0' ' ' < "/proc/$old_pid/cmdline" | grep -q 'xiangxiang-api-\|xiangxiang-service/server.py\|xiangxiang-service/server.mjs'; then
               kill "$old_pid" || true
               for _ in 1 2 3 4 5; do kill -0 "$old_pid" 2>/dev/null || break; sleep 1; done
             fi
           fi
-          node_bin=$(command -v node)
-          PORT=3002 XIANGXIANG_DATA_DIR="$data_dir" nohup "$node_bin" "$SERVICE_RELEASE" > "$service_dir/server.log" 2>&1 &
+          install -m 700 "$SERVICE_RELEASE" "$service_dir/server.py"
+          python_bin=$(command -v python3)
+          PORT=3002 XIANGXIANG_DATA_DIR="$data_dir" nohup "$python_bin" "$service_dir/server.py" > "$service_dir/server.log" 2>&1 &
           echo $! > "$service_dir/server.pid"
           for _ in 1 2 3 4 5 6 7 8 9 10; do
             if curl --fail --silent --show-error http://127.0.0.1:3002/health > /dev/null; then break; fi
@@ -142,5 +148,5 @@ jobs:
       - name: Verify public site
         run: |
           curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
-          status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 https://dahuajiujiu.com/hua/api/state)
+          status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 'https://dahuajiujiu.com/hua/api/sync?cursor=0&limit=1')
           test "$status" = '200'
