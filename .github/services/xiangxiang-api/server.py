@@ -8,8 +8,9 @@ import urllib.error
 import urllib.request
 import uuid
 from datetime import datetime, timezone
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
+from socketserver import ThreadingMixIn
 from urllib.parse import parse_qs, urlparse
 
 
@@ -23,6 +24,10 @@ CONFIG_FILE = DATA_DIR / "config.json"
 ACCESS_TOKEN_HASH = "ffa03f654b95f91c09b96e0222105b497475ad0947d76c4bbcc81ca58f2f0ed9"
 THEMES = {"工作", "生活", "创作", "学习", "其他"}
 KINDS = {"idea", "event"}
+
+
+class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
+    daemon_threads = True
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -153,9 +158,7 @@ def read_json_file(path, fallback):
 def write_change(db, kind, record_id, item, deleted, updated_at):
     data_json = None if deleted else json.dumps(item, ensure_ascii=False, separators=(",", ":"))
     db.execute(
-        """INSERT INTO records(kind,id,data_json,updated_at,deleted) VALUES(?,?,?,?,?)
-           ON CONFLICT(kind,id) DO UPDATE SET data_json=excluded.data_json,
-             updated_at=excluded.updated_at,deleted=excluded.deleted""",
+        "INSERT OR REPLACE INTO records(kind,id,data_json,updated_at,deleted) VALUES(?,?,?,?,?)",
         (kind, record_id, data_json or "{}", updated_at, int(deleted)),
     )
     cursor = db.execute(
@@ -169,12 +172,11 @@ def write_change(db, kind, record_id, item, deleted, updated_at):
                 (updated_at, updated_at, record_id),
             )
         else:
+            archived = db.execute("SELECT first_seen_at FROM idea_archive WHERE id=?", (record_id,)).fetchone()
+            first_seen = archived["first_seen_at"] if archived else updated_at
             db.execute(
-                """INSERT INTO idea_archive(id,data_json,first_seen_at,last_seen_at,deleted_at)
-                   VALUES(?,?,?,?,NULL)
-                   ON CONFLICT(id) DO UPDATE SET data_json=excluded.data_json,
-                     last_seen_at=excluded.last_seen_at,deleted_at=NULL""",
-                (record_id, data_json, updated_at, updated_at),
+                "INSERT OR REPLACE INTO idea_archive(id,data_json,first_seen_at,last_seen_at,deleted_at) VALUES(?,?,?,?,NULL)",
+                (record_id, data_json, first_seen, updated_at),
             )
     return int(cursor.lastrowid)
 
