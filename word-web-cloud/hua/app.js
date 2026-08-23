@@ -1,4 +1,5 @@
 import { removeById, restoreAt } from './state-utils.js';
+import { directIdeaFrom, needsAiAnalysis } from './capture-utils.js';
 
 const STORAGE_KEY = 'suishouji-data-v1';
 const SYNC_CURSOR_KEY = 'suishouji-sync-cursor-v2';
@@ -120,6 +121,7 @@ async function cloudRequest(name, options={}) {
 
 function applyRemoteChange(target,change,skipPending=true) {
   if (!['idea','event'].includes(change.kind) || !change.id) return;
+  if (activeEditKey()===recordKey(change.kind,change.id)) return;
   if (skipPending && pendingChanges[recordKey(change.kind,change.id)]) return;
   const field=change.kind==='idea'?'ideas':'events';
   const index=target[field].findIndex((item)=>item.id===change.id);
@@ -176,7 +178,7 @@ async function initialCloudSync() {
   syncInitialized=true;
   localStorage.setItem(SYNC_CURSOR_KEY,String(syncCursor));
   persistLocalState();
-  render();
+  renderUnlessEditing();
 }
 
 async function legacyCloudSync() {
@@ -188,12 +190,13 @@ async function legacyCloudSync() {
   const payload=await cloudRequest('state');
   if (payload.state && Array.isArray(payload.state.ideas) && Array.isArray(payload.state.events)) state=payload.state;
   persistLocalState();
-  render();
+  renderUnlessEditing();
   setSyncStatus('云端已同步（兼容模式）');
 }
 
 async function syncCloud() {
   if (!IS_CLOUD) return;
+  if (isInlineEditing()) { syncDirty=true; return; }
   if (syncBusy) { syncDirty=true; return; }
   syncBusy=true;
   setSyncStatus('正在同步…');
@@ -205,7 +208,7 @@ async function syncCloud() {
       syncCursor=await pullChanges();
       localStorage.setItem(SYNC_CURSOR_KEY,String(syncCursor));
       persistLocalState();
-      render();
+      renderUnlessEditing();
     }
     setSyncStatus(Object.keys(pendingChanges).length ? '等待同步…' : '云端已同步');
   } catch (error) {
@@ -369,6 +372,20 @@ function render() {
   $('#page-title').textContent = currentTab === 'ideas' ? '灵感泡泡' : '我的日程';
 }
 
+function isInlineEditing() { return Boolean(document.querySelector('.editable-text.inline-editing')); }
+function activeEditKey() {
+  const element=document.querySelector('.editable-text.inline-editing');
+  if (!element) return '';
+  if (element.dataset.editIdeaContent) return recordKey('idea',element.dataset.editIdeaContent);
+  if (element.dataset.editEventTitle) return recordKey('event',element.dataset.editEventTitle);
+  if (element.dataset.editEventNote) return recordKey('event',element.dataset.editEventNote);
+  return '';
+}
+function renderUnlessEditing() { if (!isInlineEditing()) render(); }
+function resumeSyncAfterEdit() {
+  if (IS_CLOUD && syncDirty) queueCloudSync();
+}
+
 function switchTab(tab) { currentTab = tab; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 
 async function analyze() {
@@ -377,9 +394,15 @@ async function analyze() {
   if (!text) return showToast('先写点什么吧', true);
   const button = $('#analyze-button');
   const original = button.innerHTML;
-  button.disabled = true; button.querySelector('span').textContent = 'AI 正在整理…';
-  $('#capture-hint').textContent = '正在辨认灵感与日程';
+  const useAi=needsAiAnalysis(text);
+  button.disabled = true; button.querySelector('span').textContent = useAi ? 'AI 正在整理…' : '正在保存…';
+  $('#capture-hint').textContent = useAi ? '正在辨认灵感与日程' : '普通灵感直接保存，不消耗 AI';
   try {
+    if (!useAi) {
+      state.ideas.unshift(directIdeaFrom(text,{id:uid(),createdAt:new Date().toISOString()}));
+      saveState(); input.value=''; showToast('已直接保存为灵感 · 未使用 AI');
+      return;
+    }
     const response = await fetch(apiUrl('analyze'), { method:'POST', headers:{'Content-Type':'application/json',...authHeaders()}, body:JSON.stringify({ text, now:new Date().toISOString(), timezone:Intl.DateTimeFormat().resolvedOptions().timeZone }) });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || '分析失败');
@@ -392,10 +415,9 @@ async function analyze() {
     showToast(`已记下 ${parts.join('、')}`);
     if (!ideas.length && events.length) switchTab('schedule');
   } catch (error) {
-    const message = error instanceof TypeError && /fetch/i.test(error.message)
-      ? '连接不到整理服务，请确认随手记服务正在运行'
-      : (error.message || '分析失败，请重试');
-    showToast(message, true);
+    state.ideas.unshift(directIdeaFrom(text,{id:uid(),createdAt:new Date().toISOString()}));
+    saveState(); input.value='';
+    showToast('AI 暂时没有整理成功，已先保存为灵感',true);
   }
   finally { button.disabled=false; button.innerHTML=original; $('#capture-hint').textContent='灵感、日程，或两者混合都可以'; }
 }
@@ -439,16 +461,21 @@ function startInlineEdit(element) {
       element.contentEditable='false';
       element.classList.remove('inline-editing');
       if (save && !value) showToast(`${label}不能为空`,true);
+      resumeSyncAfterEdit();
       return;
     }
     if (value===original) {
       element.contentEditable='false';
       element.classList.remove('inline-editing');
+      resumeSyncAfterEdit();
       return;
     }
     item[field]=value;
+    element.contentEditable='false';
+    element.classList.remove('inline-editing');
     saveState();
     showToast(`${label}已更新`);
+    resumeSyncAfterEdit();
   };
   element.addEventListener('blur',()=>finish(true),{once:true});
   element.addEventListener('keydown',(event)=>{

@@ -32,6 +32,7 @@ jobs:
         run: |
           python3 .github/services/xiangxiang-api/test_server.py -v
           node --check word-web-cloud/hua/app.js
+          node --test word-web-cloud/hua/capture-utils.test.js
 
       - name: Package website
         run: tar -czf site.tar.gz -C word-web-cloud .
