@@ -437,17 +437,27 @@ function inlineEditDescriptor(element) {
   return null;
 }
 
+let inlineEditSession=null;
+
 function startInlineEdit(element) {
   if (!element || element.isContentEditable) return;
+  if (inlineEditSession && inlineEditSession.element!==element) inlineEditSession.finish(true);
   const descriptor=inlineEditDescriptor(element);
   if (!descriptor?.item) return;
   const {item,field,label,allowEmpty}=descriptor;
   const original=String(item[field] || '');
   let finished=false;
+  let onKeydown;
+  const actions=document.createElement('div');
+  actions.className='inline-edit-actions';
+  actions.setAttribute('role','group');
+  actions.setAttribute('aria-label',`${label}编辑操作`);
+  actions.innerHTML='<button type="button" data-inline-save>保存</button><button type="button" data-inline-cancel>取消</button>';
   element.contentEditable='true';
   element.classList.add('inline-editing');
   element.setAttribute('role','textbox');
   element.setAttribute('aria-multiline',String(field!=='title'));
+  element.insertAdjacentElement('afterend',actions);
   element.focus();
   const range=document.createRange(); range.selectNodeContents(element); range.collapse(false);
   const selection=window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
@@ -456,32 +466,36 @@ function startInlineEdit(element) {
     if (finished) return;
     finished=true;
     const value=element.innerText.trim();
+    actions.remove();
+    element.contentEditable='false';
+    element.classList.remove('inline-editing');
+    element.removeAttribute('role');
+    element.removeAttribute('aria-multiline');
+    element.removeEventListener('keydown',onKeydown);
+    if (inlineEditSession?.element===element) inlineEditSession=null;
     if (!save || (!value && !allowEmpty)) {
       element.textContent=original;
-      element.contentEditable='false';
-      element.classList.remove('inline-editing');
       if (save && !value) showToast(`${label}不能为空`,true);
       resumeSyncAfterEdit();
       return;
     }
     if (value===original) {
-      element.contentEditable='false';
-      element.classList.remove('inline-editing');
       resumeSyncAfterEdit();
       return;
     }
     item[field]=value;
-    element.contentEditable='false';
-    element.classList.remove('inline-editing');
     saveState();
     showToast(`${label}已更新`);
     resumeSyncAfterEdit();
   };
-  element.addEventListener('blur',()=>finish(true),{once:true});
-  element.addEventListener('keydown',(event)=>{
+  inlineEditSession={element,finish};
+  actions.querySelector('[data-inline-save]').addEventListener('click',()=>finish(true));
+  actions.querySelector('[data-inline-cancel]').addEventListener('click',()=>finish(false));
+  onKeydown=(event)=>{
     if (event.key==='Escape') { event.preventDefault(); finish(false); }
     if (event.key==='Enter' && (field==='title' || event.ctrlKey || event.metaKey)) { event.preventDefault(); finish(true); }
-  });
+  };
+  element.addEventListener('keydown',onKeydown);
 }
 
 function editableFrom(target) { return target instanceof Element ? target.closest('.editable-text') : null; }
