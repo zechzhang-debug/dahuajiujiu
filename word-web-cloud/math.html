@@ -246,7 +246,7 @@
       <details class="stage" open>
         <summary><span class="stage-icon">初</span><span>初中数学<span class="stage-meta">七至九年级</span></span><span class="chevron">›</span></summary>
         <div class="grade-list">
-          <button class="grade-button" data-grade="junior1" hidden><span>初一</span><span>暂无已完成讲题</span></button>
+          <button class="grade-button" data-grade="junior1"><span>初一</span><span>4 个知识点</span></button>
           <button class="grade-button is-active" data-grade="junior2"><span>初二</span><span>4 个知识点</span></button>
           <button class="grade-button" data-grade="junior3"><span>初三</span><span>5 个专题</span></button>
         </div>
@@ -339,6 +339,19 @@
     const buttons = [...document.querySelectorAll('.grade-button')];
     // Only add a topic here after the user supplies its real question page.
     const questionsByTopic = {
+      'rational-numbers': [
+        { title:'数轴上的距离与最值', href:'math-lessons/junior1-number-line-finale.html?v=1.0.0' },
+        { title:'三位数的排列与整除', href:'math-lessons/junior1-digit-divisibility-finale.html?v=1.0.0' }
+      ],
+      'algebraic-expressions': [
+        { title:'整式表示与恒等变形', href:'math-lessons/junior1-algebra-finale.html?v=1.0.0' }
+      ],
+      'linear-equation': [
+        { title:'购票问题与一元一次方程', href:'math-lessons/junior1-equation-finale.html?v=1.0.0' }
+      ],
+      'geometry-basics': [
+        { title:'平角与角平分线综合', href:'math-lessons/junior1-angle-finale.html?v=1.0.0' }
+      ],
       'congruence': [
         { title:'正方形动点角平分证明', href:'math-lessons/square-angle-bisector-proof.html?v=1.0.1' },
         { title:'倍长中线模型证明', href:'math-lessons/median-extension-model-proof.html?v=1.0.0' },
