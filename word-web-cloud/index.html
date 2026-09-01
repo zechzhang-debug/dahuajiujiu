@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="baidu_union_verify" content="fa82b25fd6955827cd5766f4184f44ab">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="大华舅舅面向中小学生提供英语单词学习、数学难题讲解和学习进度同步，帮助学生按学段查找并反复练习重点内容。">
+  <meta name="description" content="大华舅舅面向中小学生提供英语单词、数学与物理难题讲解、文言文实词虚词资料和学习进度同步。">
   <link rel="canonical" href="https://dahuajiujiu.com/">
-  <title>大华舅舅｜中小学英语单词与数学讲题</title>
+  <title>大华舅舅｜中小学英语、数学、物理与语文学习</title>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -247,6 +247,48 @@
       line-height: 1;
     }
 
+    .latest-section {
+      margin-top: 34px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(23, 49, 77, 0.14);
+      text-align: left;
+    }
+
+    .latest-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+
+    .latest-heading h2 { margin: 0; font-size: 22px; }
+    .latest-heading p { max-width: 620px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    .latest-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 28px;
+      border-top: 1px solid rgba(23, 49, 77, 0.1);
+    }
+
+    .latest-list a {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      border-bottom: 1px solid rgba(23, 49, 77, 0.1);
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .latest-list a:hover strong { color: #4564f6; }
+    .latest-type { color: var(--pink); font-size: 12px; font-weight: 800; }
+    .latest-list strong { min-width: 0; font-size: 15px; line-height: 1.45; transition: color 160ms ease; }
+    .latest-arrow { color: var(--muted); }
+
     footer {
       min-height: 67px;
       display: flex;
@@ -295,6 +337,8 @@
       .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .subject-card, .subject-card.active { height: 166px; }
       .subject-card.active { grid-column: 1 / -1; }
+      .subject-card:last-child { grid-column: 1 / -1; }
+      .latest-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
     }
 
     @media (min-width: 1400px) {
@@ -331,6 +375,9 @@
       .subject-card h3, .subject-card.active h3 { font-size: 15px; }
       .subject-card p { max-width: 100%; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; font-size: 11px; }
       .hot-badge, .status-badge { top: 9px; right: 9px; }
+      .latest-section { margin-top: 28px; padding-top: 22px; }
+      .latest-list { grid-template-columns: 1fr; }
+      .latest-list a { min-height: 58px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -346,7 +393,7 @@
         <span class="brand-mark" aria-hidden="true"><span class="brand-logo-character">舅</span></span>
         <span>大华舅舅</span>
       </a>
-      <button class="login-button" type="button" data-dialog-title="微信登录" data-dialog-copy="微信登录正在接入，敬请期待。">
+      <button class="login-button" type="button">
         <span class="wechat-icon" aria-hidden="true">●●</span>
         <span class="login-label">微信一键登录</span>
       </button>
@@ -355,8 +402,8 @@
     <main>
       <section class="hero" aria-labelledby="page-title">
         <p class="eyebrow">看不懂去抖音给我留言，找“文科博士”</p>
-        <h1 id="page-title">多看几遍就会了</h1>
-        <p class="subtitle">选择学科 · 全是难点 · 自学神器</p>
+        <h1 id="page-title">大华舅舅中小学学习资料</h1>
+        <p class="subtitle">多看几遍就会了 · 选择学科 · 全是难点 · 自学神器</p>
         <h2 class="section-title">选择你痛苦的学科</h2>
         <div class="subject-grid">
           <a class="subject-card active" style="--accent:#d99a35" href="english.html">
@@ -369,7 +416,7 @@
             <span class="status-badge">新页面</span>
             <span class="subject-icon" aria-hidden="true">∑</span><h3>数学难点讲解</h3><p>按年级查知识点和讲题</p>
           </a>
-          <a class="subject-card active" style="--accent:#ff9817" href="physics.html" aria-label="进入物理难点讲解">
+          <a class="subject-card" style="--accent:#ff9817" href="physics.html" aria-label="进入物理难点讲解">
             <span class="status-badge">新页面</span>
             <span class="subject-icon" aria-hidden="true">⚛</span><h3>物理难点讲解</h3><p>拆解难题，深入理解</p>
           </a>
@@ -382,6 +429,20 @@
             <span class="subject-icon" aria-hidden="true">文</span><h3>语文</h3><p>文言文、阅读理解与积累</p>
           </a>
         </div>
+        <section class="latest-section" aria-labelledby="latest-title">
+          <div class="latest-heading">
+            <h2 id="latest-title">最近更新</h2>
+            <p>从题目条件出发，说明为什么这样做，再逐步写出推理过程。这里只列出已经完成、可以直接阅读的讲题和资料。</p>
+          </div>
+          <nav class="latest-list" aria-label="最近更新的学习内容">
+            <a href="math-lessons/junior1-number-line-finale.html"><span class="latest-type">初一数学</span><strong>数轴上的距离与最值</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+            <a href="math-lessons/junior2-congruence-finale.html"><span class="latest-type">初二数学</span><strong>等腰三角形中的双全等</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+            <a href="math-lessons/mirror-point-new-definition.html"><span class="latest-type">初三数学</span><strong>镜像点新定义题型精讲</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+            <a href="physics-lessons/convex-lens-imaging-guide.html"><span class="latest-type">初二物理</span><strong>凸透镜成像规律与光路图</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+            <a href="chinese-junior.html"><span class="latest-type">初中语文</span><strong>文言文实词、虚词与教材例句</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+            <a href="chinese-senior.html"><span class="latest-type">高中语文</span><strong>文言词义与语境辨析</strong><span class="latest-arrow" aria-hidden="true">→</span></a>
+          </nav>
+        </section>
       </section>
     </main>
 
@@ -399,26 +460,6 @@
     </footer>
   </div>
 
-  <dialog id="status-dialog" aria-labelledby="dialog-title">
-    <h2 id="dialog-title">即将开放</h2>
-    <p id="dialog-copy">这一学科正在认真准备中，敬请期待。</p>
-    <button class="dialog-close" type="button">知道了</button>
-  </dialog>
-
-  <script>
-    const dialog = document.getElementById('status-dialog');
-    const dialogTitle = document.getElementById('dialog-title');
-    const dialogCopy = document.getElementById('dialog-copy');
-    document.querySelectorAll('[data-dialog-title]').forEach((button) => {
-      button.addEventListener('click', () => {
-        dialogTitle.textContent = button.dataset.dialogTitle;
-        dialogCopy.textContent = button.dataset.dialogCopy || '这一学科正在认真准备中，敬请期待。';
-        dialog.showModal();
-      });
-    });
-    dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-  </script>
   <script src="account-sync.js?v=1.0.1" defer></script>
 </body>
 </html>
