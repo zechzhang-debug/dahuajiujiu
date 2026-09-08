@@ -1,10 +1,24 @@
 const TIME_PATTERN = /(?:今天|明天|后天|今晚|今早|本周|下周|这周|周[一二三四五六日天]|星期[一二三四五六日天]|月底|月初|上午|下午|中午|晚上|凌晨|早上|\d{1,2}\s*(?:点|时|:|：)(?:\s*\d{1,2}\s*分?)?|\d{1,2}\s*月\s*\d{1,2}\s*[日号]|\d{4}\s*[年/-]\s*\d{1,2}\s*[月/-]\s*\d{1,2})/i;
 const REMINDER_PATTERN = /(?:提醒我|提醒一下|记得|别忘|不要忘|待办|todo|日程|安排|预约|截止|到期|闹钟|叫我|通知我)/i;
 const ACTION_PATTERN = /^(?:请)?\s*(?:去|要|需要|准备|完成|提交|联系|回复|购买|买|取|寄|缴|交|打电话|开会|预约|办理|检查|复习|写|做)\s*/;
+const ACTION_ANYWHERE_PATTERN = /(?:去|要|需要|准备|完成|提交|联系|回复|购买|买|取|寄|缴|交|打电话|开会|预约|办理|检查|复习|写|做)/;
+
+export const LONG_IDEA_THRESHOLD = 1000;
+
+export function isLongForm(text='') {
+  return Array.from(String(text).trim()).length>LONG_IDEA_THRESHOLD;
+}
+
+export function hasExplicitTodoSignal(text='') {
+  const value=String(text).trim();
+  if (!value) return false;
+  if (REMINDER_PATTERN.test(value)) return true;
+  if (TIME_PATTERN.test(value) && ACTION_ANYWHERE_PATTERN.test(value)) return true;
+  return Array.from(value).length<=120 && ACTION_PATTERN.test(value);
+}
 
 export function needsAiAnalysis(text='') {
-  const value=String(text).trim();
-  return TIME_PATTERN.test(value) || REMINDER_PATTERN.test(value) || ACTION_PATTERN.test(value);
+  return hasExplicitTodoSignal(text);
 }
 
 export function inferIdeaTheme(text='') {

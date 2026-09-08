@@ -50,21 +50,21 @@ def clean_item(kind, item):
         return {
             "id": item_id,
             "title": clean_text(item.get("title"), 120),
-            "content": clean_text(item.get("content"), 4000),
+            "content": clean_text(item.get("content"), 20000),
             "theme": item.get("theme") if item.get("theme") in THEMES else "其他",
             "createdAt": clean_text(item.get("createdAt"), 60),
-            "source": clean_text(item.get("source"), 4000),
+            "source": clean_text(item.get("source"), 20000),
         }
     return {
         "id": item_id,
         "title": clean_text(item.get("title"), 120),
-        "note": clean_text(item.get("note"), 4000),
+        "note": clean_text(item.get("note"), 20000),
         "start": clean_text(item.get("start"), 60) if isinstance(item.get("start"), str) else None,
         "end": clean_text(item.get("end"), 60) if isinstance(item.get("end"), str) else None,
         "allDay": bool(item.get("allDay")),
         "done": bool(item.get("done")),
         "createdAt": clean_text(item.get("createdAt"), 60),
-        "source": clean_text(item.get("source"), 4000),
+        "source": clean_text(item.get("source"), 20000),
     }
 
 
@@ -80,10 +80,10 @@ def clean_state(value):
 def clean_analysis(value):
     value = value if isinstance(value, dict) else {}
     ideas = []
-    for item in (value.get("ideas") if isinstance(value.get("ideas"), list) else [])[:8]:
+    for item in (value.get("ideas") if isinstance(value.get("ideas"), list) else [])[:1]:
         ideas.append({
             "title": clean_text(item.get("title") or "未命名灵感", 80),
-            "content": clean_text(item.get("content"), 1000),
+            "content": clean_text(item.get("content"), 20000),
             "theme": item.get("theme") if item.get("theme") in THEMES else "其他",
         })
     events = []
@@ -435,23 +435,25 @@ class Handler(BaseHTTPRequestHandler):
             return self.send_json(500, {"error": str(error) or "服务暂时不可用"})
 
     def analyze(self):
-        payload = self.read_json(64_000)
+        payload = self.read_json(128_000)
         text = payload.get("text")
         if not isinstance(text, str) or not text.strip():
             return self.send_json(400, {"error": "先写点什么吧"})
         config = read_json_file(CONFIG_FILE, {})
         if not config.get("deepseekApiKey"):
             return self.send_json(503, {"error": "服务端尚未配置 DeepSeek API Key"})
+        long_form = bool(payload.get("longForm")) or len(text.strip()) > 1000
         prompt = (
-            "你是中文随手记应用的分类助手。分析用户的一段自然语言，将其中的信息完整拆分成“灵感”和“日程”。\n"
-            "规则：\n1. 灵感是想法、感悟、知识、待探索的概念；日程是有行动意图的待办、约会、提醒，即使没有明确时间也算日程。\n"
-            "2. 同一段话可能同时包含两类，必须分别提取，不能丢失信息。\n"
-            "2.1 灵感的 content 要保留原意、纠正明显错字、去掉口头重复并整理成可复用的一段，不要擅自扩写。\n"
-            "2.2 日程的 title 用简短动作概括，note 只保留必要背景；时间不要在 note 中重复。\n"
-            "3. 对相对时间结合当前时间转换成带时区的 ISO 8601；无时间线索时 start 为 null。\n"
-            "4. 不要臆造用户未表达的细节。\n5. 灵感主题只能是：工作、生活、创作、学习、其他。\n"
-            "6. 输出严格 JSON：{\"ideas\":[{\"title\":\"短标题\",\"content\":\"完整内容\",\"theme\":\"创作\"}],"
+            "你是中文随手记应用的分类助手。分析用户的一整条记录，识别其中的“灵感”和明确“日程”。\n"
+            "规则：\n1. 回车和空行只是原文格式，绝对不能据此把灵感拆成多条；ideas 最多返回一条。\n"
+            "2. 灵感是想法、感悟、知识、待探索的概念。灵感 content 必须保留整条原文的段落和换行，不删减、不总结、不改写。\n"
+            "3. 只有出现明确待办信号时才生成 events，例如：提醒、别忘、待办、截止、预约，或具体时间加明确行动。模糊愿望、观点、经验、设想和叙述中的动作都不是待办。\n"
+            "4. 同一条记录可以保留为一条灵感，并额外抽取其中明确的待办；日程 title 用简短动作概括，note 只保留必要背景。\n"
+            "5. 对相对时间结合当前时间转换成带时区的 ISO 8601；无时间线索时 start 为 null。\n"
+            "6. 不要臆造用户未表达的细节。灵感主题只能是：工作、生活、创作、学习、其他。\n"
+            "7. 输出严格 JSON：{\"ideas\":[{\"title\":\"短标题\",\"content\":\"完整内容\",\"theme\":\"创作\"}],"
             "\"events\":[{\"title\":\"短标题\",\"note\":\"补充说明\",\"start\":null,\"end\":null,\"allDay\":false}]}\n"
+            f"这是长文：{'是；ideas 请返回空数组，只抽取明确待办' if long_form else '否'}\n"
             f"当前时间：{payload.get('now') or now_iso()}\n时区：{payload.get('timezone') or 'Asia/Shanghai'}\n用户输入：{text.strip()}"
         )
         upstream_body = json.dumps({

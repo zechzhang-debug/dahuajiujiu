@@ -1,5 +1,5 @@
 import { removeById, restoreAt } from './state-utils.js';
-import { directIdeaFrom, needsAiAnalysis } from './capture-utils.js';
+import { directIdeaFrom, isLongForm, needsAiAnalysis } from './capture-utils.js';
 
 const STORAGE_KEY = 'suishouji-data-v1';
 const SYNC_CURSOR_KEY = 'suishouji-sync-cursor-v2';
@@ -394,21 +394,26 @@ async function analyze() {
   if (!text) return showToast('先写点什么吧', true);
   const button = $('#analyze-button');
   const original = button.innerHTML;
+  const longForm=isLongForm(text);
   const useAi=needsAiAnalysis(text);
   button.disabled = true; button.querySelector('span').textContent = useAi ? 'AI 正在整理…' : '正在保存…';
-  $('#capture-hint').textContent = useAi ? '正在辨认灵感与日程' : '普通灵感直接保存，不消耗 AI';
+  $('#capture-hint').textContent = useAi ? (longForm ? '长文原样保存，并抽取明确待办' : '正在辨认灵感与日程') : '整段直接保存为灵感，不消耗 AI';
   try {
     if (!useAi) {
       state.ideas.unshift(directIdeaFrom(text,{id:uid(),createdAt:new Date().toISOString()}));
       saveState(); input.value=''; showToast('已直接保存为灵感 · 未使用 AI');
       return;
     }
-    const response = await fetch(apiUrl('analyze'), { method:'POST', headers:{'Content-Type':'application/json',...authHeaders()}, body:JSON.stringify({ text, now:new Date().toISOString(), timezone:Intl.DateTimeFormat().resolvedOptions().timeZone }) });
+    const response = await fetch(apiUrl('analyze'), { method:'POST', headers:{'Content-Type':'application/json',...authHeaders()}, body:JSON.stringify({ text, longForm, now:new Date().toISOString(), timezone:Intl.DateTimeFormat().resolvedOptions().timeZone }) });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || '分析失败');
     const createdAt = new Date().toISOString();
-    const ideas = result.ideas.map((item) => ({...item,id:uid(),createdAt,source:text}));
-    const events = result.events.map((item) => ({...item,id:uid(),createdAt,source:text,done:false}));
+    const analyzedIdeas=Array.isArray(result.ideas) ? result.ideas : [];
+    const analyzedEvents=Array.isArray(result.events) ? result.events : [];
+    const keepAsIdea=longForm || analyzedIdeas.length>0;
+    const directIdea=directIdeaFrom(text,{id:uid(),createdAt});
+    const ideas=keepAsIdea ? [{...directIdea,title:analyzedIdeas[0]?.title || directIdea.title,theme:analyzedIdeas[0]?.theme || directIdea.theme}] : [];
+    const events = analyzedEvents.map((item) => ({...item,id:uid(),createdAt,source:text,done:false}));
     if (!ideas.length && !events.length) throw new Error('没有识别出可记录的内容，请换种说法');
     state.ideas.unshift(...ideas); state.events.unshift(...events); saveState(); input.value='';
     const parts=[]; if(ideas.length) parts.push(`${ideas.length} 个灵感`); if(events.length) parts.push(`${events.length} 个日程`);

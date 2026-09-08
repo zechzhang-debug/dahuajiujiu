@@ -100,6 +100,17 @@ class XiangxiangApiTest(unittest.TestCase):
         self.assertTrue(delta["changes"][0]["deleted"])
         self.assertEqual([], self.get("/hua/api/state")["state"]["ideas"])
 
+    def test_preserves_long_multiline_idea(self):
+        content = "第一段灵感\n\n" + ("长文内容" * 600)
+        self.request("/hua/api/sync", "POST", {"changes": [{
+            "kind": "idea", "id": "idea-long", "deleted": False,
+            "clientMutationId": "mutation-long",
+            "item": {"id": "idea-long", "title": "长文灵感", "content": content, "source": content, "theme": "创作"},
+        }]})
+        saved = next(item for item in self.get("/hua/api/state")["state"]["ideas"] if item["id"] == "idea-long")
+        self.assertEqual(content, saved["content"])
+        self.assertEqual(content, saved["source"])
+
 
 if __name__ == "__main__":
     unittest.main()
