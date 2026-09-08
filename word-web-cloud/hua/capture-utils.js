@@ -3,7 +3,7 @@ const REMINDER_PATTERN = /(?:提醒我|提醒一下|记得|别忘|不要忘|待�
 const ACTION_PATTERN = /^(?:请)?\s*(?:去|要|需要|准备|完成|提交|联系|回复|购买|买|取|寄|缴|交|打电话|开会|预约|办理|检查|复习|写|做)\s*/;
 const ACTION_ANYWHERE_PATTERN = /(?:去|要|需要|准备|完成|提交|联系|回复|购买|买|取|寄|缴|交|打电话|开会|预约|办理|检查|复习|写|做)/;
 
-export const LONG_IDEA_THRESHOLD = 1000;
+export const LONG_IDEA_THRESHOLD = 100;
 
 export function isLongForm(text='') {
   return Array.from(String(text).trim()).length>LONG_IDEA_THRESHOLD;

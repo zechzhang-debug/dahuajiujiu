@@ -442,7 +442,7 @@ class Handler(BaseHTTPRequestHandler):
         config = read_json_file(CONFIG_FILE, {})
         if not config.get("deepseekApiKey"):
             return self.send_json(503, {"error": "服务端尚未配置 DeepSeek API Key"})
-        long_form = bool(payload.get("longForm")) or len(text.strip()) > 1000
+        long_form = bool(payload.get("longForm")) or len(text.strip()) > 100
         prompt = (
             "你是中文随手记应用的分类助手。分析用户的一整条记录，识别其中的“灵感”和明确“日程”。\n"
             "规则：\n1. 回车和空行只是原文格式，绝对不能据此把灵感拆成多条；ideas 最多返回一条。\n"

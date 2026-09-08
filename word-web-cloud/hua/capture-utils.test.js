@@ -24,6 +24,8 @@ test('direct ideas keep line breaks and full content',()=>{
 test('long copy defaults to one idea unless it has an explicit todo signal',()=>{
   const longThought=`我在想内容创作的长期价值。${'这是一段当时想到的灵感。'.repeat(90)}`;
   assert.equal(isLongForm(longThought),true);
+  assert.equal(isLongForm('想'.repeat(100)),false);
+  assert.equal(isLongForm('想'.repeat(101)),true);
   assert.equal(hasExplicitTodoSignal(longThought),false);
   assert.equal(hasExplicitTodoSignal(`${longThought}\n提醒我明天下午三点联系小林`),true);
 });
