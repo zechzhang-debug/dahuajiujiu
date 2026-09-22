@@ -23,6 +23,7 @@ const uid = () => crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`;
 let state = loadState();
 let currentTheme = '全部';
 let search = '';
+let visibleIdeaLimit = 20;
 const calendarCursor = new Date();
 calendarCursor.setDate(1);
 calendarCursor.setHours(12,0,0,0);
@@ -271,8 +272,11 @@ $('#toast').addEventListener('click', (event) => {
 });
 
 function renderIdeas() {
-  const items = state.ideas.filter((item) => (currentTheme === '全部' || item.theme === currentTheme) && `${item.title} ${item.content} ${item.theme}`.toLowerCase().includes(search));
-  $('#ideas-summary').textContent = `${state.ideas.length} 个灵感`;
+  const filtered = state.ideas
+    .filter((item) => (currentTheme === '全部' || item.theme === currentTheme) && `${item.title} ${item.content} ${item.theme}`.toLowerCase().includes(search))
+    .sort((a,b) => (new Date(b.createdAt).getTime() || 0) - (new Date(a.createdAt).getTime() || 0));
+  const items=filtered.slice(0,visibleIdeaLimit);
+  $('#ideas-summary').textContent = filtered.length===state.ideas.length ? `${state.ideas.length} 个灵感` : `${filtered.length} 个匹配 · 共 ${state.ideas.length} 个`;
   $('#idea-count-side').textContent = state.ideas.length;
   $('#bubble-grid').innerHTML = items.map((item) => `
     <article class="bubble" style="--bubble:${themeColors[item.theme] || themeColors.其他}">
@@ -283,7 +287,11 @@ function renderIdeas() {
       <p class="bubble-content editable-text" data-edit-idea-content="${item.id}" title="双击修改">${esc(item.content || item.title)}</p>
       <time>${formatCreated(item.createdAt)}</time>
     </article>`).join('');
-  $('#ideas-empty').classList.toggle('hidden', items.length > 0);
+  $('#ideas-empty').classList.toggle('hidden', filtered.length > 0);
+  const loadMore=$('#ideas-load-more');
+  const remaining=Math.max(0,filtered.length-items.length);
+  loadMore.classList.toggle('hidden',remaining===0);
+  if (remaining) loadMore.textContent=`展开更多 ${Math.min(40,remaining)} 条 · 还剩 ${remaining} 条`;
 }
 
 function formatDayLabel(key) {
@@ -478,8 +486,9 @@ $('#calendar-grid').addEventListener('click',(event)=>{if(event.target.closest('
 $('#analyze-button').addEventListener('click', analyze);
 $('#capture-input').addEventListener('keydown', (event) => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') analyze(); });
 $('#search-toggle').addEventListener('click', () => { $('#search-row').classList.toggle('hidden'); if (!$('#search-row').classList.contains('hidden')) $('#search-input').focus(); });
-$('#search-input').addEventListener('input', (event) => { search=event.target.value.trim().toLowerCase(); render(); });
-$('#theme-filters').addEventListener('click', (event) => { const button=event.target.closest('button'); if(!button)return; currentTheme=button.dataset.theme; $$('#theme-filters button').forEach((b)=>b.classList.toggle('active',b===button)); renderIdeas(); });
+$('#search-input').addEventListener('input', (event) => { search=event.target.value.trim().toLowerCase(); visibleIdeaLimit=20; render(); });
+$('#theme-filters').addEventListener('click', (event) => { const button=event.target.closest('button'); if(!button)return; currentTheme=button.dataset.theme; visibleIdeaLimit=20; $$('#theme-filters button').forEach((b)=>b.classList.toggle('active',b===button)); renderIdeas(); });
+$('#ideas-load-more').addEventListener('click',()=>{visibleIdeaLimit+=40;renderIdeas();});
 $('#other-toggle').addEventListener('click', () => { otherExpanded=!otherExpanded; renderSchedule(); });
 
 function inlineEditDescriptor(element) {
