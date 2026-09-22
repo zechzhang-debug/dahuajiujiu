@@ -21,9 +21,11 @@ const esc = (value='') => String(value).replace(/[&<>'"]/g, (c) => ({'&':'&amp;'
 const uid = () => crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`;
 
 let state = loadState();
-let currentTab = 'ideas';
 let currentTheme = '全部';
 let search = '';
+const calendarCursor = new Date();
+calendarCursor.setDate(1);
+calendarCursor.setHours(12,0,0,0);
 let toastTimer;
 let pendingUndo = null;
 let otherExpanded = false;
@@ -295,6 +297,44 @@ function formatDayLabel(key) {
   return { day:String(date.getDate()).padStart(2,'0'), week };
 }
 
+function localDateKey(date) {
+  const year=date.getFullYear();
+  const month=String(date.getMonth()+1).padStart(2,'0');
+  const day=String(date.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+function renderCalendar() {
+  const year=calendarCursor.getFullYear();
+  const month=calendarCursor.getMonth();
+  $('#calendar-month-title').textContent=`${year}年${month+1}月`;
+  const eventsByDate=new Map();
+  for (const item of state.events) {
+    if (!item.start) continue;
+    const date=new Date(item.start);
+    if (Number.isNaN(date.getTime())) continue;
+    const key=localDateKey(date);
+    if (!eventsByDate.has(key)) eventsByDate.set(key,[]);
+    eventsByDate.get(key).push(item);
+  }
+  const first=new Date(year,month,1,12);
+  first.setDate(first.getDate()-((first.getDay()+6)%7));
+  const todayKey=localDateKey(new Date());
+  $('#calendar-grid').innerHTML=Array.from({length:42},(_,index)=>{
+    const date=new Date(first); date.setDate(first.getDate()+index);
+    const key=localDateKey(date);
+    const events=eventsByDate.get(key) || [];
+    const classes=['calendar-day'];
+    if (date.getMonth()!==month) classes.push('outside');
+    if (key===todayKey) classes.push('today');
+    if (events.length) classes.push('has-events');
+    const dots=events.slice(0,3).map(()=>'<i></i>').join('');
+    const firstTitle=events[0] ? `<span class="day-event">${esc(events[0].title)}</span>` : '';
+    const title=events.length ? `${date.getMonth()+1}月${date.getDate()}日 · ${events.map((item)=>item.title).join('、')}` : `${date.getMonth()+1}月${date.getDate()}日`;
+    return `<button type="button" class="${classes.join(' ')}" data-calendar-date="${key}" title="${esc(title)}"><span class="day-number">${date.getDate()}</span>${events.length?`<span class="event-dots">${dots}</span>`:''}${firstTitle}</button>`;
+  }).join('');
+}
+
 function eventTime(item) {
   if (!item.start) return '时间待定';
   if (item.allDay) return '全天';
@@ -361,15 +401,15 @@ function renderSchedule() {
   const done = state.events.filter((event) => event.done).length;
   $('#pending-count').textContent = state.events.length-done;
   $('#done-count').textContent = done;
-  $('#event-count-side').textContent = state.events.filter((event) => !event.done).length;
+  const eventCountSide=$('#event-count-side');
+  if (eventCountSide) eventCountSide.textContent = state.events.filter((event) => !event.done).length;
 }
 
 function render() {
-  renderIdeas(); renderSchedule();
-  $$('.nav-item,.mobile-nav button').forEach((button) => button.classList.toggle('active', button.dataset.tab === currentTab));
-  $('#ideas-view').classList.toggle('hidden', currentTab !== 'ideas');
-  $('#schedule-view').classList.toggle('hidden', currentTab !== 'schedule');
-  $('#page-title').textContent = currentTab === 'ideas' ? '灵感泡泡' : '我的日程';
+  renderIdeas(); renderSchedule(); renderCalendar();
+  $('#ideas-view').classList.remove('hidden');
+  $('#schedule-view').classList.remove('hidden');
+  $('#page-title').textContent = '灵感泡泡';
 }
 
 function isInlineEditing() { return Boolean(document.querySelector('.editable-text.inline-editing')); }
@@ -386,7 +426,11 @@ function resumeSyncAfterEdit() {
   if (IS_CLOUD && syncDirty) queueCloudSync();
 }
 
-function switchTab(tab) { currentTab = tab; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function switchTab(tab) {
+  const target=tab==='schedule' ? $('#schedule-view') : document.documentElement;
+  if (target===document.documentElement) window.scrollTo({top:0,behavior:'smooth'});
+  else target.scrollIntoView({behavior:'smooth',block:'start'});
+}
 
 async function analyze() {
   const input = $('#capture-input');
@@ -428,6 +472,9 @@ async function analyze() {
 }
 
 $$('[data-tab]').forEach((button) => button.addEventListener('click', () => switchTab(button.dataset.tab)));
+$('#calendar-prev').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar();});
+$('#calendar-next').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()+1);renderCalendar();});
+$('#calendar-grid').addEventListener('click',(event)=>{if(event.target.closest('[data-calendar-date]'))switchTab('schedule');});
 $('#analyze-button').addEventListener('click', analyze);
 $('#capture-input').addEventListener('keydown', (event) => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') analyze(); });
 $('#search-toggle').addEventListener('click', () => { $('#search-row').classList.toggle('hidden'); if (!$('#search-row').classList.contains('hidden')) $('#search-input').focus(); });
