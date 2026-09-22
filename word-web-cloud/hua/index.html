@@ -38,7 +38,10 @@
       <header class="topbar">
         <div>
           <p class="eyebrow" id="today-label"></p>
-          <h1 id="page-title">灵感泡泡</h1>
+          <h1 id="page-title">
+            <span class="page-logo" aria-label="想想"><span>想</span><span>想</span></span>
+            <span class="page-subtitle">灵感泡泡</span>
+          </h1>
         </div>
         <div class="hero-note">把闪念放进来，<br />剩下的交给 AI。</div>
         <button class="round-button" id="search-toggle" aria-label="搜索">
@@ -47,7 +50,6 @@
       </header>
 
       <div class="calendar-panel" aria-label="月历">
-        <div class="calendar-logo" aria-label="想想"><span>想</span><span>想</span></div>
         <div class="calendar-toolbar">
           <button type="button" id="calendar-prev" aria-label="上个月">‹</button>
           <strong id="calendar-month-title"></strong>
@@ -119,6 +121,6 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
-  <script type="module" src="./app.js?v=20260923-14"></script>
+  <script type="module" src="./app.js?v=20260923-15"></script>
 </body>
 </html>

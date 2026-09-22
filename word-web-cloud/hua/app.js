@@ -417,7 +417,6 @@ function render() {
   renderIdeas(); renderSchedule(); renderCalendar();
   $('#ideas-view').classList.remove('hidden');
   $('#schedule-view').classList.remove('hidden');
-  $('#page-title').textContent = '灵感泡泡';
 }
 
 function isInlineEditing() { return Boolean(document.querySelector('.editable-text.inline-editing')); }
