@@ -30,7 +30,6 @@ calendarCursor.setDate(1);
 calendarCursor.setHours(12,0,0,0);
 let toastTimer;
 let pendingUndo = null;
-let otherExpanded = false;
 let syncBusy = false;
 let syncDirty = false;
 let syncInitialized = localStorage.getItem(SYNC_CURSOR_KEY) !== null
@@ -295,17 +294,6 @@ function renderIdeas() {
   if (remaining) loadMore.textContent=`展开更多 ${Math.min(40,remaining)} 条 · 还剩 ${remaining} 条`;
 }
 
-function formatDayLabel(key) {
-  if (key === '9999-99-99') return { day:'待定', week:'未安排' };
-  const date = new Date(`${key}T12:00:00`);
-  const today = new Date();
-  const tomorrow = new Date(); tomorrow.setDate(today.getDate()+1);
-  let week = date.toLocaleDateString('zh-CN',{weekday:'short'});
-  if (date.toDateString() === today.toDateString()) week = '今天';
-  if (date.toDateString() === tomorrow.toDateString()) week = '明天';
-  return { day:String(date.getDate()).padStart(2,'0'), week };
-}
-
 function localDateKey(date) {
   const year=date.getFullYear();
   const month=String(date.getMonth()+1).padStart(2,'0');
@@ -361,24 +349,6 @@ function sortEvents(items) {
   });
 }
 
-function eventGroupsHtml(items) {
-  const groups = sortEvents(items).reduce((result, item) => {
-    const key = dayKey(item);
-    (result[key] ||= []).push(item);
-    return result;
-  }, {});
-  return Object.entries(groups).map(([key,items]) => {
-    const label = formatDayLabel(key);
-    return `<div class="day-group"><div class="day-label"><b>${label.day}</b><span>${label.week}</span></div><div class="day-events">${items.map((item) => `
-      <article class="event-card ${item.done ? 'done':''}">
-        <button class="check" data-toggle-event="${item.id}" aria-label="${item.done?'标记未完成':'标记完成'}">${item.done?'✓':''}</button>
-        <span class="event-time">${eventTime(item)}</span>
-        <div class="event-copy"><h3 class="editable-text" data-edit-event-title="${item.id}" title="双击修改">${esc(item.title)}</h3>${item.note ? `<p class="editable-text" data-edit-event-note="${item.id}" title="双击修改">${esc(item.note)}</p>`:''}</div>
-        <button class="delete" data-delete-event="${item.id}" aria-label="删除日程" title="删除"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></svg></button>
-      </article>`).join('')}</div></div>`;
-  }).join('');
-}
-
 function calendarEventHtml(item) {
   return `<article class="event-card ${item.done ? 'done':''}">
     <button class="check" data-toggle-event="${item.id}" aria-label="${item.done?'标记未完成':'标记完成'}">${item.done?'✓':''}</button>
@@ -414,46 +384,9 @@ function renderCalendarDetail() {
     : `<div class="calendar-detail-empty"><b>✓</b><strong>${isPast?'没有未完成任务':'这一天还没有安排'}</strong><span>${isPast?'已经处理妥当':'有明确时间的待办会显示在这里'}</span></div>`;
 }
 
-function renderSchedule() {
-  const filtered = state.events.filter((item) => `${item.title} ${item.note}`.toLowerCase().includes(search));
-  const today = new Date(); today.setHours(0,0,0,0);
-  const weekEnd = new Date(today); weekEnd.setDate(weekEnd.getDate()+7);
-  const focused = filtered.filter((item) => {
-    if (item.done || !item.start) return false;
-    const date = new Date(item.start);
-    return !Number.isNaN(date.getTime()) && date >= today && date < weekEnd;
-  });
-  const focusedIds = new Set(focused.map((item) => item.id));
-  const others = filtered.filter((item) => !focusedIds.has(item.id));
-  $('#timeline').innerHTML = eventGroupsHtml(focused);
-  $('#other-timeline').innerHTML = eventGroupsHtml(others);
-  $('#timeline-focus').classList.toggle('hidden', focused.length === 0);
-  $('#schedule-empty').classList.toggle('hidden', focused.length > 0);
-  $('#other-schedules').classList.toggle('hidden', others.length === 0);
-  $('#other-content').classList.toggle('hidden', !otherExpanded);
-  $('#other-toggle').setAttribute('aria-expanded', String(otherExpanded));
-  $('#other-toggle').classList.toggle('expanded', otherExpanded);
-  const pastPending = others.filter((item) => !item.done && item.start && new Date(item.start) < today).length;
-  const laterPending = others.filter((item) => !item.done && item.start && new Date(item.start) >= weekEnd).length;
-  const undated = others.filter((item) => !item.done && !item.start).length;
-  const completed = others.filter((item) => item.done).length;
-  const parts = [];
-  if (pastPending) parts.push(`${pastPending} 个过期`);
-  if (laterPending) parts.push(`${laterPending} 个稍后`);
-  if (undated) parts.push(`${undated} 个待定`);
-  if (completed) parts.push(`${completed} 个已完成`);
-  $('#other-summary').textContent = parts.join(' · ');
-  const done = state.events.filter((event) => event.done).length;
-  $('#pending-count').textContent = state.events.length-done;
-  $('#done-count').textContent = done;
-  const eventCountSide=$('#event-count-side');
-  if (eventCountSide) eventCountSide.textContent = state.events.filter((event) => !event.done).length;
-}
-
 function render() {
-  renderIdeas(); renderSchedule(); renderCalendar();
+  renderIdeas(); renderCalendar();
   $('#ideas-view').classList.remove('hidden');
-  $('#schedule-view').classList.remove('hidden');
 }
 
 function isInlineEditing() { return Boolean(document.querySelector('.editable-text.inline-editing')); }
@@ -470,10 +403,17 @@ function resumeSyncAfterEdit() {
   if (IS_CLOUD && syncDirty) queueCloudSync();
 }
 
-function switchTab(tab) {
-  const target=tab==='schedule' ? $('#schedule-view') : document.documentElement;
-  if (target===document.documentElement) window.scrollTo({top:0,behavior:'smooth'});
-  else target.scrollIntoView({behavior:'smooth',block:'start'});
+function showEventAtTop(item) {
+  const date=item?.start ? new Date(item.start) : null;
+  if (date && !Number.isNaN(date.getTime())) {
+    calendarCursor.setFullYear(date.getFullYear(),date.getMonth(),1);
+    selectedCalendarDate=localDateKey(date);
+    renderCalendar();
+  } else {
+    selectedCalendarDate='';
+    renderCalendarDetail();
+  }
+  requestAnimationFrame(()=>$('#calendar-panel').scrollIntoView({behavior:'smooth',block:'center'}));
 }
 
 async function analyze() {
@@ -506,7 +446,7 @@ async function analyze() {
     state.ideas.unshift(...ideas); state.events.unshift(...events); saveState(); input.value='';
     const parts=[]; if(ideas.length) parts.push(`${ideas.length} 个灵感`); if(events.length) parts.push(`${events.length} 个日程`);
     showToast(`已记下 ${parts.join('、')}`);
-    if (!ideas.length && events.length) switchTab('schedule');
+    if (events.length) showEventAtTop(events[0]);
   } catch (error) {
     state.ideas.unshift(directIdeaFrom(text,{id:uid(),createdAt:new Date().toISOString()}));
     saveState(); input.value='';
@@ -515,7 +455,7 @@ async function analyze() {
   finally { button.disabled=false; button.innerHTML=original; $('#capture-hint').textContent='灵感、日程，或两者混合都可以'; }
 }
 
-$$('[data-tab]').forEach((button) => button.addEventListener('click', () => switchTab(button.dataset.tab)));
+$$('[data-tab]').forEach((button) => button.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'})));
 $('#calendar-prev').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar();});
 $('#calendar-next').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()+1);renderCalendar();});
 $('#calendar-grid').addEventListener('click',(event)=>{
@@ -531,7 +471,6 @@ $('#search-toggle').addEventListener('click', () => { $('#search-row').classList
 $('#search-input').addEventListener('input', (event) => { search=event.target.value.trim().toLowerCase(); visibleIdeaLimit=20; render(); });
 $('#theme-filters').addEventListener('click', (event) => { const button=event.target.closest('button'); if(!button)return; currentTheme=button.dataset.theme; visibleIdeaLimit=20; $$('#theme-filters button').forEach((b)=>b.classList.toggle('active',b===button)); renderIdeas(); });
 $('#ideas-load-more').addEventListener('click',()=>{visibleIdeaLimit+=40;renderIdeas();});
-$('#other-toggle').addEventListener('click', () => { otherExpanded=!otherExpanded; renderSchedule(); });
 
 function inlineEditDescriptor(element) {
   if (element.dataset.editIdeaContent) return { item:state.ideas.find((entry)=>entry.id===element.dataset.editIdeaContent), field:'content', label:'灵感内容', allowEmpty:false };
@@ -672,8 +611,6 @@ if (SpeechRecognition) {
 
 const now=new Date();
 $('#today-label').textContent=now.toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
-const weekLast=new Date(now); weekLast.setDate(weekLast.getDate()+6);
-$('#schedule-month').textContent=`${now.toLocaleDateString('zh-CN',{month:'long',day:'numeric'})} — ${weekLast.toLocaleDateString('zh-CN',{month:'long',day:'numeric'})}`;
 render();
 bootstrapCloudSync();
 if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{}));
