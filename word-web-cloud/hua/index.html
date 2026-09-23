@@ -49,14 +49,26 @@
         </button>
       </header>
 
-      <div class="calendar-panel" aria-label="月历">
-        <div class="calendar-toolbar">
-          <button type="button" id="calendar-prev" aria-label="上个月">‹</button>
-          <strong id="calendar-month-title"></strong>
-          <button type="button" id="calendar-next" aria-label="下个月">›</button>
+      <div class="calendar-panel" id="calendar-panel" aria-label="月历">
+        <div class="calendar-card-inner">
+          <div class="calendar-face calendar-front" id="calendar-front">
+            <div class="calendar-toolbar">
+              <button type="button" id="calendar-prev" aria-label="上个月">‹</button>
+              <strong id="calendar-month-title"></strong>
+              <button type="button" id="calendar-next" aria-label="下个月">›</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+          </div>
+          <div class="calendar-face calendar-detail" id="calendar-detail" aria-hidden="true" inert>
+            <div class="calendar-detail-head">
+              <button type="button" id="calendar-back" aria-label="返回月历">‹</button>
+              <div><strong id="calendar-detail-title"></strong><span id="calendar-detail-hint"></span></div>
+              <b id="calendar-detail-count"></b>
+            </div>
+            <div class="calendar-detail-events" id="calendar-detail-events"></div>
+          </div>
         </div>
-        <div class="calendar-weekdays" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
-        <div class="calendar-grid" id="calendar-grid"></div>
       </div>
 
       <section class="capture-card" aria-label="快速记录">
@@ -121,6 +133,6 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
-  <script type="module" src="./app.js?v=20260923-15"></script>
+  <script type="module" src="./app.js?v=20260923-16"></script>
 </body>
 </html>

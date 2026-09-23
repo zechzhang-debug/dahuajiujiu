@@ -24,6 +24,7 @@ let state = loadState();
 let currentTheme = '全部';
 let search = '';
 let visibleIdeaLimit = 20;
+let selectedCalendarDate = '';
 const calendarCursor = new Date();
 calendarCursor.setDate(1);
 calendarCursor.setHours(12,0,0,0);
@@ -341,6 +342,7 @@ function renderCalendar() {
     const title=events.length ? `${date.getMonth()+1}月${date.getDate()}日 · ${events.map((item)=>item.title).join('、')}` : `${date.getMonth()+1}月${date.getDate()}日`;
     return `<button type="button" class="${classes.join(' ')}" data-calendar-date="${key}" title="${esc(title)}"><span class="day-number">${date.getDate()}</span>${events.length?`<span class="event-dots">${dots}</span>`:''}${firstTitle}</button>`;
   }).join('');
+  renderCalendarDetail();
 }
 
 function eventTime(item) {
@@ -375,6 +377,41 @@ function eventGroupsHtml(items) {
         <button class="delete" data-delete-event="${item.id}" aria-label="删除日程" title="删除"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></svg></button>
       </article>`).join('')}</div></div>`;
   }).join('');
+}
+
+function calendarEventHtml(item) {
+  return `<article class="event-card ${item.done ? 'done':''}">
+    <button class="check" data-toggle-event="${item.id}" aria-label="${item.done?'标记未完成':'标记完成'}">${item.done?'✓':''}</button>
+    <span class="event-time">${eventTime(item)}</span>
+    <div class="event-copy"><h3 class="editable-text" data-edit-event-title="${item.id}" title="双击修改">${esc(item.title)}</h3>${item.note ? `<p class="editable-text" data-edit-event-note="${item.id}" title="双击修改">${esc(item.note)}</p>`:''}</div>
+    <button class="delete" data-delete-event="${item.id}" aria-label="删除日程" title="删除"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 14H7L6 7m4 4v6m4-6v6"/></svg></button>
+  </article>`;
+}
+
+function renderCalendarDetail() {
+  const panel=$('#calendar-panel');
+  const front=$('#calendar-front');
+  const detail=$('#calendar-detail');
+  const flipped=Boolean(selectedCalendarDate);
+  panel.classList.toggle('is-flipped',flipped);
+  panel.setAttribute('aria-label',flipped?'当日日程':'月历');
+  front.setAttribute('aria-hidden',String(flipped));
+  detail.setAttribute('aria-hidden',String(!flipped));
+  front.inert=flipped;
+  detail.inert=!flipped;
+  if (!flipped) return;
+
+  const selected=new Date(`${selectedCalendarDate}T12:00:00`);
+  const todayKey=localDateKey(new Date());
+  const isPast=selectedCalendarDate<todayKey;
+  const isToday=selectedCalendarDate===todayKey;
+  const events=sortEvents(state.events.filter((item)=>dayKey(item)===selectedCalendarDate && (!isPast || !item.done)));
+  $('#calendar-detail-title').textContent=selected.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'short'});
+  $('#calendar-detail-hint').textContent=isPast?'过去日期 · 只显示未完成':(isToday?'今天 · 显示全部日程':'显示全部日程');
+  $('#calendar-detail-count').textContent=events.length;
+  $('#calendar-detail-events').innerHTML=events.length
+    ? events.map(calendarEventHtml).join('')
+    : `<div class="calendar-detail-empty"><b>✓</b><strong>${isPast?'没有未完成任务':'这一天还没有安排'}</strong><span>${isPast?'已经处理妥当':'有明确时间的待办会显示在这里'}</span></div>`;
 }
 
 function renderSchedule() {
@@ -481,7 +518,13 @@ async function analyze() {
 $$('[data-tab]').forEach((button) => button.addEventListener('click', () => switchTab(button.dataset.tab)));
 $('#calendar-prev').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar();});
 $('#calendar-next').addEventListener('click',()=>{calendarCursor.setMonth(calendarCursor.getMonth()+1);renderCalendar();});
-$('#calendar-grid').addEventListener('click',(event)=>{if(event.target.closest('[data-calendar-date]'))switchTab('schedule');});
+$('#calendar-grid').addEventListener('click',(event)=>{
+  const day=event.target.closest('[data-calendar-date]');
+  if (!day) return;
+  selectedCalendarDate=day.dataset.calendarDate;
+  renderCalendarDetail();
+});
+$('#calendar-back').addEventListener('click',()=>{selectedCalendarDate='';renderCalendarDetail();});
 $('#analyze-button').addEventListener('click', analyze);
 $('#capture-input').addEventListener('keydown', (event) => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') analyze(); });
 $('#search-toggle').addEventListener('click', () => { $('#search-row').classList.toggle('hidden'); if (!$('#search-row').classList.contains('hidden')) $('#search-input').focus(); });
