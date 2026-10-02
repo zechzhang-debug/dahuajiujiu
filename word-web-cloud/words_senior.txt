@@ -11,7 +11,7 @@ concept/ˈkɒnsept/n. /概念；观念/The concept of fairness is culturally rel
 decline/dɪˈklaɪn/v. /拒绝；下降/He declined the invitation politely.
 mention/ˈmenʃn/v. /提到；提及/She didn’t mention your name at all.
 throughout/θruːˈaʊt/prep. /遍及；贯穿/There were celebrations throughout the country.
-limit/ˈlɪmɪt/n. /限制；限度/There’s a speed limit of 50 km/h here.
+limit/ˈlɪmɪt/n. /限制；限度/There’s a speed limit of 50 kilometres per hour here.
 involve/ɪnˈvɒlv/v. /包含；涉及/The job involves frequent travel.
 device/dɪˈvaɪs/n. /装置；设备/A smartphone is a multifunctional device.
 depend/dɪˈpend/v. /依赖；取决于/Success depends on hard work.
@@ -1088,3 +1088,1126 @@ transition/trænˈzɪʃn/n./过渡；转变/The transition was smooth.
 frightening/ˈfraɪtnɪŋ/adj./令人恐惧的；骇人的/The noise was frightening.
 complicated/ˈkɒmplɪkeɪtɪd/adj./复杂的；难懂的/The machine is complicated.
 abrupt/əˈbrʌpt/adj./突然的；唐突的/The meeting came to an abrupt end.
+abandon/əˈbændən/v./放弃,抛弃,遗弃,使屈从,沉溺,放纵；放任,无拘束,狂热/We abandoned the old car in the empty parking lot.
+aboard/əˈbɒːd/prep./在船上,在火车上,在飞机上；在...之上/Their second homer with Bob Allison aboard.
+absence/ˈæbsəns/n./缺席,缺乏,没有；失神/He was surprised by the absence of any explanation.
+absolute/ˈæbsəluːt/adj./绝对的/Absolute loyalty.
+absorb/əbˈzɔːb/v./吸收；吸引……的注意；使并入/Plants absorb water through their roots.
+accelerate/əkˈseləreɪt/v./加速/The car accelerated.
+accent/ˈæksənt/n./重音,口音,特点,注重点；重读,加重音号于,强调/He couldn't suppress his contemptuous accent.
+access/ˈækses/n.&v./接近；进入；通道；vt.进入；使用/Students can access the library database online.
+accessible/əkˈsesəbl/adj./能接近的；可以达到的/A town accessible by rail.
+accomplish/əˈkʌmplɪʃ/v./完成；实现；达到/She worked hard to accomplish her goal.
+accuracy/ˈækjərəsi/n./正确度；精确性/He was beginning to doubt the accuracy of his compass.
+accustomed/əˈkʌstəmd/adj./惯常的,习惯了的/Accustomed to doing her own work.
+achievement/əˈtʃiːvmənt/n./成就；达到，实现/Can you explain achievement in your own words?
+acknowledge/əkˈnɒlɪdʒ/v./承认；确认；感谢/He acknowledged that he had made a mistake.
+acquire/əˈkwaɪə(r)/v./取得，获得/I acquired a passing knowledge of Chinese.
+acre/ˈeikə/n./英亩/The teacher explained "acre" with a simple example.
+actress/ˈæktris/n./女演员/The teacher explained "actress" with a simple example.
+actual/ˈæktʃuəl/adj./实际的；真实的/The predicted temperature and the actual temperature were markedly different.
+adapt/əˈdæpt/v./（使）适合，适应；改编/Adapt our native cuisine to the available food resources of the new country.
+adaptation/ˌædæpˈteɪʃn/n./适应，改编/The play is an adaptation of a short novel.
+addicted/əˈdiktid/adj./沉溺于...的,无法摆脱(某种嗜好)的；嗜,好,惯于/She is addicted to chocolate.
+addition/əˈdɪʃn/n./加，增加（物）/He was a new addition to the staff.
+adjust/əˈdʒʌst/v./校准；调节；使…适应/Adjust the clock, please.
+administration/ədˌmɪnɪˈstreɪʃn/n./管理（部门）；行政（机关）/He claims that the present administration is corrupt.
+admirable/ˈædmərəbl/adj./可钦佩的,极好的,令人惊奇的/Trains ran with admirable precision.
+admission/ədˈmɪʃn/n./承认；准许进入；准许加入/The surgery was performed on his second admission to the clinic.
+admit/ədˈmɪt/v./承认；准许…进入；准许…加入/We'll have to vote on whether or not to admit a new member.
+adolescent/ædəuˈlesənt/adj.&n./青春期的,青少年的；青少年/Adolescent problems.
+adopt/əˈdɒpt/v./采用,正式通过,收养,接受；采取/They adopted two children from Nicaragua.
+advance/ədˈvɑːns/n.&v./前进；进展；推进；预付/Medical science has advanced rapidly.
+adventure/ədˈventʃə/n./冒险,冒险经历；冒险/The teacher explained "adventure" with a simple example.
+advertise/ˈædvətaiz/v./做广告,通知,公布；做广告/Please don't advertise the fact that he has AIDS.
+affair/əˈfєə/n./事件,事务,恋爱事件/The party was quite an affair.
+affect/əˈfekt/v./影响；感染/Will the new rules affect me?
+Africa/ˈæfrikə/n./非洲/The teacher explained "Africa" with a simple example.
+African/ˈæfrikən/adj.&n./非洲人；非洲的,非洲人的/African languages.
+afterward/ˈɑːftəwəd/adv./然后,后来/It didn't happen until afterward.
+agency/ˈeɪdʒənsi/n./代理（处），代办处，机构/The Central Intelligence Agency.
+agenda/əˈdʒendə/n./议程；待办事项/The next item on the agenda is the school trip.
+agent/ˈeɪdʒənt/n./代理（商）/Their research uncovered new disease agents.
+agricultural/ˌæɡrɪˈkʌltʃərəl/adj./农业的/An agrarian (or agricultural) society.
+agriculture/ˈægrikʌltʃə/n./农业；农业,农学/The teacher explained "agriculture" with a simple example.
+AIDS/eidz/n./艾滋病；获得性免疫缺陷综合征/Scientists continue to search for better treatments for AIDS.
+airmail/ˈєəmeil/n./航空邮件/Letters to Europe from the U.S. are best airmailed.
+airplane/ˈeəpleɪn/n./飞机/The flight was delayed due to trouble with the airplane.
+airspace/ˈєəspeis/n./空域,空间；气隙/The plane was refused permission to enter Chinese airspace.
+album/ˈælbəm/n./相册；唱片集；专辑/She showed me her family photo album.
+allowance/əˈlaʊəns/n./津贴；允许，容忍/Travel allowance.
+altitude/ˈæltɪtjuːd/n./海拔，高度；[pl.]高地/The altitude gave her a headache.
+altogether/ɒːltəˈgeðə/adv./完全地,总而言之/Altogether, I'm sorry it happened.
+aluminium/ˌæljəˈmɪniəm/n./铝/His paragraph mentions aluminium only briefly, but effectively.
+amaze/əˈmeiz/v./使吃惊/Your ability to speak six languages amazes me!
+ambassadress/æmˈbæsədris/n./女大使；大使夫人/The ambassadress attended the official reception.
+ambition/æmˈbɪʃn/n./雄心，野心/His ambition is to own his own business.
+ambulance/ˈæmbjuləns/n./救护车/The teacher explained "ambulance" with a simple example.
+amount/əˈmaunt/n.&v./总数,总额；总计,等同/An adequate amount of food for four people.
+anchor/ˈæŋkə/n.&v./锚；抛锚停泊,使固定/Faith is his anchor.
+anecdote/ˈænɪkdəʊt/n./短故事；轶事/Her report on anecdote was clear and persuasive.
+anger/ˈæŋgə/n./愤怒；激怒,使发怒；发怒/The news angered him.
+angle/ˈæŋɡl/n./角，角度；观点，立场/He angled his way into the room.
+ankle/ˈæŋkl/n./踝；踝,踝关节/The teacher explained "ankle" with a simple example.
+anniversary/æniˈvəːsəri/n./周年纪念/The teacher explained "anniversary" with a simple example.
+announce/əˈnaʊns/v./宣布；郑重地说；广播通知/He announced the winners of the spelling bee.
+annoy/əˈnɒi/v./使恼怒,骚扰/We learned how to use "annoy" correctly in a sentence.
+Antarctic/æntˈɑːktik/adj./南极的,南极地带的；南极地区/The word "Antarctic" describes something in the passage.
+antique/ænˈtiːk/n.&adj./古董；古物；古老的；古董的/The museum has a fine collection of antique furniture.
+anxiety/æŋˈzaɪəti/n./焦虑/His paragraph mentions anxiety only briefly, but effectively.
+anxious/ˈæŋkʃəs/adj./渴望的；忧虑的/Anxious to see the new show at the museum.
+apart/əˈpɑːt/adv.&adj./成零碎,成距离,分别地,分离着；分离的/These towns are many miles apart.
+apologize/əˈpɒlədʒaiz/v./道歉,辩解/I apologized for being late.
+apology/əˈpɒlədʒi/n./道歉,辩护；道歉,谢罪,辩解者/He wrote a letter of apology to the hostess.
+appeal/əˈpiːl/n.&v./呼吁；吸引；起诉；n.感染力，吸引力/His smile was part of his appeal to her.
+appearance/əˈpiərəns/n./出现,露面,外观,外表,出版；外观,版面/I tried to describe his appearance to the police.
+applaud/əˈplɒːd/v./鼓掌；称赞；赞同/The audience applauded at the end of the performance.
+applicant/ˈæplɪkənt/n./申请人/The lecturer linked applicant to a real social problem.
+application/ˌæplɪˈkeɪʃn/n./请求；申请；申请书；应用；敷用/He advocated the application of statistics to the problem.
+apply/əˈplaɪ/v./申请/She decided to apply for the job.
+appoint/əˈpɔɪnt/v./任命，委任；约定，指定/He was appointed deputy manager.
+appointment/əˈpɒintmənt/n./约会,委任的职位,委派；任命,派,指定/The appointment had to be approved by the whole committee.
+appropriate/əˈprəʊpriət/adj./合适的；恰当的/Jeans are not appropriate for a formal dinner.
+approve/əˈpruːv/v./赞成；批准，同意/I approve of his educational policies.
+arbitrary/ˈɑːbɪtrəri/adj./专断的，武断的/An arbitrary decision.
+architect/ˈɑːkɪtekt/n./建筑师/Without understanding architect, the argument feels incomplete.
+architecture/ˈɑːkɪtektʃə(r)/n./建筑学，建筑业/Architecture and eloquence are mixed arts whose end is sometimes beauty and sometimes use.
+argument/ˈɑːgjumənt/n./争论,论证,论据,自变量；参数/It was a strong argument that his hypothesis was true.
+arrange/əˈreindʒ/v./安排,排列,达成协议；重排/Arrange the books on the shelves in chronological order.
+arrival/əˈraivl/n./到达,抵达,到达者；到达,到达物/They awaited her arrival.
+arrow/ˈærəu/n./箭,箭状物,箭头记号/The teacher explained "arrow" with a simple example.
+artificial/ˌɑːtɪˈfɪʃl/adj./人工的；假的/Artificial flowers.
+ash/æʃ/n./灰,灰烬；灰分/The teacher explained "ash" with a simple example.
+aspect/ˈæspekt/n./外观,方面,面貌,方向；方面,局面；外观/The teacher explained "aspect" with a simple example.
+assess/əˈses/v./估定,对...征税,评定；估计,估价,确定(税款罚款等)的金额/Our house hasn't been assessed in years.
+assist/əˈsɪst/v./帮助，协助/Is a salesperson assisting you?
+assistance/əˈsɪstəns/n./协助，援助/Could not walk without assistance.
+assistant/əˈsistənt/n./助手,助理,助教；有帮助的,辅助的,助理的/My invaluable assistant.
+associate/əˈsəʊʃieɪt/v./联想；联系；交往/Many people associate the smell of bread with home.
+association/əˌsəʊʃiˈeɪʃn/n./协会，团体；联合，联系，交往；联想/Many close associations with England.
+astonish/əˈstɒniʃ/v./使惊讶/We learned how to use "astonish" correctly in a sentence.
+astronomer/əˈstrɒnəmə(r)/n./天文学家/Her report on astronomer was clear and persuasive.
+athletic/æθˈletik/adj./运动的/An athletic child.
+atmosphere/ˈætməsfɪə(r)/n./大气；气氛；环境/An atmosphere of defeat pervaded the candidate's headquarters.
+atom/ˈætəm/n./原子/The textbook gives a practical example of atom.
+attach/əˈtætʃ/v./系上；附上；使依附/Please attach a recent photograph to the form.
+attempt/əˈtempt/n.&v./尝试；试图；努力/They made an attempt on his life.
+attitude/ˈætɪtjuːd/n./态度，看法；姿势；意见/He had the attitude that work was fun.
+attract/əˈtrækt/v./吸引，引起（注意等）/Her good looks attract the stares of many men.
+attraction/əˈtrækʃən/n./吸引,吸引人的事物,吸引力；吸引/Her personality held a strange attraction for him.
+attractive/əˈtræktiv/adj./吸引人的,有魅力的；有吸引力的,有迷惑力的/A remarkably attractive young man.
+audience/ˈɒːdiəns/n./听众,观众,读者；听讼,观众,听众/The audience applauded.
+author/ˈɒːθə/n./作家,作家的著作,创始人；作者,著作人,本人/She authored this play.
+autonomous/ɒːˈtɒnəməs/adj./自治的；自主的/An autonomous judiciary.
+bachelor/ˈbætʃələ/n./单身汉,学士；学士,单身汉/The teacher explained "bachelor" with a simple example.
+backward/ˈbækwəd/adv./落后的；进步缓慢的/Tripped when he stepped backward.
+balcony/ˈbælkəni/n./阳台,戏院楼厅/The teacher explained "balcony" with a simple example.
+ballet/ˈbælei/n./芭蕾舞/The teacher explained "ballet" with a simple example.
+ban/bæn/n.&v./禁令；禁止,取缔/Smoking is banned in this building.
+bar/bɑː/n./条,棒,酒吧,栅,障碍物；禁止,阻挡,妨碍；棒形图/They stopped at a snack bar for lunch.
+barbecue/ˈbɑːbikjuː/n./烤肉；烤肉,烧烤/Let's barbecue that meat.
+barbershop/ˈbɑːbəʃɒp/n./理发店/He had his hair cut at the barbershop.
+bark/bɑːk/n.&v./吠叫；n.犬吠声；树皮/She barked into the dictaphone.
+basement/ˈbeismənt/n./地下室,墙脚；地下室/The teacher explained "basement" with a simple example.
+basin/ˈbeisn/n./盆,盆地/She mixed the dough in a large basin.
+basis/ˈbeisis/n./基础,主要成分；基底/The whole argument rested on a basis of conjecture.
+bathe/beið/v./沐浴,用水洗；洗澡/The doctor advised him to bathe the cut in warm water.
+battle/ˈbætl/n./战役；战斗/Grant won a decisive victory in the battle of Chickamauga.
+bay/bei/n./海湾,狗吠声,月桂；吠,使走投无路；吠/They put him in the sick bay.
+BC/ˌbiː ˈsiː/abbr./公元前/The city was founded in 200 BC.
+beauty/ˈbjuːti/n./美,美人/His roses were beauties.
+beddings/ˈbedɪŋ/n./寝具；铺垫材料/Clean beddings were prepared for the guests.
+beer/biə/n./啤酒/The teacher explained "beer" with a simple example.
+beg/beg/v./乞求,乞讨,请求/I beg you to stop!
+behalf/bɪˈhɑːf/n./为了…的利益，利益；代表；方面；维护，支持/On behalf of.
+behaviour/bɪˈheɪvjə(r)/n./行为，表现；（机器等）运转情况/The behavior of small particles can be studied in experiments.
+being/ˈbiːiŋ/n./存在,性质,生命,人,生物,be的现在分词/A point of view gradually coming into being.
+belief/bɪˈliːf/n./信仰；相信/It strengthened my belief in his sincerity.
+bench/bentʃ/n./长椅子；台/Our team has a strong bench.
+bend/bend/v./变弯曲,屈服；使弯曲,使屈服；弯曲/The stick does not bend.
+beneath/biˈniːθ/prep./在...下方/Please use "beneath" in a complete sentence.
+bent/bent/adj.&n./弯曲的；决心的；爱好；倾向/The branch was bent by the strong wind.
+besides/bɪˈsaɪdz/prep.&adv./而且；prep.除…之外/I don't want to go to a restaurant; besides, we can't afford it.
+betray/biˈtrei/v./出卖,背叛,辜负,暴露；出卖,背叛,泄漏/Her smile betrayed her true feelings.
+beyond/bɪˈjɒnd/prep./超出/Through the valley and beyond.
+bicycle/ˈbaisikl/n./自行车/The teacher explained "bicycle" with a simple example.
+bid/bɪd/n.&v./出价；投标/He made a bid to gain attention.
+bingo/ˈbiŋgəu/n./宾戈游戏/We played bingo at the community centre.
+biography/baiˈɒgrəfi/n./传记/The teacher explained "biography" with a simple example.
+bishop/ˈbiʃəp/n./主教；国际象棋中的象/The bishop spoke at the ceremony.
+bite/bait/v./咬,一口；咬,刺痛,穿透/Gunny invariably tried to bite her.
+blame/bleim/n.&v./过失,责备；责备,归咎于/He took the blame for it.
+blank/blæŋk/adj.&n./空格,空白；空白的,空虚的,完全的,无色的；消失,成为空白/Blank pages.
+blanket/ˈblæŋkit/n./毛毯,毯子；掩盖,覆盖；总共的/There was a blanket of snow.
+bond/bɒnd/n.&v./纽带；联系；关系；契合；v.使牢固结合；把…紧紧地连接/Their friendship constitutes a powerful bond between them.
+bone/bəun/n./骨头,骨,骨制品；剔骨；专心致志/Bone the turkey before roasting it.
+boom/buːm/n.&v./繁荣；vi.迅速发展；激增/His deep voice boomed through the hall.
+border/ˈbɔːdə(r)/n./边界；v.接壤，接近/The rug had a wide blue border.
+botanical/bəˈtænikəl/adj./植物学的；植物性药材/Botanical garden.
+bother/ˈbɒðə/v./打扰；使烦恼；费心/Mosquitoes buzzing in my ear really bother me.
+bounce/bauns/v./跳,跳跃,弹力,撞击；反跳,弹跳；使跳回,撞击/The rubber ball bounced.
+boundary/ˈbaʊndri/n./分界线；边界/His paragraph mentions boundary only briefly, but effectively.
+boycott/ˈbɒikɒt/v./联合抵制/We learned how to use "boycott" correctly in a sentence.
+branch/brɑːntʃ/n./分部；分支/A branch of the sewer.
+brand/brænd/n./商标；品牌；vt.铭刻；打烙印/There's a new brand of hero in the movies now.
+bravery/ˈbreɪvəri/n./勇敢；勇气/We discussed bravery in today's seminar.
+breakthrough/ˈbreɪkθruː/n./突破；重要的新发现/The lecturer linked breakthrough to a real social problem.
+breathe/briːð/v./呼吸,生存,低语；呼吸,使喘息,发散,低声说/I can breathe better when the air is clean.
+brick/brɪk/n./砖/Without understanding brick, the argument feels incomplete.
+bride/braid/n./新娘/The teacher explained "bride" with a simple example.
+brilliant/ˈbrɪliənt/adj./有才气的/A brilliant mind.
+broad/brɒːd/adj./宽广的,辽阔的,广大的,显著的；宽阔地；宽阔部分/An invention with broad applications.
+brochure/ˈbrəuʃə/n./小册子,小册/The teacher explained "brochure" with a simple example.
+burst/bəːst/n.&v./爆裂；爆发；突然发生/The balloon burst with a loud bang.
+bury/ˈberi/v./埋葬,埋藏/I tried to bury these unpleasant memories.
+butcher/ˈbutʃə/n.&v./屠夫,肉商,小贩；屠宰,屠杀/The teacher explained "butcher" with a simple example.
+button/ˈbʌtən/n.&v./纽扣,按钮；扣住；钉纽扣于,扣紧/They passed out campaign buttons for their candidate.
+cab/kæb/n./出租车,出租汽车,出租马车；乘出租马车(或汽车)/The teacher explained "cab" with a simple example.
+cafeteria/kæfiˈtiəriə/n./自助餐厅/The teacher explained "cafeteria" with a simple example.
+cage/keidʒ/n./笼,牢房,战俘营；关进笼内/The animal was caged.
+camel/ˈkæml/n./骆驼/His paragraph mentions camel only briefly, but effectively.
+candidate/ˈkændideit/n./候选人,投考者；候选,候补者/The teacher explained "candidate" with a simple example.
+capsule/ˈkæpsjuːl/n./胶囊；太空舱；小容器/Take one capsule after breakfast.
+caption/ˈkæpʃn/n./说明文字/A mere caption unworthy of a reply.
+carbon/ˈkɑːbən/n./碳/The lecturer linked carbon to a real social problem.
+carpet/ˈkɑːpit/n./地毯,地毯状物；铺以地毯,铺盖/A carpet of flowers.
+carriage/ˈkærɪdʒ/n./火车车厢/We discussed carriage in today's seminar.
+cast/kɑːst/v./投射（光、视线等）；n.演员表，全体演员/Cast a vote.
+castle/ˈkɑːsl/n./城堡/His paragraph mentions castle only briefly, but effectively.
+casual/ˈkæʒjuəl/adj./偶然的,不经意的,便装的；临时工,待命士兵/An ability to interest casual students.
+Catholic/ˈkæθlɪk/adj./广泛的，包罗万象的/The Catholic Church.
+cattle/kætl/n./牛,家畜；家畜/So many head of cattle.
+cautious/ˈkɒːʃəs/adj./谨慎的,小心的/Reserved and cautious; never making swift decisions.
+cave/keiv/n./洞,穴；凹陷,塌落；挖洞,使凹陷,损坏...的基础/The teacher explained "cave" with a simple example.
+ceiling/ˈsiːlɪŋ/n./天花板/He hated painting the ceiling.
+celebration/seliˈbreiʃən/n./庆祝,庆典/The celebration of marriage.
+cell/sel/n./细胞；基层组织/The cells of a honeycomb.
+centimetre/ˈsentimiːtə(r)/n./厘米,公分/The teacher explained "centimetre" with a simple example.
+ceremony/ˈseriməni/n./典礼,仪式,礼节；典礼,仪式/A ceremony commemorating Pearl Harbor.
+changeable/ˈtʃeindʒəbl/adj./可改变的/Changeable behavior.
+channel/ˈtʃænl/n./渠道，途径/A channel is typically what you rent from a telephone company.
+chapter/ˈtʃæptə/n./章,篇,重要章节；章；段/He read a chapter every night before falling asleep.
+charge/tʃɑːdʒ/n.&v./收费；费用；控告；负责；充电/The hotel made no extra charge for breakfast.
+chart/tʃɑːt/n./图表；海图/The chart shows how the population has changed.
+cheerful/ˈtʃiəful/adj./快活的,高兴的,兴高采烈的/Her cheerful nature.
+cheers/tʃiəz/interj./干杯；谢谢；再见/Cheers! Here's to your success.
+chef/ʃef/n./厨师长，厨师/The lecturer linked chef to a real social problem.
+chemical/ˈkemɪkl/adj.&n./化学的；n.化学制品/Chemical engineer.
+chest/tʃest/n./胸,胸部,衣柜,箱子；胸,胸廓/The teacher explained "chest" with a simple example.
+chew/tʃuː/v./咀嚼；思量/Chew your food and don't swallow it!
+chief/tʃiːf/adj.&n./主要的；n.主任/The chief aim of living.
+childhood/ˈtʃaɪldhʊd/n./幼年时代，童年/Can you explain childhood in your own words?
+choke/tʃəʊk/n.&v./窒息/She choked with emotion when she spoke about her deceased husband.
+chorus/ˈkɔːrəs/n./合唱队；合唱；副歌，叠句；齐声；v.齐声说/A chorus of boos.
+cigar/siˈgɑː/n./雪茄/The teacher explained "cigar" with a simple example.
+civil/ˈsivəl/adj./市民的,公民的,有礼貌的；公民的,国民的,民用的/Even if he didn't like them he should have been civil.
+clap/klæp/v./拍手,拍手声,霹雳声,花柳病；鼓掌,(使)啪地关上/The judge clapped him in jail.
+clarify/ˈklærəfaɪ/v./澄清；阐明/Clarify the mystery surrounding her death.
+classify/ˈklæsifai/v./分类,归类,分等；分类,分级,分粒/How would you classify these pottery shards--are they prehistoric?
+clay/kleɪ/n./泥土，黏土/Honor comes to bless the turf that wraps their clay.
+cleaner/ˈkliːnə/n./清洁工；清洁剂；清洁设备/The cleaner comes to the office every morning.
+clerk/kləːk/n./办事员,职员,文书；当店员/The teacher explained "clerk" with a simple example.
+clinic/ˈklɪnɪk/n./诊所/Clinic became the focus of our group presentation.
+clone/kləun/n.&v./克隆体；无性繁殖；克隆/Scientists cloned the plant from a single cell.
+cloth/klɒːθ klɒθ/n./布料,织品,布；布/Woven cloth originated in Mesopotamia around 5000 BC.
+coincidence/kəuˈinsidəns/n./巧合,同时发生；符合计数器/He waited for the coincidence of the target and the cross hairs.
+colleague/ˈkɒliːɡ/n./同事/The surgeon consulted his colleagues.
+collection/kəˈlekʃn/n./收集，积聚；收藏品/Collection became the focus of our group presentation.
+collision/kəˈlɪʒn/n./碰撞；冲突，抵触/The collision of the particles resulted in an exchange of energy and a change of direction.
+comb/kəum/n.&v./头梳,鸡冠；梳头发,梳毛；(浪)涌起/His hair needed a comb.
+comedy/ˈkɒmədi/n./喜剧片/We discussed comedy in today's seminar.
+comfort/ˈkʌmfət/n./舒适,安慰,安慰者；安慰/He is a man who enjoys his comfort.
+command/kəˈmɑːnd/n.&v./命令，指挥；控制；n.命令；司令部/An admiral in command.
+comment/ˈkɒment/n./注释，评论/He wrote an extended comment on the proposal.
+commit/kəˈmit/v./委托(托付),犯罪,指派...作战,使承担义务；犯,做,把...交托给/After the second episode, she had to be committed.
+committee/kəˈmɪti/n./委员会，全体委员/The committee will meet again next week.
+communication/kəˌmjuːnɪˈkeɪʃn/n./交流/They could not act without official communication from Moscow.
+communist/ˈkɒmjunist/adj.&n./共产主义者,共产党员；共产主义的,共产党的/Communist Party.
+compensate/ˈkɒmpenseɪt/v./补偿，赔偿；抵消；付报酬/She was compensated for the loss of her arm in the accident.
+competence/ˈkɒmpɪtəns/n./能力/We discussed competence in today's seminar.
+complex/ˈkɒmpleks/adj.&n./综合的；复杂的；n.综合体；情结/A complex set of variations based on a simple folk melody.
+composition/ˌkɒmpəˈzɪʃn/n./作曲/Harmonious composition is essential in a serious work of art.
+compulsory/kəmˈpʌlsəri/adj./义务的；必须做的；强制性的；（课程）必修的/In most schools physical education is compulsory.
+concentrate/ˈkɒnsəntreit/v./浓缩,精选；集中,专心/Concentrate juice.
+conclude/kənˈkluːd/v./推断出；做结论/The committee concluded the meeting.
+conclusion/kənˈkluːʒən/n./结论,结尾,推论；缔结,结论,推论/Jump to a conclusion.
+concrete/ˈkɒŋkriːt/adj./实在的，具体的；混凝土的；n.混凝土/Concrete objects such as trees.
+condemn/kənˈdem/v./判刑,责备,谴责；定罪,判刑,宣告有罪/We condemn the racism in South Africa.
+conduct/ˈkɒndʌkt/v./举止；指导；管理；kənˈdʌkt，vt.指导；管理，实施/They conducted themselves well during these difficult times.
+confident/ˈkɒnfɪdənt/adj./肯定的；确信的/A confident speaker.
+confuse/kənˈfjuːz/v./使混乱,使狼狈,使困惑；混淆/You are confusing me with the other candidate.
+congratulate/kənˈgrætʃəleit/v./祝贺,庆贺/We learned how to use "congratulate" correctly in a sentence.
+connection/kəˈnekʃn/n./联系，关联/There was a connection between eating that pickle and having that nightmare.
+conservation/kɒnsəˈveiʃən/n./保护,保存；保存/The teacher explained "conservation" with a simple example.
+conservative/kənˈsəːvətiv/adj./保守的,守旧的,有保存力的；防腐剂；保存剂/A conservative estimate.
+considerate/kənˈsɪdərət/adj./考虑周到的/Friends considerate enough to leave us alone.
+consideration/kənsidəˈreiʃən/n./考虑,原因；考虑,思考,报酬/Another consideration is the time it would take.
+consist/kənˈsist/v./组成,存在于,一致/The payment consists in food.
+construct/kənˈstrʌkt/v./建造；构思，构筑；创立；构想，观念；结/Some eccentric constructed an electric brassiere warmer.
+construction/kənˈstrʌkʃn/n./建造；建筑物；构造/During the construction we had to take a detour.
+consultant/kənˈsʌltənt/n./顾问/The lecturer linked consultant to a real social problem.
+contain/kənˈteɪn/v./包含，容纳；等于；遏制/Contain the rebel movement.
+container/kənˈteɪnə(r)/n./容器/Can you explain container in your own words?
+contrary/ˈkɒntrəri/adj.&n./相反的,矛盾的,对立的；相反,对立面；相反地/A contrary wind.
+controversial/ˌkɒntrəˈvɜːʃl/adj./争论的/The issue of the death penalty is highly controversial.
+convenience/kəˈviːnjəns/n./方便,便利的事物,方便的时候/Chairs arranged for his own convenience.
+convince/kənˈvins/v./说服,使相信；使确信,使信服,使人认识错误/He had finally convinced several customers of the advantages of his product.
+cooker/ˈkukə/n./炊事用具,炉灶,锅,炊具,烹饪用水果,窜改者,伪造者；蒸锅/The teacher explained "cooker" with a simple example.
+corn/kɔːn/n./[美]玉米；[英]谷物/That movie was pure corn.
+corporation/ˌkɔːpəˈreɪʃn/n./法人团体；市政当局；公司/We discussed corporation in today's seminar.
+cottage/ˈkɒtɪdʒ/n./村舍；小别墅/The textbook gives a practical example of cottage.
+counter/ˈkaʊntə(r)/n./反驳，反对；对抗，抵消/A counter may be used to stiffen the material around the heel and to give support to the foot.
+court/kɔːt/n./试图获得；博得/Television cameras were admitted in the courtroom.
+courtyard/ˈkɒːtjɑːd/n./庭院,天井/The teacher explained "courtyard" with a simple example.
+crash/kræʃ/n.&v./碰撞，冲，闯；坠落；发出撞击（或爆裂）声；垮台n./Let's crash the party!
+cream/kriːm/n./乳酪,奶油,面霜；乳油,乳皮；乳膏,霜/The cream of England's young men were killed in the Great War.
+creature/ˈkriːtʃə(r)/n./生物，动物/Without understanding creature, the argument feels incomplete.
+credit/ˈkredɪt/n./信用；信任；赞扬；学分；赊购/She deserves credit for solving the problem.
+crew/kruː/n./全体人员，（工作）队/Crew became the focus of our group presentation.
+crime/kraim/n./犯罪,罪行,罪恶；犯罪,罪,罪恶/A long record of crimes.
+criminal/ˈkriminəl/n./罪犯,犯人,刑事；犯了罪的,刑事的,有罪的/A criminal waste of talent.
+crop/krɒp/n./作物，庄稼/The annual crop of students brings a new crop of ideas.
+crossing/ˈkrɒsiŋ/n./横越,横渡,交叉点,渡口；划线/The teacher explained "crossing" with a simple example.
+crowd/kraud/n.&v./群众,一伙人；拥挤,挤满,挤进/A crowd of insects assembled around the flowers.
+cruel/ˈkruːəl/adj./残忍的，残酷的/Cruel tortures.
+cubic/ˈkjuːbɪk/adj./立方体的，立方的/Her tone sounded cubic, which made the audience trust her.
+cure/kjuə/n.&v./治疗,治愈,治疗法；治疗,治愈,改正,腌制,加工处理,使硫化；受治疗,被加工处理,被硫化/The treatment cured the boy's acne.
+customs/ˈkʌstəmz/n./海关；关税/We showed our passports at customs.
+cycle/ˈsaikl/v./周期,循环,自行车,一段时间,整套；循环,轮转,骑自行车；使循环,使轮转/Cycle the laundry in this washing program.
+damage/ˈdæmɪdʒ/n.&v./损害，[pl.]损害赔偿（金）；vt.损害/The snow damaged the roof.
+damp/dæmp/adj.&n./有湿气的，潮湿的/Clothes damp with perspiration.
+dare/dєə/modal v.&v./挑战,挑动,大胆；敢,胆敢/I don't dare call him.
+darkness/ˈdɑːknis/n./黑暗,暗,深色,隐密,模糊,无知/His lectures dispelled the darkness.
+data/ˈdeɪtə/n./数据；资料/Statistical data.
+database/ˈdeɪtəbeɪs/n./数据库/Database became the focus of our group presentation.
+dawn/dɒːn/n./破晓,黎明；破晓/We got up before dawn.
+deadline/ˈdedlain/n./最后期限,截止期限；截止日期/The teacher explained "deadline" with a simple example.
+debate/dɪˈbeɪt/n.&v./争论，辩论/We debated the question of abortion.
+debt/det/n./债务,罪过；借款,欠款,债务/He is badly in debt.
+decade/ˈdekeɪd/n./十年/The lecturer linked decade to a real social problem.
+declare/dɪˈkleə(r)/v./断言，宣称/The President declared war.
+decorate/ˈdekəreɪt/v./装修/Decorate the room for the party.
+decoration/dekəˈreiʃən/n./装饰,装饰品/The teacher explained "decoration" with a simple example.
+decrease/ˈdiːkriːs/v./减少,减少量；减少/The number of visitors decreased during the winter.
+deer/diə/n./鹿/The teacher explained "deer" with a simple example.
+defeat/dɪˈfit/v./击败，战胜/Defeat your enemies.
+defend/diˈfend/v./防护,辩护,防卫；作...的辩护律师,辩护,为...答辩/Ms. Smith will represent the defendant.
+delete/diˈliːt/n.&v./删除/Please delete my name from your list.
+delight/dɪˈlaɪt/n.&v./高兴；喜悦；使高兴/The children shouted with delight.
+delighted/diˈlaitid/adj./高兴的；愉快的/She was delighted to hear the good news.
+demand/dɪˈmɑːnd/v./要求；需求（量）；v.要求；需要；询问/The victim's family is demanding compensation.
+department/dɪˈpɑːtmənt/n./部，部门（大的机构的一个分支部门）/You'll find it in the hardware department.
+departure/diˈpɑːtʃə/n./离开,出发,违背,偏离；启运/The teacher explained "departure" with a simple example.
+deposit/diˈpɒzit/n.&v./存款,定金,堆积物；存放,堆积；沉淀/His deposit was refunded when he returned the car.
+description/diˈskripʃən/n./描述,说明,种类；说明书(物品),品名种类,货物名称/Every description of book was there.
+deserve/diˈzəːv/v./该得到,值得；应得报答/You deserve a promotion after all the hard work you have done.
+desperate/ˈdespərət/adj./拼命的，极度渴望的，绝望的/A desperate cry for help.
+dessert/diˈzəːt/n./餐后甜点/The teacher explained "dessert" with a simple example.
+destination/ˌdestɪˈneɪʃn/n./目的地/He was nearly exhausted as their destination came into view.
+destroy/dɪˈstrɔɪ/v./毁坏/The fire destroyed the house.
+development/diˈveləpmənt/n./发展；展开/He congratulated them on their development of a plan to meet the emergency.
+devote/dɪˈvəʊt/v./将…奉献给；把…专用（于）/This land was devoted to mining.
+devotion/dɪˈvəʊʃn/n./奉献；忠诚；热爱/Their devotion to each other was beautiful.
+diamond/ˈdaiəmənd/n./钻石,菱形；菱形/He led a small diamond.
+differ/ˈdɪfə(r)/v./不同，相异；（在意见方面）发生分歧/These two tests differ in only one respect.
+dignity/ˈdigniti/n./尊严,高贵；尊严,高位,高贵/It was beneath his dignity to cheat.
+dinosaur/ˈdaɪnəsɔː(r)/n./恐龙/The lecturer linked dinosaur to a real social problem.
+dioxide/daɪˈɒksaɪd/n./二氧化物/Her report on dioxide was clear and persuasive.
+disability/ˌdɪsəˈbɪləti/n./（身体上的）残疾，伤残；缺陷，障碍/Reading disability.
+disabled/dɪsˈeɪbld/adj.&n./残疾的；丧失能力的；残疾人/The building has an entrance for disabled visitors.
+disagree/disəˈgriː/v./不一致,不适宜；抵触,不同意,争执/She disagrees with her husband on many questions.
+disagreement/ˌdɪsəˈɡriːmənt/n./争论/Her report on disagreement was clear and persuasive.
+disappear/ˌdɪsəˈpɪə(r)/v./消失/He disappeared without a trace.
+discourage/disˈkʌridʒ/v./使气馁,阻碍/We should discourage this practice among our youth.
+discovery/dɪˈskʌvəri/n./发现/The textbook gives a practical example of discovery.
+discussion/disˈkʌʃən/n./讨论/The book contains an excellent discussion of modal logic.
+dislike/disˈlaik/v./嫌恶；讨厌,不喜欢/I really dislike this salesman.
+distance/ˈdɪstəns/n./距离；远离；远方；一长段时间/I could see it in the distance.
+distribute/diˈstribjuːt/v./分配,散布,分发；分配,分发/The publisher wants to distribute the book in Asia.
+district/ˈdɪstrɪkt/n./区/The textbook gives a practical example of district.
+disturbing/disˈtəːbiŋ/adj./引起烦恼的,令人不安的/Distressing (or disturbing) news.
+dive/daiv/v./潜水,跳水；跳水,俯冲,猛冲；把...突然伸入/I was afraid to dive from the board into the pool.
+division/dɪˈvɪʒn/n./部门（一个完整机构的一部分，是划分出来的一个单位）/Princeton is in the NCAA Division 1-AA.
+dizzy/ˈdizi/adj./晕眩的,眼花缭乱的；使晕眩/A dizzy blonde.
+document/ˈdɒkjumənt/n./文件，证件；vt.用文件（或文献）等证明；记载/The parents documented every step of their child's development.
+dot/dɒt/n./点,圆点,小数点,小东西,嫁妆；作小点记号,加小点于；打上点/Draw lines between the dots.
+downtown/ˈdaunˈtaun/adv.&adj.&n./市中心区；市中心的；往闹市区/The heart of Birmingham's downtown.
+dozen/ˈdʌzn/n./（一）打，十二个/We discussed dozen in today's seminar.
+draft/drɑːft/n.&v./草稿；汇票；服役；通风，气流；v.草拟；征募/They served beer on draft.
+drag/dræg/v./拖,拖累；拖累,拖拉,沉重缓慢地走,拖动；拖动/He dragged the big suitcase behind him.
+drawback/ˈdrɔːbæk/n./缺点；障碍，不利条件；退还的关税/He pointed out all the drawbacks to my plan.
+drawer/ˈdrɒːə/n./抽屉,开票人；抽屉/The teacher explained "drawer" with a simple example.
+drill/dril/n.&v./钻孔机,钻子,播种机,粗斜纹布；训练,钻孔/Don't drill here, there's a gas pipe.
+drug/drʌg/n./药,麻药,麻醉药；吸毒；使服麻醉药,使麻木/They drugged the kidnapped tourist.
+due/djuː/adj./预期的；应得的；正当的；到期的/The cancellation of the concert was due to the rain.
+dusty/ˈdʌsti/adj./灰尘多的,无聊的,含糊的,粉末状的/A dusty pile of books.
+DVD/ˌdiː viː ˈdiː/n./数字多功能光盘/We watched the film on DVD.
+dynasty/ˈdainæsti/n./朝代,王朝/The teacher explained "dynasty" with a simple example.
+eager/ˈiːgə/adj./热心的,渴望的,热望的/Eager to learn.
+earn/əːn/v./赚得,获得,博得；欧州科学研究网/She earns a lot in her new job.
+Easter/ˈiːstə/n./复活节/The teacher explained "Easter" with a simple example.
+eastern/ˈiːstən/adj./东方人,东正教徒；东方的,向东的,自东的/Eastern cities.
+edge/edʒ/n./边缘,尖锐,刀刃,优势；使锐利,挤进,镶边；缓缓移动/He rounded the edges of the box.
+edition/ɪˈdɪʃn/n./版本/The first edition appeared in 1920.
+educate/ˈedjukeit/v./教育,培养,训练/We must educate our youngsters better.
+educator/ˈedʒukeɪtə(r)/n./教育家/The textbook gives a practical example of educator.
+eggplant/ˈegplɑːnt/n./茄子/The teacher explained "eggplant" with a simple example.
+electrical/iˈlektrikəl/adj./电的；用电的；与电有关的/The fire was caused by an electrical fault.
+electricity/ɪˌlekˈtrɪsəti/n./电流，电/They built a car that runs on electricity.
+elegant/ˈelɪɡənt/adj./高雅的，优雅的；讲究的/Elegant handwriting.
+e-mail/ˈiːmeil/n.&v./电子邮件/The teacher explained "e-mail" with a simple example.
+embarrass/ɪmˈbærəs/v./使尴尬；使窘迫；使为难/His sudden question embarrassed her.
+emperor/ˈempərə(r)/n./皇帝，君主/The lecturer linked emperor to a real social problem.
+employ/ɪmˈplɔɪ/v./雇用；使用/How many people has she employed?
+encouragement/ɪnˈkʌrɪdʒmənt/n./鼓励，激励/Can you explain encouragement in your own words?
+ending/ˈendiŋ/n./终止,终了,收场；末梢/The ending of warranty period.
+endless/ˈendlis/adj./不停的,无穷尽的,无尽的；无端的,环状的/Time is endless.
+enjoyable/inˈdʒɒiəbl/adj./可从中得到乐趣的,令人愉快的/The company was enjoyable.
+entertainment/ˌentəˈteɪnmənt/n./娱乐，招待/Entertainment became the focus of our group presentation.
+entire/inˈtaiə/adj./整个,全部；全体的,完全的,全部的/An entire town devastated by an earthquake.
+entrance/ˈentrəns/n./入口；进入/They waited at the entrance to the garden.
+entry/ˈentri/n./进入；入口；条目；参赛作品/No entry is allowed without a ticket.
+envelope/ˈenvələup/n./信封,封套,封袋；膜,包袋/The spacecraft detected an envelope of gas around the comet.
+equal/ˈiːkwəl/adj.&v./相等的；平等的；比得上/All people should have equal opportunities.
+equality/iːˈkwɒliti/n./平等,均匀,相等；同等,平等,相等/The teacher explained "equality" with a simple example.
+equip/ɪˈkwɪp/v./装备，配备，准备，行装/The expedition was equipped with proper clothing, food, and other necessities.
+equipment/ɪˈkwɪpmənt/n./设备，装备/The lecturer linked equipment to a real social problem.
+error/ˈerə(r)/n./错误/The book was full of errors.
+erupt/ɪˈrʌpt/v./喷出（熔岩、水、气体、泥浆等）/Erupt in anger.
+escape/iˈskeip/n.&v./逃亡,避难设备,逃跑；逃脱,避开,溜走；逃避,避免,被...忘掉/He made his escape from the mental hospital.
+essay/ˈeseɪ/n./短文，评论；散文/The infant had essayed a few wobbly steps.
+eventually/iˈventʃuəli/adv./最后,终于/We learned how to use "eventually" correctly in a sentence.
+evident/ˈevɪdənt/adj./明显的/Evident hostility.
+exact/ɪɡˈzækt/adj./精确的；准确的/An exact mind.
+exchange/iksˈtʃeindʒ/n.&v./交换,(电话)交换局,交换机,汇兑,交易所；交换,交易,兑换；交换；电话局/They had a bitter exchange.
+excite/ikˈsait/v./刺激,使兴奋,激励/Excite the atoms.
+exhibition/ˌeksɪˈbɪʃn/n./展览；展览会/A remarkable exhibition of musicianship.
+exist/ɪɡˈzɪst/v./存在；生存/He could barely exist on such a low wage.
+exit/ˈeksɪt/n./出口；v.退出/Can you explain exit in your own words?
+expense/ɪkˈspens/n./花费，消费，消耗/At the expense of.
+experiment/ɪkˈsperɪmənt/n./实验/It was an experiment in living.
+explicit/ɪkˈsplɪsɪt/adj./明确的；清楚的；详述的/Explicit instructions.
+explode/ɪkˈspləʊd/v./（使）爆炸；激增；破除/The Molotov cocktail exploded.
+export/ikˈspɒːt/n.&v./输出品,输出；输出,出口；输出物资/We export less than we import and have a negative trade balance.
+expression/ɪkˈspreʃn/n./表达/A sad expression.
+extension/ɪkˈstenʃn/n./伸出；延长部分/They applied for an extension of the loan.
+extra/ˈekstrə/adj./额外的，附加的；n.附加物，额外的东西/Found some extra change lying on the dresser.
+extraordinary/ikˈstrɒːdənəri/adj./非常的,特别的,非凡的；非常的,特别的,临时的/Extraordinary authority.
+extreme/ikˈstriːm/adj./极端,末端；极端的,尽头的,极度的,偏激的/Extreme cold.
+eyesight/ˈaisait/n./视力,目力/The teacher explained "eyesight" with a simple example.
+fade/feɪd/v./褪色；凋谢；逐渐消失/The scene begins to fade.
+faith/feɪθ/n./信任；信仰/He cherished the faith of a good woman.
+fantasy/ˈfæntəsi/n./幻想；想象/A schoolgirl fantasy.
+fare/feə(r)/n./费，票价；v.进展/We discussed fare in today's seminar.
+fasten/ˈfɑːsən/v./拴紧,使固定,系,集中于,强加于；扣紧/Fasten the lock onto the door.
+feather/ˈfeðə/n./羽毛；长羽毛；用羽毛装饰/The teacher explained "feather" with a simple example.
+fee/fiː/n./费用/Fee the steward.
+fellow/ˈfeləu/n./男人,朋友,同事；同伴的,同事的,同道的/There's a fellow at the door.
+female/ˈfiːmeil/adj.&n./女性,女人,雌性动物；女性的,女子的/A female heir.
+fence/fens/n./围墙,栅栏,买卖赃物的人,剑术；用篱笆围住,练习剑术,防护；击剑,搪塞/We fenced in our yard.
+fiction/ˈfikʃən/n./小说,虚构故事；虚构的事实,捏造,拟制/The teacher explained "fiction" with a simple example.
+fierce/fɪəs/adj./凶猛的；强烈的/The fierce thunders roar me their music.
+figure/ˈfɪɡə(r)/n.&v./数字；人物；v.认为；想，估计/The area covered can be seen from Figure 2.
+file/fail/n./档案,公文箱,文件夹,文件,卷宗,锉刀；列队行进,用锉刀做；归档,申请,锉,琢磨/File for divorce.
+fireworks/ˈfaiəwəːks/n./烟火,激烈争论；焰火/The teacher explained "fireworks" with a simple example.
+firm/fɜːm/adj.&n./公司；adj.坚实的；稳固的；坚定的/The post was still firm after being hit by the car.
+fisherman/ˈfiʃəmən/n./渔夫,钓鱼者,渔船/The teacher explained "fisherman" with a simple example.
+flash/flæʃ/n./闪光,闪现,一瞬间；闪光,闪现,反射；使闪光,反射/If I had the chance I'd do it in a flash.
+flesh/ˈfleʃ/n./肉,肉体,肉欲,人性,亲属,人类,众生,人体；以肉喂,激起...的杀戳情绪,使肥,赋以血肉；长胖/The spirit is willing but the flesh is weak.
+flight/flaɪt/n./飞行，飞翔/His flight was an indication of his guilt.
+float/fləut/v./漂流物,浮舟,漂浮,浮萍,彩车；浮动,飘动,散播,摇摆,动摇,浮动；使漂浮,容纳,淹没,发行,实行/He floated the logs down the river.
+flour/ˈflauə/n./面粉,粉沫,碎粉；面粉,麦粉/Flour fish or meat before frying it.
+flow/fləʊ/v./流；流动/The crowd flowed out of the stadium.
+fluent/ˈfluːənt/adj./流利的/The team adopted a fluent strategy to solve the problem.
+foggy/ˈfɒɡi/adj./有雾的；模糊的/It was too foggy to see the road clearly.
+fold/fəuld/v./折层,折,羊栏,折痕,信徒；折叠,包,合拢,交迭；折叠起来,彻底失败/Fold up the newspaper.
+fond/fɒnd/adj./喜欢的,宠爱的,温柔的/Hopelessly spoiled by a fond mother.
+forbid/fəˈbid/v./禁止,不准,妨碍；不许,禁止,阻止/I forbid you to call me late at night.
+forgetful/fəˈgetful/adj./健忘的,易忘的/Forgetful of her responsibilities.
+forgive/fəˈgiv/v./原谅,宽恕,免除；免除,宽恕,原谅/She cannot forgive him for forgetting her birthday.
+former/ˈfɔːmə(r)/adj./以前的/Former generations.
+fortunate/ˈfɒːtʃənit/adj./幸运的,幸福的/Other, less fortunate, children died.
+fortune/ˈfɒːtʃən/n./财富,运气,兴隆,大量财产,好运,命运；命运,财产,大量财产/Whatever my fortune may be.
+fragile/ˈfrædʒaɪl/adj./脆弱的；虚弱的；易碎的，易损的；易受伤害的/Fragile porcelain plates.
+freedom/ˈfriːdəm/n./自由,坦率,特权；自由,自主,免除/The teacher explained "freedom" with a simple example.
+freezing/ˈfriːzɪŋ/adj./冰冷的/It is freezing in Kalamazoo.
+frequent/ˈfriːkwənt/adj./时常发生的,频繁的,快速的；时常来访,常常聚集,常与...交往/A frequent guest.
+frighten/ˈfraitn/v./使惊吓；惊恐/The stranger who hangs around the building frightens me.
+frontier/ˈfrʌntjə/n./边界,边境；国境,边境,边界/The individualism of the frontier in Andrew Jackson's day.
+fry/frai/v./油炸食物,鱼苗；油炸,煎/Fry the pancakes.
+fuel/ˈfjuːəl/n./燃料/More fuel is needed during the winter months.
+furnished/ˈfɜːnɪʃt/adj./配有家具的/They rented a furnished apartment.
+furniture/ˈfɜːnɪtʃə(r)/n./家具/They had too much furniture for the small apartment.
+gain/ɡeɪn/v./获得，赚到/Gain an understanding of international finance.
+gallon/ˈɡælən/n./加仑/His paragraph mentions gallon only briefly, but effectively.
+garbage/ˈgɑːbidʒ/n./垃圾,废物；无用信息/She tossed the moldy bread into the garbage.
+gay/gei/adj./欢快的,艳丽的,快乐的,放荡的/A dress a bit too gay for her years.
+generation/ˌdʒenəˈreɪʃn/n./一代；产生；一代人/They had to wait a generation for that prejudice to fade.
+generous/ˈdʒenərəs/adj./慷慨的/A generous donation.
+gifted/ˈgiftid/adj./有天才的/A gifted writer.
+glare/glєə/v./闪耀光,刺眼；发眩光,瞪视；瞪眼表示/The moon glared back at itself from the lake's surface.
+glory/ˈglɒːri/n./光荣,荣耀,荣誉,壮丽,繁荣；自豪/He valued glory above life itself.
+golden/ˈgəuldn/adj./金的,含金的,金色的,贵重的,繁盛的；金制的,金色的,兴隆的/Long aureate (or golden) hair.
+govern/ˈgʌvən/v./统治,支配,管理/His belief in God governs his conduct.
+gradual/ˈgrædʒuəl/adj./逐渐的,渐增的；弥撒升阶圣歌/A gradual increase in prices.
+grandchild/ˈ^rændtʃaild/n./孙,外孙女,外孙,孙女,孙子/The teacher explained "grandchild" with a simple example.
+grandparents/ˈɡrænpeərənts/n./祖父母；外祖父母/I visit my grandparents every weekend.
+granny/ˈ^ræni/n./奶奶,老奶奶,老婆婆,外婆,婆婆妈妈的人,唠叨挑剔的人,接生婆/The teacher explained "granny" with a simple example.
+grateful/ˈgreitful/adj./感谢的,感激的,令人快意的,受欢迎的/A grateful heart.
+gravity/ˈɡrævəti/n./重力；严重性；严肃/The more remote the body the less the gravity.
+greeting/ˈɡriːtɪŋ/n./问候/The lecturer linked greeting to a real social problem.
+growth/ɡrəʊθ/n./增长；发展/The growth of culture.
+guidance/ˈgaidns/n./指导,领导；导/The teacher explained "guidance" with a simple example.
+guilty/ˈgilti/adj./犯罪的,有过失的,自觉有错的,心虚的；有罪的,犯罪的,自觉有罪的/Guilty of murder.
+handle/ˈhændl/n.&v./操作，操纵/He grabbed the hammer by the handle.
+handy/ˈhændi/adj./便利的,敏捷的,容易取得的；便于使用的；易操作的/Found a handy spot for the can opener.
+happiness/ˈhæpinis/n./快乐,幸运,适当/The teacher explained "happiness" with a simple example.
+hardworking/ˈhɑːdwəːkiŋ/adj./苦干的,不辞辛劳的/The word "hardworking" describes something in the passage.
+harmful/ˈhɑːmfl/adj./有害的/Too much sun is harmful to the skin.
+harmony/ˈhɑːməni/n./和谐，融洽；相符，一致/Her report on harmony was clear and persuasive.
+harvest/ˈhɑːvɪst/n.&v./收割（庄稼）；n.收获；收割/They gathered a harvest of examples.
+hatch/hætʃ/v./孵出；策划vi.孵化/Young birds, fish, and reptiles hatch.
+headmaster/ˈhedˈmɑːstə/n./(中小学)校长,监工/The teacher explained "headmaster" with a simple example.
+hearing/ˈhɪərɪŋ/n./听证会/They condemned him without a hearing.
+heaven/ˈhevn/n./天堂,上帝,天空/The teacher explained "heaven" with a simple example.
+heel/hiːl/n./脚后跟；踵；v.倾侧/Heel that dance.
+helicopter/ˈhelikɒptə/n./直升机；由直升机运送；乘直升机/The teacher explained "helicopter" with a simple example.
+helmet/ˈhelmit/n./钢盔,盔,防护帽；给...戴头盔/The teacher explained "helmet" with a simple example.
+hesitate/ˈhezɪteɪt/v./犹豫；不情愿/Authorities hesitate to quote exact figures.
+highway/ˈhaiwei/n./公路,大道,捷径；公路,大路/The teacher explained "highway" with a simple example.
+hire/haiə/v./租金,租用,雇用；雇请,出租；受雇/They hired two new secretaries in the department.
+hopeful/ˈhəupful/adj./有希望之人,有前途之人；有希望的,怀抱希望的,保持乐观的/A hopeful new singer on Broadway.
+horrible/ˈhɒrəbl/adj./可怕的,遭透的,极讨厌的/War is beyond all words horrible.
+host/həust/n.&v./主人,旅馆老板,节目主持人；当主人招待,作...节目主持人；主机,宿主机/Atlanta was chosen to be host for the Olympic Games.
+hotdog/ˈhɒtdɒɡ/n./热狗/He bought a hotdog for lunch.
+housewife/ˈhauswaif/n./主妇,家庭妇女/The teacher explained "housewife" with a simple example.
+human being/ˌhjuːmən ˈbiːɪŋ/n./人；人类/Every human being needs clean water.
+hunger/ˈhʌŋɡə(r)/n./（对某事物的）渴望，渴求；饥饿/Hunger for affection.
+hunter/ˈhʌntə/n./猎人,猎犬,追求者/A treasure hunter.
+hurricane/ˈhʌrɪkən/n./飓风/His paragraph mentions hurricane only briefly, but effectively.
+identity/aɪˈdentəti/n./身份/You can lose your identity when you join the army.
+ignore/ɪɡˈnɔː(r)/v./不顾，不理，忽视/You should not ignore the warning signs.
+illness/ˈɪlnəs/n./病/Without understanding illness, the argument feels incomplete.
+immediately/iˈmiːdiətli/adv./直接地,立刻,立即/He answered immediately.
+importance/ɪmˈpɔːtns/n./重要性/The importance of a well-balanced diet.
+impossible/ɪmˈpɒsəbl/adj./不可能的，办不到的/An impossible dream.
+impress/imˈpres/v./印象,特征,印记；使有印象,印,铭刻,传送,影响,强征；给人印象/This child impressed me as unusually mature.
+inch/intʃ/n./英寸,身高,小岛；慢慢前进,慢慢移动；使缓慢地移动/The teacher explained "inch" with a simple example.
+income/ˈɪnkʌm/n./收入/The textbook gives a practical example of income.
+indicate/ˈɪndɪkeɪt/v./标示；表示，表明/The results indicate the need for more work.
+influence/ˈɪnfluəns/n.&v./影响力；产生影响力的人；vt.影响/Used her parents' influence to get the job.
+inform/inˈfɒːm/v./通知,使了解,使充满；提供资料,告发/I informed him of his rights.
+inn/in/n./旅馆,客栈；住旅馆/The teacher explained "inn" with a simple example.
+innocent/ˈɪnəsnt/adj./天真的；清白的/Innocent of literary merit.
+inspect/ɪnˈspekt/v./检查，检阅/Please inspect your father's will carefully.
+instant/ˈinstənt/adj./立即,瞬间；紧急的,立即的,即时的/An instant need.
+institution/ˌɪnstɪˈtjuːʃn/n./公共机构，协会，学校；制度，惯例/The institution of marriage.
+instruct/ɪnˈstrʌkt/v./教，教导；命令，指示；通知/She instructed the students to work on their pronunciation.
+instruction/ɪnˈstrʌkʃn/n./指令，命令/Our instruction was carefully programmed.
+instrument/ˈɪnstrəmənt/n./仪器；手段；工具；乐器/My greed was the instrument of my destruction.
+intelligence/ɪnˈtelɪdʒəns/n./智力/We sent out planes to gather intelligence on their radar coverage.
+intend/inˈtend/v./计划,打算,意思是；想要,打算,意旨/She was intended to become the director.
+introduction/intrəˈdʌkʃən/n./介绍,传入,采用,初步/They resisted the introduction of impractical alternatives.
+invitation/inviˈteiʃən/n./邀请,请柬,引诱；邀请,招待,吸引/An invitation to lunch.
+iron/ˈaɪən/n.&v./铁/She stood there ironing.
+irrigation/ˌɪrɪˈɡeɪʃn/n./灌溉/Her report on irrigation was clear and persuasive.
+jar/dʒɑː/n./广口瓶,震动,刺耳声；震惊,冲突,发刺耳声,不一致；震动,刺激/He drank a jar of beer.
+jazz/dʒæz/n./爵士乐；vt.使活泼/Don't give me any of that jazz.
+jet/dʒet/n./喷气式飞机/Water jetted forth.
+jog/dʒɒg/v./轻推,轻撞,慢跑；轻推,(使)蹒跚行进,(使)慢跑/Jog along the canal.
+junior/ˈdʒuːnjə/adj./年少者,地位较低者,大学三年级学生；年少的,下级的,后进的/The junior class.
+kettle/ˈketl/n./茶壶,罐；釜体釜；锅/The teacher explained "kettle" with a simple example.
+kilogram/ˈkiləgræm/n./千克,公斤/A kilogram is approximately 2.2 pounds.
+kilometre/ˈkiləjmiːtə(r)/n./公里,千米/The teacher explained "kilometre" with a simple example.
+kindness/ˈkaɪndnəs/n./仁慈/Without understanding kindness, the argument feels incomplete.
+lack/læk/n.&v./缺乏,无,不足；缺乏,短少,不足,需要；缺乏/There is a serious lack of insight into the problem.
+lame/leɪm/adj./跛的；有缺陷的/A lame argument.
+latter/ˈlætə/n./后者的,较后的,近来的/Tom and Dick were both heroes but only the latter is remembered today.
+laughter/ˈlɑːftə(r)/n./笑，笑声/He enjoyed the laughter of the crowd.
+laundry/ˈlɒːndri/n./洗衣店,洗好的衣服,洗涤；洗衣作,洗衣店,洗衣房/The teacher explained "laundry" with a simple example.
+leak/liːk/v./漏洞,漏处,漏出,泄漏；漏,泄漏；使渗漏/The news were leaked to the paper.
+lecture/ˈlektʃə/n./演讲,谴责,讲稿；演讲,训诫,说教；讲演/He attended a lecture on telecommunications.
+legal/ˈliːɡl/adj./法律的；合法的/Legal loophole.
+length/leŋθ/n./长度/He determined the length of the shortest line segment joining the two points.
+librarian/laiˈbrєəriən/n./图书管理员/The librarian helped me find the book.
+lid/lid/n./盖子,限制,眼睑；给...盖盖子/His lids would stay open no longer.
+likely/ˈlaɪkli/adj./有可能的/These services are likely to be available to us all before long.
+lip/lip/n./唇,口缘,唇状构造；以嘴唇碰,轻轻说出；口头上的/The teacher explained "lip" with a simple example.
+liquid/ˈlɪkwɪd/adj.&n./液体，流体/The liquid grace of a ballerina.
+literature/ˈlitərətʃə/n./文学,文艺,著作；广告,商品介绍等文学/The technical literature.
+load/ləud/n./负荷,担子,重担,装载量,负载,工作量,加载；装载,装填,使担负；装货,上客,装料/That's a load off my mind.
+loose/luːs/adj./发射,放任,放纵；宽松的,松的,宽的,不牢固的,散漫的,自由的,不精确的；释放,放枪,开船/Dogs loose on the streets.
+loss/lɒs/n./损失,遗失,失败,输,错过,伤亡；损失；损耗/The car was a total loss.
+luggage/ˈlʌgidʒ/n./行李,皮箱/The teacher explained "luggage" with a simple example.
+lung/lʌŋ/n./肺,肺脏,空地；肺/The teacher explained "lung" with a simple example.
+mainland/ˈmeinlənd/n./大陆,本土；大陆/The teacher explained "mainland" with a simple example.
+major/ˈmeɪdʒə(r)/adj./主要的；n.专业（学生）；vi.主修，专攻/A major artist.
+male/meil/adj.&n./男人,雄性动物；男性的,雄性的,有力的/A male infant.
+mankind/mænˈkaind/n./人类,男性/She always used `humankind' because `mankind' seemed to slight the women.
+manner/ˈmænə/n./样子,礼貌,风格；方式,方法,样式/Her dignified manner.
+marathon/ˈmærəθən/n./马拉松,耐力的考验/The teacher explained "marathon" with a simple example.
+marriage/ˈmæridʒ/n./婚姻,结婚,婚礼,合并；婚姻,结婚/A long and happy marriage.
+mass/mæs/n./团，众多；adj.大量的/He received a mass of correspondence.
+master/ˈmɑːstə ˈmæstə/n.&v./主人,硕士,大师,母机；主人的,主要的；征服,控制,精通/Her pain completely mastered her.
+material/məˈtɪəriəl/n./材料；素材；adj.物质的；重要的/She measured off enough material for a dress.
+maximum/ˈmæksɪməm/adj.&n./最大的；最高的；最大量；最高限度/The maximum speed on this road is 80 kilometres per hour.
+measure/ˈmeʒə(r)/v./量具，计量单位；vt.测量/Measure the length of the wall.
+medal/ˈmedl/n./奖牌,勋章；授勋予/The teacher explained "medal" with a simple example.
+media/ˈmiːdiə/n./大众传播媒介；媒体/The event attracted a great deal of media attention.
+medium/ˈmiːdiəm/n./媒介/Fish require an aqueous medium.
+memorial/miˈmɒːriəl/adj.&n./纪念物,请愿书；记念的,记忆的/The teacher explained "memorial" with a simple example.
+mental/ˈmentl/adj./心理的，精神的；智力的/Mental images of happy times.
+merchant/ˈməːtʃənt/adj.&n./商人,店主；商业的,商人的/The teacher explained "merchant" with a simple example.
+merely/ˈmiəli/adv./只/I was merely asking.
+microwave/ˈmaɪkrəweɪv/n./微波/You can microwave the leftovers.
+mild/maild/adj./温和的,温柔的,淡味的,适度的,轻微的,(肥皂等)软性的；轻的,缓和的/The climate was mild and conducive to life or growth.
+millimetre/ˈmilimiːtə/n./毫米；公厘/The teacher explained "millimetre" with a simple example.
+millionaire/miljəˈnєə/n./百万富翁,大富豪；大资本家,巨富,百万富翁/The teacher explained "millionaire" with a simple example.
+minimum/ˈminiməm/adj.&n./最小的；最低的；最低限度/The minimum age for driving is eighteen.
+mist/mɪst/n./薄雾/The windshield misted over.
+mistaken/misˈteikən/adj./犯错的,错误的；mistake的过去分词/A mistaken view of the situation.
+misunderstand/misʌndəˈstænd/v./误解,误会/We learned how to use "misunderstand" correctly in a sentence.
+mixture/ˈmɪkstʃə(r)/n./混合（物）；合剂/He drank a mixture of beer and lemonade.
+mobile/ˈməʊbaɪl/adj./移动的/Upwardly mobile.
+modem/ˈməʊdem/n./调制解调器/The lecturer linked modem to a real social problem.
+mommy/ˈmɒmi/n./妈咪/The teacher explained "mommy" with a simple example.
+moral/ˈmɒrəl/adj.&n./道德的；n.道德/Moral sense.
+Moslem/ˈmɒzləm/n./穆斯林；穆斯林的,伊斯兰教的/The teacher explained "Moslem" with a simple example.
+motor/ˈməʊtə(r)/n./马达/Happiness is the aim of all men and the motor of all action.
+movement/ˈmuːvmənt/n./（尤指交响曲的）乐章/The succession of flashing lights gave an illusion of movement.
+mud/mʌd/n./泥，泥浆/The textbook gives a practical example of mud.
+muddy/ˈmʌdi/adj./泥泞的；混乱的/Muddy barnyard.
+murder/ˈməːdə/v./谋杀；谋杀,损毁,破坏；犯杀人罪/The tourists murdered the French language.
+musical/ˈmjuːzɪkl/adj.&n./悦耳的/A musical evening.
+musician/mjuːˈziʃən/n./音乐家,乐师,作曲家/The teacher explained "musician" with a simple example.
+narrow/ˈnærəʊ/adj./狭窄的；v.变窄/A narrow scrutiny.
+nationwide/ˈneiʃənwaid/adv./全国性的；全国的,全国范围的/It was broadcast nationwide.
+native/ˈneitiv/adj./本地人,土产,当地人；本国的,与生俱来的,自然的/The native North American sugar maple.
+natural/ˈnætʃrəl/adj./自然的/A natural reaction.
+navy/ˈneɪvi/n./海军/Her report on navy was clear and persuasive.
+nearby/ˈniəbai/adj./附近的,近旁的；在附近,近旁地；在...附近/The nearby towns.
+neat/niːt/adj./整洁的,巧妙的,匀称的,简洁的；牛/A neat sports car.
+necklace/ˈneklis/n./项链/The teacher explained "necklace" with a simple example.
+negotiate/nɪˈɡəʊʃieɪt/v./洽谈，协商；顺利通过/They negotiated the sale of the house.
+network/ˈnetwɜːk/n./网络/He owned a network of shops.
+noble/ˈnəubl/adj./贵族；高贵的,高尚的,贵族的,辉煌的/A noble tree.
+nod/nɒd/v./点头；点头赞同/He nodded his approval.
+noisy/ˈnɒizi/adj./嘈杂的,喧闹的；噪声的,嘈杂的/A noisy cafeteria.
+noodle/ˈnuːdl/n./面条,笨蛋/The teacher explained "noodle" with a simple example.
+northeast/nɒːθˈiːst/n./东北；东北的,向东北的,来自东北的；向东北,来自东北/Northeasterly winds.
+northern/ˈnɒːðən/adj./北方人；北方的,向北的,自北方来的/The northern suburbs.
+notebook/ˈnəutbuk/n./笔记本,手册,期票簿/The teacher explained "notebook" with a simple example.
+novel/ˈnɒvl/n./小说,长篇故事；新奇的,异常的/His bookcases were filled with nothing but novels.
+novelist/ˈnɒvəlist/n./小说家/The teacher explained "novelist" with a simple example.
+nowadays/ˈnauədeiz/adv./现在,现时,当今；时下,现今/It is solely by their language that the upper classes nowadays are distinguished.
+nowhere/ˈnəuhwєə/adv./无处,到处都无/I am going nowhere.
+nut/nʌt/n./坚果；螺母；狂热爱好者/These biscuits contain nuts.
+nutrition/njuːˈtriʃən/n./营养,营养学；营养,营养品/The teacher explained "nutrition" with a simple example.
+obey/əˈbei/v./服从,遵从,顺从；服从/We learned how to use "obey" correctly in a sentence.
+obvious/ˈɒbviəs/adj./明显的，显而易见的/Obvious errors.
+occupy/ˈɒkjupai/v./占领,占(时间、空间等),住进,担任,使从事,使全神贯注；占领,占据,占有/He occupies the position of manager.
+ocean/ˈəʊʃn/n./海洋；…洋/The lecturer linked ocean to a real social problem.
+Oceania/əuʃiˈæniə/n./大洋洲/The teacher explained "Oceania" with a simple example.
+offence/əˈfens/n./犯罪；违法行为/He took offence at my question.
+officer/ˈɒfisə/n./军官,主管,官员,公务员；指挥/An officer is responsible for the lives of his men.
+official/əˈfiʃəl/adj.&n./官员,公务员,职员；公务的,官方的,正式的/Official permission.
+Olympic/əuˈlimpik/adj.&n./奥林匹克运动会的；奥运会选手/She hopes to win an Olympic medal.
+oneself/wʌnˈself/pron./自己,亲自/The teacher explained "oneself" with a simple example.
+onto/ˈɒntuː/prep./在...之上/Please use "onto" in a complete sentence.
+opening/ˈəʊpnɪŋ/n./（职位的）空缺/There was a small opening between the trees.
+operation/ˌɒpəˈreɪʃn/n./活动；行动；企业；手术/They were learning the basic operations of arithmetic.
+operator/ˈɒpəreɪtə(r)/n./接线员/The operator of the switchboard.
+oppose/əˈpəʊz/v./反对，反抗/The senator said he would oppose the bill.
+opposite/ˈɒpəzit/adj.&n./相对的,相反的,对面的；对面；对立面/Diametrical (or opposite) points of view.
+ordinary/ˈɒːdinəri/adj./平常的,普通的,平凡的；平常的人(或事)/The ordinary (or common) man in the street.
+organ/ˈɔːɡən/n./风琴，管风琴/The Census Bureau is an organ of the Commerce Department.
+organisation/ˌɔːɡənaɪˈzeɪʃn/n./组织，团体，机构；组织的活动；安排，配置，分配/The lecturer linked organisation to a real social problem.
+origin/ˈɒrɪdʒɪn/n./起源；[常pl.]出身/Jupiter was the origin of the radiation.
+ought/ɒːt/modal v.&v./aux.应该,大概；责任/We learned how to use "ought" correctly in a sentence.
+ourselves/auəˈselvz/pron./我们自己/The teacher explained "ourselves" with a simple example.
+outdoors/ˈautˈdɒːz/adv./户外,野外活动；在户外,在野外/He wanted to get outdoors a little.
+outer/ˈautə/adj./外部的,外面的,在外的,远离中心的；外部的,外面的,外侧的/Spent hours adorning the outer man.
+outgoing/ˈautgəuiŋ/adj./外出,开支,流出；喜欢外出的,即将离职的,乐于助人的/An outgoing steamship.
+outing/ˈaʊtɪŋ/n./（一群人的）短途旅游/Outing became the focus of our group presentation.
+outstanding/aʊtˈstændɪŋ/adj./杰出的；显著的/Einstein was one of the outstanding figures of the 20th centurey.
+overlook/ˌəʊvəˈlʊk/v./忽略；俯瞰/The apartment overlooks the Hudson.
+owner/ˈəunə/n./拥有者,物主,所有人；所有者,物主,业主/He is the owner of a chain of restaurants.
+ownership/ˈəunəʃip/n./所有权,物主身份；所有权,所有制/The teacher explained "ownership" with a simple example.
+oxygen/ˈɒksɪdʒən/n./氧/The lecturer linked oxygen to a real social problem.
+pace/peis/n./速度,步调,步法；踱步,缓慢走；用步测,踱步于/He stepped off ten paces from the old tree and began to dig.
+pack/pæk/n.&v./（把…）打包；塞满；n.包/Every summer they are backpacking in the Rockies.
+painful/ˈpeinful/adj./痛苦的,困难的,令人烦恼的；疼痛的/The painful process of growing up.
+painter/ˈpeintə/n./画家,油漆匠；油漆匠,喷漆匠/The teacher explained "painter" with a simple example.
+painting/ˈpeɪntɪŋ/n./油画/A small painting by Picasso.
+pan/pæn/n./平锅,浅盘,盆地,硬土层,拍摄全景；上下左右移动,摇镜头,淘洗,淘金/The camera panned across the room.
+paragraph/ˈpærəgrɑːf/n./段落,短评；将...分段,分段落；写短讯/This story is well paragraphed.
+parallel/ˈpærəlel/adj.&n./极其相似的人；相似特点；纬线；adj.平行的；极相似的/Parallel lines never converge.
+parking/ˈpɑːkiŋ/n./停车；停车的/There is plenty of parking behind the store.
+participate/pɑːˈtɪsɪpeɪt/v./参与/The error rate did not participate as expected.
+particular/pəˈtikjulə/adj./一项(或条、点),个别项目,详细说明；特别的,独有的,挑剔的,详尽的/A matter of particular and unusual importance.
+partly/ˈpɑːtli/adv./部分地,在一定程度上/I felt partly to blame.
+part-time/ˌpɑːt ˈtaɪm/adv.&adj./兼职的；部分时间的/She has a part-time job after school.
+passage/ˈpæsidʒ/n./通道,通过,移居,航行,一段,走廊；通过,经过,航行,横渡,争吵；(使)马以斜横步前进,使传代/The outward passage took 10 days.
+passenger/ˈpæsindʒə/n./乘客,旅客/The teacher explained "passenger" with a simple example.
+patience/ˈpeiʃəns/n./耐性,忍耐/The teacher explained "patience" with a simple example.
+pattern/ˈpætn/n./样式；模式；图案；vt.仿造/A pattern for a skirt.
+pause/pɒːz/n.&v./暂停,中止,停顿,间歇,踌躇,休止符；暂停,中止,停顿,踌躇；DOS内部命令:暂时停止批处理文件的执行/The speaker paused.
+P.C./ˌpiː ˈsiː/n./个人计算机/The program can run on a PC.
+peaceful/ˈpiːsful/adj./平静的,和平的,和平时期的,爱好和平的,喜爱安静的；和平的,爱好和平的,和平时期的/A peaceful nation.
+pence/pens/n./pl.(非正式)copper便士,(美)分,分币/The teacher explained "pence" with a simple example.
+penny/ˈpeni/n./便士,一分,小钱,点滴；便士/The teacher explained "penny" with a simple example.
+per/pəː/prep./每一,通过,经,按照；每,按照/Please use "per" in a complete sentence.
+performance/pəˈfɔːməns/n./演出，表演；履行，执行；工作情况，性能/They compared the cooking performance of each oven.
+permission/pəˈmiʃən/n./许可,允许；许可,认可/He asked permission to leave.
+personnel/pəːsəˈnel/n./人员,人事部门,人事科(处)；人事,全体人员,职工/The teacher explained "personnel" with a simple example.
+personally/ˈpəːsənli/adv./亲自地,个别地,当面,就本人而言,针对个人地/Speaking personally, I would not want to go.
+petrol/ˈpetrəl/n./汽油/Petrol became the focus of our group presentation.
+photograph/ˈfəutəgrɑːf/n./相片,照片,逼真的描绘；照相,摄影/I photographed the scene of the accident.
+photographer/fəˈtɔ^rəfə/n./摄影师,摄影者/The teacher explained "photographer" with a simple example.
+phrase/freiz/n./惯用语,词组,成语,措词,乐句；用短语表达,把(乐曲)分成短句；短语/Phrase a musical passage.
+physical/ˈfizikl/adj./身体的,物质的,自然的,物理学的,好色的；体格检查/A real cop would get physical.
+physician/fɪˈzɪʃn/n./医生，内科医师/Without understanding physician, the argument feels incomplete.
+pianist/ˈpiənist/n./钢琴家,钢琴演奏者/The teacher explained "pianist" with a simple example.
+pile/pail/n./堆,大堆,大厦,建筑群,电池,大量,桥桩,软毛,痔疮；堆起,堆积,积累,挤,猛烈攻击；堆于,累积,堆叠,打桩于,用桩支撑/For uniform color and texture tailors cut velvet with the pile running the same direction.
+pin/pɪn/n.&v./大头针；钉子；v.别住/Pin the needle to the shirt.
+ping-pong/ˈpɪŋ pɒŋ/n./乒乓球/They played ping-pong after school.
+pity/ˈpiti/n./遗憾,同情,怜悯,憾事,可惜；同情,怜悯；觉得可怜,有同情心/The blind are too often objects of pity.
+plain/pleɪn/adj./清楚的；明显的；朴素的；普通的/She made it plain that she disagreed.
+platform/ˈplætfɔːm/n./站台，月台/The speaker mounted the platform.
+playground/ˈpleigraund/n./运动场,操场,度假胜地,活动场所/The teacher explained "playground" with a simple example.
+plot/plɒt/n.&v./故事情节；小块土地/They concocted a plot to discredit the governor.
+plus/plʌs/prep.&v./加，加上/A plus value.
+p.m./ˌpiː ˈem/abbr./下午；午后/The meeting starts at 3 p.m.
+poet/ˈpəuit/n./诗人/The teacher explained "poet" with a simple example.
+policy/ˈpɒlisi/n./政策,方针,策略,保险单；凭单,保险单/It was a policy of retribution.
+political/pəˈlɪtɪkl/adj./政治的，党派的/Calling a meeting is a political act in itself.
+pollute/pəˈluːt/v./污染,弄脏,玷污；污染/The industrial wastes polluted the lake.
+pollution/pəˈluːʃn/n./污染/His paragraph mentions pollution only briefly, but effectively.
+pond/pɒnd/n./池塘/There are several ducks on the pond.
+position/pəˈzɪʃn/n./位置，方位；职位，职务；姿势；见解，立场；vt.安放，安/Moved from third to fifth position.
+positive/ˈpɒzətɪv/adj./（电）正极的，阳性的/The less he knows the more positive he gets.
+possess/pəˈzes/v./持有,占有,拥有,克制,支配,迷住；持有,占有,具有/He possesses great knowledge about the Middle East.
+possibility/pɒsəˈbiliti/n./可能性,可能的事；可能性,可能发生的事,不确定权/This room has great possibilities.
+possible/ˈpɒsəbl/adj./可能的,潜在的,合适的；可能性,可能的事物/A breakthrough may be possible next year.
+postcode/ˈpəustkəud/n./邮政编码/The teacher explained "postcode" with a simple example.
+postman/ˈpəustmən/n./邮递员；邮递员,理财法庭的高级律师/The teacher explained "postman" with a simple example.
+postpone/pəustˈpəun/v./延迟,使延期,缓办,搁延；延缓,延缓发作/Let's postpone the exam.
+pot/pɒt/n./锅；罐；壶/She put the soup into a large pot.
+pour/pɒː/v./流出,倾泻,骤雨；倒,灌,注,倾泻,诉说,倾吐；倾泻,蜂涌而来,下大雨/Pour water over the floor.
+powerful/ˈpauəful/adj./有力的,有权力的,强大的；强力的/Powerful arms.
+practical/ˈpræktɪkl/adj./实际的，实用的；实践的，应用的/Completely practical in his approach to business.
+precise/prɪˈsaɪs/adj./精确的/A precise image.
+prefer/priˈfəː/v./宁可,较喜欢,提出；给予优先权,优先偿还,提出/Some people prefer camping to staying in hotels.
+preference/ˈprefərəns/n./偏爱,优先,喜爱物；首选项/His sexual preferences.
+preparation/prepəˈreiʃən/n./准备,预备,预习；制剂/He left the preparation of meals to his wife.
+press/pres/n.&v./压,揿,按,人群,印刷机,压力,出版社,记者,报刊,新闻舆论,紧迫；压,压榨,紧抱,逼迫,推进,强迫征募,催逼；压,重压,催促,拥挤,奋力前进,受压/She compressed her lips.
+pressure/ˈpreʃə(r)/n./压力/He used pressure to stop the bleeding.
+preview/ˈpriːvjuː/n.&v./预展；预演；预告；预先观看/We were invited to preview the new exhibition.
+previous/ˈpriːviəs/adj./以前的/The previous occupant of the White House.
+pride/praɪd/n./骄傲/He takes pride in his son's success.
+prison/ˈprizn/n./监狱,监禁,拘留所；监禁/The teacher explained "prison" with a simple example.
+probably/ˈprɒbəbli/adv./大概,或许/He will probably win the election.
+procedure/prəˈsiːdʒə(r)/n./手续，步骤/The procedure of obtaining a driver's license.
+production/prəˈdʌkʃn/n./产品/Production was up in the second quarter.
+profession/prəˈfeʃn/n./职业；宣言/The news spread rapidly through the medical profession.
+professor/prəˈfesə(r)/n./教授/Without understanding professor, the argument feels incomplete.
+progress/ˈprəʊɡres/n.&v./进步；进展；前进/The students have made great progress in English.
+prohibit/prəˈhɪbɪt/v./禁止；阻止/The law prohibits smoking in public buildings.
+properly/ˈprɒpəli/adv./适当地，恰当地/Please do your job properly!
+protection/prəˈtekʃən/n./保护,防卫,贸易保护制度；保护/The witnesses demanded police protection.
+province/ˈprɒvins/n./省,地方,职权,领域；省,地方,领域/It was his province to take care of himself.
+publish/ˈpʌbliʃ/v./出版,发行,公开,发表,宣传,公布；出版,发行/The newspaper published the news of the royal couple's divorce.
+punishment/ˈpʌnɪʃmənt/n./处罚/Punishment became the focus of our group presentation.
+pure/pjuə/adj./纯的,纯净的,纯洁的,清白的,完美的,无瑕的,抽象的；的,纯净的/Pure folly.
+puzzle/ˈpʌzl/n./拼图游戏；vt.使迷惑，使为难/He loved to solve chessmate puzzles.
+quantity/ˈkwɒntəti/n./量/He had a quantity of ammunition.
+quarrel/ˈkwɒrəl/n.&v./争论/They had a quarrel.
+queue/kjuː/n.&v./辫子,一队人,队列；使排队,将...梳成辫子；排队/The teacher explained "queue" with a simple example.
+quit/kwɪt/v./停止；辞职；放弃/Quit teasing your little brother.
+radium/ˈreidiəm/n./镭；镭Ra/The teacher explained "radium" with a simple example.
+rail/reil/n./横杆,围栏,栏杆,铁轨,扶手,秧鸡；以横木围栏,给...铺铁轨；责骂,抱怨/He traveled by rail.
+railway/ˈreilwei/n./铁路,轨道；铁路/The teacher explained "railway" with a simple example.
+raincoat/ˈreinkəut/n./雨衣/The teacher explained "raincoat" with a simple example.
+rank/ræŋk/n./等级,排,横列,队伍,阶级；茂密丛生的,恶臭的,十足的,粗俗的；排列,归类于,把...分等/They found dissension in their own ranks.
+rare/rєə/adj./稀罕的,罕有的,珍奇的,稀薄的,半熟的,非常好的；非常/A rare word.
+rat/ræt/n./鼠,卑鄙的人,破坏者,变节者；捕鼠,变节；弄蓬松/Kill the rat.
+rate/reɪt/n.&v./速率，比率；等级；价格，费用；v.估价；评级，评价/He works at a great rate.
+raw/rɔː/adj./未加工过的；生的；未经训练的；（伤口等）未愈的/Raw data.
+ray/rei/n./光线,射线,闪烁,光辉；射出光线,浮现,放射光线；放射,显出/That tower rays a laser beam for miles across the sky.
+reading/ˈriːdiŋ/n./阅读,知识,读物；阅读的/His main reading was detective stories.
+realise/ˈriəlaizˈriː-/v./实现,认识到,体会到,了解,认清,使显得逼真,变卖财产为现钱/Does she realize how important this decision is?
+reality/riˈæləti/n./现实/The reality of his situation slowly dawned on him.
+reasonable/ˈriːznəbl/adj./合理的,明理的,适当的；合理的,公道的,正当的/Reasonable prices.
+rebuild/ˌriːˈbɪld/v./重建，重新组装/The house was rebuild after it was hit by a bomb.
+recipe/ˈresəpi/n./食谱；方法，秘诀/The textbook gives a practical example of recipe.
+recognize/ˈrekəgnaiz/v./认出,认可,承认,公认,识别,赏识；承认,具结/The Regents officially recognized the new educational institution.
+recover/rɪˈkʌvə(r)/v./重新获得；使复原，使康复；收回/We expect the stocks to recover to $2.90.
+recycle/ˌriːˈsaɪkl/v./回收/We must recycle the cardboard boxes.
+reduce/rɪˈdjuːs/v./减少，缩小；简化/The sauce should reduce to one cup.
+refer/riˈfəː/v./提交,归诸于,把...提交,使求助于；提到,涉及,查阅,查询,咨询/Refer to your notes.
+reference/ˈrefərəns/n./参考,索引,参照；给...加上参考资料；引用/Requests for character references are all too often answered evasively.
+reflect/rɪˈflekt/v./反映；反省；反射；深思/This action reflects his true beliefs.
+refresh/rɪˈfreʃ/v./刷新/The cool water refreshed us.
+regard/rɪˈɡɑːd/n.&v./把…看作，把…认为；注视；n.敬意，问候/A man who has earned high regard.
+regulation/ˌreɡjuˈleɪʃn/n./管理；规则；adj.规定的；平常的/Fiscal regulations are in the hands of politicians.
+relate/rɪˈleɪt/v./有关联；适应，和睦相处；讲述，叙述/I cannot relate these events at all.
+relative/ˈrelətɪv/n./相对的；比较的；相关的；n.亲属/Police are searching for relatives of the deceased.
+relief/riˈliːf/n./减轻,解除,救济,安慰,调剂,浮雕,换班,(地势的)起伏；缓减,减轻,浮雕(绘画中)/He asked the nurse for relief from the constant pain.
+religious/riˈlidʒəs/adj./宗教性的,虔诚的,宗教上的,严谨的；修道士,出家人/A religious man.
+rely/rɪˈlaɪ/v./依靠；信赖/Rely on your friends.
+remain/rɪˈmeɪn/v./保持；仍旧是；剩下；n.[pl.]残余；遗迹/The hostility remained long after they made up.
+remote/rɪˈməʊt/adj./长久的；遥远的，偏僻的；远程的；关系疏远的，脱离的/A remote relative.
+remove/riˈmuːv/v./移动,调动,除去,迁移,开除,移交；迁移,移动,搬家；班级,升级,移动,搬家,间距/Remove a threat.
+rent/rent/n.&v./租金,房租,出租物,裂缝,破裂处,分裂；租用,租出；出租/Let's rent a car.
+reporter/riˈpɒːtə/n./记者,报告者；指示器/The teacher explained "reporter" with a simple example.
+represent/repriˈzent/v./表现,表示,描绘,讲述,代表,象征,回忆,再赠送,再上演；提出异议/This sum represents my entire income for a year.
+request/rɪˈkwest/n./要求，请求/She requested an extra bed in her room.
+requirement/rɪˈkwaɪəmənt/n./需要，需求，需要的东西，要求；必要条件/Allow farmers to buy their requirements under favorable conditions.
+resemble/rɪˈzembl/v./类似，像/She resembles her mother very much.
+reserve/rɪˈzɜːv/n.&v./保留；预订；n.储备（物）；自然保护区/We managed to reserve a table at Maxim's.
+resist/riˈzist/v./抵抗,耐得住,抵制,反抗；防染材料/The trees resisted her.
+responsibility/rɪˌspɒnsəˈbɪləti/n./责任，责任心；职责，任务/Every right implies a responsibility; every opportunity, an obligation; every possession, a duty.
+retire/riˈtaiə/v./隐居；引退,退役,退休,退去,撤退,退却；使...撤退,辞退/The men retired to the library.
+revolution/ˌrevəˈluːʃn/n./革命；旋转/The industrial revolution was also a cultural revolution.
+reward/rɪˈwɔːd/n./奖赏；报酬；vt.酬谢；奖励/Reaping the rewards of generosity.
+rid/rid/v./免除,以...清除,使获自由,使摆脱；免除,清除,摆脱/Rid the house of pests.
+ripe/raɪp/adj./熟的，成熟的/A ripe old age.
+risk/rɪsk/n.&v./冒…的危险；n.冒险；风险/He saw the rewards but not the risks of crime.
+roast/rəust/v./烤肉,烘烤,嘲笑；烘烤的,烤过的；烤,炙,烘焙,嘲笑/His former students roasted the professor at his 60th birthday.
+rocket/ˈrɒkit/n./火箭,烟火；急升,猛涨,飞驰；用火箭运载/Prices skyrocketed.
+rooster/ˈruːstə/n./公鸡,栖息的鸟；炉篦/The teacher explained "rooster" with a simple example.
+root/ruːt/n./根；v.牢牢扎根/Communism's Russian root.
+rot/rɒt/v./腐烂；v.（使）腐烂/The lecturer linked rot to a real social problem.
+routine/ruːˈtiːn/n./例行公事；惯例；adj.例行的；常规的/She had a catchy little routine.
+rugby/ˈrʌ^bi/n./橄榄球,橄榄球赛/The teacher explained "rugby" with a simple example.
+ruin/ruin/n.&v./毁灭,推翻,废墟；毁灭,衰败,破坏,破产,堕落；使毁灭,毁坏,使破产/You have ruined my car by pouring sugar in the tank!
+ruler/ˈruːlə/n./统治者,管理者,尺,直尺；划线板；标尺/The teacher explained "ruler" with a simple example.
+rush/rʌʃ/v./匆促,冲进,急流,灯心草；冲,奔,闯,赶紧,匆促行事,涌现；使冲,匆忙地做,突袭,飞跃,用灯心草做/He rushed down the hall to receive his guests.
+sacred/ˈseikrid/adj./神圣的,献给上帝的,庄严的,祭祀的；神圣的,不可侵犯的/The sacred mosque.
+sacrifice/ˈsækrifais/v./牺牲,供奉,祭品；牺牲,祭祀,贱卖；献祭/The animals were sacrificed after the experiment.
+sail/seil/n.&v./帆,篷,帆船,航程,帆状物；航行,启航,张帆而行；航行于,驾船/We sailed the Atlantic.
+salary/ˈsæləri/n./薪水（按月、年发放）/The lecturer linked salary to a real social problem.
+salesgirl/ˈseilzgəːl/n./女店员/The teacher explained "salesgirl" with a simple example.
+salty/ˈsɒːlti/adj./有盐分的,咸味浓的,海洋的,辛辣的,有经验的/Salty language.
+salute/səˈluːt/n.&v./行礼,致意,问候,放礼炮；向...致意,迎接,赞扬；招呼,敬礼,礼炮/A musical salute to the composer on his birthday.
+satisfaction/ˌsætɪsˈfækʃn/n./满意，满足/We were unable to get satisfaction from the local store.
+satisfy/ˈsætɪsfaɪ/v./使满意；满足；符合/The result did not satisfy the judges.
+saucer/ˈsɒːsə/n./茶碟,茶托；碟/The teacher explained "saucer" with a simple example.
+sausage/ˈsɒsidʒ/n./香肠,腊肠/The teacher explained "sausage" with a simple example.
+scar/skɑː/n./疤痕,伤痕,悬崖；结疤,愈合,痊愈；使有伤痕/The skin disease scarred his face permanently.
+scare/skeə(r)/v./惊恐，恐慌；v.吓，使害怕/A war scare.
+schedule/ˈʃedjuːl/n.&v./时间表，计划表/I've scheduled a concert next week.
+scholar/ˈskɒlə/n./学者,奖学金获得者,有文化者,学习者/The teacher explained "scholar" with a simple example.
+scholarship/ˈskɒləʃɪp/n./奖学金；学问，学识/Can you explain scholarship in your own words?
+schoolbag/ˈskuːlbæ^/n./书包/Found just the right dictionary to fit into his schoolbag.
+scream/skriːm/n./尖叫声；vi.尖叫/Her screaming attracted the neighbors.
+screen/skriːn/n./屏幕；v.筛选；放映（电影）/A star of stage and screen.
+sculpture/ˈskʌlptʃə(r)/n./雕塑/Can you explain sculpture in your own words?
+seagull/ˈsiːɡʌl/n./海鸥/Her report on seagull was clear and persuasive.
+seaweed/ˈsiːwiːd/n./海藻/His paragraph mentions seaweed only briefly, but effectively.
+section/ˈsekʃn/n./部分；部门；截面/She got a job in the historical section of the Treasury.
+seek/siːk/v./寻找；探索；追求/Seek a position.
+seldom/ˈseldəm/adv./不常的,稀少的；很少,不常/We learned how to use "seldom" correctly in a sentence.
+self/self/n./惯常心态；个性；自我/One's own self.
+selfish/ˈselfɪʃ/adj./自私的/Selfish men were...trying to make capital for themselves out of the sacred cause of civil rights.
+semicircle/ˈsemisəːkl/n./半圆形/The teacher explained "semicircle" with a simple example.
+sense/sens/n./意义；含义；理解…的方式；看待…的角度/Common sense is not so common.
+separate/ˈseprət/adj.&v./分离的，分开的；不同的，个别的；隔开，分/A house with a separate garage.
+servant/ˈsəːvənt/n./仆人,有用物,公务员,雇员；受雇人,服务者,公务员/The state cannot be a servant of the church.
+session/ˈseʃn/n./一段时间；一次/It was the opening session of the legislature.
+sex/seks/n./性别,性欲；区别...的性别,引起...的性欲/The war between the sexes.
+shabby/ˈʃæbi/adj./衣衫褴褛的,低劣的,破旧的,吝啬的,卑鄙的/Shabby furniture.
+shade/ʃeɪd/n./阴凉处；遮光物；阴暗部；色度；细微差别；v.遮蔽，遮光/Don't argue about shades of meaning.
+shark/ʃɑːk/n./鲨鱼,骗子；诈骗/A card shark.
+sharpen/ˈʃɑːpən/v./削尖，磨快；使敏捷；陡峭；清晰/Sharpen the knives.
+sharpener/ˈʃɑːpnə/n./研磨者,卷笔刀,研磨工具/A knife sharpener.
+shave/ʃeiv/v./修面,刮胡子,幸免,剃刀；修面,剃,修剪,掠过；刮脸,勉强通过/The machine shaved off fine layers from the piece of wood.
+shaver/ˈʃeivə/n./修面的人,电动剃刀,刨刀,杀价买进期票的人,善于讨价还价的人/The teacher explained "shaver" with a simple example.
+shock/ʃɒk/v./震动,冲突,震惊,冲击,突击,禾束堆,休克,长毛狗；使震动,使休克,使受电击,震惊得；震动,吓人/The scandalous behavior of this married woman shocked her friends.
+shopping/ˈʃɒpiŋ/n./买东西,购物；购物,买东西/Went shopping for a reliable plumber.
+shore/ʃɒː/n./海岸,海滨,斜撑柱；把...送上岸,支撑,支持/Shore and buttress an old building.
+shortcoming/ˈʃɒːtˈkʌmiŋ/n./缺点,短处/The teacher explained "shortcoming" with a simple example.
+shortly/ˈʃɒːtli/adv./不久,简短,唐突地/To put it shortly.
+shorts/ʃɔːts/n./短裤,(美)男人的短衬裤；空头户,空头,短期债券/The teacher explained "shorts" with a simple example.
+shot/ʃɒt/n./发射,炮弹,射击,射手,投篮,射门,子弹,射程,拍摄,注射；装弹,使成颗粒状；杂色的,交织着的,渗透的,点焊的,破旧的/The nurse gave him a flu shot.
+shuttle/ˈʃʌtl/n./穿梭往返/Prices may shuttle during the holiday season.
+shy/ʃai/adj./惊跳,惊避；胆怯的,畏缩的,迟疑的,羞怯的；惊退,乱投,乱掷,厌恶,避开/Eleven is one shy of a dozen.
+sideroad/ˈsaidwɒːk/n./人行道/The teacher explained "sideroad" with a simple example.
+sideways/ˈsaidweiz/adv./向旁边,向侧面地；旁边的,向侧面的/A picture lit sideways.
+sigh/sai/n.&v./叹息；叹息,渴望；叹息着说/She heard the sigh of the wind in the trees.
+signal/ˈsɪɡnəl/n./信号；暗号；标志；v.（向…）发信号；标志着/Signals from the boat suddenly stopped.
+silence/ˈsailəns/n./沉默,无声,静寂,湮没,无声息；使缄默；interj.安静/His silence about my contribution was surprising.
+single/ˈsiŋgl/adj./单身的,单程的,单一的,个别的,孤独的,专一的；一个,单打,单程票；选出/Single occupancy.
+sink/siŋk/n.&v./藏垢的场所,沟渠,污水槽；下沉,沉没,下陷,减弱,衰退,消沉,堕落,渗透；使低落,使下沉,陷于,投入(资金等),挖掘/The ocean is a sink for carbon dioxide.
+sir/səː/n./先生,阁下/The teacher explained "sir" with a simple example.
+skateboard/ˈskeitbɔːd/n./溜冰板/The teacher explained "skateboard" with a simple example.
+skip/skip/v./跳跃,跳读；跳越,跳读,跳绳,遗漏,跳级；跳过,遗漏/Skip town.
+skyscraper/ˈskaɪskreɪpə(r)/n./摩天大楼/The lecturer linked skyscraper to a real social problem.
+slave/sleiv/n./奴隶,从动装置,卑鄙的人；拼命工作；从设备/A slave to fashion.
+slavery/ˈsleivəri/n./奴隶的身分,奴隶状态,奴隶制度；奴隶制度,奴役,苦役/The teacher explained "slavery" with a simple example.
+sleepy/ˈsliːpi/adj./困乏的,欲睡的/Beginning to feel sleepy.
+slice/slais/n./薄的切片,一部分,菜刀；切成薄片,切下；切/A slice of bread.
+slip/slɪp/n./滑倒；v.滑倒；下降，跌落/He's a mere slip of a lad.
+smoker/ˈsməukə/n./吸烟者,吸烟的人,吸烟车厢,(美)(非正式)蒸汽火车头/The teacher explained "smoker" with a simple example.
+sneaker/ˈsniːkə/n./鬼鬼祟祟做事的人,卑鄙者,帆布胶底运动鞋/The teacher explained "sneaker" with a simple example.
+sneeze/sniːz/v./喷嚏；打喷嚏/Pepper makes me sneeze.
+sniff/snif/v./以鼻吸气,嗅,气息；嗅,蔑视,嗤之以鼻；闻,用力吸,发觉/Sniff the perfume.
+socialism/ˈsəuʃəlizm/n./社会主义,社会主义运动/The teacher explained "socialism" with a simple example.
+socialist/ˈsəuʃəlist/adj./社会主义者,社会党党员；社会主义的/Socialistic government.
+socket/ˈsɒkit/n./窝,穴,插座,眼窝；插进插座；套接字/The teacher explained "socket" with a simple example.
+sofa/ˈsəufə/n./沙发/The teacher explained "sofa" with a simple example.
+solar/ˈsəʊlə(r)/adj./太阳的；太阳能的/Solar eclipse.
+somehow/ˈsʌmhau/adv./不知何故/They managed somehow.
+soul/səʊl/n./灵乐/The soul of honor.
+southeast/sauθˈiːst/n./东南,东南地区；东南的,向东南的,来自东南的；往东南,来自东南/Southeasterly breezes.
+southern/ˈsʌðən/adj./南方人,男风；向南方的,来自南方的/A southern exposure.
+sow/səʊ/v./播，播种/Sow the ground with sunflower seeds.
+spaceship/ˈspeɪsʃɪp/n./太空船，宇宙飞船/Spaceship became the focus of our group presentation.
+spade/speid/n./铲子,锄,铲刀,黑桃；以锄掘,把...弄实抹平；铲/She led a low spade.
+spear/spiə/n./矛,枪,持矛者,嫩枝；用矛刺；刺,戳/Spear fish.
+spelling/ˈspeliŋ/n./拼,拼字,拼法；拼写检查/The teacher explained "spelling" with a simple example.
+spiritual/ˈspɪrɪtʃuəl/adj./精神的；心灵的；宗教（上）的/Spiritual tappings at a seance.
+spit/spit/v./唾液,唾吐,小雨,炙叉,一铲的深度；唾吐,吐出,降小雨,用炙叉穿过；吐唾沫,吐痰,唾弃,飘霏霏细雨/We learned how to use "spit" correctly in a sentence.
+spoken/ˈspəukən/adj./口头讲的,口语的；speak的过去分词/A spoken message.
+sponsor/ˈspɒnsə/n./保证人,赞助者,发起者,倡议者,教父；发起,赞助,倡议/The senator announced that he would sponsor the health care plan.
+spoonful/ˈspuːnful/n./一匙；一匙,匙/The teacher explained "spoonful" with a simple example.
+spy/spai/n.&v./间谍,侦探,侦察；侦察,找出,发现；做密探,侦查/Spy for the Russians.
+squirrel/ˈskwəːrəl/n./松鼠,松鼠毛皮；贮藏/The teacher explained "squirrel" with a simple example.
+stable/ˈsteɪbl/adj./稳定的；镇静的，稳重的/A stable ladder.
+stadium/ˈsteidiəm/n./露天大型运动场；期,病期/The teacher explained "stadium" with a simple example.
+staff/stɑːf/n./全体职工，工作人员；棒；参谋部；v.为…配备人员/The hospital has an excellent nursing staff.
+stain/stein/n./污染,污点,着色剂；沾染,染污,着色；变脏/The wine left a dark stain.
+stainless/ˈsteinlis/adj./无瑕疵的,不锈的；不绣的,污染的/The word "stainless" describes something in the passage.
+stair/steə(r)/n./楼梯/The lecturer linked stair to a real social problem.
+stare/stєə/v./注视,凝视,瞪视,显眼；盯；凝视/The students stared at the teacher with amazement.
+starve/stɑːv/v./挨饿；饿死/Let's eat--I'm starving!
+statistics/stəˈtɪstɪks/n./统计资料，统计学/The statistics show a fall in unemployment.
+status/ˈsteitəs/n./地位；身份；状态；状况/The job brings him a high social status.
+steady/ˈstedi/adj.&v./稳定的；平稳的；使稳定/The patient is making steady progress.
+steak/steik/n./牛排,鱼排,肉排/The teacher explained "steak" with a simple example.
+steward/ˈstjuːwəd/n./管理人,招待员,管家,乘务员；轮船,飞机的服务员,(财务)管理员/The teacher explained "steward" with a simple example.
+stewardess/ˈstjuːwədis/n./空中小姐,女管理人,女管家/The teacher explained "stewardess" with a simple example.
+stocking/ˈstɒkiŋ/n./长袜；马足水肿/He supervised the stocking of the stream with trout.
+storage/ˈstɒːridʒ/n./存储器,储藏,保管,库存,仓库；存放处；存储/My car is in storage.
+stout/staʊt/adj./发胖的，强壮的；结实的，牢固的；勇敢的，大胆的/Stout seamen.
+stove/stəuv/n./火炉,窑；用火炉烤；stave的过去式和过去分词/Dinner was already on the stove.
+strait/streɪt/n./海峡；困境/Strait is the gate.
+stranger/ˈstreindʒə/n./陌生人；外地人；新来者/Never accept a lift from a stranger.
+straw/strɒː/n./稻草,麦管,吸管,一文不值的东西,草帽；稻草的,稻草色的,琐碎的,无价值的/Cows were strawed to weather the snowstorm.
+strawberry/ˈstrɒːbəri/n./草莓/The teacher explained "strawberry" with a simple example.
+stream/striːm/n./水流,小河,流出,趋势,人潮；流出,流动,展开；流,涌,飘扬/The raft floated downstream on the current.
+strength/streŋθ/n./力量,实力,强度,浓度,人数,抵抗力；强度/It was destroyed by the strength of the gale.
+strengthen/ˈstreŋθn/v./加强，巩固/This exercise will strengthen your upper body.
+stress/stres/n.&v./压力；重音；强调；v.强调，着重/He put the stress on the wrong syllable.
+string/strɪŋ/n./线；弦/The strings played superlatively well.
+style/stail/n./风格,时尚,文体,风度,字体,类型；称呼,(根据新款式)设计,使合潮流；风格,样式/All the reporters were expected to adopt the style of the newspaper.
+subjective/səbˈdʒektiv/adj./主观的,个人的；主观的,自觉的/A subjective judgment.
+subscribe/səbˈskraib/v./捐献,签署；赞成,同意,捐款,预订,认购；订阅/The broker subscribed 500 shares.
+successful/səkˈsesful/adj./成功的,一帆风顺的,顺利的；成功的/A successful architect.
+suck/sʌk/v./吸,吮,吸入,吮吸,吸收；吸,吸奶；吸,吸入,吮吸/The wetnurse suckled the infant.
+suffer/ˈsʌfə(r)/v./遭受，忍受，忍耐；容许；受痛苦，患病；受损失/He suffered the penalty.
+suffering/ˈsʌfəriŋ/n./苦难,受苦/A message of hope for suffering humanity.
+suggestion/səˈdʒestʃən/n./提议,意见；暗示/The picnic was her suggestion.
+suitcase/ˈsjuːtkeis/n./手提箱/The teacher explained "suitcase" with a simple example.
+suite/swiːt/n./套房；一套家具；组曲/They stayed in a hotel suite overlooking the sea.
+summary/ˈsʌməri/n./摘要,概要；摘要的,简略的；摘要；概要/He gave a summary of the conclusions.
+sunburnt/ˈsʌnb\\\\ːnt/adj./晒黑的,有晒斑的,日炙的/The word "sunburnt" describes something in the passage.
+sunlight/ˈsʌnlait/n./日光；日光,太阳光/The teacher explained "sunlight" with a simple example.
+superb/sjuˈpəːb/adj./极度的,华丽的,极好的/A superb actor.
+superior/suːˈpɪəriə(r)/adj.&n./上级的；优于…的；优秀的；n.上级/Superior officer.
+support/səˈpɔːt/n.&v./赡养，供养/The evidence supports the defendant.
+suppose/səˈpəʊz/v./猜想；假定，以为/I presuppose that you have done your work.
+supreme/suːˈpriːm/adj./（级别或地位）最高的，至高无上的/A supreme tribunal.
+surgeon/ˈsɜːdʒən/n./外科医师/His paragraph mentions surgeon only briefly, but effectively.
+surrounding/səˈraʊndɪŋ/adj./周围附近的/The surrounding countryside.
+survive/səˈvaiv/v./比...活得长,生存,生还,幸免于；活下来,幸存/These superstitions survive in the backwaters of America.
+survival/səˈvaɪvl/n./幸存/His paragraph mentions survival only briefly, but effectively.
+suspension/səˈspenʃən/n./悬挂,暂停,中止；悬浮；悬浮体；悬浮液/The teacher explained "suspension" with a simple example.
+swap/swɒp/v./以货易货；交换,替换,交易；交换/We learned how to use "swap" correctly in a sentence.
+swear/swєə/v./发誓,咒骂,使宣誓；发誓,诅咒；诅咒,誓言/Before God I swear I am innocent.
+sweat/swet/n./汗,汗水,水珠,焦急；出汗,渗出,冒出水气,结水珠,烦恼,懊恼；使出汗,流出,榨出,使汗流浃背/He's in a sweat about exams.
+sweater/ˈswetə/n./毛衣,毛线衫,运动衫,出汗者；发汗器/The teacher explained "sweater" with a simple example.
+sweep/swiːp/v./扫除,打扫,肃清,视野,范围,全胜；扫除,掸去,猛拉,扫荡,肃清,冲走,刮起,环视,掠过,扫射；扫,打扫,袭击,席卷,扫视,掠过/Sweep the crumbs off the table.
+swell/swel/v./膨胀；增长/The music swelled to a crescendo.
+swift/swɪft/adj./快的；敏捷的，迅速的/A swift current.
+sword/sɒːd/n./刀,剑,战争,武力,剑状物/The teacher explained "sword" with a simple example.
+sympathy/ˈsɪmpəθi/n./同情；（思想感情上的）赞同/His sympathies were always with the underdog.
+symphony/ˈsɪmfəni/n./交响乐/We heard the Vienna symphony.
+symptom/ˈsɪmptəm/n./症状/We discussed symptom in today's seminar.
+table tennis/ˈteɪbl tenɪs/n./乒乓球/We often play table tennis after class.
+tablet/ˈtæblət/n./药片/A tablet of soap.
+tale/teil/n./故事,谎言,谣言,陈述,叙述；虚语,诽语,谣言/The teacher explained "tale" with a simple example.
+tank/tæŋk/n./槽,箱,柜,罐,池塘,储水池,坦克；储于箱中/Tank animal refuse.
+tap/tæp/n./轻拍；利用，开发/Tap one's memory.
+target/ˈtɑːɡɪt/n.&v./目标/The target of a manhunt.
+tasteless/ˈteistlis/adj./没味道的,无鉴赏力的/The word "tasteless" describes something in the passage.
+tasty/ˈteisti/adj./好吃的,可口的/A tasty morsel.
+tax/tæks/n./税,税款,重负,会费；课以税,使负重荷,斥责/The State taxes alcohol heavily.
+taxpayer/ˈtækspeiə/n./纳税人；纳税人,纳税义务人/The teacher explained "taxpayer" with a simple example.
+teamwork/ˈtiːmwɜːk/n./团队合作/It will take money, good planning and, above all, teamwork.
+teapot/ˈtiːpɒt/n./茶壶/The teacher explained "teapot" with a simple example.
+tear/tiə tєə/n.&v./泪滴,眼泪,撕,扯,裂缝,激怒,飞奔；流泪,撕破,赶快,飞奔,被撕破；撕裂,戳破,拉掉,撕掉,使分裂,使精神不安,折磨/His story brought tears to her eyes.
+teenager/ˈtiːnidʒə/n./十三岁到十九岁的少年/The teacher explained "teenager" with a simple example.
+telescope/ˈtelɪskəʊp/n./望远镜/In the accident, the cars telescoped.
+temple/ˈtempl/n./寺院，神殿/The veins in his temple throbbed.
+tendency/ˈtendənsi/n./倾向，趋向/A tendency to be too strict.
+tense/tens/adj./时态/Tense piano strings.
+tension/ˈtenʃən/n./紧张,不安,拉紧,张力,压力,电压；拉紧,使紧张/The diplomats' first concern was to reduce international tensions.
+tentative/ˈtentətɪv/adj./试探性的；试验的；暂时的/Drew a few tentative conclusions.
+terrify/ˈterɪfaɪ/v./使恐惧；使惊吓/The thought of flying terrified her.
+terror/ˈterə(r)/n./恐怖/He was the terror of the neighborhood.
+textbook/ˈtekstbuk/n./教科书/His economics textbook is in its tenth edition.
+theft/θeft/n./盗窃,失窃,盗窃罪,赃物；盗窃行为,偷窃,失窃/The teacher explained "theft" with a simple example.
+theirs/ðєəz/pron./他们的/The teacher explained "theirs" with a simple example.
+theme/θiːm/n./主题；题目；主旋律/The main theme of the book is friendship.
+theoretical/ˌθɪəˈretɪkl/adj./理论（上）的/Theoretical science.
+theory/ˈθɪəri/n./理论，原理；学说；意见，看法/A scientific hypothesis that survives experimental testing becomes a scientific theory.
+therefore/ˈðєəfɒː/adv./因此,所以/Therefore X must be true.
+thermos/ˈθəːməs/n./热水瓶/The teacher explained "thermos" with a simple example.
+thief/θiːf/n./小偷,贼；取样/The teacher explained "thief" with a simple example.
+thinking/ˈθiŋkiŋ/n./思考,思想；思考的,有理性的/Thinking always made him frown.
+thirst/θəːst/n./口渴,渴望/A thirst for knowledge.
+thread/θred/n./线,丝,纤维,线索；穿线于,穿过,通过,用线穿成；穿过/From the air the road was a grey thread.
+thrill/θril/n.&v./震颤,激动,刺激性,一阵激动；震颤,颤抖,激动；使激动,使颤动/The children were thrilled at the prospect of going to the movies.
+thriller/ˈθrɪlə(r)/n./惊悚片/The textbook gives a practical example of thriller.
+thunder/ˈθʌndə(r)/n.&v./雷；雷声；vi.打雷；轰隆响/The bus thundered down the road.
+thunderstorm/ˈθʌndəstɔːm/n./雷暴/His paragraph mentions thunderstorm only briefly, but effectively.
+thus/ðʌs/adv./如此,因此,到如此程度；乳香/It is late and thus we must go.
+tick/tik/v./滴答声,一瞬间,壁虱,褥套,信用,赊欠；滴答响,活动；滴答地记录,标记号于/Tick off the items.
+tight/tait/adj./紧的,密封的,吝啬的,严厉的；紧紧地/A tight game.
+timetable/ˈtaimteibl/n./时间表/The teacher explained "timetable" with a simple example.
+tip/tɪp/n.&v./窍门/They clambered to the tip of Monadnock.
+tiresome/ˈtaiəsəm/adj./累人的,烦人的/The tiresome chirping of a cricket.
+tissue/ˈtɪʃuː/n./组织/Tissue textiles.
+title/ˈtaɪtl/n./片名/He held the title for two years.
+toast/təust/n.&v./吐司,烤面包,干杯；敬酒,烤,使暖和；烤,烘/Toast bread.
+tobacco/təˈbækəu/n./烟草,香烟；烟草/The teacher explained "tobacco" with a simple example.
+tomb/tuːm/n./坟墓,死亡；埋葬/The teacher explained "tomb" with a simple example.
+ton/tʌn/n./吨/We discussed ton in today's seminar.
+tongue/tʌŋ/n./舌,语言能力,讲话方式,语言；舔,斥责,发...的音；使用舌头,吹管乐器/Tongues of flame licked at the walls.
+topic/ˈtɒpik/n./主题,论题,话题/It was a very sensitive topic.
+tortoise/ˈtɔːtəs/n./乌龟；行动迟缓的人/Her report on tortoise was clear and persuasive.
+tough/tʌf/adj./恶棍；强硬的,艰苦的,坚固的,坚韧的,粗暴的,咬不动的/He was feeling tough after a restless night.
+tourism/ˈtuərizm/n./观光业,游览；旅游业/Tourism is a major business in Bermuda.
+tournament/ˈtəːnəmənt/n./比赛,竞赛,锦标赛,联赛/The teacher explained "tournament" with a simple example.
+tractor/ˈtræktə(r)/n./拖拉机/We discussed tractor in today's seminar.
+tradition/trəˈdiʃən/n./传说,传统,交付；传统,惯例,移交/The teacher explained "tradition" with a simple example.
+tram/træm/n./有轨电车/A tramcar carries coal out of a coal mine.
+transform/trænsˈfɔːm/v./使改观，改革，改善；变换，把…转换成，使变形/This experience transformed her completely.
+translation/trænsˈleiʃən/n./翻译,译文,转化,调任,平移,转译；转换/A photograph is a translation of a scene onto a two-dimensional surface.
+translator/trænˈleitə/n./翻译者；译员；翻译程序/The translator rendered the speech into English.
+transparent/trænsˈpærənt/adj./透明的；明显的；直率的/Transparent crystal.
+transport/trænˈspɔːt/n.&v./运输；交通工具；运送/Trucks transport goods across the country.
+traveller/ˈtrævlə/n./旅行者；旅行商/The teacher explained "traveller" with a simple example.
+treasure/ˈtreʒə/n./宝物,财富；珍爱,重视,秘藏/The pirates hid their treasure on a small island in the West Indies.
+treat/triːt/v./对待；处理；治疗/The new book treats the history of China.
+treatment/ˈtriːtmənt/n./治疗；对待/His treatment of the race question is badly biased.
+triangle/ˈtraɪæŋɡl/n./三角（形）/The coastline of Chile and Argentina and Brazil forms two legs of a triangle.
+trick/trik/n./诡计,欺诈,谋略,恶作剧,习惯,诀窍；愚弄,欺骗,装饰；哄骗,戏弄/He played a trick on me.
+trolleybus/ˈtrɒlibʌs/n./无轨电车/We took a trolleybus across the city.
+troop/truːp/n./军队/A troop of children.
+truly/ˈtruːli/adv./真实地,不假/A truly awful book.
+trunk/trʌŋk/n./树干；（人的）躯干/He put his golf bag in the trunk.
+truth/truːθ/n./事实,实情；真实,真相,事实/The lawyer questioned the truth of my account.
+tune/tjuːn/n./调子；和谐；vt.调节，调整/He cannot sing in tune.
+turkey/ˈtɜːki/n./火鸡；火鸡肉/We had roast turkey for dinner.
+turning/ˈtəːniŋ/n./转弯处；转向；转折点/Take the first turning on the left.
+twin/twin/n.&adj.&v./双胞胎之一；成对的；使结成姐妹城市/She has a twin brother.
+twist/twist/n.&v./一扭,扭曲,曲折,歪曲,螺旋状,新手法；拧,扭,捻,编织,使扭转,缠绕,盘绕,歪曲,使转动,使苦恼,使混乱,使旋转；转向,弯曲,缠绕,扭动,呈螺旋形/Twist the dough into a braid.
+type/taip/n.&v./类型；种类；打字；键入/Please type your name here.
+typewriter/ˈtaipraitə/n./打字机/The teacher explained "typewriter" with a simple example.
+typical/ˈtɪpɪkl/adj./典型的/That is typical of you!
+typhoon/taɪˈfuːn/n./台风/His paragraph mentions typhoon only briefly, but effectively.
+typist/ˈtaipist/n./打字员/The teacher explained "typist" with a simple example.
+unable/ʌnˈeibl/adj./不能的；没有能力的/She was unable to attend the meeting.
+uncertain/ʌnˈsəːtn/adj./不确定的,无常的,不确信的,不可预测的；不确定的,未定的,不确信的/The weather is uncertain.
+uncomfortable/ʌnˈkʌmfətəbl/adj./不舒服的,不自在的,不安的/This kind of life can prove disruptive and uncomfortable.
+unconditional/ʌnkənˈdiʃənl/adj./无条件的,无限制的,绝对的；无条件的,无保留的/Unconditional surrender.
+underline/ˌʌndəˈlaɪn/v./在……下面画线；强调/Please underline the key words in the passage.
+undertake/ʌndəˈteik/v./试图,从事,保证,承担,同意,接受；承包；承担/We learned how to use "undertake" correctly in a sentence.
+underwear/ˈʌndəwєə/n./内衣/Pack enough clean underwear for the trip.
+unemployment/ˌʌnɪmˈplɔɪmənt/n./失业；失业人数/Unemployment is a serious social evil.
+unfair/ʌnˈfєə/adj./不公平的,不正直的,不正当的；不正直的,不公平的,偏颇的/It would be unfair to blame her for the mistake.
+unfit/ʌnˈfit/adj./不适当的,不胜任的,不健康的；使不相宜,使不合格/An unfit parent.
+unfortunate/ʌnˈfɔːtʃənət/adj./不幸的，倒霉的；遗憾的，可惜的/An unfortunate turn of events.
+uniform/ˈjuːnɪfɔːm/n.&adj./制服；统一的；一致的/All the students wear a school uniform.
+union/ˈjuːnjən/n./联合；联盟；工会；结合/The workers voted to join the union.
+unique/juˈniːk/adj./唯一的；极不寻常的，极好的/Bach was unique in his handling of counterpoint.
+unite/juːˈnait/v./联合,接合,混合；使联合,统一,使粘合,使结合/She unites charm with a good business sense.
+unlike/ʌnˈlaik/prep./不像的,不同的；不像,和...不同/For twins they are very unlike.
+unrest/ʌnˈrest/n./不安的状态,动荡的局面；不安/Social unrest.
+unusual/ʌnˈjuːʒuːl/adj./不寻常的,罕见的,与众不同的/A scene of unusual beauty.
+upset/ʌpˈset/adj./弄翻的,混乱的,心烦的；弄翻,颠覆,推翻,打乱,使不适,使心烦；翻倒/With everything so upset.
+upstairs/ˈʌpˈstєəz/adv.&adj./在楼上；往楼上；楼上的/The children are playing upstairs.
+upward/ˈʌpwəd/adv./向上的；以上/The fragments flew upwards.
+urban/ˈɜːbən/adj./都市的；住在都市的/Urban sociology.
+used/ˈjuːst/adj./用过的；二手的；习惯于……的/They bought a used car.
+useless/ˈjuːslis/adj./无用的,无效的,无益的；无用,无价值,无效/A kitchen full of useless gadgets.
+user/ˈjuːzə/n./使用者；用户/The teacher explained "user" with a simple example.
+vacant/ˈveɪkənt/adj./未占用的，空的/A vacant mind.
+valid/ˈvælɪd/adj./有效的，具有法律效力的；正当的；有根据的，有理的/A valid inference.
+valuable/ˈvæljuəbl/adj./贵重的，有价值的；n.贵重物品/A valuable diamond.
+variety/vəˈraɪəti/n./种类；变化，多样化/He had a variety of disorders.
+vase/veis/n./花瓶,瓶/The teacher explained "vase" with a simple example.
+VCD/ˌviː siː ˈdiː/n./视频光盘/The lesson was recorded on a VCD.
+vehicle/ˈviːəkl/n./车辆，交通工具；媒介，载体/His editorials provided a vehicle for his political views.
+vertical/ˈvɜːtɪkl/adj./垂直的；竖式的；n.垂线/A column still vertical amid the ruins.
+via/ˈvaɪə/prep./经由；通过；借助于/We travelled to Paris via London.
+videophone/ˈvɪdiəʊfəʊn/n./可视电话；电视电话；视像电话/Without understanding videophone, the argument feels incomplete.
+villager/ˈvilidʒə/n./村民/The teacher explained "villager" with a simple example.
+vinegar/ˈvinigə/n./醋,尖酸刻薄；加醋于/The teacher explained "vinegar" with a simple example.
+violate/ˈvaɪəleɪt/v./违反，违背；亵渎；侵犯/Violate the sanctity of the church.
+virus/ˈvaɪrəs/n./病毒/Bigotry is a virus that must not be allowed to spread.
+visa/ˈviːzə/n./签证/You need a visa to enter the country.
+vivid/ˈvivid/adj./生动的,鲜明的,鲜艳的,活泼的,逼真的,清晰的/A bird with vivid plumage.
+vocabulary/vəˈkæbjuləri/n./词汇(量),词汇表；词表/He introduced a wide vocabulary of techniques.
+volunteer/vɒlənˈtiə/n.&v./志愿者；志愿的；自愿/He volunteered the information.
+vote/vəʊt/n.&v./投票；表决；选票/Most students voted for the new plan.
+wag/wæg/v./摇摆,摇动,饶舌；摆动,喋喋不休；摇摆,爱说笑打趣的人/The happy dog wagged his tail.
+wage/weɪdʒ/n./工资；薪水/The company pays a fair wage.
+waiter/ˈweitə/n./侍者/The teacher explained "waiter" with a simple example.
+waiting-room/ˈweɪtɪŋ ruːm/n./候诊室；等候室/Please wait in the waiting room.
+waitress/ˈweitris/n./女侍者,女服务员/The teacher explained "waitress" with a simple example.
+walnut/ˈwɒːlnət/n./胡桃；胡桃木/The teacher explained "walnut" with a simple example.
+ward/wɔːd/n./病房/They put her in a 4-bed ward.
+warehouse/ˈweəhaʊs/n./仓库/Her report on warehouse was clear and persuasive.
+warmth/wɒːmθ/n./温暖,温情,暖和,激动,生气/An agreeable warmth in the house.
+warn/wɒːn/v./警告,提醒,通知；发出警告/The director warned him that he might be fired.
+washroom/ˈwɒʃrum/n./盥洗室/The teacher explained "washroom" with a simple example.
+web/web/n./网,蛛丝,蹼,织物,圈套,卷筒纸；结网,形成网；织蜘蛛网于,使落入圈套/Tangled in a web of cloth.
+website/ˈwebsaɪt/n./网站/The school published the timetable on its website.
+weakness/ˈwiːknəs/n./虚弱；缺点；偏好，嗜好/In spite of their weakness the group remains active.
+wealth/welθ/n./财富；大量；丰富/The country has a wealth of natural resources.
+wealthy/ˈwelθi/adj./富有的,丰裕的,充分的/Wealthy corporations.
+weekly/ˈwiːkli/adj./每周的/A weekly visit.
+weep/wiːp/v./哭,哭泣；哭泣,流泪,哀悼,滴落；哭着使...,悲叹,滴下/We learned how to use "weep" correctly in a sentence.
+weight/weɪt/n./重量；重物/His opinion carries great weight.
+welfare/ˈwelfeə(r)/n./福利；安宁，幸福/She lives on welfare.
+westward/ˈwestwəd/adv./朝西的方向；向西的/They traveled westward toward the setting sun.
+whale/weɪl/n./鲸/His paragraph mentions whale only briefly, but effectively.
+wherever/hwєərˈevə/conj./无论哪里/Please use "wherever" in a complete sentence.
+whichever/hwitʃˈevə/pron./无论那一个,任何一个/The teacher explained "whichever" with a simple example.
+whistle/ˈwɪsl/n./口哨；呼啸而过；v.吹口哨/The whistle signalled the end of the game.
+widow/ˈwidəu/n./寡妇,孀妇；使成寡妇/The war widowed many women in the former Yugoslavia.
+wildlife/ˈwaildlaif/n./野生动植物/Chemicals could kill all the wildlife.
+willing/ˈwiliŋ/adj./乐意的,自愿的,甘愿的/A willing participant.
+windy/ˈwindi/adj./多风的,风强的,腹胀的,吹牛的/A windy bluff.
+witness/ˈwitnis/n.&v./证人,目击者,证据,证词；目击,作证,证明,表明；作证人,作为证据/She witnessed the accident and had to testify in court.
+wolf/wulf/n./狼,残忍贪婪之人,极度穷困；狼吞虎咽,大吃/The teenager wolfed down the pizza.
+wool/wʊl/n./毛料；毛织物/The lecturer linked wool to a real social problem.
+woollen/ˈwulin/adj./羊毛制的；毛织的/She wore a warm woollen coat.
+worldwide/ˈwəːldwaid/adj./全世界的/Of worldwide significance.
+worm/wəːm/n./虫,蠕虫,小人物,螺纹,蜗杆；蠕行,慢慢前进；使蠕行,慢慢地走,除虫/Worms take advantage of automatic file sending and receiving features found on many computers.
+worn/wɒːn/adj./用旧的,穿旧的；wear的过去分词/Looking careworn as she bent over her mending.
+worried/ˈwʌrid/adj./担心的,闷闷不乐的/Not used to a city and worried about small things.
+worthy/ˈwɜːði/adj./有价值的；值得的/A worthy fellow.
+wrestle/ˈresl/v./摔跤,角力,扭斗；摔跤,搏斗,斗争,斟酌；与(对手)摔跤/He wrestled all his life with his feeling of inferiority.
+wrist/rist/n./手腕,腕关节；腕/The teacher explained "wrist" with a simple example.
+X-ray/ˈeks reɪ/n./X射线；X光照片/The doctor took an X-ray of his arm.
+yawn/jɒːn/n.&v./哈欠；打哈欠/He tried not to yawn during the lecture.
+yoghurt/ˈjəugəːt/n./酸乳,酸奶/The teacher explained "yoghurt" with a simple example.
+yummy/ˈjʌmi/adj./美味的,可口的,赏心悦目的,愉快的/The word "yummy" describes something in the passage.
+zebra/ˈzebrə/n./斑马/The lecturer linked zebra to a real social problem.
+zip/zip/n.&v./尖啸声,拉链,活力；给...以速度,使增加活力,拉(拉链)；有力而迅速地行动,嘘嘘地响,拉拉链/He's full of zip.
+zipper/ˈzipə/n./拉链/The teacher explained "zipper" with a simple example.
+zoom/zuːm/n.&v./快速移动；急剧上升；变焦；嗡嗡声/The camera zoomed in on the actor's face.
