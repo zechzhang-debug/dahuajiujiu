@@ -25,6 +25,9 @@ let currentTheme = '全部';
 let search = '';
 let visibleIdeaLimit = 20;
 let selectedCalendarDate = '';
+let floatingScheduleDate = '';
+let floatingWindow = null;
+let floatingHealthTimer = null;
 const calendarCursor = new Date();
 calendarCursor.setDate(1);
 calendarCursor.setHours(12,0,0,0);
@@ -358,6 +361,12 @@ function calendarEventHtml(item) {
   </article>`;
 }
 
+function eventsForCalendarDate(key) {
+  const todayKey=localDateKey(new Date());
+  const isPast=key<todayKey;
+  return sortEvents(state.events.filter((item)=>dayKey(item)===key && (!isPast || !item.done)));
+}
+
 function renderCalendarDetail() {
   const panel=$('#calendar-panel');
   const front=$('#calendar-front');
@@ -375,7 +384,7 @@ function renderCalendarDetail() {
   const todayKey=localDateKey(new Date());
   const isPast=selectedCalendarDate<todayKey;
   const isToday=selectedCalendarDate===todayKey;
-  const events=sortEvents(state.events.filter((item)=>dayKey(item)===selectedCalendarDate && (!isPast || !item.done)));
+  const events=eventsForCalendarDate(selectedCalendarDate);
   $('#calendar-detail-title').textContent=selected.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'short'});
   $('#calendar-detail-hint').textContent=isPast?'过去日期 · 只显示未完成':(isToday?'今天 · 显示全部日程':'显示全部日程');
   $('#calendar-detail-count').textContent=events.length;
@@ -384,9 +393,106 @@ function renderCalendarDetail() {
     : `<div class="calendar-detail-empty"><b>✓</b><strong>${isPast?'没有未完成任务':'这一天还没有安排'}</strong><span>${isPast?'已经处理妥当':'有明确时间的待办会显示在这里'}</span></div>`;
 }
 
+const FLOATING_SCHEDULE_STYLES=`
+  :root{color-scheme:dark;font-family:'Noto Sans SC','Microsoft YaHei',system-ui,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;color:#f0f0df;background:#0d0d0c;overflow:hidden}
+  button,input{font:inherit}
+  .float-shell{min-height:100vh;padding:12px;background:radial-gradient(circle at 86% 8%,rgba(117,80,237,.23),transparent 42%),#0d0d0c}
+  .float-card{height:calc(100vh - 24px);display:flex;flex-direction:column;overflow:hidden;padding:17px;border:1px solid #353530;border-radius:18px;background:rgba(23,23,22,.96);box-shadow:0 20px 55px rgba(0,0,0,.4)}
+  .float-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:13px;border-bottom:1px solid #30302d}
+  .float-brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800}.float-dot{width:8px;height:8px;border-radius:50%;background:#eff357;box-shadow:0 0 14px rgba(239,243,87,.72)}
+  .float-date{display:block;margin-top:4px;color:#8e8e85;font-size:10px;font-weight:500}.float-count{padding:5px 8px;border-radius:14px;color:#111;background:#eff357;font-size:10px;font-weight:800}
+  .float-list{flex:1;min-height:0;overflow:auto;list-style:none;margin:0;padding:9px 0;scrollbar-color:#7550ed #171716}
+  .float-item{display:grid;grid-template-columns:48px 20px 1fr;align-items:center;gap:9px;padding:11px 3px;border-bottom:1px solid #2b2b28}.float-item:last-child{border-bottom:0}
+  .float-time{color:#e77ddd;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
+  .float-check{appearance:none;width:18px;height:18px;margin:0;border:1px solid #777770;border-radius:50%;background:transparent;cursor:pointer}.float-check:checked{border-color:#eff357;background:#eff357;box-shadow:inset 0 0 0 4px #171716}
+  .float-copy{min-width:0}.float-title{display:block;color:#f0f0df;font-size:13px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}.float-note{display:block;margin-top:3px;color:#85857d;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+  .float-item.done{opacity:.5}.float-item.done .float-title{text-decoration:line-through}
+  .float-empty{flex:1;display:grid;place-items:center;align-content:center;gap:9px;color:#777770;text-align:center}.float-empty b{width:46px;height:46px;display:grid;place-items:center;color:#111;background:#eff357;font-size:22px}.float-empty strong{color:#f0f0df;font-size:14px}.float-empty span{font-size:10px}
+  .float-foot{padding-top:10px;border-top:1px solid #30302d;color:#6f6f68;font-size:9px;text-align:center}
+`;
+
+function getFloatingWindow() {
+  if (!('documentPictureInPicture' in window)) return null;
+  const active=window.documentPictureInPicture.window;
+  if (active && !active.closed) return active;
+  if (floatingWindow && !floatingWindow.closed && floatingWindow.document?.body) return floatingWindow;
+  return null;
+}
+
+function resetFloatingSchedule() {
+  floatingWindow=null;
+  floatingScheduleDate='';
+  if (floatingHealthTimer) clearInterval(floatingHealthTimer);
+  floatingHealthTimer=null;
+  $('#floating-button').classList.remove('active');
+}
+
+function floatingEventHtml(item) {
+  return `<li class="float-item ${item.done?'done':''}" data-floating-event="${item.id}">
+    <span class="float-time">${eventTime(item)}</span>
+    <input class="float-check" type="checkbox" aria-label="${item.done?'标记未完成':'标记完成'}" ${item.done?'checked':''}>
+    <span class="float-copy"><span class="float-title">${esc(item.title)}</span>${item.note?`<small class="float-note">${esc(item.note)}</small>`:''}</span>
+  </li>`;
+}
+
+function renderFloatingSchedule() {
+  floatingWindow=getFloatingWindow();
+  if (!floatingWindow || !floatingScheduleDate) return;
+  const date=new Date(`${floatingScheduleDate}T12:00:00`);
+  const events=eventsForCalendarDate(floatingScheduleDate);
+  const dateLabel=date.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});
+  floatingWindow.document.body.innerHTML=`<main class="float-shell"><section class="float-card">
+    <header class="float-head"><div><span class="float-brand"><i class="float-dot"></i>想想 · 日程</span><span class="float-date">${esc(dateLabel)}</span></div><b class="float-count">${events.length}</b></header>
+    ${events.length?`<ul class="float-list">${events.map(floatingEventHtml).join('')}</ul>`:'<div class="float-empty"><b>✓</b><strong>这一天没有待处理日程</strong><span>在网页中新增后会自动同步到这里</span></div>'}
+    <footer class="float-foot">始终置顶 · 勾选状态自动同步</footer>
+  </section></main>`;
+  floatingWindow.document.querySelectorAll('.float-check').forEach((checkbox)=>checkbox.addEventListener('change',(event)=>{
+    const id=event.target.closest('[data-floating-event]')?.dataset.floatingEvent;
+    const item=state.events.find((entry)=>entry.id===id);
+    if (!item) return;
+    item.done=event.target.checked;
+    saveState();
+  }));
+}
+
+async function openFloatingSchedule() {
+  if (!('documentPictureInPicture' in window) || !window.isSecureContext) {
+    showToast('悬浮功能需要新版 Chrome 或 Edge',true);
+    return;
+  }
+  const active=getFloatingWindow();
+  if (active) {
+    active.focus();
+    showToast('悬浮日程已经在屏幕上');
+    return;
+  }
+  resetFloatingSchedule();
+  floatingScheduleDate=selectedCalendarDate || localDateKey(new Date());
+  try {
+    floatingWindow=await window.documentPictureInPicture.requestWindow({width:390,height:560,disallowReturnToOpener:false,preferInitialWindowPlacement:true});
+    const style=floatingWindow.document.createElement('style');
+    style.textContent=FLOATING_SCHEDULE_STYLES;
+    floatingWindow.document.head.appendChild(style);
+    floatingWindow.document.title='想想 · 悬浮日程';
+    const close=()=>resetFloatingSchedule();
+    floatingWindow.addEventListener('pagehide',close,{once:true});
+    floatingWindow.addEventListener('unload',close,{once:true});
+    floatingHealthTimer=setInterval(()=>{if(!getFloatingWindow())resetFloatingSchedule();},600);
+    $('#floating-button').classList.add('active');
+    renderFloatingSchedule();
+    showToast('日程已悬浮，可切换到其他软件');
+  } catch (error) {
+    resetFloatingSchedule();
+    showToast(`没有打开悬浮窗：${error.message}`,true);
+  }
+}
+
 function render() {
   renderIdeas(); renderCalendar();
   $('#ideas-view').classList.remove('hidden');
+  renderFloatingSchedule();
 }
 
 function isInlineEditing() { return Boolean(document.querySelector('.editable-text.inline-editing')); }
@@ -465,6 +571,7 @@ $('#calendar-grid').addEventListener('click',(event)=>{
   renderCalendarDetail();
 });
 $('#calendar-back').addEventListener('click',()=>{selectedCalendarDate='';renderCalendarDetail();});
+$('#floating-button').addEventListener('click',openFloatingSchedule);
 $('#analyze-button').addEventListener('click', analyze);
 $('#capture-input').addEventListener('keydown', (event) => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') analyze(); });
 $('#search-toggle').addEventListener('click', () => { $('#search-row').classList.toggle('hidden'); if (!$('#search-row').classList.contains('hidden')) $('#search-input').focus(); });
