@@ -510,11 +510,49 @@ async function sendNativeFloatingSchedule(events,show=true) {
   }
 }
 
+async function getNativeFloatingState() {
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),2500);
+  try {
+    const response=await fetch('http://127.0.0.1:4174/health',{
+      cache:'no-store',
+      targetAddressSpace:'loopback',
+      signal:controller.signal,
+    });
+    if (!response.ok) return null;
+    const result=await response.json();
+    return {available:Boolean(result?.ok),visible:Boolean(result?.visible)};
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function hideNativeFloatingSchedule() {
+  try {
+    const response=await fetch('http://127.0.0.1:4174/hide',{
+      cache:'no-store',
+      targetAddressSpace:'loopback',
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 async function openFloatingSchedule() {
   const active=getFloatingWindow();
   if (active) {
     active.focus();
     showToast('悬浮日程已经在屏幕上');
+    return;
+  }
+  const nativeState=await getNativeFloatingState();
+  if (nativeState?.visible) {
+    await hideNativeFloatingSchedule();
+    resetFloatingSchedule();
+    showToast('透明悬浮已关闭');
     return;
   }
   resetFloatingSchedule();
@@ -523,6 +561,11 @@ async function openFloatingSchedule() {
   if (await sendNativeFloatingSchedule(events,true)) {
     floatingMode='native';
     $('#floating-button').classList.add('active');
+    floatingHealthTimer=setInterval(async()=>{
+      if (floatingMode!=='native') return;
+      const current=await getNativeFloatingState();
+      if (current && !current.visible) resetFloatingSchedule();
+    },1200);
     showToast('已启用透明悬浮；移入可显示操作层');
     return;
   }
