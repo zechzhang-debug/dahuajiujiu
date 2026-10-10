@@ -26,6 +26,7 @@ let search = '';
 let visibleIdeaLimit = 20;
 let selectedCalendarDate = '';
 let floatingScheduleDate = '';
+let floatingMode = '';
 let floatingWindow = null;
 let floatingHealthTimer = null;
 const calendarCursor = new Date();
@@ -394,23 +395,31 @@ function renderCalendarDetail() {
 }
 
 const FLOATING_SCHEDULE_STYLES=`
-  :root{color-scheme:dark;font-family:'Noto Sans SC','Microsoft YaHei',system-ui,sans-serif}
+  :root{color-scheme:dark;font-family:'Microsoft YaHei','PingFang SC',system-ui,sans-serif}
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;color:#f0f0df;background:#0d0d0c;overflow:hidden}
+  html,body{margin:0;width:100%;min-height:100%;background:transparent!important;overflow:hidden}
+  body{color:#fff}
   button,input{font:inherit}
-  .float-shell{min-height:100vh;padding:12px;background:radial-gradient(circle at 86% 8%,rgba(117,80,237,.23),transparent 42%),#0d0d0c}
-  .float-card{height:calc(100vh - 24px);display:flex;flex-direction:column;overflow:hidden;padding:17px;border:1px solid #353530;border-radius:18px;background:rgba(23,23,22,.96);box-shadow:0 20px 55px rgba(0,0,0,.4)}
-  .float-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:13px;border-bottom:1px solid #30302d}
-  .float-brand{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800}.float-dot{width:8px;height:8px;border-radius:50%;background:#eff357;box-shadow:0 0 14px rgba(239,243,87,.72)}
-  .float-date{display:block;margin-top:4px;color:#8e8e85;font-size:10px;font-weight:500}.float-count{padding:5px 8px;border-radius:14px;color:#111;background:#eff357;font-size:10px;font-weight:800}
-  .float-list{flex:1;min-height:0;overflow:auto;list-style:none;margin:0;padding:9px 0;scrollbar-color:#7550ed #171716}
-  .float-item{display:grid;grid-template-columns:48px 20px 1fr;align-items:center;gap:9px;padding:11px 3px;border-bottom:1px solid #2b2b28}.float-item:last-child{border-bottom:0}
-  .float-time{color:#e77ddd;font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
-  .float-check{appearance:none;width:18px;height:18px;margin:0;border:1px solid #777770;border-radius:50%;background:transparent;cursor:pointer}.float-check:checked{border-color:#eff357;background:#eff357;box-shadow:inset 0 0 0 4px #171716}
-  .float-copy{min-width:0}.float-title{display:block;color:#f0f0df;font-size:13px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}.float-note{display:block;margin-top:3px;color:#85857d;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
-  .float-item.done{opacity:.5}.float-item.done .float-title{text-decoration:line-through}
-  .float-empty{flex:1;display:grid;place-items:center;align-content:center;gap:9px;color:#777770;text-align:center}.float-empty b{width:46px;height:46px;display:grid;place-items:center;color:#111;background:#eff357;font-size:22px}.float-empty strong{color:#f0f0df;font-size:14px}.float-empty span{font-size:10px}
-  .float-foot{padding-top:10px;border-top:1px solid #30302d;color:#6f6f68;font-size:9px;text-align:center}
+  .float-shell{min-height:100vh;padding:12px;display:grid;place-items:center;background:transparent}
+  .float-card{width:100%;max-height:calc(100vh - 24px);overflow:auto;padding:16px 18px 14px;border:1px solid transparent;border-radius:17px;color:#fff;background:rgba(34,35,32,0);box-shadow:0 18px 50px rgba(0,0,0,0);backdrop-filter:blur(0);transition:background .2s ease,box-shadow .2s ease,border-color .2s ease,backdrop-filter .2s ease;scrollbar-width:none}
+  .float-card::-webkit-scrollbar{display:none}
+  .float-card:hover{background:rgba(131,129,125,.96);border-color:rgba(255,255,255,.16);box-shadow:0 18px 48px rgba(0,0,0,.24);backdrop-filter:blur(14px)}
+  .float-chrome{max-height:0;margin:0;opacity:0;overflow:hidden;pointer-events:none;transform:translateY(-4px);transition:opacity .16s ease,max-height .2s ease,transform .2s ease,margin .2s ease}
+  .float-card:hover .float-chrome{max-height:60px;margin-bottom:11px;opacity:1;pointer-events:auto;transform:translateY(0)}
+  .float-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .float-head>div{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:1}.float-brand{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:800}.float-dot{width:8px;height:8px;border-radius:50%;background:#99ffaa;box-shadow:0 0 12px rgba(153,255,170,.75)}
+  .float-date{color:rgba(255,255,255,.68);font-size:10px}.float-count{display:none}
+  .float-list{list-style:none;margin:0;padding:0}
+  .float-item{display:grid;grid-template-columns:46px 0 1fr;gap:0;align-items:center;padding:8px 2px;border-top:1px solid transparent;text-shadow:0 2px 5px rgba(0,0,0,.36),0 0 14px rgba(0,0,0,.18);transition:grid-template-columns .18s ease,gap .18s ease,border-color .18s ease}
+  .float-card:hover .float-item{grid-template-columns:46px 17px 1fr;gap:9px;border-top-color:rgba(255,255,255,.12)}
+  .float-time{padding-top:1px;color:rgba(255,255,255,.9);font-size:10px;font-variant-numeric:tabular-nums;text-shadow:0 2px 5px rgba(0,0,0,.24),0 5px 14px rgba(0,0,0,.12)}
+  .float-check{appearance:none;width:17px;height:17px;margin:0;border:1px solid rgba(255,255,255,.55);border-radius:6px;background:transparent;opacity:0;pointer-events:none;transform:scale(.7);cursor:pointer;transition:opacity .16s ease,transform .16s ease}
+  .float-card:hover .float-check{opacity:1;pointer-events:auto;transform:scale(1)}.float-check:checked{background:#99ffaa;border-color:#99ffaa;box-shadow:inset 0 0 0 4px #83817d}
+  .float-copy{min-width:0}.float-title{display:block;color:#fff;font-size:14px;font-weight:760;line-height:1.35;overflow-wrap:anywhere;text-shadow:0 2px 5px rgba(0,0,0,.36),0 5px 15px rgba(0,0,0,.22)}.float-item.featured .float-title{color:#99ffaa}
+  .float-note{display:block;max-height:0;margin:0;opacity:0;overflow:hidden;color:rgba(255,255,255,.66);font-size:10px;line-height:1.4;transition:opacity .16s ease,max-height .18s ease,margin .18s ease}.float-card:hover .float-note{max-height:42px;margin-top:3px;opacity:1}
+  .float-item.done .float-title{opacity:.58;text-decoration:line-through}
+  .float-empty{display:grid;place-items:center;align-content:center;gap:9px;min-height:120px;color:rgba(255,255,255,.72);text-align:center;text-shadow:0 2px 5px rgba(0,0,0,.3)}.float-empty b{color:#99ffaa;font-size:22px}.float-empty strong{color:#fff;font-size:14px}.float-empty span{font-size:10px}
+  .float-foot{color:rgba(255,255,255,.7);font-size:10px;text-align:center}
 `;
 
 function getFloatingWindow() {
@@ -424,13 +433,14 @@ function getFloatingWindow() {
 function resetFloatingSchedule() {
   floatingWindow=null;
   floatingScheduleDate='';
+  floatingMode='';
   if (floatingHealthTimer) clearInterval(floatingHealthTimer);
   floatingHealthTimer=null;
   $('#floating-button').classList.remove('active');
 }
 
-function floatingEventHtml(item) {
-  return `<li class="float-item ${item.done?'done':''}" data-floating-event="${item.id}">
+function floatingEventHtml(item,index,featuredIndex) {
+  return `<li class="float-item ${item.done?'done':''} ${index===featuredIndex?'featured':''}" data-floating-event="${item.id}">
     <span class="float-time">${eventTime(item)}</span>
     <input class="float-check" type="checkbox" aria-label="${item.done?'标记未完成':'标记完成'}" ${item.done?'checked':''}>
     <span class="float-copy"><span class="float-title">${esc(item.title)}</span>${item.note?`<small class="float-note">${esc(item.note)}</small>`:''}</span>
@@ -438,15 +448,21 @@ function floatingEventHtml(item) {
 }
 
 function renderFloatingSchedule() {
-  floatingWindow=getFloatingWindow();
-  if (!floatingWindow || !floatingScheduleDate) return;
+  if (!floatingScheduleDate) return;
   const date=new Date(`${floatingScheduleDate}T12:00:00`);
   const events=eventsForCalendarDate(floatingScheduleDate);
+  if (floatingMode==='native') {
+    sendNativeFloatingSchedule(events).catch(()=>{});
+    return;
+  }
+  floatingWindow=getFloatingWindow();
+  if (!floatingWindow) return;
+  const featuredIndex=events.findIndex((item)=>!item.done);
   const dateLabel=date.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'});
   floatingWindow.document.body.innerHTML=`<main class="float-shell"><section class="float-card">
-    <header class="float-head"><div><span class="float-brand"><i class="float-dot"></i>想想 · 日程</span><span class="float-date">${esc(dateLabel)}</span></div><b class="float-count">${events.length}</b></header>
-    ${events.length?`<ul class="float-list">${events.map(floatingEventHtml).join('')}</ul>`:'<div class="float-empty"><b>✓</b><strong>这一天没有待处理日程</strong><span>在网页中新增后会自动同步到这里</span></div>'}
-    <footer class="float-foot">始终置顶 · 勾选状态自动同步</footer>
+    <header class="float-head float-chrome"><div><span class="float-brand"><i class="float-dot"></i>想想 · 日程</span><span class="float-date">${esc(dateLabel)}</span></div><b class="float-count">${events.length}</b></header>
+    ${events.length?`<ul class="float-list">${events.map((item,index)=>floatingEventHtml(item,index,featuredIndex)).join('')}</ul>`:'<div class="float-empty"><b>✓</b><strong>这一天没有待处理日程</strong><span>在网页中新增后会自动同步到这里</span></div>'}
+    <footer class="float-foot float-chrome">移开鼠标只保留日程 · 勾选即同步</footer>
   </section></main>`;
   floatingWindow.document.querySelectorAll('.float-check').forEach((checkbox)=>checkbox.addEventListener('change',(event)=>{
     const id=event.target.closest('[data-floating-event]')?.dataset.floatingEvent;
@@ -457,11 +473,43 @@ function renderFloatingSchedule() {
   }));
 }
 
-async function openFloatingSchedule() {
-  if (!('documentPictureInPicture' in window) || !window.isSecureContext) {
-    showToast('悬浮功能需要新版 Chrome 或 Edge',true);
-    return;
+function nativeScheduleBody(events) {
+  const json=JSON.stringify({schedule:events.map((item)=>({
+    id:item.id,
+    time:eventTime(item),
+    title:item.title,
+    note:item.note || '',
+    done:Boolean(item.done),
+  }))});
+  const bytes=new TextEncoder().encode(json);
+  let binary='';
+  for (const byte of bytes) binary+=String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+async function sendNativeFloatingSchedule(events) {
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),800);
+  try {
+    const response=await fetch('http://127.0.0.1:4174/show',{
+      method:'POST',
+      mode:'cors',
+      cache:'no-store',
+      headers:{'Content-Type':'text/plain;charset=UTF-8'},
+      body:nativeScheduleBody(events),
+      signal:controller.signal,
+    });
+    if (!response.ok) return false;
+    const result=await response.json();
+    return Boolean(result?.ok);
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeout);
   }
+}
+
+async function openFloatingSchedule() {
   const active=getFloatingWindow();
   if (active) {
     active.focus();
@@ -470,7 +518,20 @@ async function openFloatingSchedule() {
   }
   resetFloatingSchedule();
   floatingScheduleDate=selectedCalendarDate || localDateKey(new Date());
+  const events=eventsForCalendarDate(floatingScheduleDate);
+  if (await sendNativeFloatingSchedule(events)) {
+    floatingMode='native';
+    $('#floating-button').classList.add('active');
+    showToast('已启用透明悬浮；移入可显示操作层');
+    return;
+  }
+  if (!('documentPictureInPicture' in window) || !window.isSecureContext) {
+    floatingScheduleDate='';
+    showToast('透明助手未运行，浏览器也不支持悬浮',true);
+    return;
+  }
   try {
+    floatingMode='browser';
     floatingWindow=await window.documentPictureInPicture.requestWindow({width:390,height:560,disallowReturnToOpener:false,preferInitialWindowPlacement:true});
     const style=floatingWindow.document.createElement('style');
     style.textContent=FLOATING_SCHEDULE_STYLES;
