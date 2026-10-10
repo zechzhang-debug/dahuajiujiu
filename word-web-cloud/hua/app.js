@@ -368,6 +368,21 @@ function eventsForCalendarDate(key) {
   return sortEvents(state.events.filter((item)=>dayKey(item)===key && (!isPast || !item.done)));
 }
 
+function floatingEventsForDate(key, minimum=6) {
+  const events=eventsForCalendarDate(key);
+  const todayKey=localDateKey(new Date());
+  if (key!==todayKey || events.length>=minimum) return events;
+  const carryovers=state.events
+    .filter((item)=>!item.done && dayKey(item)<key)
+    .sort((a,b)=>new Date(b.start)-new Date(a.start))
+    .slice(0,minimum-events.length)
+    .map((item)=>{
+      const date=new Date(item.start);
+      return {...item,floatingTime:`${date.getMonth()+1}/${date.getDate()}`};
+    });
+  return [...events,...carryovers];
+}
+
 function renderCalendarDetail() {
   const panel=$('#calendar-panel');
   const front=$('#calendar-front');
@@ -441,7 +456,7 @@ function resetFloatingSchedule() {
 
 function floatingEventHtml(item,index,featuredIndex) {
   return `<li class="float-item ${item.done?'done':''} ${index===featuredIndex?'featured':''}" data-floating-event="${item.id}">
-    <span class="float-time">${eventTime(item)}</span>
+    <span class="float-time">${item.floatingTime || eventTime(item)}</span>
     <input class="float-check" type="checkbox" aria-label="${item.done?'标记未完成':'标记完成'}" ${item.done?'checked':''}>
     <span class="float-copy"><span class="float-title">${esc(item.title)}</span>${item.note?`<small class="float-note">${esc(item.note)}</small>`:''}</span>
   </li>`;
@@ -450,7 +465,7 @@ function floatingEventHtml(item,index,featuredIndex) {
 function renderFloatingSchedule() {
   if (!floatingScheduleDate) return;
   const date=new Date(`${floatingScheduleDate}T12:00:00`);
-  const events=eventsForCalendarDate(floatingScheduleDate);
+  const events=floatingEventsForDate(floatingScheduleDate);
   if (floatingMode==='native') {
     sendNativeFloatingSchedule(events,false).catch(()=>{});
     return;
@@ -476,7 +491,7 @@ function renderFloatingSchedule() {
 function nativeScheduleBody(events) {
   const json=JSON.stringify({schedule:events.map((item)=>({
     id:item.id,
-    time:eventTime(item),
+    time:item.floatingTime || eventTime(item),
     title:item.title,
     note:item.note || '',
     done:Boolean(item.done),
@@ -557,7 +572,7 @@ async function openFloatingSchedule() {
   }
   resetFloatingSchedule();
   floatingScheduleDate=selectedCalendarDate || localDateKey(new Date());
-  const events=eventsForCalendarDate(floatingScheduleDate);
+  const events=floatingEventsForDate(floatingScheduleDate);
   if (await sendNativeFloatingSchedule(events,true)) {
     floatingMode='native';
     $('#floating-button').classList.add('active');
