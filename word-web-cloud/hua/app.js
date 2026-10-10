@@ -495,6 +495,7 @@ async function sendNativeFloatingSchedule(events) {
       method:'POST',
       mode:'cors',
       cache:'no-store',
+      targetAddressSpace:'local',
       headers:{'Content-Type':'text/plain;charset=UTF-8'},
       body:nativeScheduleBody(events),
       signal:controller.signal,
