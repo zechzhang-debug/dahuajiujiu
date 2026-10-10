@@ -489,7 +489,7 @@ function nativeScheduleBody(events) {
 
 async function sendNativeFloatingSchedule(events) {
   const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),800);
+  const timeout=setTimeout(()=>controller.abort(),20000);
   try {
     const response=await fetch('http://127.0.0.1:4174/show',{
       method:'POST',
@@ -526,29 +526,8 @@ async function openFloatingSchedule() {
     showToast('已启用透明悬浮；移入可显示操作层');
     return;
   }
-  if (!('documentPictureInPicture' in window) || !window.isSecureContext) {
-    floatingScheduleDate='';
-    showToast('透明助手未运行，浏览器也不支持悬浮',true);
-    return;
-  }
-  try {
-    floatingMode='browser';
-    floatingWindow=await window.documentPictureInPicture.requestWindow({width:390,height:560,disallowReturnToOpener:false,preferInitialWindowPlacement:true});
-    const style=floatingWindow.document.createElement('style');
-    style.textContent=FLOATING_SCHEDULE_STYLES;
-    floatingWindow.document.head.appendChild(style);
-    floatingWindow.document.title='想想 · 悬浮日程';
-    const close=()=>resetFloatingSchedule();
-    floatingWindow.addEventListener('pagehide',close,{once:true});
-    floatingWindow.addEventListener('unload',close,{once:true});
-    floatingHealthTimer=setInterval(()=>{if(!getFloatingWindow())resetFloatingSchedule();},600);
-    $('#floating-button').classList.add('active');
-    renderFloatingSchedule();
-    showToast('日程已悬浮，可切换到其他软件');
-  } catch (error) {
-    resetFloatingSchedule();
-    showToast(`没有打开悬浮窗：${error.message}`,true);
-  }
+  floatingScheduleDate='';
+  showToast('请启动透明悬浮助手，并允许浏览器访问本地网络',true);
 }
 
 function render() {
