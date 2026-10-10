@@ -452,7 +452,7 @@ function renderFloatingSchedule() {
   const date=new Date(`${floatingScheduleDate}T12:00:00`);
   const events=eventsForCalendarDate(floatingScheduleDate);
   if (floatingMode==='native') {
-    sendNativeFloatingSchedule(events).catch(()=>{});
+    sendNativeFloatingSchedule(events,false).catch(()=>{});
     return;
   }
   floatingWindow=getFloatingWindow();
@@ -487,11 +487,11 @@ function nativeScheduleBody(events) {
   return btoa(binary);
 }
 
-async function sendNativeFloatingSchedule(events) {
+async function sendNativeFloatingSchedule(events,show=true) {
   const controller=new AbortController();
   const timeout=setTimeout(()=>controller.abort(),20000);
   try {
-    const response=await fetch('http://127.0.0.1:4174/show',{
+    const response=await fetch(`http://127.0.0.1:4174/${show?'show':'update'}`,{
       method:'POST',
       mode:'cors',
       cache:'no-store',
@@ -520,7 +520,7 @@ async function openFloatingSchedule() {
   resetFloatingSchedule();
   floatingScheduleDate=selectedCalendarDate || localDateKey(new Date());
   const events=eventsForCalendarDate(floatingScheduleDate);
-  if (await sendNativeFloatingSchedule(events)) {
+  if (await sendNativeFloatingSchedule(events,true)) {
     floatingMode='native';
     $('#floating-button').classList.add('active');
     showToast('已启用透明悬浮；移入可显示操作层');
