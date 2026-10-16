@@ -756,8 +756,13 @@
     let currentLevel = 'primary';
     let currentAudio = null;
     let preloadTimer = null;
+    let preloadIdleHandle = null;
+    let storedStateCache = null;
+    let storageSaveTimer = null;
     const VIRTUAL_CHUNK_SIZE = 40;
     const VIRTUAL_CHUNK_RADIUS = 1;
+    const MAX_AUDIO_CACHE_SIZE = 18;
+    const STORAGE_SAVE_DELAY = 250;
     let virtualTableObserver = null;
     let shuffleState = null;
     const audioCache = new Map();
@@ -803,10 +808,12 @@
     }
 
     function getStoredState() {
+        if (storedStateCache) return storedStateCache;
         const raw = localStorage.getItem(STORAGE_KEY_STATE);
         if (raw) {
             try {
-                return normalizeStoredState(JSON.parse(raw));
+                storedStateCache = normalizeStoredState(JSON.parse(raw));
+                return storedStateCache;
             } catch (e) {}
         }
 
@@ -822,18 +829,41 @@
                     };
                     migrated.statuses.primary = buildStatusMapFromWords(legacyWords);
                     localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(migrated));
-                    return migrated;
+                    storedStateCache = migrated;
+                    return storedStateCache;
                 }
             } catch (e) {}
         }
 
-        return { currentLevel: 'primary', statuses: emptyStatuses() };
+        storedStateCache = { currentLevel: 'primary', statuses: emptyStatuses() };
+        return storedStateCache;
     }
 
     function saveStoredState(state) {
+        if (storageSaveTimer) clearTimeout(storageSaveTimer);
+        storageSaveTimer = null;
         const normalized = normalizeStoredState(state);
+        storedStateCache = normalized;
         localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(normalized));
         window.dispatchEvent(new CustomEvent('dahuajiujiu:progress-changed', { detail: normalized }));
+    }
+
+    function queueStoredStateSave() {
+        if (storageSaveTimer) clearTimeout(storageSaveTimer);
+        storageSaveTimer = setTimeout(() => {
+            storageSaveTimer = null;
+            saveStoredState(storedStateCache || getStoredState());
+        }, STORAGE_SAVE_DELAY);
+    }
+
+    function saveWordStatusSilently(item) {
+        const stored = getStoredState();
+        const statusMap = stored.statuses[currentLevel];
+        const key = getWordKey(item);
+        stored.currentLevel = currentLevel;
+        if (item.status) statusMap[key] = item.status;
+        else delete statusMap[key];
+        queueStoredStateSave();
     }
 
     function saveToStorage() {
@@ -925,9 +955,27 @@
 
     function createCachedAudio(src) {
         const audio = new Audio();
-        audio.preload = 'auto';
+        audio.preload = 'metadata';
         audio.src = src;
         return audio;
+    }
+
+    function trimAudioCache() {
+        let guard = audioCache.size + 1;
+        while (audioCache.size > MAX_AUDIO_CACHE_SIZE && guard-- > 0) {
+            const oldest = audioCache.entries().next().value;
+            if (!oldest) break;
+            const [src, audio] = oldest;
+            audioCache.delete(src);
+            if (audio === currentAudio && audioCache.size) {
+                audioCache.set(src, audio);
+                continue;
+            }
+            audioLoadPromises.delete(src);
+            audio.pause();
+            audio.removeAttribute('src');
+            audio.load();
+        }
     }
 
     function primeAudio(word, level = currentLevel) {
@@ -938,6 +986,10 @@
         let audio = audioCache.get(src);
         if (!audio) {
             audio = createCachedAudio(src);
+            audioCache.set(src, audio);
+            trimAudioCache();
+        } else {
+            audioCache.delete(src);
             audioCache.set(src, audio);
         }
 
@@ -955,6 +1007,7 @@
             const onError = () => {
                 cleanup();
                 audioLoadPromises.delete(src);
+                audioCache.delete(src);
                 missingAudioCache.add(src);
                 reject(new Error(`failed to load audio: ${src}`));
             };
@@ -986,14 +1039,21 @@
         };
 
         if (preloadTimer) clearTimeout(preloadTimer);
+        if (preloadIdleHandle !== null && 'cancelIdleCallback' in window) {
+            window.cancelIdleCallback(preloadIdleHandle);
+            preloadIdleHandle = null;
+        }
         if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(preloadTask, { timeout: 1200 });
+            preloadIdleHandle = window.requestIdleCallback(() => {
+                preloadIdleHandle = null;
+                preloadTask();
+            }, { timeout: 1200 });
         } else {
             preloadTimer = setTimeout(preloadTask, 80);
         }
     }
 
-    function preloadAroundIndex(index, radius = 8) {
+    function preloadAroundIndex(index, radius = 2) {
         if (Number.isNaN(index)) return;
         const words = [];
         const start = Math.max(0, index - radius);
@@ -1103,6 +1163,8 @@
         const createRows = (entries) => {
             const fragment = document.createDocumentFragment();
             entries.forEach(({ item, index }) => {
+            if (showOnlyDifficult && item.status !== 'difficult') return;
+            if (hideMastered && item.status === 'mastered') return;
             const row = document.createElement('tr'); row.dataset.index = index;
             if (item.status === 'mastered') row.classList.add('mastered');
             else if (item.status === 'difficult') row.classList.add('difficult');
@@ -1213,8 +1275,6 @@
             const shift = anchor.getBoundingClientRect().top - anchorTop;
             if (Math.abs(shift) > 0.5) window.scrollBy(0, shift);
             updateColumnVisibility();
-            const preloadStart = Math.max(0, center * VIRTUAL_CHUNK_SIZE - 8);
-            scheduleAudioPreload(entries.slice(preloadStart, preloadStart + 24).map(({ item }) => item.word), currentLevel);
         };
 
         if (!chunkCount) return;
@@ -1316,17 +1376,18 @@
                 } else {
                     allWords[idx].status = allWords[idx].status === 'difficult' ? '' : 'difficult';
                 }
-                saveToStorageSilently();
+                saveWordStatusSilently(allWords[idx]);
                 const currentStatus = allWords[idx].status;
                 const shouldHide = (showOnlyDifficult && currentStatus !== 'difficult') || (hideMastered && currentStatus === 'mastered');
                 if (shouldHide) {
+                    const chunk = row.closest('.virtual-chunk');
                     row.remove();
+                    if (chunk) chunk.dataset.measuredHeight = String(Math.max(1, chunk.getBoundingClientRect().height));
                 } else {
                     row.classList.remove('mastered', 'difficult');
                     if (currentStatus === 'mastered') row.classList.add('mastered');
                     else if (currentStatus === 'difficult') row.classList.add('difficult');
                 }
-                preloadAroundIndex(idx);
                 return;
             }
 
@@ -1531,6 +1592,9 @@
         getState: getStoredState,
         async applyState(state) {
             const normalized = normalizeStoredState(state);
+            if (storageSaveTimer) clearTimeout(storageSaveTimer);
+            storageSaveTimer = null;
+            storedStateCache = normalized;
             localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(normalized));
             currentLevel = normalized.currentLevel;
             await loadRemoteConfig(currentLevel);
