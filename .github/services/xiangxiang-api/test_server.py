@@ -1,3 +1,4 @@
+import http.cookiejar
 import json
 import os
 import socket
@@ -38,7 +39,14 @@ class XiangxiangApiTest(unittest.TestCase):
         }
         (data_dir / "state.json").write_text(json.dumps(legacy, ensure_ascii=False), encoding="utf-8")
         self.port = free_port()
-        env = {**os.environ, "PORT": str(self.port), "XIANGXIANG_DATA_DIR": str(data_dir)}
+        self.cookies = http.cookiejar.CookieJar()
+        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookies))
+        env = {
+            **os.environ,
+            "PORT": str(self.port),
+            "XIANGXIANG_DATA_DIR": str(data_dir),
+            "HUA_COOKIE_SECURE": "0",
+        }
         self.process = subprocess.Popen(
             [sys.executable, str(SERVER)], env=env,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
@@ -52,6 +60,8 @@ class XiangxiangApiTest(unittest.TestCase):
         else:
             output = self.process.stdout.read() if self.process.stdout else ""
             self.fail(f"server did not start: {output}")
+        authenticated = self.request("/hua/api/login", "POST", {"code": "198538"})
+        self.assertTrue(authenticated["authenticated"])
 
     def tearDown(self):
         self.process.terminate()
@@ -66,11 +76,31 @@ class XiangxiangApiTest(unittest.TestCase):
             f"http://127.0.0.1:{self.port}{path}", data=data, method=method,
             headers={"Content-Type": "application/json"},
         )
-        with urllib.request.urlopen(request, timeout=5) as response:
+        with self.opener.open(request, timeout=5) as response:
             return json.loads(response.read().decode("utf-8"))
 
     def get(self, path):
         return self.request(path)
+
+    def test_requires_login_and_rejects_wrong_code(self):
+        isolated = urllib.request.build_opener()
+        protected = urllib.request.Request(f"http://127.0.0.1:{self.port}/hua/api/state")
+        with self.assertRaises(urllib.error.HTTPError) as unauthorized:
+            isolated.open(protected, timeout=5)
+        self.assertEqual(401, unauthorized.exception.code)
+
+        wrong = urllib.request.Request(
+            f"http://127.0.0.1:{self.port}/hua/api/login",
+            data=json.dumps({"code": "000000"}).encode("utf-8"),
+            method="POST",
+            headers={"Content-Type": "application/json"},
+        )
+        with self.assertRaises(urllib.error.HTTPError) as rejected:
+            isolated.open(wrong, timeout=5)
+        self.assertEqual(401, rejected.exception.code)
+
+        status = self.get("/hua/api/auth")
+        self.assertTrue(status["authenticated"])
 
     def test_migrates_legacy_and_syncs_incrementally(self):
         first = self.get("/hua/api/sync?cursor=0&limit=10")

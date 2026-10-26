@@ -156,5 +156,7 @@ jobs:
       - name: Verify public site
         run: |
           curl --fail --silent --show-error --location --max-time 20 https://dahuajiujiu.com/ > /dev/null
-          status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 'https://dahuajiujiu.com/hua/api/sync?cursor=0&limit=1')
-          test "$status" = '200'
+          auth_status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 'https://dahuajiujiu.com/hua/api/auth')
+          protected_status=$(curl --silent --output /dev/null --write-out '%{http_code}' --max-time 20 'https://dahuajiujiu.com/hua/api/sync?cursor=0&limit=1')
+          test "$auth_status" = '200'
+          test "$protected_status" = '401'

@@ -2,11 +2,15 @@ import hashlib
 import hmac
 import json
 import os
+import secrets
 import sqlite3
 import sys
+import threading
+import time
 import urllib.error
 import urllib.request
 import uuid
+from http.cookies import SimpleCookie
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -22,8 +26,19 @@ STATE_FILE = DATA_DIR / "state.json"
 ARCHIVE_FILE = DATA_DIR / "idea-archive.json"
 CONFIG_FILE = DATA_DIR / "config.json"
 ACCESS_TOKEN_HASH = "ffa03f654b95f91c09b96e0222105b497475ad0947d76c4bbcc81ca58f2f0ed9"
+ACCESS_CODE_HASH = os.environ.get(
+    "HUA_ACCESS_CODE_HASH",
+    "9930fbf03143b03c2f296e83966cb5c23a0e8c5c3010648b00545d27a4133073",
+)
+SESSION_COOKIE = "hua_session"
+SESSION_MAX_AGE = 60 * 60 * 24 * 180
+COOKIE_SECURE = os.environ.get("HUA_COOKIE_SECURE", "1") != "0"
+LOGIN_WINDOW = 10 * 60
+LOGIN_MAX_ATTEMPTS = 8
 THEMES = {"工作", "生活", "创作", "学习", "其他"}
 KINDS = {"idea", "event"}
+LOGIN_ATTEMPTS = {}
+LOGIN_LOCK = threading.Lock()
 
 
 class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
@@ -140,6 +155,13 @@ def init_database():
                 last_seen_at TEXT NOT NULL,
                 deleted_at TEXT
             );
+            CREATE TABLE IF NOT EXISTS auth_sessions (
+                token_hash TEXT PRIMARY KEY,
+                expires_at INTEGER NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_auth_sessions_expires
+                ON auth_sessions(expires_at);
         """)
         migrated = db.execute("SELECT value FROM metadata WHERE key='legacy_migrated'").fetchone()
         if migrated:
@@ -338,8 +360,12 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def send_json(self, status, value):
-        self.send_bytes(status, json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    def send_json(self, status, value, extra=None):
+        self.send_bytes(
+            status,
+            json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
+            extra=extra,
+        )
 
     def read_json(self, maximum=1_000_000):
         length = int(self.headers.get("Content-Length", "0") or "0")
@@ -356,6 +382,85 @@ class Handler(BaseHTTPRequestHandler):
         digest = hashlib.sha256(token.encode()).hexdigest()
         return hmac.compare_digest(digest, ACCESS_TOKEN_HASH)
 
+    def client_address_key(self):
+        forwarded = self.headers.get("X-Forwarded-For", "").split(",", 1)[0].strip()
+        return forwarded or self.client_address[0]
+
+    def login_limited(self):
+        key = self.client_address_key()
+        cutoff = time.time() - LOGIN_WINDOW
+        with LOGIN_LOCK:
+            recent = [attempt for attempt in LOGIN_ATTEMPTS.get(key, []) if attempt >= cutoff]
+            LOGIN_ATTEMPTS[key] = recent
+            return len(recent) >= LOGIN_MAX_ATTEMPTS
+
+    def record_login_failure(self):
+        key = self.client_address_key()
+        cutoff = time.time() - LOGIN_WINDOW
+        with LOGIN_LOCK:
+            recent = [attempt for attempt in LOGIN_ATTEMPTS.get(key, []) if attempt >= cutoff]
+            recent.append(time.time())
+            LOGIN_ATTEMPTS[key] = recent
+
+    def clear_login_failures(self):
+        with LOGIN_LOCK:
+            LOGIN_ATTEMPTS.pop(self.client_address_key(), None)
+
+    def session_token(self):
+        cookie = SimpleCookie()
+        try:
+            cookie.load(self.headers.get("Cookie", ""))
+        except Exception:
+            return ""
+        morsel = cookie.get(SESSION_COOKIE)
+        return morsel.value if morsel else ""
+
+    def authenticated(self):
+        token = self.session_token()
+        if not token:
+            return False
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
+        now = int(time.time())
+        with db_connect() as db:
+            db.execute("DELETE FROM auth_sessions WHERE expires_at<=?", (now,))
+            row = db.execute(
+                "SELECT 1 FROM auth_sessions WHERE token_hash=? AND expires_at>?",
+                (token_hash, now),
+            ).fetchone()
+        return bool(row)
+
+    def require_auth(self):
+        if self.authenticated():
+            return True
+        self.send_json(401, {"error": "请先输入访问口令", "authenticated": False})
+        return False
+
+    def login(self):
+        if self.login_limited():
+            return self.send_json(429, {"error": "尝试次数过多，请十分钟后再试"})
+        payload = self.read_json(8_000)
+        code = payload.get("code")
+        digest = hashlib.sha256(str(code or "").encode()).hexdigest()
+        if not hmac.compare_digest(digest, ACCESS_CODE_HASH):
+            self.record_login_failure()
+            return self.send_json(401, {"error": "口令不正确"})
+        self.clear_login_failures()
+        token = secrets.token_urlsafe(32)
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
+        expires_at = int(time.time()) + SESSION_MAX_AGE
+        with db_connect() as db:
+            db.execute("DELETE FROM auth_sessions WHERE expires_at<=?", (int(time.time()),))
+            db.execute(
+                "INSERT INTO auth_sessions(token_hash,expires_at,created_at) VALUES(?,?,?)",
+                (token_hash, expires_at, now_iso()),
+            )
+        secure = "; Secure" if COOKIE_SECURE else ""
+        cookie = (
+            f"{SESSION_COOKIE}={token}; Path=/hua; Max-Age={SESSION_MAX_AGE}; "
+            f"HttpOnly; SameSite=Strict{secure}"
+        )
+        return self.send_json(200, {"ok": True, "authenticated": True}, {"Set-Cookie": cookie})
+
     def do_OPTIONS(self):
         self.send_bytes(204, b"", "text/plain", {
             "Access-Control-Allow-Headers": "Authorization, Content-Type",
@@ -369,6 +474,10 @@ class Handler(BaseHTTPRequestHandler):
                 with db_connect() as db:
                     count = int(db.execute("SELECT COUNT(*) AS count FROM records WHERE deleted=0").fetchone()["count"])
                 return self.send_json(200, {"ok": True, "service": "xiangxiang-api", "storage": "sqlite", "records": count})
+            if parsed.path == "/hua/api/auth":
+                return self.send_json(200, {"authenticated": self.authenticated()})
+            if parsed.path.startswith("/hua/api/") and not self.require_auth():
+                return
             if parsed.path == "/hua/api/sync":
                 query = parse_qs(parsed.query)
                 cursor = max(0, int(query.get("cursor", ["0"])[0]))
@@ -394,6 +503,8 @@ class Handler(BaseHTTPRequestHandler):
             parsed = urlparse(self.path)
             if parsed.path != "/hua/api/state":
                 return self.send_json(404, {"error": "Not found"})
+            if not self.require_auth():
+                return
             payload = self.read_json(20_000_000)
             with db_connect() as db:
                 result = reconcile_state(db, payload.get("state"))
@@ -406,6 +517,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             parsed = urlparse(self.path)
+            if parsed.path == "/hua/api/login":
+                return self.login()
+            if parsed.path.startswith("/hua/api/") and not self.require_auth():
+                return
             if parsed.path == "/hua/api/sync":
                 payload = self.read_json(1_000_000)
                 with db_connect() as db:

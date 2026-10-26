@@ -12,7 +12,24 @@
   <link rel="stylesheet" href="./styles.css" />
   <title>想想</title>
 </head>
-<body>
+<body class="auth-pending">
+  <section class="auth-gate" id="auth-gate" aria-labelledby="auth-title">
+    <div class="auth-card">
+      <div class="auth-brand" aria-hidden="true"><span></span><span></span></div>
+      <p class="auth-eyebrow">私人空间</p>
+      <h1 id="auth-title">进入想想</h1>
+      <p class="auth-copy">首次在此浏览器使用，需要输入访问口令。</p>
+      <form id="auth-form">
+        <label for="auth-code">访问口令</label>
+        <div class="auth-field">
+          <input id="auth-code" name="code" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" required />
+          <button type="submit">进入</button>
+        </div>
+        <p class="auth-message" id="auth-message" role="alert"></p>
+      </form>
+    </div>
+  </section>
+  <noscript><p class="auth-noscript">请启用 JavaScript 后访问此页面。</p></noscript>
   <div class="shell">
     <aside class="sidebar">
       <a class="brand" href="#" aria-label="想想首页">
@@ -114,6 +131,6 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
-  <script type="module" src="./app.js?v=20261011-25"></script>
+  <script type="module" src="./auth-gate.js?v=20261026-1"></script>
 </body>
 </html>

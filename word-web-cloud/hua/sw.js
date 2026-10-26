@@ -1,5 +1,5 @@
-const CACHE = 'xiangxiang-v24-floating-minimum-six';
-const ASSETS = ['./', './styles.css', './app.js', './state-utils.js', './capture-utils.js', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'xiangxiang-v25-access-gate';
+const ASSETS = ['./', './styles.css', './auth-gate.js', './app.js', './state-utils.js', './capture-utils.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener('activate', (event) => event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', (event) => {

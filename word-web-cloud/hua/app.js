@@ -116,11 +116,19 @@ function setSyncStatus(text, error=false) {
   el.closest('.ai-status')?.classList.toggle('sync-error', error);
 }
 
+function ensureSession(response) {
+  if (response.status === 401 && IS_CLOUD) {
+    location.reload();
+    throw new Error('登录已失效，请重新输入访问口令');
+  }
+  return response;
+}
+
 async function cloudRequest(name, options={}) {
-  const response = await fetch(apiUrl(name), {
+  const response = ensureSession(await fetch(apiUrl(name), {
     ...options,
     headers:{ 'Content-Type':'application/json', ...authHeaders(), ...(options.headers || {}) }
-  });
+  }));
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(payload.error || `云端同步失败（${response.status}）`);
   return payload;
@@ -637,7 +645,7 @@ async function analyze() {
       saveState(); input.value=''; showToast('已直接保存为灵感 · 未使用 AI');
       return;
     }
-    const response = await fetch(apiUrl('analyze'), { method:'POST', headers:{'Content-Type':'application/json',...authHeaders()}, body:JSON.stringify({ text, longForm, now:new Date().toISOString(), timezone:Intl.DateTimeFormat().resolvedOptions().timeZone }) });
+    const response = ensureSession(await fetch(apiUrl('analyze'), { method:'POST', headers:{'Content-Type':'application/json',...authHeaders()}, body:JSON.stringify({ text, longForm, now:new Date().toISOString(), timezone:Intl.DateTimeFormat().resolvedOptions().timeZone }) }));
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || '分析失败');
     const createdAt = new Date().toISOString();
@@ -793,7 +801,7 @@ $('#export-button').addEventListener('click', async () => {
     let blob;
     let filename;
     if (IS_CLOUD) {
-      const response = await fetch(apiUrl('archive?format=markdown'), {headers:authHeaders()});
+      const response = ensureSession(await fetch(apiUrl('archive?format=markdown'), {headers:authHeaders()}));
       if (!response.ok) throw new Error((await response.json().catch(()=>({}))).error || '知识归档下载失败');
       blob = await response.blob();
       filename = `想想-知识库-${new Date().toISOString().slice(0,10)}.md`;

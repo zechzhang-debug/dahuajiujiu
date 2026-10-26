@@ -13,6 +13,29 @@ button { color:inherit; }
 svg { width:21px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .hidden { display:none!important; }
 
+body.auth-pending .shell,
+body.auth-pending .mobile-nav,
+body.auth-pending .toast { visibility:hidden; }
+.auth-gate { position:fixed; z-index:100; inset:0; display:grid; place-items:center; padding:24px; background:var(--bg); }
+.auth-gate[hidden] { display:none; }
+.auth-card { width:min(430px,100%); padding:38px; border:1px solid var(--line); border-radius:4px; background:var(--panel); box-shadow:0 24px 80px rgba(0,0,0,.38); }
+.auth-brand { position:relative; width:44px; height:31px; margin-bottom:36px; }
+.auth-brand span { position:absolute; width:20px; height:31px; left:0; border-radius:15px 0 0 15px; background:var(--cream); }
+.auth-brand span+span { left:24px; border-radius:0 15px 15px 0; background:var(--acid); }
+.auth-eyebrow { margin:0 0 12px; color:var(--pink); font-size:11px; font-weight:700; letter-spacing:.12em; }
+.auth-card h1 { margin:0; color:var(--cream); font-size:44px; font-weight:500; letter-spacing:-.04em; }
+.auth-copy { margin:12px 0 30px; color:var(--muted); font-size:13px; line-height:1.7; }
+.auth-card label { display:block; margin-bottom:9px; color:#b7b7ac; font-size:11px; }
+.auth-field { display:grid; grid-template-columns:1fr auto; gap:8px; }
+.auth-field input { min-width:0; height:48px; padding:0 15px; border:1px solid #3a3a36; border-radius:3px; outline:0; color:var(--cream); background:#20201e; font-size:20px; letter-spacing:.16em; }
+.auth-field input:focus { border-color:var(--acid); box-shadow:0 0 0 2px rgba(239,243,87,.12); }
+.auth-field button { min-width:86px; border:0; border-radius:3px; color:#111; background:var(--acid); cursor:pointer; font-weight:700; }
+.auth-field button:hover { background:var(--cream); }
+.auth-field button:disabled { opacity:.55; cursor:wait; }
+.auth-message { min-height:20px; margin:10px 0 0; color:#a8a89e; font-size:11px; }
+.auth-message.error { color:#ff9366; }
+.auth-noscript { position:fixed; z-index:110; inset:0; display:grid; place-items:center; margin:0; color:var(--cream); background:var(--bg); }
+
 .shell { width:min(1440px,100%); min-height:100vh; margin:auto; padding:22px 26px 80px; }
 .sidebar { position:relative; z-index:5; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:28px; min-height:64px; padding:8px 10px 8px 20px; border:1px solid #282826; border-radius:34px; background:#181817; }
 .brand { display:flex; align-items:center; gap:10px; color:var(--cream); text-decoration:none; font-weight:700; white-space:nowrap; }
@@ -84,4 +107,7 @@ main { width:min(1160px,100%); margin:0 auto; padding-top:70px; }
 }
 @media(max-width:650px){
   body{padding-bottom:18px}.shell{padding:12px 12px 35px}.sidebar{min-height:52px;padding:7px 14px}.brand{font-size:14px}.brand-mark{transform:scale(.82)}.side-nav{display:none}main{padding-top:42px}.hero{gap:11px}.topbar{grid-template-columns:1fr 42px;gap:12px;margin-bottom:5px}.hero-note{display:none}.topbar h1{gap:10px}.page-logo span{font-size:58px}.page-subtitle{font-size:17px}.round-button{width:42px;height:42px}.calendar-panel{min-height:285px}.calendar-card-inner{min-height:283px}.calendar-face{padding:9px 9px 12px}.calendar-day{min-height:32px;padding:4px}.calendar-day .day-event{display:none}.calendar-detail-events .event-card{grid-template-columns:19px 48px 1fr auto;gap:7px;padding:8px}.calendar-detail-head{grid-template-columns:32px 1fr auto;gap:8px}.capture-card{min-height:250px;padding:17px}.capture-card textarea{font-size:15px}.capture-actions p{display:none}.capture-actions>div{margin-left:auto}.view{padding-top:40px}.section-heading{align-items:flex-start;flex-direction:column}.filters{width:100%;overflow:auto;flex-wrap:nowrap}.filters button{white-space:nowrap}.bubble-grid{grid-template-columns:1fr}.bubble{min-height:168px}.bubble:nth-child(n){border-radius:3px;clip-path:none}
+}
+@media(max-width:480px){
+  .auth-card{padding:28px 22px}.auth-card h1{font-size:38px}.auth-field{grid-template-columns:1fr}.auth-field button{height:46px}
 }
