@@ -527,6 +527,15 @@
             padding: 0;
             border-left-color: transparent;
         }
+        .dictation-controls { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+        .dictation-btn {
+            min-width: 112px; justify-content: center; padding: 7px 14px;
+            color: #174963; background: #fff; border-color: #9fbdd0;
+        }
+        .dictation-btn.is-running { color: #fff; background: #c64747; border-color: #a93434; }
+        .dictation-speed-btn { min-width: 92px; }
+        .dictation-status { color: #456f88; font-size: 0.82rem; white-space: nowrap; }
+        #word-table tr.dictation-active > td { background: #fff6d8; }
         /* 表格容器（仅用于水平滚动） */
         .table-wrapper {
             overflow-x: auto;
@@ -974,6 +983,17 @@
     let shuffleMode = false;
     let currentLevel = 'primary';
     let currentAudio = null;
+    let virtualTableController = null;
+    let dictationRunning = false;
+    let dictationMode = 'fast';
+    let dictationRunId = 0;
+    let dictationTimer = null;
+    let dictationWaitResolve = null;
+    const dictationAudio = new Audio();
+    dictationAudio.preload = 'auto';
+    const DICTATION_GAPS = { fast: 300, medium: 1500, slow: 3000 };
+    const DICTATION_MODE_ORDER = ['fast', 'medium', 'slow'];
+    const DICTATION_MODE_LABELS = { fast: '⚡ 快速', medium: '中速', slow: '慢速' };
     let preloadTimer = null;
     let preloadIdleHandle = null;
     let storedStateCache = null;
@@ -1343,7 +1363,9 @@
         const hintSpan = document.createElement('div'); hintSpan.className = 'hint'; hintSpan.innerHTML = compactMobile
             ? '✔ 手机竖屏三列模式'
             : '✔ 勾选显示列 &nbsp;&nbsp; 解释列取消勾选进入“点击看意思”模式';
-        container.appendChild(togglesDiv); container.appendChild(hintSpan);
+        const dictationControls = document.createElement('div'); dictationControls.className = 'dictation-controls';
+        dictationControls.innerHTML = '<button type="button" id="dictationToggle" class="dictation-btn" aria-pressed="false">▶ 开始听写</button><button type="button" id="dictationSpeed" class="dictation-btn dictation-speed-btn" aria-label="快速，点击切换速度">⚡ 快速</button><span id="dictationStatus" class="dictation-status" aria-live="polite">间隔 0.3 秒</span>';
+        container.appendChild(togglesDiv); container.appendChild(dictationControls); container.appendChild(hintSpan);
     }
 
     function syncToolbarHintVisibility() {
@@ -1366,6 +1388,7 @@
     }
 
     function renderTable() {
+        virtualTableController = null;
         const container = document.getElementById('table-container');
         container.innerHTML = '';
 
@@ -1515,6 +1538,13 @@
             if (!isMobilePortraitCompactMode()) updateColumnVisibility();
         };
 
+        virtualTableController = {
+            entries,
+            activatePosition(position) {
+                activateChunk(Math.floor(position / VIRTUAL_CHUNK_SIZE));
+            }
+        };
+
         if (!chunkCount) return;
         activateChunk(0);
         virtualTableObserver = new IntersectionObserver((observerEntries) => {
@@ -1563,6 +1593,176 @@
         audio.currentTime = 0;
         currentAudio = audio;
         await audio.play();
+    }
+
+    function updateDictationControls(message = '') {
+        const toggle = document.getElementById('dictationToggle');
+        const speed = document.getElementById('dictationSpeed');
+        const status = document.getElementById('dictationStatus');
+        if (toggle) {
+            toggle.textContent = dictationRunning ? '■ 停止听写' : '▶ 开始听写';
+            toggle.classList.toggle('is-running', dictationRunning);
+            toggle.setAttribute('aria-pressed', String(dictationRunning));
+        }
+        if (speed) {
+            speed.textContent = DICTATION_MODE_LABELS[dictationMode];
+            speed.setAttribute('aria-label', `${DICTATION_MODE_LABELS[dictationMode].replace('⚡ ', '')}，点击切换速度`);
+        }
+        if (status) status.textContent = message || `间隔 ${DICTATION_GAPS[dictationMode] / 1000} 秒`;
+    }
+
+    function clearDictationHighlight() {
+        document.querySelectorAll('#word-table tr.dictation-active').forEach(row => row.classList.remove('dictation-active'));
+    }
+
+    function stopDictation(message = '') {
+        if (!dictationRunning && !dictationWaitResolve) {
+            updateDictationControls(message);
+            return;
+        }
+        dictationRunning = false;
+        dictationRunId += 1;
+        if (dictationTimer) clearTimeout(dictationTimer);
+        dictationTimer = null;
+        dictationAudio.pause();
+        dictationAudio.removeAttribute('src');
+        dictationAudio.load();
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        if (dictationWaitResolve) dictationWaitResolve(false);
+        dictationWaitResolve = null;
+        clearDictationHighlight();
+        updateDictationControls(message);
+    }
+
+    function waitForDictationGap(runId) {
+        return new Promise(resolve => {
+            dictationWaitResolve = resolve;
+            dictationTimer = setTimeout(() => {
+                dictationTimer = null;
+                dictationWaitResolve = null;
+                resolve(dictationRunning && runId === dictationRunId);
+            }, DICTATION_GAPS[dictationMode]);
+        });
+    }
+
+    function speakDictationFallback(word, runId) {
+        return new Promise(resolve => {
+            if (!window.speechSynthesis || !dictationRunning || runId !== dictationRunId) return resolve(false);
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            setEnglishVoice(utterance, window.speechSynthesis.getVoices());
+            const finish = () => {
+                if (dictationWaitResolve === finish) dictationWaitResolve = null;
+                resolve(dictationRunning && runId === dictationRunId);
+            };
+            dictationWaitResolve = finish;
+            utterance.onend = finish;
+            utterance.onerror = finish;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        });
+    }
+
+    function playDictationWord(word, runId) {
+        return new Promise(resolve => {
+            if (!dictationRunning || runId !== dictationRunId) return resolve(false);
+            let settled = false;
+            const finish = (result) => {
+                if (settled) return;
+                settled = true;
+                dictationAudio.removeEventListener('ended', onEnded);
+                dictationAudio.removeEventListener('error', onError);
+                if (dictationWaitResolve === cancel) dictationWaitResolve = null;
+                resolve(result);
+            };
+            const onEnded = () => finish(dictationRunning && runId === dictationRunId);
+            const onError = () => finish('fallback');
+            const cancel = () => finish(false);
+            dictationWaitResolve = cancel;
+            dictationAudio.addEventListener('ended', onEnded, { once: true });
+            dictationAudio.addEventListener('error', onError, { once: true });
+            dictationAudio.src = getAudioPath(word, currentLevel);
+            dictationAudio.currentTime = 0;
+            dictationAudio.play().catch(onError);
+        }).then(result => result === 'fallback' ? speakDictationFallback(word, runId) : result);
+    }
+
+    function findDictationStartPosition(entries) {
+        const visibleRows = Array.from(document.querySelectorAll('#word-table tbody tr[data-index]'));
+        const toolbar = document.getElementById('toolbar-container');
+        const topBoundary = toolbar ? toolbar.getBoundingClientRect().bottom + 8 : 0;
+        const row = visibleRows.find(candidate => {
+            const rect = candidate.getBoundingClientRect();
+            return rect.bottom > topBoundary && rect.top < window.innerHeight;
+        });
+        if (!row) return 0;
+        const sourceIndex = Number(row.dataset.index);
+        const position = entries.findIndex(entry => entry.index === sourceIndex);
+        return position < 0 ? 0 : position;
+    }
+
+    async function revealDictationRow(position, sourceIndex) {
+        if (virtualTableController) virtualTableController.activatePosition(position);
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        clearDictationHighlight();
+        const row = document.querySelector(`#word-table tr[data-index="${sourceIndex}"]`);
+        if (!row) return;
+        row.classList.add('dictation-active');
+        const toolbar = document.getElementById('toolbar-container');
+        const topBoundary = toolbar ? toolbar.getBoundingClientRect().bottom + 8 : 0;
+        const rect = row.getBoundingClientRect();
+        if (rect.top < topBoundary || rect.bottom > window.innerHeight - 48) {
+            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            await new Promise(resolve => setTimeout(resolve, 220));
+        }
+    }
+
+    async function startDictation() {
+        const entries = buildDisplayedWords();
+        if (!entries.length) {
+            updateDictationControls('当前没有可听写的单词');
+            return;
+        }
+        stopDictation();
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        dictationRunning = true;
+        const runId = ++dictationRunId;
+        const startPosition = findDictationStartPosition(entries);
+        updateDictationControls(`准备听写，共 ${entries.length - startPosition} 个`);
+        for (let position = startPosition; position < entries.length; position += 1) {
+            if (!dictationRunning || runId !== dictationRunId) return;
+            const entry = entries[position];
+            await revealDictationRow(position, entry.index);
+            updateDictationControls(`第 ${position - startPosition + 1} / ${entries.length - startPosition} 个`);
+            const played = await playDictationWord(entry.item.word, runId);
+            if (!played || !dictationRunning || runId !== dictationRunId) return;
+            if (position < entries.length - 1) {
+                const shouldContinue = await waitForDictationGap(runId);
+                if (!shouldContinue) return;
+            }
+        }
+        dictationRunning = false;
+        clearDictationHighlight();
+        updateDictationControls('听写完成');
+    }
+
+    function bindDictationControls() {
+        const toggle = document.getElementById('dictationToggle');
+        const speed = document.getElementById('dictationSpeed');
+        if (toggle) toggle.addEventListener('click', () => {
+            if (dictationRunning) stopDictation('已停止');
+            else startDictation();
+        });
+        if (speed) speed.addEventListener('click', () => {
+            const currentModeIndex = DICTATION_MODE_ORDER.indexOf(dictationMode);
+            dictationMode = DICTATION_MODE_ORDER[(currentModeIndex + 1) % DICTATION_MODE_ORDER.length];
+            updateDictationControls(dictationRunning ? `当前为${DICTATION_MODE_LABELS[dictationMode].replace('⚡ ', '')}模式` : '');
+        });
+        updateDictationControls();
     }
 
     function speakText(text) {
@@ -1634,6 +1834,7 @@
 
             const speakBtn = e.target.closest('.speak-btn');
             if (speakBtn) {
+                stopDictation();
                 const text = speakBtn.getAttribute('data-text');
                 const kind = speakBtn.getAttribute('data-kind');
                 const audioWord = speakBtn.getAttribute('data-audio-word');
@@ -1729,6 +1930,7 @@
 
     async function selectLevelAndReload(level) {
         if (!CONFIG_FILES[level]) return;
+        stopDictation();
         saveToStorageSilently();
         const stored = getStoredState();
         stored.currentLevel = level;
@@ -1744,6 +1946,7 @@
             const file = e.target.files[0]; if (!file) return;
             const reader = new FileReader();
             reader.onload = (ev) => {
+                stopDictation();
                 const words = parseTxtToWords(ev.target.result);
                 if (words.length) { 
                     allWords = words; 
@@ -1766,24 +1969,28 @@
         document.getElementById('loadIeltsBtn').addEventListener('click', () => selectLevelAndReload('ielts'));
 
         document.getElementById('showDifficultBtn').addEventListener('click', () => { 
+            stopDictation();
             showOnlyDifficult = true; 
             hideMastered = false; 
             renderTable(); 
         });
 
         document.getElementById('hideMasteredBtn').addEventListener('click', () => {
+            stopDictation();
             hideMastered = !hideMastered;
             if (hideMastered && showOnlyDifficult) showOnlyDifficult = false;
             renderTable();
         });
 
         document.getElementById('showAllBtn').addEventListener('click', () => { 
+            stopDictation();
             showOnlyDifficult = false; 
             hideMastered = false; 
             renderTable(); 
         });
 
         document.getElementById('shuffleToggle').addEventListener('change', (e) => {
+            stopDictation();
             shuffleMode = e.target.checked;
             shuffleState = null;
             renderTable();
@@ -1806,6 +2013,7 @@
         const shuffleToggle = document.getElementById('shuffleToggle');
         if (shuffleToggle) {
             shuffleToggle.addEventListener('change', (e) => {
+                stopDictation();
                 shuffleMode = e.target.checked;
                 shuffleState = null;
                 renderTable();
@@ -1843,10 +2051,12 @@
     }
 
     function rebuildResponsiveLayout() {
+        stopDictation();
         renderToolbar();
         renderTable();
         bindTableEvents();
         bindToolbarEvents();
+        bindDictationControls();
         syncToolbarHintVisibility();
         applyResponsiveFooterLabels();
     }
@@ -1861,6 +2071,7 @@
         bindTableEvents();
         bindControls();
         bindToolbarEvents();
+        bindDictationControls();
         applyResponsiveFooterLabels();
 
         let lastCompactMode = isMobilePortraitCompactMode();
