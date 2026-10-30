@@ -1,5 +1,8 @@
 (() => {
   const STORAGE_KEY = 'dahuajiujiu_state_v2';
+  const PENDING_KEY = 'dahuajiujiu_progress_pending_v1';
+  const RECOVERY_KEY_PREFIX = 'dahuajiujiu_progress_recovered_v1:';
+  const SYNC_BATCH_SIZE = 400;
   const API_BASE = window.DAHUA_ACCOUNT_CONFIG?.apiBase || '/api';
   const LEVELS = ['primary', 'junior', 'senior', 'ielts'];
   let account = null;
@@ -7,6 +10,7 @@
   let lastSyncedState = null;
   let syncTimer = null;
   let applyingRemote = false;
+  let observedLocalState = null;
   let trigger;
   let dialog;
 
@@ -69,23 +73,107 @@
     return entries;
   }
 
+  function pendingEntryKey(entry) {
+    return `${entry.level}\n${entry.itemKey}`;
+  }
+
+  function readPendingEntries() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(PENDING_KEY) || '{}');
+      if (!saved || typeof saved !== 'object') return [];
+      return Object.values(saved).filter((entry) => (
+        entry && LEVELS.includes(entry.level) && entry.itemKey
+        && (entry.status === '' || entry.status === 'mastered' || entry.status === 'difficult')
+      ));
+    } catch {
+      return [];
+    }
+  }
+
+  function writePendingEntries(entries) {
+    const saved = {};
+    entries.forEach((entry) => { saved[pendingEntryKey(entry)] = entry; });
+    if (entries.length) localStorage.setItem(PENDING_KEY, JSON.stringify(saved));
+    else localStorage.removeItem(PENDING_KEY);
+  }
+
+  function rememberPendingEntries(entries) {
+    if (!entries.length) return;
+    const saved = {};
+    readPendingEntries().forEach((entry) => { saved[pendingEntryKey(entry)] = entry; });
+    entries.forEach((entry) => { saved[pendingEntryKey(entry)] = entry; });
+    writePendingEntries(Object.values(saved));
+  }
+
+  function clearConfirmedEntries(sentEntries) {
+    const saved = {};
+    readPendingEntries().forEach((entry) => { saved[pendingEntryKey(entry)] = entry; });
+    sentEntries.forEach((entry) => {
+      const key = pendingEntryKey(entry);
+      if (saved[key]?.status === entry.status) delete saved[key];
+    });
+    writePendingEntries(Object.values(saved));
+  }
+
+  function applyEntries(state, entries) {
+    const merged = normalizeState(state);
+    entries.forEach(({ level, itemKey, status }) => {
+      if (!LEVELS.includes(level) || !itemKey) return;
+      if (status === 'mastered' || status === 'difficult') merged.statuses[level][itemKey] = status;
+      else delete merged.statuses[level][itemKey];
+    });
+    return merged;
+  }
+
+  function recoverUnconfirmedLocalEntries(remoteState, localState) {
+    const accountKey = String(account?.id || account?.openId || account?.displayName || 'default');
+    const recoveryKey = `${RECOVERY_KEY_PREFIX}${accountKey}`;
+    if (localStorage.getItem(recoveryKey)) return [];
+    const entries = [];
+    LEVELS.forEach((level) => {
+      const remoteMap = remoteState.statuses[level] || {};
+      Object.entries(localState.statuses[level] || {}).forEach(([itemKey, status]) => {
+        if (!remoteMap[itemKey] && (status === 'mastered' || status === 'difficult')) {
+          entries.push({ level, itemKey, status });
+        }
+      });
+    });
+    rememberPendingEntries(entries);
+    localStorage.setItem(recoveryKey, '1');
+    return entries;
+  }
+
+  function captureLocalChanges() {
+    if (applyingRemote) return [];
+    const current = readLocalState();
+    const entries = observedLocalState ? stateDiff(observedLocalState, current) : [];
+    observedLocalState = current;
+    rememberPendingEntries(entries);
+    return entries;
+  }
+
   async function initialSync() {
     if (!account) return;
     setSyncLabel('正在同步');
-      const result = await api('/progress');
+    const result = await api('/progress');
     const remoteState = normalizeState(result.state);
     const localState = readLocalState();
-    // Cloud sync owns word statuses only. The active vocabulary is a local UI choice.
-    await applyState({ ...remoteState, currentLevel: localState.currentLevel });
+    recoverUnconfirmedLocalEntries(remoteState, localState);
+    const pendingEntries = readPendingEntries();
+    const mergedState = applyEntries(remoteState, pendingEntries);
+    // Cloud owns confirmed statuses; locally queued edits are replayed on top. The active vocabulary remains local.
+    await applyState({ ...mergedState, currentLevel: localState.currentLevel });
+    observedLocalState = normalizeState({ ...mergedState, currentLevel: localState.currentLevel });
     lastSyncedState = remoteState;
-    setSyncLabel('进度已同步');
+    if (pendingEntries.length) await syncNow();
+    else setSyncLabel('进度已同步');
   }
 
   async function syncNow() {
     clearTimeout(syncTimer);
     if (!account || applyingRemote) return;
-    const current = readLocalState();
-    const entries = stateDiff(lastSyncedState || emptyState(), current);
+    captureLocalChanges();
+    const entries = readPendingEntries().slice(0, SYNC_BATCH_SIZE);
     if (!entries.length) {
       setSyncLabel('进度已同步');
       return;
@@ -97,17 +185,39 @@
         body: JSON.stringify({ entries })
       });
       lastSyncedState = normalizeState(result.state);
-      setSyncLabel('进度已同步');
+      clearConfirmedEntries(entries);
+      if (readPendingEntries().length) {
+        setSyncLabel('继续同步');
+        syncTimer = setTimeout(syncNow, 80);
+      } else {
+        setSyncLabel('进度已同步');
+      }
     } catch {
       setSyncLabel('同步待重试');
     }
   }
 
   function queueSync() {
-    if (!account || applyingRemote) return;
+    if (applyingRemote) return;
+    captureLocalChanges();
+    if (!account) return;
     clearTimeout(syncTimer);
     setSyncLabel('等待同步');
     syncTimer = setTimeout(syncNow, 900);
+  }
+
+  function flushOnPageHide() {
+    captureLocalChanges();
+    if (!account) return;
+    const entries = readPendingEntries();
+    if (!entries.length) return;
+    fetch(`${API_BASE}/progress`, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entries })
+    }).catch(() => {});
   }
 
   window.DahuaAccountSync = { flush: syncNow };
@@ -247,7 +357,18 @@
   async function init() {
     ensureUi();
     renderTrigger();
+    observedLocalState = readLocalState();
     window.addEventListener('dahuajiujiu:progress-changed', queueSync);
+    window.addEventListener('online', syncNow);
+    window.addEventListener('pagehide', flushOnPageHide);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') flushOnPageHide();
+      else if (document.visibilityState === 'visible') syncNow();
+    });
+    window.setInterval(() => {
+      captureLocalChanges();
+      if (account && readPendingEntries().length) syncNow();
+    }, 15000);
     try {
       const result = await api('/me');
       account = result.authenticated ? result.user : null;
