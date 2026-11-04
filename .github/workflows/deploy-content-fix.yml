@@ -1,0 +1,56 @@
+name: Deploy reviewed learning content corrections
+on:
+  push:
+    branches: [main]
+    paths: ['.github/content-fixes/20261105.json']
+permissions:
+  contents: read
+concurrency:
+  group: aliyun-production
+  cancel-in-progress: false
+jobs:
+  content:
+    if: startsWith(github.event.head_commit.message, 'content-fix-20261105:')
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      REMOTE_PATH: ${{ vars.ALIYUN_REMOTE_PATH || '/srv/dahuajiujiu/current' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate and package explicit content files
+        run: |
+          python3 tools/test_content_fix.py
+          python3 - <<'PY'
+          import json, pathlib, shutil, tarfile
+          manifest=pathlib.Path('.github/content-fixes/20261105.json')
+          stage=pathlib.Path('content-release')
+          stage.mkdir()
+          shutil.copy2(manifest,stage/'manifest.json')
+          shutil.copy2('tools/deploy_content_fix.py',stage/'deploy.py')
+          for row in json.loads(manifest.read_text())['files']:
+              dst=stage/'files'/row['path']
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(pathlib.Path('word-web-cloud')/row['path'],dst)
+          with tarfile.open('content-fix.tar.gz','w:gz') as tar:
+              tar.add(stage,arcname='.')
+          PY
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.ALIYUN_SSH_PRIVATE_KEY }}
+      - name: Upload and activate content only
+        env:
+          SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+          SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          scp content-fix.tar.gz "$SSH_USER@$SSH_HOST:/tmp/content-fix-${{ github.run_id }}.tar.gz"
+          ssh "$SSH_USER@$SSH_HOST" "TARGET='$REMOTE_PATH' RELEASE='/tmp/content-fix-${{ github.run_id }}.tar.gz' RUN_ID='${{ github.run_id }}' bash -s" <<'REMOTE'
+          set -euo pipefail
+          staging=$(mktemp -d)
+          trap 'rm -rf "$staging"; rm -f "$RELEASE"' EXIT
+          tar -xzf "$RELEASE" -C "$staging"
+          python3 "$staging/deploy.py" "$staging" "$TARGET" "${TARGET%/}/../backups/content-fix-$RUN_ID"
+          REMOTE
+      - name: Verify public content checksums
+        run: python3 tools/test_content_fix.py --live

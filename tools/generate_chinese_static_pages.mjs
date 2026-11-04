@@ -12,8 +12,15 @@ if (dataStart < 'const data='.length || dataEnd < 0) {
   throw new Error('Unable to locate classical Chinese data.');
 }
 
-const dataLiteral = source.slice(dataStart, dataEnd).trim().replace(/;$/, '');
-const data = Function(`"use strict"; return (${dataLiteral});`)();
+const data = JSON.parse(fs.readFileSync(path.join(root, 'tools', 'classical-reviewed.json'), 'utf8'));
+for (const stage of ['junior', 'senior']) {
+  for (const entry of data[stage]) {
+    if (!entry[3]?.length || entry[3].some(e => !e.text?.includes(entry[1]) || !e.source || !e.note)) {
+      throw new Error(`Missing quotation, provenance or contextual explanation: ${stage}/${entry[1]}`);
+    }
+  }
+}
+fs.writeFileSync(sourcePath, source.slice(0, dataStart) + JSON.stringify(data, null, 2) + ';' + source.slice(dataEnd), 'utf8');
 
 const escapeHtml = (value) => String(value)
   .replaceAll('&', '&amp;')
@@ -25,19 +32,18 @@ function selectExamples(entry) {
   const examples = Array.isArray(entry[3]) ? entry[3] : [{ text: entry[3], source: entry[4] }];
   return examples
     .filter((example) => example?.text && example?.source)
-    .sort((a, b) => a.text.length - b.text.length)
     .slice(0, 2);
 }
 
 function renderEntry(entry) {
   const [kind, word, meaning] = entry;
   const examples = selectExamples(entry).map((example) => `
-          <li><span class="quote">${escapeHtml(example.text)}</span><span class="source">${escapeHtml(example.source)}</span></li>`).join('');
+          <li><span class="quote">${escapeHtml(example.text)}</span><span class="source">${escapeHtml(example.source)}</span><p class="usage-note">${escapeHtml(example.note)}</p></li>`).join('');
   return `
       <article class="word-entry" id="word-${encodeURIComponent(word)}">
         <div><h2 class="word-name">${escapeHtml(word)}</h2><span class="word-kind">${escapeHtml(kind)}</span></div>
         <div class="meaning"><h3>核心义项</h3><p>${escapeHtml(meaning)}</p></div>
-        <div class="examples"><h3>教材短句</h3><ul>${examples}</ul></div>
+        <div class="examples"><h3>原文短句</h3><ul>${examples}</ul></div>
       </article>`;
 }
 
@@ -48,10 +54,10 @@ function renderPage(stage) {
   const otherFile = isJunior ? 'chinese-senior.html' : 'chinese-junior.html';
   const filename = isJunior ? 'chinese-junior.html' : 'chinese-senior.html';
   const description = isJunior
-    ? '按七至九年级常见篇目整理初中文言文实词、虚词的核心义项、教材短句与篇目出处。'
-    : '按高中必修与选择性必修常见篇目整理文言文实词、虚词的核心义项、教材短句与篇目出处。';
+    ? '初中文言词语学习：原文短句、篇目出处与逐句用法。'
+    : '高中文言词语学习：原文短句、篇目出处与逐句用法。';
   const intro = isJunior
-    ? '从七至九年级常见篇目中提取高频实词、虚词。先比较核心义项，再回到教材短句判断语境，避免把同一个词在不同文章中的意思混为一谈。'
+    ? '从七至九年级常见篇目中提取高频实词、虚词。先比较核心义项，再回到原文短句判断语境，避免把同一个词在不同文章中的意思混为一谈。'
     : '从高中必修与选择性必修常见篇目中整理高频实词、虚词。重点比较古今义、一词多义与句中用法，为文言文阅读和翻译建立稳定的语境判断依据。';
   const entries = data[stage].map(renderEntry).join('');
 
@@ -62,7 +68,7 @@ function renderPage(stage) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="${description}">
   <link rel="canonical" href="https://dahuajiujiu.com/${filename}">
-  <title>${label}文言文实词虚词与教材例句｜大华舅舅</title>
+  <title>${label}文言文实词虚词与原文例句｜大华舅舅</title>
   <link rel="stylesheet" href="chinese-static.css?v=1.0.0">
 </head>
 <body>
@@ -73,12 +79,12 @@ function renderPage(stage) {
   <main>
     <section class="hero">
       <p class="eyebrow">语文 · ${label}文言文</p>
-      <h1>${label}文言文实词、虚词与教材例句</h1>
+      <h1>${label}文言文实词、虚词与原文例句</h1>
       <p>${intro}</p>
     </section>
     <section class="study-note" aria-labelledby="study-note-title">
       <h2 id="study-note-title">按语境辨析词义</h2>
-      <p>下面每个词条保留核心义项和两条较短的教材例句，并标注册次与篇目。完整例句、实词与虚词筛选可进入页面末尾的总表继续查看。</p>
+      <p>每个词条提供两条经校对的原文短句、准确篇目与句中用法。学段是学习分组，不代表固定教材册次；兼有多种词性的词，以逐句说明为准。总表支持按词性、字词和篇目筛选。</p>
     </section>
     <section class="word-list" aria-label="${label}文言文词语清单">${entries}
     </section>

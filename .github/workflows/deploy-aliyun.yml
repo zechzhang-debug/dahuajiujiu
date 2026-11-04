@@ -18,6 +18,8 @@ concurrency:
 
 jobs:
   deploy:
+    # Content-only corrections use a separate backed-up deployment without clearing the site.
+    if: github.event_name != 'push' || !startsWith(github.event.head_commit.message, 'content-fix-20261105:')
     name: Deploy to Aliyun ECS
     runs-on: ubuntu-latest
     environment:
