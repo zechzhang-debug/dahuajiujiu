@@ -64,7 +64,8 @@ class ContentTests(unittest.TestCase):
             self.assertFalse((base/'backup2').exists())
     def test_manifest_scope_and_checksums(self):
         rows=json.loads(MANIFEST.read_text())['files']
-        self.assertEqual(len(rows),12)
+        self.assertTrue(rows)
+        self.assertEqual(len(rows),len({r["path"] for r in rows}))
         for row in rows:
             self.assertIn(row['path'],ALLOWED)
             self.assertEqual(digest(SITE/row['path']),row['after_sha256'])

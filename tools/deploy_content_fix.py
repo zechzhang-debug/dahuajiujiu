@@ -8,6 +8,7 @@ import sys
 import tempfile
 
 ALLOWED = {
+    'sitemap.xml',
     'index.html', 'math.html', 'physics.html', 'chinese.html',
     'chinese-classical.html', 'chinese-junior.html', 'chinese-senior.html', 'about.html',
     'math-lessons/bisector-parallel-isosceles-model-proof.html',
