@@ -1,9 +1,9 @@
 {
   "files": [
     {
-      "path": "sitemap.xml",
-      "before_sha256": "c7619941a5899c0022399726c56b6df3fc397ffb7a8c4cfe7b4211b967e677b6",
-      "after_sha256": "e689dadc286a77b16f28ca648a5a42e296f20bcb38d9aeb49747387554f29ad2"
+      "path": "index.html",
+      "before_sha256": "a8431bcc26726c6b81b970f42669e1d0278383df6e6f596a2b0a1be3496c5cee",
+      "after_sha256": "d2feacfa592065cbe4ff3eb95a94bcc00c2764eb7c6c40c4b9e664dbddb7a578"
     }
   ]
 }
