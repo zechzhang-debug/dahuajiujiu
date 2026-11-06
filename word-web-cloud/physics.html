@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>物理难点讲解｜大华舅舅</title>
-  <meta name="description" content="大华舅舅物理讲题目录，按初中和高中年级整理知识点与静态精讲页面。">
+  <meta name="description" content="初中物理互动学习：反射折射、凸透镜成像、速度与运动图像，配完整例题、自测解析和观察实验。">
   <link rel="canonical" href="https://dahuajiujiu.com/physics.html">
   <style>
     :root {
@@ -230,7 +230,9 @@
       .topic-card h3 { font-size: 16px; }
     }
   </style>
-</head>
+<style>
+.lab{scroll-margin-top:88px;background:white;border:1px solid #cfe1ed;border-radius:14px;padding:24px;margin:24px 0;line-height:1.85}.lab h2{margin:0;color:#103c61}.lab h3{margin:22px 0 8px}.lab label{display:block;margin:14px 0}.lab input[type=range]{width:min(100%,440px);display:block;accent-color:#2563eb}.lab svg{width:100%;height:auto;background:#f5faff;border:1px solid #dce6ec;border-radius:10px}.lab output{display:block;padding:12px;background:#eaf2ff;font-weight:700}.lab details{padding:12px;border:1px solid #dce6ec;margin:10px 0;border-radius:8px}.lab summary{cursor:pointer;font-weight:700}.lab select{font:inherit;padding:6px;max-width:100%}.lab .hint{color:#62798b;font-size:14px}.lab a{color:#2563eb}.lab svg text{font-size:15px;fill:#102f47}.lab-nav{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}.lab-nav a{padding:8px 14px;background:#eaf2ff;border-radius:8px;text-decoration:none} @media(max-width:600px){.lab{padding:16px}.lab h2{font-size:22px}}
+</style></head>
 <body>
   <header class="site-header">
     <a class="brand" href="index.html">
@@ -263,12 +265,12 @@
     <main class="content">
       <div class="breadcrumb">物理难点讲解 / <strong id="grade-breadcrumb">初二</strong></div>
       <div class="content-head">
-        <div><h1 id="grade-title">初二物理</h1><p id="grade-description">当前提供凸透镜成像专题：从交互光路图理解基本规律，再练习双位置成像与透镜组合综合题。</p></div>
-        <div class="progress-note">静态讲解页 · 随时复习</div>
+        <div><h1 id="grade-title">初二物理</h1><p id="grade-description">从反射折射、凸透镜成像到速度图像，用互动演示、例题与自测建立物理概念。</p></div>
+        <div class="progress-note">互动观察 · 例题 · 自测</div>
       </div>
       <section class="editorial-guide" aria-labelledby="physics-guide-title">
-        <h2 id="physics-guide-title">从一张光路图读懂凸透镜成像</h2>
-        <p>先确定焦点、二倍焦距和物距区间，再用两条特殊光线定位像。本站讲解把规律表格、可拖动光路图和综合题拆解连在一起，帮助理解“物近像远像变大”等结论为什么成立。</p>
+        <h2 id="physics-guide-title">从观察到解释，再用例题检验</h2>
+        <p>先在下方互动专题中调整参数，读出变化，再展开例题检验理解。凸透镜专题还可以继续进入原有的完整光路图、双位置成像和透镜组合讲解。</p>
         <nav class="featured-lessons" aria-label="物理代表性讲解">
           <a href="physics-lessons/convex-lens-imaging-guide.html">基础规律：凸透镜成像与交互光路图</a>
           <a href="physics-lessons/convex-lens-dual-position-challenge.html">进阶综合：双位置成像与跨焦点变化</a>
@@ -277,7 +279,8 @@
       </section>
       <div class="section-row"><h2>知识点与讲解</h2><span id="topic-count">共 1 个知识点</span></div>
       <div class="topic-list" id="topic-list" aria-live="polite"></div>
-    </main>
+<section class="lab" aria-labelledby="route-title"><h2 id="route-title">物理互动学习路线</h2><p>光学先学反射与折射，再看凸透镜怎样成像；运动专题先统一单位，再用图像比较路程与时间。每个专题按“观察 → 解释 → 例题 → 自测”学习。年级标签供参考，具体顺序以学校教材为准。</p><nav class="lab-nav" aria-label="互动专题"><a href="#light-lab">① 反射与折射</a><a href="#lens-lab">② 凸透镜成像</a><a href="#motion-lab">③ 速度与运动图像</a></nav><p class="hint">图示采用理想化模型，不代替实际测量。最后更新：2026-11-07。</p></section>
+<section class="lab" id="light-lab"><h2>光的反射与折射：水里的物体为什么看起来变浅？</h2><p>光从水进入空气时会改变方向，眼睛沿进入眼睛的光线反向延长，判断出一个偏浅的虚像位置。先用下面的界面观察方向，再区分反射与折射。</p><label for="medium">光的传播方向 <select id="medium"><option value="1,1.33">空气 → 水</option><option value="1.33,1">水 → 空气</option></select></label><label for="incidence">入射角（从法线量起）：<span id="angle-value">40</span>°<input id="incidence" type="range" min="0" max="80" value="40" step="1"></label><svg id="light-svg" viewBox="0 0 640 360" role="img" aria-label="入射、反射与折射光线示意图"></svg><output id="light-result" aria-live="polite"></output><p class="hint">蓝线为入射光，橙线为反射光，绿线为折射光；箭头表示传播方向。采用空气折射率 1.00、水约 1.33 的简化模型，不展示光强变化。临界角与全反射是拓展内容。</p><h3>读图方法与原理</h3><p>入射角、反射角和折射角都从垂直界面的法线量起。反射角等于入射角。空气斜射入水，折射光靠近法线；水斜射入空气，折射光远离法线。垂直入射时方向不偏折，但传播速度会改变。拓展计算满足 n₁sin i=n₂sin r。</p><details><summary>例题 1：光线与水面夹角为 35°，反射角是多少？</summary><p>入射角从法线量起，因此 i=90°−35°=55°。反射角也为 55°，不是 35°。</p></details><details><summary>例题 2：空气以 30° 入射水面，折射角约为多少？（拓展）</summary><p>sin r=sin30°/1.33≈0.376，得到 r≈22.1°，比入射角小。先判断偏折方向，再核对计算结果。</p></details><h3>三道自测</h3><details><summary>① 入射角增加 10°，反射角增加多少？</summary><p>增加 10°。反射定律始终成立；折射角的增量一般不等于 10°。</p></details><details><summary>② 光垂直进入水面，没有偏折，是否说明没有折射？</summary><p>不是。光进入另一种介质，发生折射，只是在垂直入射时传播方向不改变。</p></details><details><summary>③ 水中的光以 60° 入射空气，还能看到折射光线吗？</summary><p>本模型临界角约为 arcsin(1/1.33)=48.8°。60° 超过临界角，发生全反射，没有向空气传播的折射光线。</p></details><h3>动手观察</h3><p>把硬币放在杯底，调整视线到杯沿刚好挡住硬币的位置，保持眼睛不动，缓慢加水，观察硬币是否重新可见。解释时画出光从水到空气的偏折。使用稳固杯子，不用激光照眼睛。</p></section><section class="lab" id="lens-lab"><h2>凸透镜成像：物体靠近，像一定变大吗？</h2><p>照相机、投影仪和放大镜使用了不同的物距区间。先拖动滑块，观察物体跨过二倍焦距和焦点时发生什么，再解释“物近像远”的适用范围。</p><label for="object-distance">物距 u（cm）：<span id="u-value">30</span><input id="object-distance" type="range" min="5" max="60" step="1" value="30"></label><svg id="lens-svg" viewBox="0 0 640 300" role="img" aria-label="凸透镜物像位置与大小示意图"></svg><output id="lens-result" aria-live="polite"></output><p class="hint">固定焦距 f=10 cm，物高 2 cm。采用近轴薄透镜模型，满足 1/f=1/u+1/v；v 为负表示物体同侧虚像。图是物像位置示意，竖直方向放大显示，不能用图上长度比较物距和物高；不是完整光线追迹；远处的像可能超出画布，请读数值。</p><h3>怎样理解成像规律</h3><p>u&gt;2f：倒立缩小实像；u=2f：倒立等大实像；f&lt;u&lt;2f：倒立放大实像；u=f：出射光平行，没有有限位置的像；0&lt;u&lt;f：正立放大虚像。实像可用光屏承接，虚像不能用光屏承接，但可以用眼睛看到。</p><p>“物近像远像变大”用于物体在焦点外逐渐靠近焦点的实像分支；不能跨过焦点后不加区别地沿用。焦点内，物体靠近透镜时，虚像反而变小。</p><details><summary>例题 1：f=10 cm，u=30 cm，求像距及像的性质。</summary><p>1/v=1/10−1/30=1/15，所以 v=15 cm。放大率的绝对值为 |v/u|=0.5，得到倒立缩小实像，对应照相机的基本成像情形。</p></details><details><summary>例题 2：f=10 cm，u=15 cm，光屏应放在哪里？</summary><p>v=fu/(u−f)=150/5=30 cm，光屏放在透镜另一侧距透镜 30 cm 处；像倒立，大小是物体的 2 倍。移动物体后需重新调光屏。</p></details><h3>三道自测</h3><details><summary>① u=20 cm 时像多大？</summary><p>u=2f，因此 v=20 cm，倒立等大实像。</p></details><details><summary>② u=8 cm 时能在光屏上接到像吗？</summary><p>不能。v=80/(8−10)=−40 cm，表示同侧正立放大虚像，放大率为 5。</p></details><details><summary>③ u=10 cm 时是“没有光”还是“没有有限位置的像”？</summary><p>是没有有限位置的像。理想模型中的出射光平行；不能写成像距为 0，也不应把平行光理解为光消失。</p></details><h3>观察与进阶</h3><p>用放大镜观察纸上文字，先让文字在焦距内，再慢慢移动。若使用发光物体与光屏观察实像，应让物体、透镜、光屏中心大致等高。不要用透镜观察太阳或聚焦阳光。</p><p><a href="physics-lessons/convex-lens-imaging-guide.html">继续看完整光路图与规律表 →</a></p></section><section class="lab" id="motion-lab"><h2>速度与运动图像：中途停下会怎样影响平均速度？</h2><p>设想同学沿一条直路向前行走，走一段、停下来，再继续走。路程—时间图中的水平线表示停留，不表示“回到原点”。</p><label for="speed-one">前 10 s 的速度（m/s）：<span id="v1-value">2</span><input id="speed-one" type="range" min="0" max="5" step="0.5" value="2"></label><label for="pause-time">中途停留时间（s）：<span id="pause-value">5</span><input id="pause-time" type="range" min="0" max="15" step="1" value="5"></label><label for="speed-two">后 10 s 的速度（m/s）：<span id="v2-value">4</span><input id="speed-two" type="range" min="0" max="5" step="0.5" value="4"></label><svg id="motion-svg" viewBox="0 0 640 330" role="img" aria-label="分段匀速与停留过程的路程时间图"></svg><output id="motion-result" aria-live="polite"></output><p class="hint">模型只讨论沿直线同一方向运动；忽略速度切换所需的加速时间。横轴时间、纵轴累计路程，刻度固定，便于比较。斜率单位是 m/s。</p><h3>读图与列式</h3><p>同样时间走过的路程越长，图线越陡，速度越大。水平段意味着累计路程不变。平均速度=总路程÷总时间，包含题目规定过程中的停留时间。注意：速度—时间图的水平线表示速度不变，含义与路程—时间图不同。</p><details><summary>例题 1：前 10 s 速度 2 m/s，停 5 s，后 10 s 速度 4 m/s，平均速度是多少？</summary><p>总路程=2×10+4×10=60 m，总时间=10+5+10=25 s，所以平均速度=60/25=2.4 m/s。不能直接算 (2+4)/2=3 m/s，因为遗漏了停留。</p></details><details><summary>例题 2：前后各走 60 m，速度分别为 2 m/s 和 3 m/s，无停留，平均速度是多少？</summary><p>两段时间分别为 60/2=30 s、60/3=20 s，总路程 120 m，总时间 50 s，平均速度 2.4 m/s。等路程不等于等时间，不能直接取速度算术平均。</p></details><h3>三道自测</h3><details><summary>① 72 km/h 等于多少 m/s？</summary><p>72÷3.6=20 m/s。1 km/h=1000/3600 m/s。</p></details><details><summary>② 路程—时间图中，从 (2 s,4 m) 到 (6 s,12 m) 的线段对应速度是多少？</summary><p>速度=路程增量/时间增量=(12−4)/(6−2)=2 m/s，不能随意只拿某个纵坐标除以某个横坐标。</p></details><details><summary>③ 两段运动时间相等且没有停留，平均速度能取算术平均吗？</summary><p>能。若两段时间均为 t，总路程为 v₁t+v₂t，总时间为 2t，平均速度=(v₁+v₂)/2。关键条件是等时间。</p></details><h3>动手测量</h3><p>在平整安全的通道标出一段距离，用秒表记录正常步行时间，重复三次并比较。记录起停反应误差，统一单位，不在车道或楼梯上测试。实验平均速度只描述这段路程的整体情况，不等于每一瞬间的速度。</p></section>    </main>
   </div>
 
   <footer class="site-footer">
@@ -294,12 +297,12 @@
       junior2: {
         label: '初二',
         title: '初二物理',
-        description: '当前提供凸透镜成像专题：从交互光路图理解基本规律，再练习双位置成像与透镜组合综合题。',
+        description: '从反射折射、凸透镜成像到速度图像，用互动演示、例题与自测建立物理概念。',
         topics: [
-          ['motion', '机械运动与速度图像', '参照物判断、速度单位换算、平均速度计算，以及路程—时间图像和速度—时间图像的辨析', ['八上', '图像与计算']],
+          ['motion', '机械运动与速度图像', '速度单位换算、含停留的平均速度计算，以及路程—时间图像的斜率辨析', ['八上', '图像与计算']],
           ['sound', '声现象与声音特性', '区分音调、响度和音色，理解振动、传播介质、声速与回声测距之间的关系', ['八上', '概念辨析']],
           ['state-change', '物态变化与温度图像', '判断六种物态变化及吸放热，读懂晶体熔化、凝固和沸腾图像', ['八上', '图像与实验']],
-          ['light', '光的反射、折射与平面镜成像', '掌握反射和折射作图，区分实像与虚像，处理平面镜成像实验中的位置与大小关系', ['八上', '光路作图']],
+          ['light', '光的反射与折射', '从法线量角，比较两种介质中的光路，了解全反射的发生条件', ['八上', '光路作图']],
           ['lens', '凸透镜成像规律', '根据物距与焦距判断像的性质、位置和变化，并迁移到照相机、投影仪和放大镜', ['八上', '规律迁移']],
           ['mass-density', '质量、密度与测量实验', '熟练进行密度单位换算，结合天平、量筒和排水法测量固体或液体密度', ['八上', '实验与计算']],
           ['force', '力、弹力与重力示意图', '正确画出力的三要素，理解弹簧测力计原理，并区分质量与重力', ['八下', '受力分析']],
@@ -320,7 +323,10 @@
     const buttons = [...document.querySelectorAll('.grade-button')];
     // Only add a topic here after its real lesson page is ready.
     const questionsByTopic = {
+ motion: [{href:'#motion-lab',title:'分段运动、停留与平均速度互动专题'}],
+ light: [{href:'#light-lab',title:'反射、折射与全反射互动专题'}],
       lens: [
+ {href:'#lens-lab',title:'物像位置互动、两道例题与三道自测'},
         { href: 'physics-lessons/convex-lens-imaging-guide.html', title: '知识点讲解：凸透镜成像规律与交互光路图' },
         { href: 'physics-lessons/convex-lens-dual-position-challenge.html', title: '顶级难度：双位置成像与跨焦点动态综合题' },
         { href: 'physics-lessons/convex-lens-combination-challenge.html', title: '组合难题：凸透镜、凹透镜与等效焦距综合' }
@@ -399,5 +405,13 @@
     const initialGrade = curriculum[initial] && availableTopicsFor(initial).length ? initial : firstAvailable;
     if (initialGrade) renderGrade(initialGrade);
   </script>
-</body>
+<script>
+(()=>{'use strict';const $=id=>document.getElementById(id);const line=(x,y,X,Y,c,d='')=>`<line x1="${x}" y1="${y}" x2="${X}" y2="${Y}" stroke="${c}" stroke-width="2.5" ${d}/>`;const text=(x,y,t)=>`<text x="${x}" y="${y}">${t}</text>`;
+function light(){let i=+$('incidence').value,[n1,n2]=$('medium').value.split(',').map(Number),a=i*Math.PI/180,k=n1*Math.sin(a)/n2,tir=k>1,r=tir?0:Math.asin(k),cx=320,cy=180,L=145;let defs='<defs>'+['blue','orange','green'].map((c,j)=>`<marker id="arrow-${c}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="${['#2563eb','#d97706','#059669'][j]}"/></marker>`).join('')+'</defs>';
+$('angle-value').textContent=i;$('light-svg').innerHTML=defs+'<rect x="0" y="180" width="640" height="180" fill="#dcf4ff"/>'+line(20,cy,620,cy,'#62798b')+line(cx,15,cx,345,'#94a3b8','stroke-dasharray="6 5"')+text(20,30,n1===1?'空气':'水')+text(20,330,n2===1?'空气':'水')+text(330,25,'法线')+line(cx-L*Math.sin(a),cy-L*Math.cos(a),cx,cy,'#2563eb','marker-end="url(#arrow-blue)"')+line(cx,cy,cx+L*Math.sin(a),cy-L*Math.cos(a),'#d97706','marker-end="url(#arrow-orange)"')+(tir?'':line(cx,cy,cx+L*Math.sin(r),cy+L*Math.cos(r),'#059669','marker-end="url(#arrow-green)"'));
+$('light-result').textContent=`入射角 ${i}°；反射角 ${i}°；`+(tir?'发生全反射，无折射光线。':`折射角 ${(r*180/Math.PI).toFixed(1)}°。`);}
+function lens(){let u=+$('object-distance').value,f=10,v=u===f?null:f*u/(u-f),scale=4,cx=320,y=150,h=24;let g=line(15,y,625,y,'#94a3b8')+line(cx,25,cx,275,'#2563eb')+text(cx+10,30,'凸透镜');[[-20,'2F'],[-10,'F'],[10,'F'],[20,'2F']].forEach(([a,b])=>{g+=line(cx+a*scale,y-5,cx+a*scale,y+5,'#64748b')+text(cx+a*scale-8,y+24,b)});const arrow=(x,H,c)=>line(x,y,x,y-H,c)+line(x,y-H,x-5,y-H+Math.sign(H)*9,c)+line(x,y-H,x+5,y-H+Math.sign(H)*9,c);g+=arrow(cx-u*scale,h,'#059669')+text(cx-u*scale-10,y-h-10,'物');if(v!==null){let X=cx+v*scale,H=-v/u*h;if(X>15&&X<615&&y-H>15&&y-H<285)g+=arrow(X,H,'#d97706')+text(X+9,y-H,'像');else g+=text(25,290,'像超出画布，请查看下方数值');}$('lens-svg').innerHTML=g;$('u-value').textContent=u;$('lens-result').textContent=v===null?'u=f：无有限位置的像，出射光平行。':`像距 v=${v.toFixed(1)} cm；${v>0?'倒立实像':'正立虚像'}；像高/物高的绝对值=${Math.abs(v/u).toFixed(2)}。`;}
+function motion(){let a=+$('speed-one').value,b=+$('speed-two').value,p=+$('pause-time').value,T=20+p,S=10*(a+b),x=t=>55+t*16,y=s=>280-s*2.3;let g='';for(let t=0;t<=35;t+=5)g+=line(x(t),25,x(t),280,'#dce6ec')+text(x(t)-5,305,t);for(let s=0;s<=100;s+=20)g+=line(55,y(s),615,y(s),'#dce6ec')+text(15,y(s)+5,s);g+=line(55,280,620,280,'#102f47')+line(55,280,55,20,'#102f47')+text(490,327,'时间 t / s')+text(65,20,'路程 s / m');g+=`<polyline points="${x(0)},${y(0)} ${x(10)},${y(10*a)} ${x(10+p)},${y(10*a)} ${x(T)},${y(S)}" fill="none" stroke="#2563eb" stroke-width="4"/>`;$('motion-svg').innerHTML=g;$('v1-value').textContent=a;$('v2-value').textContent=b;$('pause-value').textContent=p;$('motion-result').textContent=`总路程 ${S} m；总时间 ${T} s；平均速度 ${(S/T).toFixed(2)} m/s。`;}
+['medium','incidence'].forEach(id=>$(id).addEventListener('input',light));$('object-distance').addEventListener('input',lens);['speed-one','speed-two','pause-time'].forEach(id=>$(id).addEventListener('input',motion));light();lens();motion();})();
+</script></body>
 </html>

@@ -1,49 +1,14 @@
 {
   "files": [
     {
-      "path": "math-lessons/median-extension-model-proof.html",
-      "before_sha256": "f1214b44f8cde6be87de293c4e38fe47ef4a259a47d5fa71820f456823952e90",
-      "after_sha256": "1aa3944d3b3afdb5eb8061be16367c919874cb4c7c811ccc799faf179eb104d6"
-    },
-    {
-      "path": "math-lessons/hand-in-hand-congruence-model-proof.html",
-      "before_sha256": "e718a5d25245b61710b97ab4e7c3b3d744cbb7268f2a9bff352f24e681f5772a",
-      "after_sha256": "89fc419fbdc61bd9d2cf108d41ce03d06e1d52970693dfb99cebf78792f44f87"
-    },
-    {
-      "path": "math-lessons/three-perpendicular-congruence-model-proof.html",
-      "before_sha256": "e34ffae3843de62386d62a880cc9e72cdaa2b4a107f271d46eb1d1f551e8387c",
-      "after_sha256": "847f07abf320536b5a478bb05bbdad5cb1571e72213b7c2656b5d97485b8e9ab"
-    },
-    {
-      "path": "math-lessons/angle-bisector-congruence-model-proof.html",
-      "before_sha256": "c2f5a52f071d4ecf3d8f710aa3d6e630f12ff7b470f1d6a289f85ffeb153bc55",
-      "after_sha256": "e0c68f467d51d420fda7e24c42e8eecf36c759ab59403e7d269c6c56551b35e5"
-    },
-    {
-      "path": "math-lessons/a-eight-similarity-model-proof.html",
-      "before_sha256": "5cec6b96acc71f24dc4c497fb86f1a69d2a35c138e86c2b188235867caf3c339",
-      "after_sha256": "667c91738559b1f06d6f30d0f54c196390fac9771a46bfba15a9c1ab28016d08"
-    },
-    {
-      "path": "math-lessons/general-horse-reflection-model-proof.html",
-      "before_sha256": "7a9d3d22b89b05802410cf8db6e822c3ce320e51e593394c43523a20553b7ef6",
-      "after_sha256": "92272e5ea91b82df4b482ac708017f180a6b909a24c934e289b4b16fdacc9280"
-    },
-    {
-      "path": "math-lessons/square-half-angle-model-proof.html",
-      "before_sha256": "97127db05d70134c67e51a111ad845a855577e1096dc4c6603b3a658b775777a",
-      "after_sha256": "a1802bad6ef665785a8248a0b3bc6df054e2233846a2d7a8fee1b43789ed5ad2"
-    },
-    {
-      "path": "math-lessons/dart-swallowtail-kite-model-proof.html",
-      "before_sha256": "b498bd343bf4655b545fa3e8d74540e73c4e68df31497121897ee140c16c726b",
-      "after_sha256": "2bac17ba1403258cf7d41facabc4b5cad5d2b57ed3164fd82c06e676c631625c"
+      "path": "physics.html",
+      "before_sha256": "8f80f84d52f73f1f59e325e40f58cc1f07b9fb41894a852b6a6a68ef14ade1ba",
+      "after_sha256": "937af4c1070b23d5aab6786e2547a6bd40452a4811844f8804ee6bf5f7f3bd91"
     },
     {
       "path": "sitemap.xml",
-      "before_sha256": "e689dadc286a77b16f28ca648a5a42e296f20bcb38d9aeb49747387554f29ad2",
-      "after_sha256": "5c03643742a4f8fce3a237ae8e69bc8c63bf09190a9d27791da3ad369b62c4a4"
+      "before_sha256": "5c03643742a4f8fce3a237ae8e69bc8c63bf09190a9d27791da3ad369b62c4a4",
+      "after_sha256": "0e2a3723f677829281a246500e7729177a28ecc8bf473ac1440df825d3d97a0b"
     }
   ]
 }
