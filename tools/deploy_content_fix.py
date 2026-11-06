@@ -8,6 +8,15 @@ import sys
 import tempfile
 
 ALLOWED = {
+    'math-lessons/median-extension-model-proof.html',
+    'math-lessons/hand-in-hand-congruence-model-proof.html',
+    'math-lessons/three-perpendicular-congruence-model-proof.html',
+    'math-lessons/angle-bisector-congruence-model-proof.html',
+    'math-lessons/a-eight-similarity-model-proof.html',
+    'math-lessons/general-horse-reflection-model-proof.html',
+    'math-lessons/square-half-angle-model-proof.html',
+    'math-lessons/dart-swallowtail-kite-model-proof.html',
+
     'sitemap.xml',
     'index.html', 'math.html', 'physics.html', 'chinese.html',
     'chinese-classical.html', 'chinese-junior.html', 'chinese-senior.html', 'about.html',

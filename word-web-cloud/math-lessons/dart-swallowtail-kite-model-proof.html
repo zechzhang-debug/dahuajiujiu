@@ -21,8 +21,8 @@
     <h2>三类核心结论</h2>
     <div class="problem">
       <p><b>飞镖：</b>D 在 △ABC 内，<span class="formula">∠BDC=∠BAC+∠ABD+∠ACD</span>。</p>
-      <p><b>燕尾：</b>在 △AEC 中，B、D 分别在 AE、CE 上，AD、CB 交于 F；若 ∠A=∠C，则 <span class="formula">△ABF∽△CDF</span>。</p>
-      <p><b>风筝：</b>AB=AD、CB=CD，则 <span class="formula">AC⊥BD</span>，且 AC 平分 ∠BAD、∠BCD。</p>
+      <p><b>燕尾：</b>在 △AEC 中，B、D 分别在 AE、CE 上，AD、CB 交于 F；若 ∠BAF=∠DCF，则 <span class="formula">△ABF∽△CDF</span>。</p>
+      <p><b>风筝：</b>在非退化凸四边形 ABCD 中，AB=AD、CB=CD，则 <span class="formula">AC⊥BD</span>，且 AC 平分 ∠BAD、∠BCD。</p>
     </div>
   </section>
 
@@ -42,9 +42,9 @@
       </g>
       <g data-stage="2">
         <text class="note" x="575" y="28">风筝</text>
-        <path class="base" d="M585 50L495 170L585 330L680 170Z"/>
+        <path class="base" d="M585 50L495 170L585 330L675 170Z"/>
         <line class="goal" x1="585" y1="50" x2="585" y2="330"/>
-        <line class="aux" x1="495" y1="170" x2="680" y2="170"/>
+        <line class="aux" x1="495" y1="170" x2="675" y2="170"/>
         <text class="lbl" x="578" y="42">A</text><text class="lbl" x="475" y="175">B</text><text class="lbl" x="578" y="350">C</text><text class="lbl" x="687" y="175">D</text>
       </g>
     </svg>
@@ -54,12 +54,12 @@
   <section class="card">
     <h2>证明汇总</h2>
     <details open><summary>飞镖角公式</summary><div class="proof"><p>在凹四边形 ABDC 中，D 点的内角是 360°−∠BDC。代入四边形内角和 360°，整理即得：</p><div class="block">∠BDC=∠BAC+∠ABD+∠ACD</div></div></details>
-    <details open><summary>燕尾相似</summary><div class="proof"><p>∠BAF=∠DCF（已知 ∠A=∠C），∠AFB=∠CFD（对顶角），所以 △ABF∽△CDF（AA）。</p></div></details>
+    <details open><summary>燕尾相似</summary><div class="proof"><p>∠BAF=∠DCF（已知），∠AFB=∠CFD（对顶角），所以 △ABF∽△CDF（AA）。</p></div></details>
     <details><summary>风筝全等</summary><div class="proof"><p>连接 AC。AB=AD、CB=CD、AC 公共，所以 △ABC≌△ADC（SSS）。由对应角相等，AC 平分两组顶角；等腰三角形底边上的中线同时是高，因此 AC⊥BD。</p></div></details>
     <div class="answer">看外形只是入口，落笔时仍要回到内角和、AA 相似或 SSS 全等。</div>
   </section>
 
-  <footer class="footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a></footer>
+  <section class="card" data-enrichment="20261107"><h2>飞镖角的计算练习</h2><div class="problem">D 在 △ABC 的内部，∠BAC=50°、∠ABD=20°、∠ACD=15°。求小于 180° 的 ∠BDC。</div><details><summary>展开解题过程与答案</summary><div class="proof"><p>凹四边形 ABDC 在 D 处的内角为 360°−∠BDC。</p><p>代入四边形内角和：50°+20°+15°+(360°−∠BDC)=360°。</p><div class="answer">∠BDC=85°。不要把凹四边形的反角与通常记号下的较小角混淆。</div></div></details></section><section class="card" data-enrichment="20261107"><h2>燕尾：明确是哪两个角相等</h2><div class="problem">按本页燕尾条件，已知 ∠BAF=∠DCF，AB=6、CD=9、BF=4。求 DF。</div><details><summary>展开解题过程与答案</summary><div class="proof"><p>∠AFB=∠CFD 为对顶角；结合题设那一对具体角，△ABF∽△CDF。</p><p>AB/CD=BF/DF=2/3，因此 DF=6。</p><div class="answer">DF=6。仅写“∠A=∠C”容易误指大三角形的底角，应写完整的三字母角名。</div></div></details></section><section class="card" data-enrichment="20261107"><h2>风筝：从等距点看垂直平分线</h2><p>在非退化凸四边形 ABCD 中，AB=AD 说明 A 到 B、D 等距；CB=CD 说明 C 到 B、D 等距。A、C 是两个不同的等距点，因此直线 AC 就是 BD 的垂直平分线。这也说明仅靠一组等边不能得出对角线垂直。</p><div class="problem">风筝 ABCD 的两条对角线 AC=12、BD=8，求面积。</div><details><summary>展开解题过程与答案</summary><div class="proof"><p>设交点为 O。△ABD 与 △CBD 共同以 BD 为底，高分别为 AO、CO。</p><p>总面积为 BD×(AO+CO)÷2=BD×AC÷2。</p><div class="answer">面积为 48。使用此式前要确认对角线垂直且四边形为凸图形。</div></div></details></section><footer class="footer"><span>北京一个半文化科技有限公司</span><a href="../about.html">关于与联系</a></footer>
 </main>
 <script src="geometry-model-common.js"></script>
 </body>
