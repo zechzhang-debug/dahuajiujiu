@@ -701,7 +701,7 @@ function startInlineEdit(element) {
   const descriptor=inlineEditDescriptor(element);
   if (!descriptor?.item) return;
   const {item,field,label,allowEmpty}=descriptor;
-  const original=String(item[field] || '');
+  const original=element.textContent;
   let finished=false;
   let onKeydown;
   const actions=document.createElement('div');

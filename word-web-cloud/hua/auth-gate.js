@@ -10,7 +10,7 @@ const apiUrl = (name) => `${basePath}/api/${name}`;
 async function startApp() {
   gate.hidden = true;
   document.body.classList.remove('auth-pending');
-  await import('./app.js?v=20261026-1');
+  await import('./app.js?v=20261110-1');
 }
 
 function showMessage(text, isError = false) {
