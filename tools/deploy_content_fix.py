@@ -8,6 +8,10 @@ import sys
 import tempfile
 
 ALLOWED = {
+    'math-lessons/junior1-algebra-finale.html',
+    'math-lessons/cut-and-complete-model-proof.html',
+    'math-lessons/one-line-three-equal-angles-congruence-proof.html',
+
     'math-lessons/median-extension-model-proof.html',
     'math-lessons/hand-in-hand-congruence-model-proof.html',
     'math-lessons/three-perpendicular-congruence-model-proof.html',

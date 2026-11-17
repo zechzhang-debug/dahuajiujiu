@@ -86,6 +86,7 @@ function renderPage(stage) {
       <h2 id="study-note-title">按语境辨析词义</h2>
       <p>每个词条提供两条经校对的原文短句、准确篇目与句中用法。学段是学习分组，不代表固定教材册次；兼有多种词性的词，以逐句说明为准。总表支持按词性、字词和篇目筛选。</p>
     </section>
+    ${isJunior ? "<section class=\"study-note\"><h2>先试译，再查词</h2><p>遮住下方词条，先判断句中的字在问什么或描述什么。</p><details><summary>“安能辨我是雄雌”与“风雨不动安如山”中的“安”可以互换解释吗？</summary><p>前一句“安能”相当于“怎么能”，全句为反问。后一句用山作比较，写的是稳固的状态。若把后一句译成“怎么像山”，句意就断了。</p></details><details><summary>“去国怀乡”中，“去”是前往还是离开？用后半句验证。</summary><p>应译为离开国都。“怀乡”提示人已远离熟悉的地方。若按现代口语把“去国”理解成前往一个国家，就解释不了这里的情绪。</p></details></section>" : "<section class=\"study-note\"><h2>用上下文排除错误译法</h2><details><summary>“爱其子，择师而教之”与“不爱珍器重宝肥饶之地”能否都译为“喜爱”？</summary><p>择师是爱护孩子的具体行动。后一句把“珍器重宝肥饶之地”并列为可付出的财物，“不爱”应理解为不吝惜。如果译成不喜欢宝物，就把付出代价误解成了个人喜好。</p></details><details><summary>“师者，所以传道受业解惑也”与“道之所存，师之所存也”，能否把“道”译成道路？</summary><p>前句中“道”是“传”的对象，与学业、疑惑构成教学语境，应指道理。后句承接同一话题，意思是道理所在之处便有可以学习的老师。判断词义时可以用前文为后句排除歧义。</p></details></section>"}
     <section class="word-list" aria-label="${label}文言文词语清单">${entries}
     </section>
     <section class="continue" aria-label="继续查看完整资料">

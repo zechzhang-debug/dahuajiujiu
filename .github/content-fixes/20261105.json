@@ -1,14 +1,44 @@
 {
   "files": [
     {
-      "path": "physics.html",
-      "before_sha256": "8f80f84d52f73f1f59e325e40f58cc1f07b9fb41894a852b6a6a68ef14ade1ba",
-      "after_sha256": "937af4c1070b23d5aab6786e2547a6bd40452a4811844f8804ee6bf5f7f3bd91"
+      "path": "math-lessons/junior1-algebra-finale.html",
+      "before_sha256": "3d814acd1aee2d106f0329b95a088c4ffb630d69263ca92fcb20ae0d1a4ef00e",
+      "after_sha256": "6902c6d00d9d12bbc2f047dfde15c3eb16708ec5d557aab4cfd9dd9734db65e5"
+    },
+    {
+      "path": "math-lessons/cut-and-complete-model-proof.html",
+      "before_sha256": "d3d8e7206cbba7351bda975e17f798639d75db72e5122c8f058aaacb805c4b11",
+      "after_sha256": "613674d2fa44dce81edb145b698f0830262af26186987d86ccfcfde63a93a837"
+    },
+    {
+      "path": "math-lessons/one-line-three-equal-angles-congruence-proof.html",
+      "before_sha256": "70c3a711b3752620d538c53c3cbe3e7818a7472c4cd0af4ccf446efeb478a34b",
+      "after_sha256": "fbaff9899b72b71bf0af93da8c36aac43469f92aa6b096e0f33615b02feb7e38"
+    },
+    {
+      "path": "index.html",
+      "before_sha256": "d2feacfa592065cbe4ff3eb95a94bcc00c2764eb7c6c40c4b9e664dbddb7a578",
+      "after_sha256": "215c1dccd69a6fa47c2e2be34acf4c27af007d62d69198d314bd72b7c72b2803"
+    },
+    {
+      "path": "chinese-junior.html",
+      "before_sha256": "6b330d6c13e90e2608342a6478411271b16d114cebc69bfc87d4756cf2858ef5",
+      "after_sha256": "b9fed93438009a4560601f1fc74b245734a4f9dd4098115ea07d87c5385a4ab6"
+    },
+    {
+      "path": "chinese-senior.html",
+      "before_sha256": "243f4676e2b1b8aca5db8d4cc4329e346cab69285924f024df84d00986cd816d",
+      "after_sha256": "5a2484d731f423a1b6e154efcedc2a398e21a18cf418b65a3797dc76a60b5ddf"
+    },
+    {
+      "path": "about.html",
+      "before_sha256": "3ee4331b973f4971ed9ce394399d05e4dc069e63039e8830c2044b998f586b6f",
+      "after_sha256": "91675d94bad92030d9630d77d0fe39221dac293a408134881649900089a11c5f"
     },
     {
       "path": "sitemap.xml",
-      "before_sha256": "5c03643742a4f8fce3a237ae8e69bc8c63bf09190a9d27791da3ad369b62c4a4",
-      "after_sha256": "0e2a3723f677829281a246500e7729177a28ecc8bf473ac1440df825d3d97a0b"
+      "before_sha256": "0e2a3723f677829281a246500e7729177a28ecc8bf473ac1440df825d3d97a0b",
+      "after_sha256": "34117675495c56ba8b3e5ac4f2d3156894ade6cb290491bfb259fcbacd53e719"
     }
   ]
 }
