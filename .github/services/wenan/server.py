@@ -22,6 +22,7 @@ ORIGIN = 'https://dahuajiujiu.com'
 DEVICE = '__Secure-wenan_device'
 SESSION = '__Secure-wenan_session'
 TOKEN = re.compile(r'[A-Za-z0-9_-]{43}\Z')
+VIDEO_ID = re.compile(r'\d{15,23}\Z')
 BASE = '/wenan'
 MAX_SLOTS = 8
 SESSION_LIFE = 7 * 86400
@@ -67,6 +68,19 @@ class Store:
         self.fragment = (asset/'compass.html').read_text(encoding='utf-8')
         if self.fragment.count('<!-- WENAN_ARCHIVE -->') != 1 or 'dc-embedded' not in self.fragment:
             raise ValueError('invalid private fragment')
+        embedded=re.search(r'<script id="dc-embedded" type="application/json">([\s\S]+?)</script>',self.fragment)
+        self.evidence={}
+        if embedded:
+            for author in json.loads(embedded.group(1))['accounts']:
+                for row in author['rows']:
+                    if row.get('w') and VIDEO_ID.fullmatch(row['id']):
+                        self.evidence[row['id']]=row
+        template=asset/'compass-template.html'
+        self.template=template.read_text(encoding='utf-8') if template.is_file() else ''
+        if self.template and (self.template.count('__COMPASS_DATA__')!=1 or self.template.count('<!-- WENAN_ARCHIVE -->')!=1):
+            raise ValueError('invalid private dashboard template')
+        token_file=root/'sync-fingerprint'
+        self.sync_fingerprint=token_file.read_text(encoding='ascii').strip() if token_file.is_file() else ''
         seed = json.loads((asset/'seed.json').read_text(encoding='utf-8'))
         with self.db() as db:
             db.executescript('''
@@ -75,10 +89,19 @@ class Store:
             CREATE TABLE IF NOT EXISTS session (token TEXT PRIMARY KEY, device TEXT NOT NULL, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS attempt (device TEXT PRIMARY KEY, failures INTEGER NOT NULL, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS versions (id INTEGER PRIMARY KEY AUTOINCREMENT, created INTEGER NOT NULL, body TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS evidence (id TEXT PRIMARY KEY, body TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS dashboard (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL);
             ''')
             db.execute('BEGIN IMMEDIATE')
+            db.executemany('INSERT OR REPLACE INTO evidence VALUES(?,?)',[(ident,json.dumps(row,ensure_ascii=False)) for ident,row in self.evidence.items()])
             if db.execute("INSERT OR IGNORE INTO flags VALUES('seeded',1)").rowcount:
                 db.execute('INSERT INTO versions(created,body) VALUES(?,?)',(seed['created'],json.dumps(seed['items'],ensure_ascii=False)))
+            update=asset/'revision.json'
+            if update.is_file():
+                revision=json.loads(update.read_text(encoding='utf-8'))
+                key='revision:'+revision['id']
+                if db.execute('INSERT OR IGNORE INTO flags VALUES(?,1)',(key,)).rowcount:
+                    self.append_in(db,revision['items'],revision['created'])
             self.prune(db, int(time.time()))
 
     @contextmanager
@@ -165,14 +188,89 @@ class Store:
             self.prune(db, now)
             return db.execute('SELECT id,created,body FROM versions ORDER BY created DESC,id DESC').fetchall()
 
+    def reference(self, ident):
+        if not VIDEO_ID.fullmatch(ident):
+            return None
+        with self.db() as db:
+            item=db.execute('SELECT body FROM evidence WHERE id=?',(ident,)).fetchone()
+        return json.loads(item['body']) if item else None
+
+    def current_fragment(self):
+        if self.template:
+            with self.db() as db:
+                row=db.execute('SELECT body FROM dashboard WHERE id=1').fetchone()
+                if row:
+                    return self.template.replace('__COMPASS_DATA__',row['body'].replace('<','\\u003c'))
+        return self.fragment
+
+    def authorized_release(self, header):
+        prefix='Wenan-Update '
+        if not self.template or not re.fullmatch(r'[0-9a-f]{64}',self.sync_fingerprint) or not header.startswith(prefix):
+            return False
+        candidate=header[len(prefix):]
+        return TOKEN.fullmatch(candidate) and secrets.compare_digest(digest(candidate),self.sync_fingerprint)
+
+    def sync_release(self, package, now):
+        if not isinstance(package,dict) or set(package)-{'compass','revision'}:
+            raise ValueError('invalid release')
+        compass=package['compass']
+        topics=compass['topics']
+        hooks=compass['hooks']
+        authors=compass['accounts']
+        if not (2<=len(authors)<=40 and 1<=len(topics)<=24 and 1<=len(hooks)<=24):
+            raise ValueError('invalid dashboard dimensions')
+        all_ids=set()
+        source={}
+        for a in authors:
+            if not isinstance(a['name'],str) or not (1<=len(a['name'])<=100) or not isinstance(a['floor'],int) or a['floor']<0 or not isinstance(a['base'],int) or a['base']<len(a['rows']) or not a['rows']:
+                raise ValueError('invalid account metrics')
+            counts={}
+            for row in a['rows']:
+                ident=row['id']
+                if not VIDEO_ID.fullmatch(ident) or ident in all_ids or row['t'] not in topics or row['h'] not in hooks or not isinstance(row['l'],int) or row['l']<max(1,a['floor']) or not isinstance(row['x'],str):
+                    raise ValueError('invalid work identity or metrics')
+                all_ids.add(ident)
+                topic=row['t']
+                counts[topic]=1+counts.get(topic,0)
+                words=row.get('w')
+                if topic!='other' and counts[topic]<=3 and (not isinstance(words,str) or not words.strip()):
+                    raise ValueError('a recommended work has no full script')
+                if words:
+                    if not isinstance(words,str) or len(words)>32767:
+                        raise ValueError('invalid full script')
+                    source[ident]=row
+        if len(all_ids)>20000:
+            raise ValueError('too many videos')
+        revision=package.get('revision')
+        if revision:
+            if not isinstance(revision,dict) or not re.fullmatch(r'[a-f0-9]{64}',revision['id']) or not isinstance(revision['created'],int) or not earliest(now)<=revision['created']<=now+600 or not 1<=len(revision['items'])<=MAX_SLOTS:
+                raise ValueError('invalid revision')
+            for x in revision['items']:
+                if not isinstance(x['title'],str) or not 1<=len(x['title'])<=200 or not isinstance(x['body'],str) or len(x['body'])>3000 or x['source'] not in source:
+                    raise ValueError('invalid reference or suggestion')
+        normalized=json.dumps(compass,ensure_ascii=False,separators=(',',':'),allow_nan=False)
+        with self.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            self.prune(db,now)
+            db.execute('INSERT OR REPLACE INTO dashboard VALUES(1,?)',(normalized,))
+            db.executemany('INSERT OR REPLACE INTO evidence VALUES(?,?)',[(ident,json.dumps(row,ensure_ascii=False)) for ident,row in source.items()])
+            if revision and db.execute('INSERT OR IGNORE INTO flags VALUES(?,1)',('revision:'+revision['id'],)).rowcount:
+                self.append_in(db,revision['items'],revision['created'])
+            latest=db.execute('SELECT id FROM versions ORDER BY created DESC,id DESC LIMIT 1').fetchone()
+        return {'works':len(all_ids),'fullScripts':len(source),'latestVersion':latest['id'] if latest else None}
+
     def append(self, items, now):
-        body = json.dumps(items,ensure_ascii=False)
         with self.db() as db:
             db.execute('BEGIN IMMEDIATE')
             self.prune(db, now)
-            latest = db.execute('SELECT body FROM versions ORDER BY created DESC,id DESC LIMIT 1').fetchone()
-            if not latest or latest['body']!=body:
-                db.execute('INSERT INTO versions(created,body) VALUES(?,?)',(now,body))
+            self.append_in(db,items,now)
+
+    @staticmethod
+    def append_in(db, items, now):
+        body = json.dumps(items,ensure_ascii=False)
+        latest = db.execute('SELECT body FROM versions ORDER BY created DESC,id DESC LIMIT 1').fetchone()
+        if not latest or latest['body']!=body:
+            db.execute('INSERT INTO versions(created,body) VALUES(?,?)',(now,body))
 
 
 ERRORS = {'wrong':'密码不正确。','binding-required':'当前浏览器还未绑定。','locked':'尝试次数过多，请 15 分钟后再试。','bind':'绑定失败。请核对密码和一次性绑定码。'}
@@ -198,13 +296,19 @@ def archive(versions, wanted, nonce):
     choices = ''.join(f'<option value="{r["id"]}"{" selected" if selected and r["id"]==selected["id"] else ""}>{moment(r["created"])} · 版本 {r["id"]}{"（最新）" if r["id"]==latest["id"] else ""}</option>' for r in versions)
     dates = f'<form method="get" action="/wenan"><label for="version">历史版本</label><select id="version" name="version">{choices}</select><button type="submit">查看</button></form>' if choices else ''
     items = json.loads(selected['body']) if selected else []
-    display = ''.join(f'<li><strong>{escape(x["title"])}</strong><p class="text-muted">{escape(x["body"])}</p></li>' for x in items)
+    rendered=[]
+    for x in items:
+        ident=x.get('source','')
+        ref=f'<p class="text-small"><a href="/wenan/transcript?id={ident}">查看参考原稿</a></p>' if VIDEO_ID.fullmatch(ident) else ''
+        rendered.append(f'<li><strong>{escape(x["title"])}</strong><p class="text-muted">{escape(x["body"])}</p>{ref}</li>')
+    display=''.join(rendered)
     fields = []
     current = json.loads(latest['body']) if latest else []
     show = min(MAX_SLOTS,max(3,len(current)))
     for i in range(MAX_SLOTS):
         item = current[i] if i<len(current) else {'title':'','body':''}
-        fields.append(f'<fieldset class="draft-row"{" hidden" if i>=show else ""}><legend>选题 {i+1}</legend><label>标题<input name="title{i}" maxlength="200" value="{escape(item["title"],quote=True)}"></label><label>建议<textarea name="body{i}" maxlength="3000" rows="2">{escape(item["body"])}</textarea></label></fieldset>')
+        src=escape(item.get('source',''),quote=True)
+        fields.append(f'<fieldset class="draft-row"{" hidden" if i>=show else ""}><legend>选题 {i+1}</legend><label>标题<input name="title{i}" maxlength="200" value="{escape(item["title"],quote=True)}"></label><label>建议<textarea name="body{i}" maxlength="3000" rows="2">{escape(item["body"])}</textarea></label><input type="hidden" name="source{i}" value="{src}"></fieldset>')
     stamp = f'<time class="tag">更新于 {moment(selected["created"])}</time>' if selected else '<span class="text-muted">最近两个月暂无更新</span>'
     return f'''<section class="archive" id="wenan-archive"><h3>文案建议</h3><div class="archive-list">{stamp}{dates}</div>{'<ol>'+display+'</ol>' if display else ''}<details class="editor"><summary>更新文案建议</summary><form method="post" action="/wenan/suggestions">{''.join(fields)}<div class="archive-actions"><button id="wenan-more" type="button"{' hidden' if show==MAX_SLOTS else ''}>添加选题</button><button class="submit" type="submit">保存新版本</button></div></form></details></section><script nonce="{nonce}">{EDIT_SCRIPT}</script>'''
 
@@ -215,10 +319,10 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args):
         return
 
-    def reply(self, status, body='', headers=(), nonce=''):
+    def reply(self, status, body='', headers=(), nonce='', media='text/html; charset=utf-8'):
         data = body.encode('utf-8')
         self.send_response(status)
-        self.send_header('Content-Type','text/html; charset=utf-8')
+        self.send_header('Content-Type',media)
         self.send_header('Content-Length',str(len(data)))
         self.send_header('Cache-Control','private, no-store')
         self.send_header('X-Robots-Tag','noindex, nofollow, noarchive')
@@ -249,22 +353,45 @@ class Handler(BaseHTTPRequestHandler):
         url = urlsplit(self.path)
         if url.path==BASE+'/':
             return self.redirect(status=308)
-        if url.path!=BASE:
+        if url.path not in (BASE,BASE+'/transcript'):
             return self.reply(404)
         nonce=secrets.token_urlsafe(18)
         device,session=self.tokens()
         now=int(time.time())
         store=self.server.store
         if not store.has_session(session,device,now):
+            if url.path!=BASE:
+                return self.reply(403)
             return self.reply(200,locked(store.has_device(device,now),nonce),nonce=nonce)
+        if url.path==BASE+'/transcript':
+            ident=parse_qs(url.query).get('id',[''])[0]
+            row=store.reference(ident)
+            if not row:
+                return self.reply(404)
+            body=f'<article class="archive"><p><a href="/wenan">返回文案工作台</a></p><h1>{escape(row["x"])}</h1><p class="text-small text-muted">原声机器转写 · 完整口播</p><p><a href="https://www.douyin.com/video/{ident}" target="_blank" rel="noopener noreferrer">原视频</a></p><ol><li><p>{escape(row["w"])}</p></li></ol></article>'
+            return self.reply(200,shell(body,nonce),nonce=nonce)
         wanted=parse_qs(url.query).get('version',[''])[0]
-        part=store.fragment.replace('<style>','<style nonce="'+nonce+'">').replace('<script>','<script nonce="'+nonce+'">')
+        part=store.current_fragment().replace('<style>','<style nonce="'+nonce+'">').replace('<script>','<script nonce="'+nonce+'">')
         part=part.replace('<!-- WENAN_ARCHIVE -->',archive(store.versions(now),wanted,nonce))
         bar='<form method="post" action="/wenan/logout"><button class="btn" type="submit">退出登录</button></form>'
         return self.reply(200,shell(part,nonce,bar),nonce=nonce)
 
     def do_POST(self):
         route=urlsplit(self.path).path
+        if route==BASE+'/_sync':
+            if self.headers.get('Origin') or not self.server.store.authorized_release(self.headers.get('Authorization','')):
+                return self.reply(404)
+            length=self.headers.get('Content-Length','')
+            if not length.isdigit() or not 0<int(length)<=1000000:
+                return self.reply(413)
+            if self.headers.get_content_type()!='application/json':
+                return self.reply(415)
+            try:
+                update=json.loads(self.rfile.read(int(length)).decode('utf-8'))
+                result=self.server.store.sync_release(update,int(time.time()))
+            except (ValueError,KeyError,TypeError,AttributeError):
+                return self.reply(422)
+            return self.reply(200,json.dumps(result),media='application/json; charset=utf-8')
         if route not in [BASE+'/'+r for r in ('login','bind','logout','suggestions')]:
             return self.reply(404)
         if self.headers.get('Origin')!=ORIGIN:
@@ -306,7 +433,11 @@ class Handler(BaseHTTPRequestHandler):
                 continue
             if not title or len(title)>200 or len(body)>3000:
                 return self.reply(422,shell('<p class="error">请给每条建议填写标题，并检查内容长度。</p><p><a href="/wenan">返回文案工作台</a></p>',nonce),nonce=nonce)
-            items.append({'title':title,'body':body})
+            item={'title':title,'body':body}
+            source=form(f'source{i}')
+            if store.reference(source):
+                item['source']=source
+            items.append(item)
         if not items:
             return self.reply(422,shell('<p class="error">请至少保留一条文案建议。</p><p><a href="/wenan">返回文案工作台</a></p>',nonce),nonce=nonce)
         store.append(items,now)

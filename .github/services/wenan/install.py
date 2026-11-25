@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import pwd
 import re
+import sqlite3
 import subprocess
 import sys
 import tarfile
@@ -136,7 +137,7 @@ def check_local():
     raise RuntimeError('private origin health check did not pass')
 
 
-def install(stage):
+def install(stage, fingerprint=None):
     if os.geteuid()!=0:
         raise SystemExit('root required')
     agent=stage/'server.py'
@@ -144,18 +145,31 @@ def install(stage):
     python_check(agent)
     python_check(hook)
     choose_server(admin('/config/apps/http/servers'))
-    with tarfile.open(str(stage/'private.tgz'),'r:gz') as release:
-        wanted={'compass.html','settings.json','seed.json'}
-        members=release.getmembers()
-        if len(members)!=len(wanted) or {m.name for m in members}!=wanted or any(not m.isfile() or m.size>400000 for m in members):
-            raise RuntimeError('private release contents mismatch')
-        files={m.name:release.extractfile(m).read() for m in members}
-    if files['compass.html'].count(b'<!-- WENAN_ARCHIVE -->')!=1:
-        raise RuntimeError('invalid private dashboard')
-    json.loads(files['seed.json'].decode('utf-8'))
-    setting=json.loads(files['settings.json'].decode('utf-8'))
-    if not all(re.fullmatch('[a-f0-9]{64}',setting[k]) for k in ('salt','verifier','activation')):
-        raise RuntimeError('invalid private credential data')
+    if fingerprint:
+        if not re.fullmatch('[a-f0-9]{64}',fingerprint) or not (STATE/'settings.json').is_file():
+            raise RuntimeError('invalid sync initialization or existing service not found')
+        template=(stage/'compass-template.html').read_bytes()
+        if template.count(b'<!-- WENAN_ARCHIVE -->')!=1 or template.count(b'__COMPASS_DATA__')!=1:
+            raise RuntimeError('invalid private dashboard template')
+        files={'compass-template.html':template,'sync-fingerprint':fingerprint.encode('ascii')}
+    else:
+        with tarfile.open(str(stage/'private.tgz'),'r:gz') as release:
+            wanted={'compass.html','settings.json','seed.json'}
+            members=release.getmembers()
+            names={m.name for m in members}
+            if len(members)!=len(names) or not wanted.issubset(names) or names-wanted-{'revision.json'} or any(not m.isfile() or m.size>1000000 for m in members):
+                raise RuntimeError('private release contents mismatch')
+            files={m.name:release.extractfile(m).read() for m in members}
+        if files['compass.html'].count(b'<!-- WENAN_ARCHIVE -->')!=1:
+            raise RuntimeError('invalid private dashboard')
+        json.loads(files['seed.json'].decode('utf-8'))
+        setting=json.loads(files['settings.json'].decode('utf-8'))
+        if not all(re.fullmatch('[a-f0-9]{64}',setting[k]) for k in ('salt','verifier','activation')):
+            raise RuntimeError('invalid private credential data')
+    if 'revision.json' in files:
+        revision=json.loads(files['revision.json'].decode('utf-8'))
+        if not re.fullmatch('[a-f0-9]{64}',revision['id']) or not 0<revision['created']<time.time()+600 or not 1<=len(revision['items'])<=8:
+            raise RuntimeError('invalid privately deployed archive version')
     try:
         account=pwd.getpwnam(USER)
     except KeyError:
@@ -186,6 +200,13 @@ def install(stage):
     except RuntimeError:
         subprocess.run(['journalctl','-u',APP,'-n','25','--no-pager'],check=False)
         raise
+    with sqlite3.connect(str(STATE/'wenan.sqlite3')) as db:
+        evidence=db.execute('SELECT COUNT(*) FROM evidence').fetchone()[0]
+        if 'revision.json' in files:
+            key='revision:'+revision['id']
+            if not db.execute('SELECT 1 FROM flags WHERE key=?',(key,)).fetchone() or evidence<len(revision['items']):
+                raise RuntimeError('authenticated archive release not loaded')
+        print('Private transcripts currently indexed: '+str(evidence))
     route()
     # The primary Caddy service starts from a Caddyfile, so restore this isolated route after service-managed reloads.
     drop=Path('/etc/systemd/system/caddy.service.d')
@@ -198,5 +219,7 @@ def install(stage):
 if __name__=='__main__':
     if sys.argv[1]=='--route':
         route()
+    elif sys.argv[1]=='--sync-bootstrap':
+        install(Path(sys.argv[2]),sys.argv[3])
     else:
         install(Path(sys.argv[1]))

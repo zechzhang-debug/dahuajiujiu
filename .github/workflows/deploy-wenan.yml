@@ -1,12 +1,19 @@
 name: Deploy private Wenan workspace
 
 on:
+  push:
+    branches: [main]
+    paths: ['.github/services/wenan/sync-bootstrap.sha256']
   workflow_dispatch:
     inputs:
       mode:
         type: choice
-        options: [probe, deploy]
+        options: [probe, deploy, sync-bootstrap]
         default: deploy
+      upload_fingerprint:
+        type: string
+        description: SHA-256 fingerprint for the independent private update key
+        required: false
 
 permissions:
   contents: read
@@ -65,13 +72,27 @@ jobs:
           PAYLOAD_1: ${{ secrets.WENAN_RELEASE_1 }}
           PAYLOAD_2: ${{ secrets.WENAN_RELEASE_2 }}
           PAYLOAD_3: ${{ secrets.WENAN_RELEASE_3 }}
+          PAYLOAD_4: ${{ secrets.WENAN_RELEASE_4 }}
+          PAYLOAD_5: ${{ secrets.WENAN_RELEASE_5 }}
+          PAYLOAD_6: ${{ secrets.WENAN_RELEASE_6 }}
+          PAYLOAD_7: ${{ secrets.WENAN_RELEASE_7 }}
+          PAYLOAD_8: ${{ secrets.WENAN_RELEASE_8 }}
+          PAYLOAD_9: ${{ secrets.WENAN_RELEASE_9 }}
+          PAYLOAD_10: ${{ secrets.WENAN_RELEASE_10 }}
+          PAYLOAD_11: ${{ secrets.WENAN_RELEASE_11 }}
+          PAYLOAD_12: ${{ secrets.WENAN_RELEASE_12 }}
+          PAYLOAD_PARTS: ${{ secrets.WENAN_RELEASE_PARTS }}
         run: |
           umask 077
           test -n "$PAYLOAD_1"
-          if test "$PAYLOAD_2" = -; then PAYLOAD_2=; fi
-          if test "$PAYLOAD_3" = -; then PAYLOAD_3=; fi
+          [[ "$PAYLOAD_PARTS" =~ ^parts:([1-9]|1[0-2])$ ]]
+          part_count="${PAYLOAD_PARTS#parts:}"
           mkdir "$RUNNER_TEMP/wenan-release"
-          printf '%s%s%s' "$PAYLOAD_1" "$PAYLOAD_2" "$PAYLOAD_3" | base64 --decode > "$RUNNER_TEMP/wenan-release/private.tgz"
+          for ((i=1; i<=part_count; i++)); do
+            name="PAYLOAD_$i"
+            test -n "${!name}"
+            printf '%s' "${!name}"
+          done | base64 --decode > "$RUNNER_TEMP/wenan-release/private.tgz"
           gzip -t "$RUNNER_TEMP/wenan-release/private.tgz"
           cp .github/services/wenan/{server,install}.py "$RUNNER_TEMP/wenan-release/"
           tar -czf "$RUNNER_TEMP/wenan-deploy.tgz" -C "$RUNNER_TEMP/wenan-release" .
@@ -92,11 +113,38 @@ jobs:
             sudo -n python3 "$stage/install.py" "$stage"
           fi
           REMOTE
+      - name: Install only private updater code
+        if: inputs.mode == 'sync-bootstrap' || github.event_name == 'push'
+        env:
+          UPLOAD_FINGERPRINT: ${{ inputs.upload_fingerprint }}
+        run: |
+          if test "$GITHUB_EVENT_NAME" = push; then
+            UPLOAD_FINGERPRINT=$(tr -d '\r\n' < .github/services/wenan/sync-bootstrap.sha256)
+          fi
+          [[ "$UPLOAD_FINGERPRINT" =~ ^[a-f0-9]{64}$ ]]
+          umask 077
+          tar -czf "$RUNNER_TEMP/wenan-code.tgz" -C .github/services/wenan server.py install.py compass-template.html
+          release="/tmp/wenan-code-${{ github.run_id }}-${{ github.run_attempt }}.tgz"
+          scp -o BatchMode=yes "$RUNNER_TEMP/wenan-code.tgz" "$SSH_USER@$SSH_HOST:$release"
+          ssh -o BatchMode=yes "$SSH_USER@$SSH_HOST" "RELEASE='$release' FINGERPRINT='$UPLOAD_FINGERPRINT' bash -s" <<'REMOTE'
+          set -euo pipefail
+          umask 077
+          stage=$(mktemp -d)
+          trap 'rm -rf -- "$stage"; rm -f -- "$RELEASE"' EXIT
+          tar -xzf "$RELEASE" -C "$stage"
+          if test "$(id -u)" -eq 0; then
+            python3 "$stage/install.py" --sync-bootstrap "$stage" "$FINGERPRINT"
+          else
+            sudo -n python3 "$stage/install.py" --sync-bootstrap "$stage" "$FINGERPRINT"
+          fi
+          REMOTE
       - name: Verify public boundary
-        if: inputs.mode == 'deploy'
+        if: inputs.mode == 'deploy' || inputs.mode == 'sync-bootstrap' || github.event_name == 'push'
         run: |
           test "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://dahuajiujiu.com/)" = 200
           curl -fsS --max-time 20 https://dahuajiujiu.com/wenan > "$RUNNER_TEMP/locked.html"
           grep -q 'data-wenan-locked' "$RUNNER_TEMP/locked.html"
           ! grep -q 'dc-embedded' "$RUNNER_TEMP/locked.html"
           test "$(curl -sS -o /dev/null -w '%{http_code}' https://dahuajiujiu.com/wenan/compass.html)" = 404
+          test "$(curl -sS -o /dev/null -w '%{http_code}' 'https://dahuajiujiu.com/wenan/transcript?id=7683699921954261364')" = 403
+          test "$(curl -sS -o /dev/null -w '%{http_code}' -X POST 'https://dahuajiujiu.com/wenan/_sync')" = 404

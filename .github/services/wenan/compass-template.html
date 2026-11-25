@@ -1,0 +1,255 @@
+<section id="douyin-compass-461" aria-labelledby="dc-title">
+  <header class="dc-head">
+    <div><h2 id="dc-title">爆款选题罗盘</h2><p class="text-muted text-small" id="dc-total"></p></div>
+    <div class="viz-row" aria-label="选择博主" id="dc-accounts"></div>
+  </header>
+  <div class="dc-caption viz-row text-small" id="dc-context" aria-live="polite"></div>
+  <div class="dc-layout">
+    <figure class="dc-figure" aria-labelledby="dc-chart-label">
+      <h3 id="dc-chart-label">选题频率 × 点赞强度</h3>
+      <div id="dc-plot" class="dc-plot"></div>
+    </figure>
+    <div class="dc-compare">
+      <h3>两位博主的选题分布</h3>
+      <div class="dc-col-head text-small text-muted" id="dc-col-head"><span>主选题</span><span></span><span></span></div>
+      <div id="dc-topics"></div>
+      <p id="dc-unclassified" class="text-small text-muted"></p>
+    </div>
+  </div>
+  <hr>
+  <div id="dc-detail" aria-live="polite"></div>
+  <hr>
+  <!-- WENAN_ARCHIVE -->
+  <details class="dc-notes text-small">
+    <summary>统计口径</summary>
+    <p>各账号按各自的点赞门槛纳入分析。已核实为同原声复发的作品，每组只保留点赞较高的一条。按逐字稿规则识别主选题与开场，头部样本人工复核归类；未明确的主题计入分母，不画在罗盘上。</p>
+    <p>横轴是该主题占账号入选样本的比例，10% 用于区分较常见与少量主题；纵轴是该主题点赞中位数除以账号入选样本的点赞中位数。少于 8 条时列出但不绘点。两边门槛不同，不能用这张图比较两位博主的整体爆款率。开场分布与点赞也不能说明因果。</p>
+  </details>
+  <script id="dc-embedded" type="application/json">__COMPASS_DATA__</script>
+</section>
+<style>
+  #douyin-compass-461 { --dc-a: var(--viz-series-1, var(--blue, #275bc8)); --dc-b: var(--viz-series-2, var(--orange, #a74b18)); color:var(--foreground); }
+  #douyin-compass-461 * { box-sizing:border-box; }
+  #douyin-compass-461 .dc-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  #douyin-compass-461 .dc-head p { margin-top:4px; }
+  #douyin-compass-461 h3 { margin:0 0 6px; }
+  #douyin-compass-461 .dc-caption { margin:12px 0; gap:10px 16px; }
+  #douyin-compass-461 .dc-layout { display:grid; grid-template-columns:minmax(0,1.48fr) minmax(285px,1fr); gap:20px; align-items:start; }
+  #douyin-compass-461 .dc-figure { margin:0; min-width:0; }
+  #douyin-compass-461 .dc-plot { height:292px; width:100%; }
+  #douyin-compass-461 .dc-plot svg { display:block; width:100%; height:100%; overflow:visible; }
+  #douyin-compass-461 .dc-grid { stroke:var(--border); stroke-width:1; }
+  #douyin-compass-461 .dc-guide { stroke:var(--muted-foreground); stroke-width:1; stroke-dasharray:4 4; }
+  #douyin-compass-461 .dc-axis { fill:var(--muted-foreground); }
+  #douyin-compass-461 .dc-point { fill:var(--dc-active); transition:opacity .18s,r .18s; }
+  #douyin-compass-461 .dc-point-label { fill:var(--foreground); pointer-events:none; }
+  #douyin-compass-461 .dc-col-head, #douyin-compass-461 .dc-topic { display:grid; grid-template-columns:minmax(0,1.5fr) 1fr 1fr; align-items:center; column-gap:8px; }
+  #douyin-compass-461 .dc-col-head { padding:3px 6px; }
+  #douyin-compass-461 .dc-topic-row { border-bottom:1px solid var(--border); }
+  #douyin-compass-461 .dc-topic { width:100%; min-width:0; }
+  #douyin-compass-461 .dc-topic > span { min-width:0; overflow-wrap:anywhere; }
+  #douyin-compass-461 .dc-val { display:grid; grid-template-columns:1fr; justify-items:start; gap:2px; }
+  #douyin-compass-461 .dc-bar { width:100%; height:3px; background:color-mix(in srgb,var(--muted-foreground) 15%,transparent); }
+  #douyin-compass-461 .dc-bar i { display:block; height:100%; }
+  #douyin-compass-461 .dc-account-0 { background:var(--dc-a); }
+  #douyin-compass-461 .dc-account-1 { background:var(--dc-b); }
+  #douyin-compass-461 #dc-unclassified { margin-top:6px; }
+  #douyin-compass-461 .dc-topic-topic { display:flex; align-items:center; }
+  #douyin-compass-461 .dc-readout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.25fr); gap:18px; }
+  #douyin-compass-461 .dc-detail-lines { display:grid; gap:6px; }
+  #douyin-compass-461 .dc-example { display:flex; gap:8px; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--border); padding:4px 0; }
+  #douyin-compass-461 .dc-example a { min-width:0; color:var(--foreground); overflow-wrap:anywhere; }
+  #douyin-compass-461 .dc-example-metric { white-space:nowrap; }
+  #douyin-compass-461 .dc-example-type { display:block; margin-top:2px; }
+  #douyin-compass-461 .dc-example-text { padding:4px 0 8px; border-bottom:1px solid var(--border); }
+  #douyin-compass-461 .dc-example-text summary { width:fit-content; }
+  #douyin-compass-461 .dc-script { margin-top:7px; white-space:pre-wrap; overflow-wrap:anywhere; }
+  #douyin-compass-461 [hidden] { display:none !important; }
+  #douyin-compass-461 .dc-hook { margin-top:8px; }
+  #douyin-compass-461 .dc-plans ol { margin:4px 0 10px; padding-left:1.5em; display:grid; gap:9px; }
+  #douyin-compass-461 .dc-plans li > span { display:block; }
+  #douyin-compass-461 .dc-notes { margin-top:10px; }
+  #douyin-compass-461 .dc-notes p { margin-top:6px; }
+  @media(max-width:675px) {
+    #douyin-compass-461 .dc-layout, #douyin-compass-461 .dc-readout { grid-template-columns:minmax(0,1fr); gap:14px; }
+    #douyin-compass-461 .dc-plot { height:260px; }
+  }
+  @media(prefers-reduced-motion:reduce) { #douyin-compass-461 .dc-point { transition:none; } }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('douyin-compass-461');
+  const data = JSON.parse(root.querySelector('#dc-embedded').textContent);
+  const get = id => root.querySelector('#dc-' + id);
+  const accountBar = get('accounts'), panel = get('topics'), plot = get('plot');
+  const locale = new Intl.NumberFormat('zh-CN');
+  const fmt = n => typeof n === 'number' ? locale.format(n) : '—';
+  const percent = n => (n * 100).toFixed(1).replace(/\.0$/, '') + '%';
+  const median = values => {
+    const sorted = values.filter(Number.isFinite).sort((a,b) => a-b);
+    const i = Math.floor(sorted.length / 2);
+    return sorted.length ? (sorted.length % 2 ? sorted[i] : (sorted[i-1]+sorted[i])/2) : null;
+  };
+  const topics = Object.keys(data.topics).filter(k => k !== 'other');
+  const eligible = 8;
+  const accounts = data.accounts.map(a => {
+    const baseline = median(a.rows.map(r => r.l));
+    const stats = Object.fromEntries(Object.keys(data.topics).map(key => {
+      const rows = a.rows.filter(r => r.t === key);
+      return [key,{n:rows.length,share:rows.length/a.rows.length, med:median(rows.map(r=>r.l)),rows,
+        lift:rows.length ? median(rows.map(r=>r.l))/baseline : null,
+        shares:median(rows.filter(r=>Number.isFinite(r.s)).map(r=>100*r.s/r.l)),
+        saves:median(rows.filter(r=>Number.isFinite(r.f)).map(r=>100*r.f/r.l))}];
+    }));
+    return {...a,baseline,stats};
+  });
+  const order = [...topics].sort((a,b)=>Math.max(...accounts.map(x=>x.stats[b].share))-Math.max(...accounts.map(x=>x.stats[a].share)));
+  const maxX = Math.max(.35, ...accounts.flatMap(a=>topics.map(t=>Math.ceil(a.stats[t].share*20)/20+.05)));
+  const high = Math.max(2, ...accounts.flatMap(a=>topics.filter(t=>a.stats[t].n>=eligible).map(t=>a.stats[t].lift)));
+  const upper = Math.max(4,2**Math.ceil(Math.log2(high*1.05)));
+  const low = .25;
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = (name,attrs,txt) => {
+    const e = document.createElementNS(svgNS,name);
+    Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+    if (txt) e.textContent=txt;
+    return e;
+  };
+  const saved = window.openai?.widgetState?.privateContent;
+  const accountAvailable = i => Number.isInteger(i) && i>=0 && i<accounts.length;
+  let selectedAccount = accountAvailable(saved?.account) ? saved.account : 0;
+  let selectedTopic = topics.includes(saved?.topic) ? saved.topic : (selectedAccount === 0 ? 'subject' : 'parent');
+  const baseCount=accounts.reduce((n,a)=>n+a.base,0);
+  const sampleCount=accounts.reduce((n,a)=>n+a.rows.length,0);
+  get('total').textContent=`${baseCount} 条入选作品${baseCount>sampleCount?`，合并 ${baseCount-sampleCount} 组已核实同原声复发后，分析 ${sampleCount} 条。`:'。'}`;
+  function save() {
+    const result = window.openai?.setWidgetState?.({privateContent:{account:selectedAccount,topic:selectedTopic},modelContent:{博主:accounts[selectedAccount].name,主题:data.topics[selectedTopic]}});
+    result?.catch?.(()=>{});
+  }
+  function setTopic(key) {
+    selectedTopic=key;
+    render();
+    save();
+  }
+  function number(value, unit) { return value == null ? '—' : value.toFixed(1) + unit; }
+  function renderPlot() {
+    const width=Math.round(plot.getBoundingClientRect().width);
+    const height=Math.round(plot.getBoundingClientRect().height);
+    if (width<140||height<160) return;
+    const compact=width<365;
+    const pad={l:48,r:compact?22:24,t:31,b:47};
+    const w=width-pad.l-pad.r,h=height-pad.t-pad.b;
+    const X=v=>pad.l+w*v/maxX;
+    const Y=v=>pad.t+h*(Math.log2(upper)-Math.log2(Math.max(.08,v)))/(Math.log2(upper)-Math.log2(low));
+    const svgNode=svg('svg',{width,height,viewBox:`0 0 ${width} ${height}`,role:'img', 'aria-labelledby':'dc-svg-title'});
+    svgNode.append(svg('title',{id:'dc-svg-title'},`${accounts[selectedAccount].name}：主题占比与相对点赞中位数`));
+    const gridTicks=[.25,.5,1,2,4,8,16].filter(v=>v<=upper);
+    for (const tick of gridTicks) {
+      const y=Y(tick);
+      svgNode.append(svg('line',{x1:pad.l,y1:y,x2:width-pad.r,y2:y,class:tick===1?'dc-guide':'dc-grid'}));
+      svgNode.append(svg('text',{x:pad.l-6,y:y+4,'text-anchor':'end',class:'dc-axis text-small'},tick+'×'));
+    }
+    const step=compact ? .10 : .05;
+    for (let tick=0;tick<=maxX+.002;tick+=step) {
+      const x=X(tick);
+      svgNode.append(svg('line',{x1:x,y1:pad.t,x2:x,y2:pad.t+h,class:Math.abs(tick-.10)<.001?'dc-guide':'dc-grid'}));
+      svgNode.append(svg('text',{x,y:height-25,'text-anchor':'middle',class:'dc-axis text-small'},Math.round(tick*100)+'%'));
+    }
+    svgNode.append(svg('text',{x:pad.l,y:13,class:'dc-axis text-small'},'相对点赞中位数（对数轴）'));
+    svgNode.append(svg('text',{x:pad.l+3,y:27,class:'dc-axis text-small'},'少量高强'));
+    svgNode.append(svg('text',{x:width-pad.r-3,y:27,'text-anchor':'end',class:'dc-axis text-small'},'常见高强'));
+    svgNode.append(svg('text',{x:width-pad.r,y:height-4,'text-anchor':'end',class:'dc-axis text-small'},'占该博主入选样本'));
+    const a=accounts[selectedAccount];
+    const visible=topics.filter(t=>a.stats[t].n>=eligible).sort((x,y)=>Number(x===selectedTopic)-Number(y===selectedTopic));
+    for (const key of visible) {
+      const d=a.stats[key], active=key===selectedTopic;
+      const cx=X(d.share), cy=Y(d.lift);
+      const mark=svg('circle',{cx,cy,r:active?8:5,opacity:active?1:.53,class:'dc-point cursor-interaction',
+        'data-tooltip':`${data.topics[key]} · ${d.n} 条 · 占 ${percent(d.share)} · ${d.lift.toFixed(2)}×`});
+      mark.addEventListener('click',()=>setTopic(key));
+      svgNode.append(mark);
+      if(active) {
+        const left=cx>width-118;
+        svgNode.append(svg('text',{x:cx+(left?-12:12),y:cy-9,'text-anchor':left?'end':'start',class:'dc-point-label text-small'},data.topics[key]));
+      }
+    }
+    plot.replaceChildren(svgNode);
+  }
+  function render() {
+    const a=accounts[selectedAccount];
+    const d=a.stats[selectedTopic];
+    root.style.setProperty('--dc-active',selectedAccount===0?'var(--dc-a)':'var(--dc-b)');
+    for (const [i,b] of [...accountBar.children].entries()) {
+      b.setAttribute('aria-pressed',String(i===selectedAccount));
+      b.classList.toggle('btn-primary',i===selectedAccount);
+    }
+    get('context').textContent=`${a.name} · ${fmt(a.floor)} 赞及以上 · ${a.rows.length} 条 · 账号样本点赞中位数 ${fmt(Math.round(a.baseline))}`;
+    const shown=[0,selectedAccount>1?selectedAccount:1];
+    for(const [i,j] of shown.entries()) get('col-head').children[i+1].textContent=accounts[j].name;
+    for(const s of panel.querySelectorAll('[data-account]')) s.hidden=!shown.includes(Number(s.dataset.account));
+    get('unclassified').textContent='其他／未明确：'+shown.map(i=>percent(accounts[i].stats.other.share)).join(' / ');
+    for (const b of panel.querySelectorAll('button')) b.setAttribute('aria-pressed',String(selectedTopic===b.dataset.topic));
+    const detail=get('detail');
+    const h=document.createElement('h3'); h.textContent=data.topics[selectedTopic]+' · '+a.name;
+    const box=document.createElement('div'); box.className='dc-readout';
+    const stats=document.createElement('div'); stats.className='dc-detail-lines tabular-nums';
+    const line=document.createElement('div');
+    line.textContent=d.n?`${d.n} 条 · 占 ${percent(d.share)} · 点赞中位数 ${fmt(Math.round(d.med))}`:'无明确归类的入选样本';
+    stats.append(line);
+    if(d.n) {
+      const ratio=document.createElement('div'); ratio.className='text-small text-muted';
+      ratio.textContent=d.n<eligible?'少于 8 条，仅作个案观察':`为账号样本的 ${d.lift.toFixed(2)} 倍 · 每百赞收藏 ${number(d.saves,' 次')}、分享 ${number(d.shares,' 次')}`;
+      stats.append(ratio);
+    }
+    const hooks=document.createElement('div'); hooks.className='dc-hook text-small text-muted';
+    const topicHooks=Object.keys(data.hooks).filter(k=>k!=='other').map(k=>[k,d.rows.filter(r=>r.h===k).length]).filter(([,n])=>n>0).sort((x,y)=>y[1]-x[1]);
+    const counts=topicHooks.slice(0,3).map(([k,n])=>`${data.hooks[k]} ${n} 条`);
+    if(counts.length) { hooks.textContent='这个主题常见开场：'+counts.join(' / '); stats.append(hooks); }
+    const ex=document.createElement('div');
+    const evidence=d.rows.slice(0,3);
+    for(const v of evidence) {
+      const line=document.createElement('div'); line.className='dc-example text-small';
+      const link=document.createElement('a'); link.href=`https://www.douyin.com/video/${v.id}`; link.target='_blank'; link.rel='noopener noreferrer';
+      link.textContent=v.x;
+      if(v.h!=='other') {
+        const hook=document.createElement('span'); hook.className='dc-example-type text-muted'; hook.textContent=data.hooks[v.h]; link.append(hook);
+      }
+      const metric=document.createElement('span'); metric.className='dc-example-metric tabular-nums text-muted'; metric.textContent=fmt(v.l)+' 赞';
+      line.append(link,metric); ex.append(line);
+      if(v.w) {
+        const details=document.createElement('details'); details.className='dc-example-text text-small';
+        const summary=document.createElement('summary'); summary.textContent='完整口播逐字稿';
+        const body=document.createElement('p'); body.className='dc-script'; body.textContent=v.w;
+        details.append(summary,body); ex.append(details);
+      }
+    }
+    box.append(stats,ex); detail.replaceChildren(h,box); renderPlot();
+  }
+  for(const [i,a] of accounts.entries()) {
+    const b=document.createElement('button'); b.type='button'; b.className='btn'; b.textContent=a.name;
+    b.addEventListener('click',()=>{ selectedAccount=i; selectedTopic=i===0?'subject':'parent'; render(); save(); });
+    accountBar.append(b);
+  }
+  for(const key of order) {
+    const row=document.createElement('div'); row.className='dc-topic-row';
+    const b=document.createElement('button'); b.type='button'; b.className='btn btn-ghost dc-topic text-small'; b.dataset.topic=key;
+    const label=document.createElement('span'); label.className='dc-topic-topic'; label.textContent=data.topics[key]; b.append(label);
+    for(const [i,a] of accounts.entries()) {
+      const d=a.stats[key];
+      const val=document.createElement('span'); val.className='dc-val tabular-nums'; val.dataset.account=i;
+      const str=document.createElement('span'); str.textContent=percent(d.share);
+      const bar=document.createElement('span'); bar.className='dc-bar'; bar.setAttribute('aria-hidden','true');
+      const fill=document.createElement('i'); fill.className='dc-account-'+i; fill.style.width=Math.round(100*d.share/maxX)+'%';
+      bar.append(fill); val.append(str,bar); b.append(val);
+    }
+    b.addEventListener('click',()=>setTopic(key)); row.append(b); panel.append(row);
+  }
+  new ResizeObserver(renderPlot).observe(plot);
+  window.addEventListener('openai:set_globals',event=>{
+    const state=event.detail?.globals?.widgetState?.privateContent;
+    if(!state||!accountAvailable(state.account)||!topics.includes(state.topic)) return;
+    selectedAccount=state.account; selectedTopic=state.topic; render();
+  });
+  render();
+})();
+</script>
