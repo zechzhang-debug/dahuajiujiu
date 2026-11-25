@@ -38,7 +38,7 @@ NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
 PrivateTmp=true
-ReadWritePaths=/var/lib/dahuajiujiu-wenan
+ReadWriteDirectories=/var/lib/dahuajiujiu-wenan
 
 [Install]
 WantedBy=multi-user.target
@@ -181,7 +181,11 @@ def install(stage):
     systemctl('daemon-reload')
     systemctl('enable',APP)
     systemctl('restart',APP)
-    check_local()
+    try:
+        check_local()
+    except RuntimeError:
+        subprocess.run(['journalctl','-u',APP,'-n','25','--no-pager'],check=False)
+        raise
     route()
     # The primary Caddy service starts from a Caddyfile, so restore this isolated route after service-managed reloads.
     drop=Path('/etc/systemd/system/caddy.service.d')

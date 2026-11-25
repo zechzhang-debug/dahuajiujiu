@@ -83,7 +83,7 @@ class Store:
 
     @contextmanager
     def db(self):
-        db = sqlite3.connect(self.root/'wenan.sqlite3', timeout=3)
+        db = sqlite3.connect(str(self.root/'wenan.sqlite3'), timeout=3)
         db.row_factory = sqlite3.Row
         try:
             yield db
@@ -223,7 +223,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Cache-Control','private, no-store')
         self.send_header('X-Robots-Tag','noindex, nofollow, noarchive')
         self.send_header('X-Content-Type-Options','nosniff')
-        self.send_header('Referrer-Policy','no-referrer')
+        self.send_header('Referrer-Policy','same-origin')
         self.send_header('X-Frame-Options','DENY')
         self.send_header('Content-Security-Policy',f"default-src 'none'; style-src 'nonce-{nonce}'; script-src 'nonce-{nonce}'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
         for key,value in headers:
