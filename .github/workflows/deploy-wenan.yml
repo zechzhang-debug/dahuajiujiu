@@ -1,0 +1,100 @@
+name: Deploy private Wenan workspace
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [probe, deploy]
+        default: deploy
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aliyun-production
+  cancel-in-progress: false
+
+jobs:
+  private-workspace:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      SSH_HOST: ${{ secrets.ALIYUN_SSH_HOST }}
+      SSH_USER: ${{ secrets.ALIYUN_SSH_USER }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/services/wenan
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.ALIYUN_SSH_PRIVATE_KEY }}
+      - name: Verify the cached host identity
+        env:
+          HOST_IDENTITY: ${{ secrets.WENAN_KNOWN_HOST }}
+        run: |
+          test -n "$HOST_IDENTITY"
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$HOST_IDENTITY" > ~/.ssh/known_hosts
+          printf 'Host *\n  HostKeyAlias wenan-production\n  StrictHostKeyChecking yes\n' > ~/.ssh/config
+          chmod 600 ~/.ssh/known_hosts
+      - name: Check production prerequisites
+        if: inputs.mode == 'probe'
+        run: |
+          ssh -o BatchMode=yes "$SSH_USER@$SSH_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          printf 'uid='; id -u
+          if sudo -n true 2>/dev/null; then echo sudo=yes; fi
+          printf 'python='; python3 --version
+          printf 'caddy='; caddy version
+          for unit in caddy caddy-api; do
+            printf '%s: ' "$unit"
+            systemctl is-active "$unit" || true
+            if systemctl is-active --quiet "$unit"; then
+              systemctl show "$unit" -p ExecStart --value | sed -nE 's/.*(\/etc\/caddy\/[^ ;]+).*/config=\1/p'
+              if systemctl show "$unit" -p ExecStart --value | grep -q -- --resume; then echo resume=yes; fi
+            fi
+          done
+          if curl -fsS http://127.0.0.1:2019/config/apps/http/servers >/dev/null; then echo caddy-admin=yes; fi
+          if ss -ltn | awk '{print $4}' | grep -Eq ':3017$'; then echo port3017=in-use; else echo port3017=free; fi
+          REMOTE
+      - name: Stage private content
+        if: inputs.mode == 'deploy'
+        env:
+          PAYLOAD_1: ${{ secrets.WENAN_RELEASE_1 }}
+          PAYLOAD_2: ${{ secrets.WENAN_RELEASE_2 }}
+          PAYLOAD_3: ${{ secrets.WENAN_RELEASE_3 }}
+        run: |
+          umask 077
+          test -n "$PAYLOAD_1"
+          mkdir "$RUNNER_TEMP/wenan-release"
+          printf '%s%s%s' "$PAYLOAD_1" "$PAYLOAD_2" "$PAYLOAD_3" | base64 --decode > "$RUNNER_TEMP/wenan-release/private.tgz"
+          gzip -t "$RUNNER_TEMP/wenan-release/private.tgz"
+          cp .github/services/wenan/{server,install}.py "$RUNNER_TEMP/wenan-release/"
+          tar -czf "$RUNNER_TEMP/wenan-deploy.tgz" -C "$RUNNER_TEMP/wenan-release" .
+      - name: Install the isolated private service
+        if: inputs.mode == 'deploy'
+        run: |
+          release="/tmp/wenan-${{ github.run_id }}-${{ github.run_attempt }}.tgz"
+          scp -o BatchMode=yes "$RUNNER_TEMP/wenan-deploy.tgz" "$SSH_USER@$SSH_HOST:$release"
+          ssh -o BatchMode=yes "$SSH_USER@$SSH_HOST" "RELEASE='$release' bash -s" <<'REMOTE'
+          set -euo pipefail
+          umask 077
+          stage=$(mktemp -d)
+          trap 'rm -rf -- "$stage"; rm -f -- "$RELEASE"' EXIT
+          tar -xzf "$RELEASE" -C "$stage"
+          if test "$(id -u)" -eq 0; then
+            python3 "$stage/install.py" "$stage"
+          else
+            sudo -n python3 "$stage/install.py" "$stage"
+          fi
+          REMOTE
+      - name: Verify public boundary
+        if: inputs.mode == 'deploy'
+        run: |
+          test "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://dahuajiujiu.com/)" = 200
+          curl -fsS --max-time 20 https://dahuajiujiu.com/wenan > "$RUNNER_TEMP/locked.html"
+          grep -q 'data-wenan-locked' "$RUNNER_TEMP/locked.html"
+          ! grep -q 'dc-embedded' "$RUNNER_TEMP/locked.html"
+          test "$(curl -sS -o /dev/null -w '%{http_code}' https://dahuajiujiu.com/wenan/compass.html)" = 404
