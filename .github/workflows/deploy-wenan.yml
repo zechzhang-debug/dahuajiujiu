@@ -68,6 +68,8 @@ jobs:
         run: |
           umask 077
           test -n "$PAYLOAD_1"
+          if test "$PAYLOAD_2" = -; then PAYLOAD_2=; fi
+          if test "$PAYLOAD_3" = -; then PAYLOAD_3=; fi
           mkdir "$RUNNER_TEMP/wenan-release"
           printf '%s%s%s' "$PAYLOAD_1" "$PAYLOAD_2" "$PAYLOAD_3" | base64 --decode > "$RUNNER_TEMP/wenan-release/private.tgz"
           gzip -t "$RUNNER_TEMP/wenan-release/private.tgz"
