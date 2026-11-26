@@ -25,6 +25,7 @@ TOKEN = re.compile(r'[A-Za-z0-9_-]{43}\Z')
 VIDEO_ID = re.compile(r'\d{15,23}\Z')
 BASE = '/wenan'
 MAX_SLOTS = 8
+MAX_SYNC_BYTES = 4 * 1024 * 1024
 SESSION_LIFE = 7 * 86400
 DEVICE_LIFE = 365 * 86400
 
@@ -382,7 +383,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.headers.get('Origin') or not self.server.store.authorized_release(self.headers.get('Authorization','')):
                 return self.reply(404)
             length=self.headers.get('Content-Length','')
-            if not length.isdigit() or not 0<int(length)<=1000000:
+            if not length.isdigit() or not 0<int(length)<=MAX_SYNC_BYTES:
                 return self.reply(413)
             if self.headers.get_content_type()!='application/json':
                 return self.reply(415)

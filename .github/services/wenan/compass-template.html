@@ -18,6 +18,16 @@
   </div>
   <hr>
   <div id="dc-detail" aria-live="polite"></div>
+  <details id="dc-work-archive" class="dc-work-archive" hidden>
+    <summary>作品归档 <span id="dc-archive-count"></span></summary>
+    <div class="dc-archive-tools">
+      <label for="dc-archive-search">搜索作品</label>
+      <input id="dc-archive-search" type="search" placeholder="标题、逐字稿或作品 ID">
+    </div>
+    <div id="dc-archive-rows"></div>
+    <p class="text-muted text-small" id="dc-archive-status" role="status"></p>
+    <button id="dc-archive-more" type="button" class="btn">显示更多</button>
+  </details>
   <hr>
   <!-- WENAN_ARCHIVE -->
   <details class="dc-notes text-small">
@@ -30,6 +40,13 @@
 <style>
   #douyin-compass-461 { --dc-a: var(--viz-series-1, var(--blue, #275bc8)); --dc-b: var(--viz-series-2, var(--orange, #a74b18)); color:var(--foreground); }
   #douyin-compass-461 * { box-sizing:border-box; }
+  #douyin-compass-461 .dc-work-archive { margin:16px 0; }
+  #douyin-compass-461 .dc-work-archive summary { cursor:pointer; font-weight:600; }
+  #douyin-compass-461 .dc-archive-tools { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:10px 0; }
+  #douyin-compass-461 .dc-archive-tools input { width:min(340px,100%); }
+  #douyin-compass-461 .dc-archive-row { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:start; column-gap:12px; row-gap:4px; padding:8px 0; border-bottom:1px solid var(--border); overflow-wrap:anywhere; }
+  #douyin-compass-461 .dc-archive-links { grid-column:1/-1; display:flex; gap:12px; flex-wrap:wrap; }
+  #douyin-compass-461 .dc-work-archive [hidden] { display:none; }
   #douyin-compass-461 .dc-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
   #douyin-compass-461 .dc-head p { margin-top:4px; }
   #douyin-compass-461 h3 { margin:0 0 6px; }
@@ -175,8 +192,48 @@
     }
     plot.replaceChildren(svgNode);
   }
+  const workArchive=get('work-archive'), archiveSearch=get('archive-search'), archiveMore=get('archive-more');
+  let archiveAccount=-1, archiveLimit=24;
+  function renderArchive(a) {
+    workArchive.hidden=!a.archive;
+    if(archiveAccount!==selectedAccount) {
+      archiveAccount=selectedAccount;
+      archiveSearch.value='';
+      archiveLimit=24;
+    }
+    if(!a.archive) return;
+    const pending=a.pending || [];
+    get('archive-count').textContent=`${fmt(a.rows.length)} 条完整稿${pending.length?` · ${pending.length} 条待补音源`:''}`;
+    if(!workArchive.open) return;
+    const term=archiveSearch.value.trim().toLowerCase();
+    const matches=[...a.rows,...pending].filter(row=>!term || [row.x,row.id,row.w || ''].some(value=>value.toLowerCase().includes(term)));
+    const visible=matches.slice(0,archiveLimit).map(v=>{
+      const line=document.createElement('div'); line.className='dc-archive-row text-small';
+      const title=document.createElement('span'); title.textContent=v.x || v.id;
+      const likes=document.createElement('span'); likes.className='tabular-nums text-muted'; likes.textContent=fmt(v.l)+' 赞';
+      const links=document.createElement('div'); links.className='dc-archive-links';
+      const original=document.createElement('a'); original.href=`https://www.douyin.com/video/${v.id}`;
+      original.target='_blank'; original.rel='noopener noreferrer'; original.textContent='原视频';
+      links.append(original);
+      const transcript=document.createElement(v.w?'a':'span');
+      if(v.w) {
+        transcript.href=`/wenan/transcript?id=${v.id}`; transcript.target='_blank'; transcript.rel='noopener noreferrer';
+      }
+      transcript.textContent=v.w?'完整口播逐字稿':'音源待补';
+      links.append(transcript); line.append(title,likes,links);
+      return line;
+    });
+    get('archive-rows').replaceChildren(...visible);
+    get('archive-status').textContent=matches.length?`已显示 ${visible.length} / ${matches.length} 条`:'没有匹配的作品';
+    archiveMore.hidden=visible.length>=matches.length;
+  }
+  workArchive.addEventListener('toggle',()=>renderArchive(accounts[selectedAccount]));
+  archiveSearch.addEventListener('input',()=>{archiveLimit=24; renderArchive(accounts[selectedAccount]);});
+  archiveMore.addEventListener('click',()=>{archiveLimit+=24; renderArchive(accounts[selectedAccount]);});
+
   function render() {
     const a=accounts[selectedAccount];
+    renderArchive(a);
     const d=a.stats[selectedTopic];
     root.style.setProperty('--dc-active',selectedAccount===0?'var(--dc-a)':'var(--dc-b)');
     for (const [i,b] of [...accountBar.children].entries()) {
