@@ -23,15 +23,15 @@ ORIGIN = 'https://dahuajiujiu.com'
 DEVICE = '__Secure-wenan_device'
 SESSION = '__Secure-wenan_session'
 TOKEN = re.compile(r'[A-Za-z0-9_-]{43}\Z')
-FINGERPRINT = re.compile(r'[0-9a-f]{64}\Z')
 VIDEO_ID = re.compile(r'\d{15,23}\Z')
 BASE = '/wenan'
 MAX_SLOTS = 8
 MAX_SYNC_BYTES = 4 * 1024 * 1024
 SESSION_LIFE = 7 * 86400
 DEVICE_LIFE = 365 * 86400
-BINDING_CODE_LIFE = 14 * 86400
-MAX_ACTIVE_BINDING_CODES = 12
+LOGIN_ATTEMPT_KEY = 'password-login'
+LOGIN_LOCK_SECONDS = 15 * 60
+MAX_LOGIN_FAILURES = 5
 
 
 def digest(token):
@@ -90,7 +90,6 @@ class Store:
         with self.db() as db:
             db.executescript('''
             CREATE TABLE IF NOT EXISTS flags (key TEXT PRIMARY KEY, value INTEGER NOT NULL);
-            CREATE TABLE IF NOT EXISTS binding_code (fingerprint TEXT PRIMARY KEY, expires INTEGER NOT NULL, used INTEGER NOT NULL DEFAULT 0);
             CREATE TABLE IF NOT EXISTS device (token TEXT PRIMARY KEY, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS session (token TEXT PRIMARY KEY, device TEXT NOT NULL, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS attempt (device TEXT PRIMARY KEY, failures INTEGER NOT NULL, expires INTEGER NOT NULL);
@@ -99,6 +98,10 @@ class Store:
             CREATE TABLE IF NOT EXISTS dashboard (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL);
             ''')
             db.execute('BEGIN IMMEDIATE')
+            if 'activation' in self.settings:
+                db.execute("INSERT OR IGNORE INTO flags VALUES('bound',1)")
+            if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='binding_code'").fetchone():
+                db.execute('UPDATE binding_code SET used=1 WHERE used=0')
             db.executemany('INSERT OR REPLACE INTO evidence VALUES(?,?)',[(ident,json.dumps(row,ensure_ascii=False)) for ident,row in self.evidence.items()])
             if db.execute("INSERT OR IGNORE INTO flags VALUES('seeded',1)").rowcount:
                 db.execute('INSERT INTO versions(created,body) VALUES(?,?)',(seed['created'],json.dumps(seed['items'],ensure_ascii=False)))
@@ -128,12 +131,6 @@ class Store:
         for table in ('device','session','attempt'):
             db.execute(f'DELETE FROM {table} WHERE expires <= ?', (now,))
 
-    def has_device(self, token, now):
-        if not TOKEN.fullmatch(token):
-            return False
-        with self.db() as db:
-            return db.execute('SELECT 1 FROM device WHERE token=? AND expires>?',(digest(token),now)).fetchone() is not None
-
     def has_session(self, token, device, now):
         if not TOKEN.fullmatch(token) or not TOKEN.fullmatch(device):
             return False
@@ -154,78 +151,24 @@ class Store:
         return token
 
     def login(self, device, password, now):
-        if not self.has_device(device, now):
-            return 'binding-required',None
-        key = digest(device)
         with self.db() as db:
             db.execute('BEGIN IMMEDIATE')
-            row = db.execute('SELECT failures,expires FROM attempt WHERE device=?',(key,)).fetchone()
+            # A single workbench account shares its attempt limit across browsers.
+            row = db.execute('SELECT failures,expires FROM attempt WHERE device=?',(LOGIN_ATTEMPT_KEY,)).fetchone()
             live = row and row['expires']>now
-            if live and row['failures']>=5:
+            if live and row['failures']>=MAX_LOGIN_FAILURES:
                 return 'locked',None
             if not self.password_ok(password):
                 count = 1+row['failures'] if live else 1
-                db.execute('INSERT OR REPLACE INTO attempt VALUES(?,?,?)',(key,count,now+900))
+                db.execute('INSERT OR REPLACE INTO attempt VALUES(?,?,?)',(LOGIN_ATTEMPT_KEY,count,now+LOGIN_LOCK_SECONDS))
                 return 'wrong',None
-            db.execute('DELETE FROM attempt WHERE device=?',(key,))
-            return 'ok',self.issue_session(db,key,now)
-
-    def enroll(self, code, password, now):
-        if not TOKEN.fullmatch(code):
-            return None
-        fingerprint = digest(code)
-        legacy = secrets.compare_digest(fingerprint,self.settings['activation'])
-        active_code = 'SELECT 1 FROM binding_code WHERE fingerprint=? AND used=0 AND expires>?'
-        if legacy:
-            if self.settings['activation_expires']<=now:
-                return None
-        else:
-            with self.db() as db:
-                if not db.execute(active_code,(fingerprint,now)).fetchone():
-                    return None
-        with self.db() as db:
-            db.execute('BEGIN IMMEDIATE')
-            if legacy:
-                if db.execute("SELECT 1 FROM flags WHERE key='bound'").fetchone():
-                    return None
-            elif not db.execute(active_code,(fingerprint,now)).fetchone():
-                return None
-            attempt = db.execute("SELECT failures,expires FROM attempt WHERE device='enroll'").fetchone()
-            live = attempt and attempt['expires']>now
-            if live and attempt['failures']>=5:
-                return None
-            if not self.password_ok(password):
-                db.execute("INSERT OR REPLACE INTO attempt VALUES('enroll',?,?)",(1+attempt['failures'] if live else 1,now+900))
-                return None
-            device = secrets.token_urlsafe(32)
-            if legacy:
-                db.execute("INSERT INTO flags VALUES('bound',1)")
-            else:
-                db.execute('UPDATE binding_code SET used=1 WHERE fingerprint=?',(fingerprint,))
-            db.execute("DELETE FROM attempt WHERE device='enroll'")
-            db.execute('INSERT INTO device VALUES(?,?)',(digest(device),now+DEVICE_LIFE))
-            return device,self.issue_session(db,digest(device),now)
-
-    def issue_binding_codes(self, fingerprints, now):
-        if not 1<=len(fingerprints)<=5 or len(set(fingerprints))!=len(fingerprints):
-            raise ValueError('expected one to five distinct fingerprints')
-        if any(not FINGERPRINT.fullmatch(x) or x==self.settings['activation'] for x in fingerprints):
-            raise ValueError('invalid binding code fingerprint')
-        with self.db() as db:
-            db.execute('BEGIN IMMEDIATE')
-            existing = [db.execute('SELECT expires,used FROM binding_code WHERE fingerprint=?',(x,)).fetchone()
-                        for x in fingerprints]
-            if any(existing):
-                if not all(row and not row['used'] and row['expires']>now for row in existing):
-                    raise ValueError('binding code already issued, used, or expired')
-                return min(row['expires'] for row in existing)
-            active = db.execute('SELECT count(*) FROM binding_code WHERE used=0 AND expires>?',(now,)).fetchone()[0]
-            if active+len(fingerprints)>MAX_ACTIVE_BINDING_CODES:
-                raise ValueError('too many unused binding codes')
-            expires = now+BINDING_CODE_LIFE
-            db.executemany('INSERT INTO binding_code(fingerprint,expires) VALUES(?,?)',
-                           [(x,expires) for x in fingerprints])
-            return expires
+            db.execute('DELETE FROM attempt WHERE device=?',(LOGIN_ATTEMPT_KEY,))
+            key = digest(device) if TOKEN.fullmatch(device) else ''
+            if not key or not db.execute('SELECT 1 FROM device WHERE token=? AND expires>?',(key,now)).fetchone():
+                device = secrets.token_urlsafe(32)
+                key = digest(device)
+                db.execute('INSERT INTO device VALUES(?,?)',(key,now+DEVICE_LIFE))
+            return 'ok',(device,self.issue_session(db,key,now))
 
     def versions(self, now):
         with self.db() as db:
@@ -317,20 +260,17 @@ class Store:
             db.execute('INSERT INTO versions(created,body) VALUES(?,?)',(now,body))
 
 
-ERRORS = {'wrong':'密码不正确。','binding-required':'当前浏览器还未绑定。','locked':'尝试次数过多，请 15 分钟后再试。','bind':'绑定失败。请核对密码和一次性绑定码。'}
+ERRORS = {'wrong':'密码不正确。','locked':'尝试次数过多，请 15 分钟后再试。'}
 
 
 def shell(body, nonce, bar=''):
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>文案工作台 · 大华舅舅</title><style nonce="{nonce}">{STYLE}</style></head><body><main><header class="bar"><strong>大华舅舅 · 文案工作台</strong>{bar}</header>{body}</main></body></html>'''
 
 
-def locked(bound, nonce, problem=None):
+def locked(nonce, problem=None):
     notice = f'<p class="error" role="alert">{escape(ERRORS.get(problem,"请求失败。"))}</p>' if problem else ''
     fields = '<label>登录密码<input name="password" type="password" maxlength="128" autocomplete="current-password" required></label>'
-    if bound:
-        form = f'<form method="post" action="/wenan/login">{fields}<button class="submit" type="submit">登录</button></form>'
-    else:
-        form = f'<form method="post" action="/wenan/bind">{fields}<label>一次性绑定码<input name="code" autocomplete="off" spellcheck="false" maxlength="43" required></label><button class="submit" type="submit">绑定并登录</button></form>'
+    form = f'<form method="post" action="/wenan/login">{fields}<button class="submit" type="submit">登录</button></form>'
     return shell(f'<section class="auth" data-wenan-locked><h1>私人文案工作台</h1>{notice}{form}</section>',nonce)
 
 
@@ -406,7 +346,7 @@ class Handler(BaseHTTPRequestHandler):
         if not store.has_session(session,device,now):
             if url.path!=BASE:
                 return self.reply(403)
-            return self.reply(200,locked(store.has_device(device,now),nonce),nonce=nonce)
+            return self.reply(200,locked(nonce),nonce=nonce)
         if url.path==BASE+'/transcript':
             ident=parse_qs(url.query).get('id',[''])[0]
             row=store.reference(ident)
@@ -436,7 +376,7 @@ class Handler(BaseHTTPRequestHandler):
             except (ValueError,KeyError,TypeError,AttributeError):
                 return self.reply(422)
             return self.reply(200,json.dumps(result),media='application/json; charset=utf-8')
-        if route not in [BASE+'/'+r for r in ('login','bind','logout','suggestions')]:
+        if route not in [BASE+'/'+r for r in ('login','logout','suggestions')]:
             return self.reply(404)
         if self.headers.get('Origin')!=ORIGIN:
             return self.reply(403)
@@ -454,16 +394,15 @@ class Handler(BaseHTTPRequestHandler):
         now=int(time.time())
         store=self.server.store
         nonce=secrets.token_urlsafe(18)
-        if route==BASE+'/bind':
-            bound=store.enroll(form('code'),form('password'),now)
-            if not bound:
-                return self.reply(403,locked(store.has_device(device,now),nonce,'bind'),nonce=nonce)
-            return self.redirect(headers=[('Set-Cookie',cookie(DEVICE,bound[0],DEVICE_LIFE)),('Set-Cookie',cookie(SESSION,bound[1],SESSION_LIFE))])
         if route==BASE+'/login':
-            status, token=store.login(device,form('password'),now)
-            if not token:
-                return self.reply(429 if status=='locked' else 403,locked(store.has_device(device,now),nonce,status),nonce=nonce)
-            return self.redirect(headers=[('Set-Cookie',cookie(SESSION,token,SESSION_LIFE))])
+            status, credentials=store.login(device,form('password'),now)
+            if not credentials:
+                return self.reply(429 if status=='locked' else 403,locked(nonce,status),nonce=nonce)
+            browser,token=credentials
+            cookies=[('Set-Cookie',cookie(SESSION,token,SESSION_LIFE))]
+            if browser!=device:
+                cookies.append(('Set-Cookie',cookie(DEVICE,browser,DEVICE_LIFE)))
+            return self.redirect(headers=cookies)
         if not store.has_session(session,device,now):
             return self.reply(403)
         if route==BASE+'/logout':
@@ -503,17 +442,11 @@ class PrivateServer(ThreadingMixIn, HTTPServer):
 
 
 def main():
+    if sys.argv[1:]:
+        raise SystemExit('unsupported argument')
     directory=Path(os.environ.get('WENAN_STATE','/var/lib/dahuajiujiu-wenan'))
     files=Path(os.environ.get('WENAN_ASSETS','/usr/local/lib/dahuajiujiu-wenan'))
     store=Store(directory,files)
-    if sys.argv[1:]==['--issue-bindings']:
-        fingerprints=sys.stdin.read(326).strip().split(',')
-        expires=store.issue_binding_codes(fingerprints,int(time.time()))
-        print('Registered {} one-time browser binding codes. Expires {} Beijing time.'.format(
-            len(fingerprints),datetime.fromtimestamp(expires,BEIJING).strftime('%Y-%m-%d %H:%M:%S')))
-        return
-    if sys.argv[1:]:
-        raise SystemExit('unsupported argument')
     server=PrivateServer(('127.0.0.1',int(os.environ.get('WENAN_PORT',3017))),Handler)
     server.store=store
     threading.Thread(target=gc_loop,args=(store,),daemon=True).start()

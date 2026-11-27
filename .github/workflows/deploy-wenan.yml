@@ -8,15 +8,11 @@ on:
     inputs:
       mode:
         type: choice
-        options: [probe, deploy, sync-bootstrap, issue-bindings]
+        options: [probe, deploy, sync-bootstrap]
         default: deploy
       upload_fingerprint:
         type: string
         description: SHA-256 fingerprint for the independent private update key
-        required: false
-      binding_fingerprints:
-        type: string
-        description: Comma-separated hashes of locally generated one-time codes (no plaintext)
         required: false
 
 permissions:
@@ -143,24 +139,15 @@ jobs:
           fi
           REMOTE
       - name: Verify public boundary
-        if: inputs.mode == 'deploy' || inputs.mode == 'sync-bootstrap' || inputs.mode == 'issue-bindings' || github.event_name == 'push'
+        if: inputs.mode == 'deploy' || inputs.mode == 'sync-bootstrap' || github.event_name == 'push'
         run: |
           test "$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://dahuajiujiu.com/)" = 200
           curl -fsS --max-time 20 https://dahuajiujiu.com/wenan > "$RUNNER_TEMP/locked.html"
           grep -q 'data-wenan-locked' "$RUNNER_TEMP/locked.html"
+          grep -q 'action="/wenan/login"' "$RUNNER_TEMP/locked.html"
+          ! grep -q 'name="code"' "$RUNNER_TEMP/locked.html"
           ! grep -q 'dc-embedded' "$RUNNER_TEMP/locked.html"
+          test "$(curl -sS -o /dev/null -w '%{http_code}' -X POST 'https://dahuajiujiu.com/wenan/bind')" = 404
           test "$(curl -sS -o /dev/null -w '%{http_code}' https://dahuajiujiu.com/wenan/compass.html)" = 404
           test "$(curl -sS -o /dev/null -w '%{http_code}' 'https://dahuajiujiu.com/wenan/transcript?id=7683699921954261364')" = 403
           test "$(curl -sS -o /dev/null -w '%{http_code}' -X POST 'https://dahuajiujiu.com/wenan/_sync')" = 404
-      - name: Register one-time browser binding codes
-        if: (inputs.mode == 'sync-bootstrap' || inputs.mode == 'issue-bindings') && inputs.binding_fingerprints != ''
-        env:
-          BINDING_FINGERPRINTS: ${{ inputs.binding_fingerprints }}
-        run: |
-          [[ "$BINDING_FINGERPRINTS" =~ ^([0-9a-f]{64},){0,4}[0-9a-f]{64}$ ]]
-          printf '%s\n' "$BINDING_FINGERPRINTS" | ssh -T -o BatchMode=yes "$SSH_USER@$SSH_HOST" '
-            if test "$(id -u)" -eq 0; then
-              exec runuser -u dahuawenan -- env WENAN_ASSETS=/var/lib/dahuajiujiu-wenan /usr/bin/python3 /usr/local/lib/dahuajiujiu-wenan/server.py --issue-bindings
-            fi
-            exec sudo -n -u dahuawenan env WENAN_ASSETS=/var/lib/dahuajiujiu-wenan /usr/bin/python3 /usr/local/lib/dahuajiujiu-wenan/server.py --issue-bindings
-          '

@@ -164,7 +164,7 @@ def install(stage, fingerprint=None):
             raise RuntimeError('invalid private dashboard')
         json.loads(files['seed.json'].decode('utf-8'))
         setting=json.loads(files['settings.json'].decode('utf-8'))
-        if not all(re.fullmatch('[a-f0-9]{64}',setting[k]) for k in ('salt','verifier','activation')):
+        if not all(re.fullmatch('[a-f0-9]{64}',setting[k]) for k in ('salt','verifier')):
             raise RuntimeError('invalid private credential data')
     if 'revision.json' in files:
         revision=json.loads(files['revision.json'].decode('utf-8'))
