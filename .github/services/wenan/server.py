@@ -12,6 +12,7 @@ import re
 import secrets
 import sqlite3
 from socketserver import ThreadingMixIn
+import sys
 import threading
 import time
 from urllib.parse import parse_qs, urlsplit
@@ -22,12 +23,15 @@ ORIGIN = 'https://dahuajiujiu.com'
 DEVICE = '__Secure-wenan_device'
 SESSION = '__Secure-wenan_session'
 TOKEN = re.compile(r'[A-Za-z0-9_-]{43}\Z')
+FINGERPRINT = re.compile(r'[0-9a-f]{64}\Z')
 VIDEO_ID = re.compile(r'\d{15,23}\Z')
 BASE = '/wenan'
 MAX_SLOTS = 8
 MAX_SYNC_BYTES = 4 * 1024 * 1024
 SESSION_LIFE = 7 * 86400
 DEVICE_LIFE = 365 * 86400
+BINDING_CODE_LIFE = 14 * 86400
+MAX_ACTIVE_BINDING_CODES = 12
 
 
 def digest(token):
@@ -86,6 +90,7 @@ class Store:
         with self.db() as db:
             db.executescript('''
             CREATE TABLE IF NOT EXISTS flags (key TEXT PRIMARY KEY, value INTEGER NOT NULL);
+            CREATE TABLE IF NOT EXISTS binding_code (fingerprint TEXT PRIMARY KEY, expires INTEGER NOT NULL, used INTEGER NOT NULL DEFAULT 0);
             CREATE TABLE IF NOT EXISTS device (token TEXT PRIMARY KEY, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS session (token TEXT PRIMARY KEY, device TEXT NOT NULL, expires INTEGER NOT NULL);
             CREATE TABLE IF NOT EXISTS attempt (device TEXT PRIMARY KEY, failures INTEGER NOT NULL, expires INTEGER NOT NULL);
@@ -166,11 +171,24 @@ class Store:
             return 'ok',self.issue_session(db,key,now)
 
     def enroll(self, code, password, now):
-        if not TOKEN.fullmatch(code) or self.settings['activation_expires']<=now or not secrets.compare_digest(digest(code),self.settings['activation']):
+        if not TOKEN.fullmatch(code):
             return None
+        fingerprint = digest(code)
+        legacy = secrets.compare_digest(fingerprint,self.settings['activation'])
+        active_code = 'SELECT 1 FROM binding_code WHERE fingerprint=? AND used=0 AND expires>?'
+        if legacy:
+            if self.settings['activation_expires']<=now:
+                return None
+        else:
+            with self.db() as db:
+                if not db.execute(active_code,(fingerprint,now)).fetchone():
+                    return None
         with self.db() as db:
             db.execute('BEGIN IMMEDIATE')
-            if db.execute("SELECT 1 FROM flags WHERE key='bound'").fetchone():
+            if legacy:
+                if db.execute("SELECT 1 FROM flags WHERE key='bound'").fetchone():
+                    return None
+            elif not db.execute(active_code,(fingerprint,now)).fetchone():
                 return None
             attempt = db.execute("SELECT failures,expires FROM attempt WHERE device='enroll'").fetchone()
             live = attempt and attempt['expires']>now
@@ -180,9 +198,34 @@ class Store:
                 db.execute("INSERT OR REPLACE INTO attempt VALUES('enroll',?,?)",(1+attempt['failures'] if live else 1,now+900))
                 return None
             device = secrets.token_urlsafe(32)
-            db.execute("INSERT INTO flags VALUES('bound',1)")
+            if legacy:
+                db.execute("INSERT INTO flags VALUES('bound',1)")
+            else:
+                db.execute('UPDATE binding_code SET used=1 WHERE fingerprint=?',(fingerprint,))
+            db.execute("DELETE FROM attempt WHERE device='enroll'")
             db.execute('INSERT INTO device VALUES(?,?)',(digest(device),now+DEVICE_LIFE))
             return device,self.issue_session(db,digest(device),now)
+
+    def issue_binding_codes(self, fingerprints, now):
+        if not 1<=len(fingerprints)<=5 or len(set(fingerprints))!=len(fingerprints):
+            raise ValueError('expected one to five distinct fingerprints')
+        if any(not FINGERPRINT.fullmatch(x) or x==self.settings['activation'] for x in fingerprints):
+            raise ValueError('invalid binding code fingerprint')
+        with self.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            existing = [db.execute('SELECT expires,used FROM binding_code WHERE fingerprint=?',(x,)).fetchone()
+                        for x in fingerprints]
+            if any(existing):
+                if not all(row and not row['used'] and row['expires']>now for row in existing):
+                    raise ValueError('binding code already issued, used, or expired')
+                return min(row['expires'] for row in existing)
+            active = db.execute('SELECT count(*) FROM binding_code WHERE used=0 AND expires>?',(now,)).fetchone()[0]
+            if active+len(fingerprints)>MAX_ACTIVE_BINDING_CODES:
+                raise ValueError('too many unused binding codes')
+            expires = now+BINDING_CODE_LIFE
+            db.executemany('INSERT INTO binding_code(fingerprint,expires) VALUES(?,?)',
+                           [(x,expires) for x in fingerprints])
+            return expires
 
     def versions(self, now):
         with self.db() as db:
@@ -463,6 +506,14 @@ def main():
     directory=Path(os.environ.get('WENAN_STATE','/var/lib/dahuajiujiu-wenan'))
     files=Path(os.environ.get('WENAN_ASSETS','/usr/local/lib/dahuajiujiu-wenan'))
     store=Store(directory,files)
+    if sys.argv[1:]==['--issue-bindings']:
+        fingerprints=sys.stdin.read(326).strip().split(',')
+        expires=store.issue_binding_codes(fingerprints,int(time.time()))
+        print('Registered {} one-time browser binding codes. Expires {} Beijing time.'.format(
+            len(fingerprints),datetime.fromtimestamp(expires,BEIJING).strftime('%Y-%m-%d %H:%M:%S')))
+        return
+    if sys.argv[1:]:
+        raise SystemExit('unsupported argument')
     server=PrivateServer(('127.0.0.1',int(os.environ.get('WENAN_PORT',3017))),Handler)
     server.store=store
     threading.Thread(target=gc_loop,args=(store,),daemon=True).start()
